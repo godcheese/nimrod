@@ -105,7 +105,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- jar 部署时需注释此处（war 打包移除自带 Tomcat） -->
+        <!-- war 部署时需注释此处（jar 打包需自带 Tomcat） -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
