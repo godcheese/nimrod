@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gioov.nimrod.system.mapper.OperationLogMapper2">
+    <resultMap id="BaseResultMap" type="com.gioov.nimrod.system.entity.OperationLogEntity2">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="user_id" property="userId" jdbcType="BIGINT"/> <!-- 访问用户 id -->
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/> <!-- 访问用户名 -->
+        <result column="ip_address" property="ipAddress" jdbcType="VARCHAR"/> <!-- 用户 IP -->
+        <result column="operation_type" property="operationType" jdbcType="INTEGER"/> <!-- 操作类型 -->
+        <result column="operation" property="operation" jdbcType="LONGVARCHAR"/> <!-- 操作说明 -->
+        <result column="request_time" property="requestTime" jdbcType="BIGINT"/> <!-- 请求耗时（毫秒） -->
+        <result column="request_url" property="requestUrl" jdbcType="VARCHAR"/> <!-- 请求地址 -->
+        <result column="request_method" property="requestMethod" jdbcType="VARCHAR"/> <!-- 请求方法 -->
+        <result column="request_parameter" property="requestParameter" jdbcType="LONGVARCHAR"/> <!-- 请求参数 -->
+        <result column="accept_language" property="acceptLanguage" jdbcType="VARCHAR"/> <!-- 请求语言 -->
+        <result column="referer" property="referer" jdbcType="VARCHAR"/> <!-- 请求来源 -->
+        <result column="user_agent" property="userAgent" jdbcType="VARCHAR"/> <!-- 用户代理 -->
+        <result column="handler" property="handler" jdbcType="LONGVARCHAR"/> <!-- Handler -->
+        <result column="session_id" property="sessionId" jdbcType="VARCHAR"/> <!-- Session ID -->
+        <result column="cookie" property="cookie" jdbcType="LONGVARCHAR"/> <!-- Cookie -->
+        <result column="content_type" property="contentType" jdbcType="VARCHAR"/> <!-- 响应文本类型 -->
+        <result column="status" property="status" jdbcType="VARCHAR"/> <!-- 响应状态码 -->
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/> <!-- 创建时间 -->
+    </resultMap>
+
+    <sql id="TableName">
+        `operation_log`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `ol` . * , `u` . `username` 'user_name'
+    </sql>
+
+    <sql id="BaseColumnList2">
+        `ol` LEFT JOIN `user` `u` ON (`ol`.`user_id` = `u`.`id`)
+    </sql>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        <include refid="BaseColumnList2"/>
+        WHERE `id` = #{id} LIMIT 1
+    </select>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        <include refid="BaseColumnList2"/>
+        ${pageable}
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(1) FROM
+        <include refid="TableName"/>
+    </select>
+
+</mapper>

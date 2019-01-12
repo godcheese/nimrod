@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gioov.nimrod.user.mapper.UserRoleMapper">
+    <resultMap id="BaseResultMap" type="com.gioov.nimrod.user.entity.UserRoleEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="user_id" property="userId" jdbcType="BIGINT"/> <!-- 用户 id -->
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/> <!-- 角色 id -->
+    </resultMap>
+
+    <sql id="TableName">
+        `user_role`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`
+        ,
+        `user_id`,
+        `role_id`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.gioov.nimrod.user.entity.UserRoleEntity">
+        INSERT INTO
+        <include refid="TableName"/>
+        (`id`, `user_id`, `role_id`)
+        VALUES (#{id}, #{userId}, #{roleId})
+    </insert>
+
+    <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.UserRoleEntity">
+        UPDATE
+        <include refid="TableName"/>
+        SET `user_id` = #{userId}, `role_id` = #{roleId}
+        WHERE `id`= #{id}
+    </update>
+
+    <delete id="deleteOne" parameterType="long">
+        DELETE FROM
+        <include refid="TableName"/>
+        WHERE `id` = #{id}
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `id` = #{id} LIMIT 1
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+    </select>
+
+    <select id="listAllByUserId" resultMap="BaseResultMap" parameterType="long">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `user_id` = #{userId}
+    </select>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        ${pageable}
+    </select>
+    <select id="countAll" resultType="int">
+        SELECT COUNT(1) FROM
+        <include refid="TableName"/>
+    </select>
+
+    <select id="getOneByRoleId" resultMap="BaseResultMap" parameterType="long">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `role_id` = #{roleId} LIMIT 1
+    </select>
+    <select id="getOneByUserIdAndRoleId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `user_id` = #{userId} AND `role_id` = #{roleId} LIMIT 1
+    </select>
+
+    <delete id="deleteAllByUserIdAndRoleIdList">
+        DELETE FROM
+        <include refid="TableName"/>
+        WHERE `user_id` = #{userId} AND `role_id` IN (
+        <foreach collection="roleIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteAllByRoleId">
+        DELETE FROM
+        <include refid="TableName"/>
+        WHERE `role_id` = #{roleId}
+    </delete>
+
+</mapper>

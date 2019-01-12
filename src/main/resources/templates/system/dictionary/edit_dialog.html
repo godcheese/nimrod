@@ -1,0 +1,52 @@
+<div class="submit-form">
+    <table class="submit-table">
+        <tr>
+            <td class="label">字典键名：</td>
+            <td><input name="id" type="hidden"><input name="keyName" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">字典键：</td>
+            <td><input name="key" class="easyui-textbox" data-options="required:true">
+            </td>
+        </tr>
+        <tr>
+            <td class="label">字典值名：</td>
+            <td><input name="valueName" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">字典值别名：</td>
+            <td><input name="valueSlug" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">字典值：</td>
+            <td><input name="value" class="easyui-textbox" style="height: 50px;"
+                       data-options="required:true,multiline:true">
+            </td>
+        </tr>
+        <tr>
+            <td class="label">是否有效：</td>
+            <td><input name="enable" id="enable" class="easyui-combobox">
+            </td>
+        </tr>
+        <tr>
+            <td class="label">排序：</td>
+            <td><input name="sort" class="easyui-numberbox" data-options="required:false"></td>
+        </tr>
+        <tr>
+            <td class="label">备注：</td>
+            <td><input name="remark" class="easyui-textbox" style="height:50px;"
+                       data-options="required:false,multiline:true"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('#enable').combobox({
+            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            valueField: 'value',
+            textField: 'valueName',
+            required: true
+        });
+    });
+</script>

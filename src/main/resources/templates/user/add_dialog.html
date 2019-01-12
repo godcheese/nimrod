@@ -1,0 +1,33 @@
+<div class="submit-form">
+    <table class="submit-table">
+        <tr>
+            <td class="label">用户名：</td>
+            <td><input name="username" class="easyui-textbox" data-options="required:true"></td>
+            <td class="label">密码：</td>
+            <td><input name="password" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">电子邮箱：</td>
+            <td><input name="email" class="easyui-textbox" data-options="required:true"></td>
+            <td class="label">电子邮箱是否验证通过：</td>
+            <td><input name="emailIsVerified" id="emailIsVerified" class="easyui-combobox"></td>
+        </tr>
+        <tr>
+            <td class="label">备注：</td>
+            <td colspan="3"><input name="remark" class="easyui-textbox" style="height:50px;"
+                                   data-options="required:false,multiline:true"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('#emailIsVerified').combobox({
+            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            method: 'get',
+            valueField: 'value',
+            textField: 'valueName',
+            required: true
+        });
+    });
+</script>

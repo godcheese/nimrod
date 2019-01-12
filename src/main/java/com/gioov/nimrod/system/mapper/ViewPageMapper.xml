@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gioov.nimrod.system.mapper.ViewPageMapper">
+    <resultMap id="BaseResultMap" type="com.gioov.nimrod.system.entity.ViewPageEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="name" property="name" jdbcType="VARCHAR"/> <!-- 页面名称 -->
+        <result column="url" property="url" jdbcType="LONGVARCHAR"/> <!--请求地址（url）-->
+        <result column="authority" property="authority" jdbcType="VARCHAR"/> <!-- 权限（authority） -->
+        <result column="page_category_id" property="pageCategoryId" jdbcType="BIGINT"/> <!-- 页面分类 id -->
+        <result column="sort" property="sort" jdbcType="BIGINT"/> <!-- 排序 -->
+        <result column="remark" property="remark" jdbcType="VARCHAR"/> <!-- 备注 -->
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/> <!-- 更新时间 -->
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/> <!-- 创建时间 -->
+    </resultMap>
+
+    <sql id="TableName">
+        `view_page`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`
+        ,
+        `name`,
+        `url`,
+        `page_category_id`,
+        `sort`,
+        `remark`,
+        `authority`,
+        `gmt_modified`,
+        `gmt_created`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.gioov.nimrod.system.entity.ViewPageEntity">
+        INSERT INTO
+        <include refid="TableName"/>
+        (`id`, `name`, `url`, `authority`, `page_category_id`, `sort`, `remark`, `gmt_modified`, `gmt_created`)
+        VALUES (#{id}, #{name}, #{url}, #{authority}, #{pageCategoryId}, #{sort}, #{remark},
+        #{gmtModified}, #{gmtCreated})
+    </insert>
+
+    <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.system.entity.ViewPageEntity">
+        UPDATE
+        <include refid="TableName"/>
+        SET `name` = #{name}, `url` = #{url}, `authority` = #{authority}, `sort` = #{sort}, `remark` = #{remark},
+        `gmt_modified` = #{gmtModified}
+        WHERE `id`= #{id}
+    </update>
+
+    <delete id="deleteAll">
+        DELETE FROM
+        <include refid="TableName"/>
+        WHERE `id` IN
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteOne" parameterType="long">
+        DELETE FROM
+        <include refid="TableName"/>
+        WHERE `id` = #{id}
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `id` = #{id} LIMIT 1
+    </select>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        ${pageable}
+    </select>
+
+    <select id="pageAllByPageCategoryId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `page_category_id` = #{pageCategoryId} ${pageable}
+    </select>
+
+    <select id="countAllByPageCategoryId" parameterType="long" resultType="int">
+        SELECT COUNT(1) FROM
+        <include refid="TableName"/>
+        WHERE `page_category_id` = #{pageCategoryId}
+    </select>
+
+    <select id="getOneByAuthority" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `authority` = #{authority} LIMIT 1
+    </select>
+
+    <select id="listAllByPageCategoryId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `page_category_id` = #{pageCategoryId}
+    </select>
+
+    <select id="getOneByPageCategoryId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `page_category_id` = #{pageCategoryId} LIMIT 1
+    </select>
+
+</mapper>

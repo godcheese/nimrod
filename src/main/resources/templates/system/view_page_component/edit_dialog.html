@@ -1,0 +1,41 @@
+<div class="submit-form">
+    <table class="submit-table">
+        <tr>
+            <td class="label">组件类型：</td>
+            <td>
+                <input name="pageComponentType" id="pageComponentType" class="easyui-combobox">
+                <input name="id" type="hidden">
+            </td>
+        </tr>
+        <tr>
+            <td class="label">组件名称：</td>
+            <td><input name="name" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">权限（authority）：</td>
+            <td><input name="authority" class="easyui-textbox" style="height:50px;"
+                       data-options="required:true,multiline:true"></td>
+        </tr>
+        <tr>
+            <td class="label">排序：</td>
+            <td><input name="sort" value="0" class="easyui-numberbox" data-options="required:false"></td>
+        </tr>
+        <tr>
+            <td class="label">备注：</td>
+            <td><input name="remark" class="easyui-textbox" style="height:50px;"
+                       data-options="required:false,multiline:true"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('#pageComponentType').combobox({
+            url: Api.System.DICTIONARY + '/list_all_by_key/VIEW_PAGE_COMPONENT_TYPE',
+            method: 'get',
+            valueField: 'value',
+            textField: 'valueName',
+            required: true
+        });
+    });
+</script>

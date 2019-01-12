@@ -1,0 +1,1108 @@
+// $.getScript(contextPath + '/vendor/json2.js');
+var expressui = expressui || {};
+
+(function (_expressui) {
+
+    {
+
+        // $ = $.extend(true,$,{
+        //     dialog:{},
+        // });
+
+        if (!window.jQuery) {
+            console.warn('expressui.js 需要jQuery支持');
+            return;
+        }
+
+        _expressui = $.extend(true, _expressui, {
+            util: {},
+            datagrid: {},
+            dialog: {},
+            treegrid: {},
+            tree: {},
+            messager: {},
+            grid: {},
+            response:{
+                CODE: 'code',
+                MESSAGE: 'message',
+                DATA: 'data',
+                EXCEPTION: 'exception'
+            },
+            httpStatus: {}
+        });
+
+
+        _expressui.util.toObject = function (json) {
+            return eval('(' + json + ')');
+        };
+        _expressui.util.createElement = function (options,tag) {
+            var _body = document.body;
+            var _tag;
+            if(tag) {
+                _tag = document.createElement(tag);
+            }else{
+                _tag = document.createElement('div');
+            }
+            if(typeof options === 'string'){
+                var selector = options.charAt(0);
+                if(selector){
+                    switch (selector){
+                        case '#':
+                            options = options.substring(1,options.length);
+                            _tag.id = options;
+                            break;
+                        case '.':
+                            options = options.substring(1,options.length);
+                            _tag.className = options;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return _body.appendChild(_tag);
+            }
+        };
+        _expressui.util.replaceAllPlaceholder = function (string,searchValue,replaceValue) {
+            if(string) {
+                string = string + '';
+            }
+            return string.replace(new RegExp('{' + searchValue + '}', "gm"), replaceValue);
+
+        };
+
+        _expressui.ajax = function (options) {
+
+            var defaults = {
+                async: true,
+                type: 'get',
+                dataType: 'json',
+                processData: true,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    // console.log(XMLHttpRequest);
+                }
+            };
+
+            options = $.extend(true, defaults, options);
+            return $.ajax(options);
+        };
+        _expressui.replaceUrlPlaceholder = function (url, object, prefix) {
+            if (url && object) {
+                for (var key in object) {
+                    if (object.hasOwnProperty(key)) {
+                        var urlPlaceholder = key;
+                        if (prefix) {
+                            urlPlaceholder = prefix + "." + key;
+                        }
+                        url = _expressui.util.replaceAllPlaceholder(url, urlPlaceholder, object[key]);
+                    }
+                }
+            }
+            return url;
+        };
+
+
+        /**
+         * 避免组件移除窗口外
+         * @param left
+         * @param top as
+         */
+        _expressui.onMove = function (left, top) {
+
+            if (left < 1) {
+                left = 1;
+            }
+            if (top < 1) {
+                top = 1;
+            }
+            var width = parseInt($(this).parent().css('width')) + 14;
+            var height = parseInt($(this).parent().css('height')) + 14;
+            var right = left + width;
+            var bottom = top + height;
+            var browserWidth = $(window).width();
+            var browserHeight = $(window).height();
+            if (right > browserWidth) {
+                left = browserWidth - width;
+            }
+            if (bottom > browserHeight) {
+                top = browserHeight - height;
+            }
+            // 修正面板位置
+            $(this).parent().css({
+                left: left,
+                top: top
+            });
+        };
+        $.extend($.fn.dialog.defaults, {onMove: _expressui.onMove});
+        $.extend($.fn.window.defaults, {onMove: _expressui.onMove});
+        $.extend($.fn.panel.defaults, {onMove: _expressui.onMove});
+
+        $.fn.panel.defaults = $.extend(true, $.fn.panel.defaults, {
+            /**
+             * panel关闭时回收内存
+             * TAB引用IFRAME，关闭TAB时IFRAME不会被销毁从而导致内存不能释放，大量使用TAB+IFRAME容易导致内存溢出
+             */
+            onBeforeDestroy: function () {
+                var iframe = $('iframe', this);
+                try {
+                    if (iframe.length > 0) {
+                        for (var i = 0; i < iframe.length; i++) {
+                            iframe[i].src = '';
+                            iframe[i].contentWindow.document.write('');
+                            iframe[i].contentWindow.close();
+                        }
+                        iframe.remove();
+
+                        // IE 特有内存回收方法
+                        if (navigator.userAgent.indexOf('MSIE') > 0) {
+                            try {
+                                CollectGarbage();
+                            } catch (e) {
+                            }
+                        }
+                    }
+                } catch (e) {
+
+                }
+            }
+        });
+
+        _expressui.messager = {
+            show: function (options) {
+                var defaults = {
+                    title: '信息',
+                    msg: '',
+                    timeout: 1000,
+                    showType: 'slide',
+                    modal: false,
+                    shadow: false,
+                    draggable: false,
+                    resizable: false,
+                    closed: true,
+                    style: {
+                        left: "",
+                        top: "",
+                        right: 0,
+                        zIndex: 999,
+                        bottom: -document.body.scrollTop - document.documentElement.scrollTop
+                    },
+                    width: 260,
+                    height: 120,
+                    minHeight: 0,
+                    showSpeed: 600
+                };
+                options = $.extend(true, defaults, options);
+                $.messager.show(options);
+            },
+            confirm: function (options) {
+                var defaults = {
+                    title: '信息',
+                    msg: '确认操作吗？',
+                    fn: function (ok) {
+                        console.log(ok);
+                    }
+                };
+                options = $.extend(true, defaults, options);
+                $.messager.confirm(options);
+            },
+            progress: function (options) {
+                if (typeof options === 'string') {
+                    $.messager.progress(options);
+                }
+
+                if (typeof options === 'object') {
+                    $.messager.progress(options);
+                }
+            },
+            alert: function (options) {
+                var defaults = {
+                    title: '提示',
+                    icon: 'warning'
+                };
+                options = $.extend(true, defaults, options);
+                $.messager.alert(options);
+            }
+        };
+
+        _expressui.response._httpStatus = function (code, message) {
+            var json = '{"' + _expressui.response.CODE + '":' + code + ',"' + _expressui.response.MESSAGE + '":"' + message + '"}';
+            return _expressui.util.toObject(json);
+        };
+        _expressui.response.httpStatus = {
+            OK: _expressui.response._httpStatus(200, 'OK'),
+            NOT_FOUND: _expressui.response._httpStatus(404, 'NOT FOUND')
+        };
+        _expressui.response._ok = function (responseResult, fnOkCallback, fnNotOkCallback, fnThenCallback) {
+
+            if (responseResult) {
+
+                var OK = _expressui.response.httpStatus.OK.code;
+
+                var data = responseResult.hasOwnProperty(_expressui.response.DATA) ? responseResult[_expressui.response.DATA] : undefined;
+
+                var message = responseResult.hasOwnProperty(_expressui.response.MESSAGE) ? responseResult[_expressui.response.MESSAGE] : undefined;
+
+                var code = responseResult.hasOwnProperty(_expressui.response.CODE) ? responseResult[_expressui.response.CODE] : undefined ;
+
+                if (code === OK) {
+                    if (typeof fnOkCallback === 'function') {
+                        fnOkCallback(data, message, code);
+                    }
+                } else {
+                    if (typeof fnNotOkCallback === 'function') {
+                        fnNotOkCallback(data, message, code);
+                    }
+                }
+
+                if (typeof fnThenCallback === 'function') {
+                    fnThenCallback(data, message, code);
+                }
+
+            }
+
+        };
+        _expressui.response.ok = function (responseResult, fnOkCallback, fnNotOkCallback, fnThenCallback) {
+            _expressui.response._ok(responseResult, function (data, message, code) {
+                if (fnOkCallback) {
+                    fnOkCallback(data, message, code);
+                }
+            }, function (data, message, code) {
+                if (fnNotOkCallback) {
+                    fnNotOkCallback(data, message, code);
+                }
+            }, function (data, message, code) {
+                if (fnThenCallback) {
+                    fnThenCallback(data, message, code);
+                }
+            });
+
+
+        };
+        _expressui.response.okHasMessage = function (responseResult, fnOkCallback, fnNotOkCallback, fnThenCallback) {
+            _expressui.response._ok(responseResult, function (data, message, code) {
+                if (fnOkCallback) {
+                    fnOkCallback(data, message, code);
+                }
+                _expressui.messager.show({msg: message});
+            }, function (data, message, code) {
+                if (fnNotOkCallback) {
+                    fnNotOkCallback(data, message, code);
+                }
+                _expressui.messager.alert({msg: message, icon: 'error'});
+            }, function (data, message, code) {
+                if (fnThenCallback) {
+                    fnThenCallback(data, message, code);
+                }
+            });
+        };
+
+        _expressui.grid._reload = function (grid) {
+            switch (grid.type) {
+                case 'datagrid':
+                    _expressui.datagrid.reload(grid);
+                    break;
+                case 'tree':
+                    if (grid.url) {
+                        $(grid.selector).tree('options').url = grid.url;
+                        $(grid.selector).tree('reload');
+                    }
+                    break;
+                case 'treegrid':
+                    if (grid.url) {
+                        $(grid.selector).treegrid('options').url = grid.url;
+                    }
+                    $(grid.selector).treegrid('reload');
+                    break;
+            }
+        };
+        _expressui.grid.reload = function (grid) {
+            console.log(grid);
+            if (grid) {
+                if (!grid.type) {
+                    for (var i=0; i<grid.length;i++) {
+                        _expressui.grid._reload(grid[i]);
+                    }
+                } else {
+                    _expressui.grid._reload(grid);
+                }
+            }
+        };
+        _expressui.grid.getSelected = function (grid) {
+            var selected;
+            if (grid.type) {
+                switch (grid.type) {
+                    case 'datagrid':
+                        selected = $(grid.selector).datagrid('getSelected');
+                        break;
+                    case 'treegrid':
+                        selected = $(grid.selector).treegrid('getSelected');
+                        break;
+                }
+            }
+            return selected;
+        };
+        _expressui.grid.getChecked = function (grid) {
+            var selected;
+            if (grid.type) {
+                switch (grid.type) {
+                    case 'datagrid':
+                        selected = $(grid.selector).datagrid('getChecked');
+                        break;
+                    case 'treegrid':
+                        selected = $(grid.selector).treegrid('getChecked');
+                        break;
+                }
+            }
+            return selected;
+        };
+        _expressui.grid.getCheckedHasMessage = function (grid) {
+            var selected;
+            if (grid.type) {
+                selected = _expressui.grid.getChecked(grid);
+                if(!selected){
+                    _expressui.messager.alert({msg: '请先勾选要操作的行'});
+                    return ;
+                }
+            }
+            return selected;
+        };
+        _expressui.grid.getSelections = function (grid) {
+            var selected;
+            if (grid.type) {
+                switch (grid.type) {
+                    case 'datagrid':
+                        selected = $(grid.selector).datagrid('getSelections');
+                        break;
+                    case 'treegrid':
+                        selected = $(grid.selector).treegrid('getSelections');
+                        break;
+                }
+            }
+            return selected;
+        };
+        _expressui.grid.getSelectedHasMessage = function (grid) {
+            var selected;
+            if (grid.type) {
+                selected = _expressui.grid.getSelected(grid);
+                if(!selected){
+                    _expressui.messager.alert({msg: '请先勾选要操作的行'});
+                    return ;
+                }
+            }
+            return selected;
+        };
+
+        _expressui.grid.getSelectionsHasMessage = function (grid) {
+            var selections = [];
+            if (grid.type) {
+                switch (grid.type) {
+                    case 'datagrid':
+                        selections = $(grid.selector).datagrid('getSelections');
+                        if (!selections) {
+                            _expressui.messager.alert({msg: '请先勾选要操作的行'});
+                            return;
+                        } else {
+                            if (selections.length <= 0) {
+                                _expressui.messager.alert({msg: '请先勾选要操作的行'});
+                                return;
+                            }
+                        }
+                        break;
+
+                    case 'treegrid':
+                        selections = $(grid.selector).treegrid('getSelections');
+                        if (!selections) {
+                            _expressui.messager.alert({msg: '请先勾选要操作的行'});
+                            return;
+                        } else {
+                            if (selections.length <= 0) {
+                                _expressui.messager.alert({msg: '请先勾选要操作的行'});
+                                return;
+                            }
+                        }
+                        break;
+                }
+            }
+            return selections;
+        };
+
+        _expressui.grid.getSelectionsHasOneNoMessage = function (grid) {
+            var selections = _expressui.grid.getSelections(grid);
+            if(selections) {
+                if (selections.length === 1) {
+                    return selections[0];
+                }
+            }
+            return;
+        };
+
+        _expressui.grid.getSelectionsHasOneHasMessage = function (grid) {
+            var selections = _expressui.grid.getSelectionsHasMessage(grid);
+            if(selections) {
+                if (selections.length === 1) {
+                    return selections[0];
+                } else{
+                    if(selections.length <= 0){
+                        return;
+                    } else {
+                        _expressui.messager.alert({msg: '最多只能勾选一行操作'});
+                        return;
+                    }
+                }
+            }
+        };
+
+
+        _expressui.grid.appendToolbar = function (grid) {
+            if (!grid.toolbar && grid.selector) {
+                grid.toolbar = grid.selector + 'Toolbar';
+            }
+        };
+        _expressui.grid.formatter = function (key, defaultValue, keyValue, formatterCallback) {
+            var result;
+            if (typeof keyValue === 'object') {
+                for (var k in keyValue) {
+                    switch (typeof key) {
+                        case 'number':
+                            k = parseInt(k);
+                            break;
+                        case 'string':
+                            k = k.toString();
+                            break;
+                    }
+                    if (key === k) {
+                        result = keyValue[k];
+                        break;
+                    }
+                }
+                if (typeof result === 'undefined') {
+                    if (typeof defaultValue !== 'undefined') {
+                        result = defaultValue;
+                    }
+                }
+            }
+
+            if (typeof formatterCallback === 'function') {
+                result = formatterCallback(result, key, defaultValue, keyValue);
+            }
+
+            return result;
+        };
+        _expressui.grid.updateRow = function (grid, newRow) {
+            switch (grid.type) {
+
+                case 'tree':
+                // var selected = $('#tt').tree('getSelected');
+                // if (selected){
+                //     $('#tt').tree('update', {
+                //         target: selected.target,
+                //         text: 'new text'
+                //     });
+                // }
+                // break;
+                case 'treegrid':
+                    var selected = $(grid.selector).treegrid('getSelected');
+                    if(selected) {
+                        $(grid.selector).treegrid('update', {
+                            id: selected[$(grid.selector).treegrid('options').idField],
+                            row: newRow
+                        });
+                    }
+                    break;
+            }
+        };
+        _expressui.grid.addRow = function (grid, newRow) {
+            switch (grid.type) {
+
+                case 'tree':
+                // var selected = $('#tt').tree('getSelected');
+                // if (selected){
+                //     $('#tt').tree('update', {
+                //         target: selected.target,
+                //         text: 'new text'
+                //     });
+                // }
+                // break;
+                case 'treegrid':
+                    var selected = $(grid.selector).treegrid('getSelected');
+                    if(selected) {
+                        $(grid.selector).treegrid('append', {
+                            // parent: selected[$(grid.selector).treegrid('options').idField],
+                            data: newRow
+                        });
+
+                    }else{
+
+                        $(grid.selector).treegrid('insert', {
+                            after: undefined,
+                            data: newRow
+                        });
+                    }
+                    break;
+            }
+        };
+
+        $.fn.dialog.defaults = $.extend(true, $.fn.dialog.defaults, {
+
+            // dialog
+            // title: '对话框',
+            collapsible: true,
+            minimizable: false,
+            maximizable: true,
+            resizable: true,
+            toolbar: null,
+            width: 400,
+            height: 300,
+
+            // window
+            closable: true,
+            closed: false,
+            zIndex: 9000,
+            draggable: true,
+            shadow: true,
+            inline: false,
+            modal: true,
+            border: true, // true,false,'thin','thick'
+            constrain: false,
+            // panel
+            // id	null,
+            iconCls: null,
+            fit: false,
+            content: null,
+            halign: 'top', // top/left/right
+            titleDirection: 'down', // up/down
+            header: null,
+            openAnimation: 'show',//  'slide','fade','show'
+            openDuration: 0,
+            closeAnimation: 'show', // 'slide','fade','show'
+            closeDuration: 0,
+            href: null,
+            loadingMessage: '加载中…',
+            method: 'get',
+            queryParams: null,
+            onLoad: function () {
+                var options = $(this).dialog('options');
+                $(options.selector).wrapInner('<form></form>');
+                if (options.get) {
+                    $.ajax({
+                        url: options.get.url,
+                        type: options.get.method,
+                        dataType: 'json',
+                        success: function (result) {
+                            _expressui.response.ok(result, function (data) {
+                                $(options.selector).form('load', data);
+                            });
+                        }
+                    });
+                }
+            },
+            onClose: function () {
+                $(this).dialog('destroy'); // 关闭即销毁
+            }
+
+        });
+        _expressui.dialog.add = function (selector, addCallback) {
+            var isValid = $(selector).form('validate');
+            if (isValid) {
+                _expressui.messager.progress();
+                var serializeArray = $(selector).find('form').serializeArray();
+                var postParamArray = typeof $(selector).dialog('options').save === 'object' ?
+                    $(selector).dialog('options').save.param || [] : [];
+                for (var i = 0; i < postParamArray.length; i++) {
+                    serializeArray.push(postParamArray[i]);
+                }
+
+                try {
+                    _expressui.ajax({
+                        beforeSend: function () {},
+                        url: typeof $(selector).dialog('options').save === 'string' ? $(selector).dialog('options').save : $(selector).dialog('options').save.url,
+                        type: $(selector).dialog('options').save.method,
+                        data: serializeArray,
+                        success: function (result) {
+                            _expressui.response.okHasMessage(result, function (data, message, code) {
+                                var options = $(selector).dialog('options');
+                                $(options.selector).dialog('close');
+                                if (options.reload) {
+                                    _expressui.grid.reload(options.reload);
+                                }
+                            }, function (data, message, code) {
+
+                            }, function (data, message, code) {
+                                console.log(typeof addCallback);
+                                if(typeof addCallback === 'function'){
+                                    addCallback(serializeArray);
+                                }
+                                _expressui.messager.progress('close');
+                            });
+                        }
+                    })
+                } catch (e) {
+                    _expressui.messager.alert({msg: e.message, icon: 'error'});
+                } finally {
+                    _expressui.messager.progress('close');
+                }
+
+            }
+        };
+        _expressui.dialog.save = function (selector, saveCallback) {
+            var isValid = $(selector).form('validate');
+            if (isValid) {
+                _expressui.messager.progress();
+                var serializeArray = $(selector).find('form').serializeArray();
+                var postParamArray = typeof $(selector).dialog('options').save === 'object' ?
+                    $(selector).dialog('options').save.param || [] : [];
+                for (var i = 0; i < postParamArray.length; i++) {
+                    serializeArray.push(postParamArray[i]);
+                }
+
+                try {
+                    _expressui.ajax({
+                        beforeSend: function () {},
+                        url: typeof $(selector).dialog('options').save === 'string' ? $(selector).dialog('options').save : $(selector).dialog('options').save.url,
+                        type: $(selector).dialog('options').save.method,
+                        data: serializeArray,
+                        success: function (result) {
+                            _expressui.response.okHasMessage(result, function (data, message, code) {
+                                var options = $(selector).dialog('options');
+                                $(options.selector).dialog('close');
+                                // if (options.reload) {
+                                //     _expressui.grid.reload(options.reload);
+                                // }
+                            }, function (data, message, code) {
+
+                            }, function (data, message, code) {
+                                if(typeof saveCallback === 'function'){
+                                    saveCallback(serializeArray);
+                                }
+                                _expressui.messager.progress('close');
+                            });
+                        }
+                    })
+                } catch (e) {
+                    _expressui.messager.alert({msg: e.message, icon: 'error'});
+                } finally {
+                    _expressui.messager.progress('close');
+                }
+
+            }
+        };
+        _expressui.dialog._replacePlaceHolder = function (options, grid) {
+            var selected;
+            selected = _expressui.grid.getSelected(grid);
+            if (grid.prefix) {
+                if(options.get) {
+                    if (typeof options.get === 'string') {
+                        options.get.url = _expressui.replaceUrlPlaceholder(options.get, selected);
+                        options.get.method = 'get';
+                    }
+                    if (typeof options.get === 'object') {
+                        if (options.get.url) {
+                            options.get.url = _expressui.replaceUrlPlaceholder(options.get.url, selected);
+                        }
+                        options.get.method = options.get.method ? options.get.method : 'get';
+                    }
+                }
+                if(options.save) {
+                    if (typeof options.save === 'string') {
+                        options.save = _expressui.replaceUrlPlaceholder(options.save, selected, grid.prefix);
+                    }
+                    if (typeof options.save === 'object') {
+                        if (options.save.url) {
+                            options.save.url = _expressui.replaceUrlPlaceholder(options.save.url, selected, grid.prefix);
+                        }
+                        if (options.save.param) {
+                            var params = options.save.param;
+                            var paramArray = [];
+                            for (var i = 0; i < params.length; i++) {
+                                paramArray.push(_expressui.replaceUrlPlaceholder(params[i], selected, grid.prefix));
+                            }
+                            options.save.param = paramArray;
+                        }
+                    }
+
+                    options.url = options.save.url;
+                }
+                if (options.href) {
+                    options.href = _expressui.replaceUrlPlaceholder(options.href, selected, grid.prefix);
+                }
+            } else {
+
+                if(options.get) {
+                    if (typeof options.get === 'string') {
+                        options.get.url = _expressui.replaceUrlPlaceholder(options.get, selected);
+                        options.get.method = 'get';
+                    }
+
+                    if (typeof options.get === 'object') {
+                        options.get.url = options.get.url ? _expressui.replaceUrlPlaceholder(options.get.url, selected) : '';
+                        options.get.method = options.get.method ? options.get.method : 'get';
+                    }
+                }
+
+                if(options.save) {
+                    if (typeof options.save === 'string') {
+                        options.save.url = _expressui.replaceUrlPlaceholder(options.save, selected);
+                        options.save.method = 'post';
+                    }
+
+                    if (typeof options.save === 'object') {
+
+                        options.save.url = options.save.url ? _expressui.replaceUrlPlaceholder(options.save.url, selected) : '';
+                        options.save.method = options.save.method ? options.save.method : 'post';
+
+                        if (options.save.param) {
+                            var params = Object.keys(options.save.param);
+                            var paramArray = [];
+                            for (var i = 0; i < params.length; i++) {
+                                if (options.save.param.hasOwnProperty(params[i])) {
+                                    var temp = {};
+                                    temp['name'] = params[i];
+                                    temp['value'] = _expressui.replaceUrlPlaceholder(options.save.param[params[i]], selected);
+                                    paramArray.push(temp);
+                                }
+                            }
+                            options.save.param = paramArray;
+                        }
+                    }
+
+                    options.url = options.save.url;
+                }
+
+                if (options.href) {
+                    options.href = _expressui.replaceUrlPlaceholder(options.href, selected);
+                }
+            }
+
+        };
+        _expressui.dialog.create = function (options) {
+
+            if(!options.selector){
+                throw new Error('Has no selector!');
+            }
+            _expressui.util.createElement(options.selector);
+
+            if(!options.buttons) {
+                options.buttons = [{
+                    text: '保存',
+                    iconCls: 'fa fa-save',
+                    handler: 'save'
+                }, {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: 'close'
+                }];
+            }
+
+            if(options.buttons){
+                var buttons = options.buttons;
+                for (var i=0; i< buttons.length;i++){
+                    if(typeof buttons[i].handler === 'string'){
+                        var handler = buttons[i].handler;
+                        console.log(handler);
+                        console.log(buttons[i].reload);
+                        if(buttons[i].reload){
+                            window._reload = buttons[i].reload;
+                        }
+                        switch (handler){
+                            case 'add':
+                                options.buttons[i].handler = function () {
+                                    _expressui.dialog.add(options.selector, function () {
+                                        console.log(_reload);
+                                        if(_reload) {
+                                            _expressui.grid.reload(_reload);
+                                        }
+                                    });
+                                    window._reload = undefined;
+                                };
+                                break;
+                            case 'save':
+                                options.buttons[i].handler = function () {
+                                    // 按钮回调刷新表
+                                    _expressui.dialog.save(options.selector, function () {
+                                        if(_reload) {
+                                            _expressui.grid.reload(_reload);
+                                        }
+                                    });
+                                    window._reload = undefined;
+                                };
+
+                                break;
+                            case 'close':
+                                options.buttons[i].handler = function () {
+                                    $(options.selector).dialog('close', function () {
+                                        // 按钮回调刷新表
+                                        if(_reload) {
+                                            _expressui.grid.reload(_reload);
+                                        }
+                                    });
+                                    window._button= undefined;
+                                };
+
+                                break;
+                        }
+
+                    }
+                }
+            }
+
+            if (options.grid) {
+                _expressui.dialog._replacePlaceHolder(options, options.grid);
+            }
+            $(options.selector).dialog(options);
+        };
+
+        $.fn.datagrid.defaults = $.extend(true, $.fn.datagrid.defaults, {
+            idField: 'id',
+            fit: true,
+            pagination: true,
+            singleSelect: true,
+            method: 'get',
+            pageNumber: 1,
+            pageList: [10, 20, 50, 100],
+            pageSize: 20,
+            checkOnSelect: true,
+            selectOnCheck: true,
+            loadMsg: '正在加载，请稍等...',
+            emptyMsg: '暂无记录',
+            loadFilter: function (result) {
+                if (undefined === result.data) {
+                    result.data = [];
+                }
+                return result.data;
+            }
+        });
+        _expressui.datagrid.create = function (options) {
+            _expressui.grid.appendToolbar(options);
+            $(options.selector).datagrid(options);
+        };
+        _expressui.datagrid.reload = function (options) {
+            $(options.selector).datagrid('reload', options.param);
+            if (options.unselect === true) {
+                $(options.selector).datagrid('unselectAll');
+            }
+        };
+        _expressui.datagrid.deleteRow = function (options) {
+            if (options.grid) {
+                var selected = _expressui.grid.getSelectedHasMessage(options.grid);
+                if (selected) {
+
+                    if(typeof options.onDeleteBefore === 'function'){
+                        var odb = options.onDeleteBefore(selected);
+                        if(odb === true){
+                            fun();
+                            return true;
+                        }
+                    }else{
+                        fun();
+                    }
+
+                    function fun() {
+                        options.url = options.url ? _expressui.replaceUrlPlaceholder(options.url, selected) : '';
+                        _expressui.ajax({
+                            url: options.url,
+                            type: options.type || 'post',
+                            success: function (result) {
+                                _expressui.response.okHasMessage(result, function () {
+                                    var index = $(options.grid.selector).datagrid('getRowIndex', selected);
+
+                                    $(options.grid.selector).datagrid('deleteRow', index);
+                                    if (options.reload) {
+                                        _expressui.grid.reload(options.reload);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        _expressui.datagrid.deleteRows = function (options) {
+            if (options.grid) {
+                var selections = _expressui.grid.getSelectionsHasMessage(options.grid);
+
+                if(typeof options.onDeleteBefore === 'function'){
+                    var odb = options.onDeleteBefore(selections);
+                    if(odb === true){
+                        fun();
+                        return true;
+                    }
+                }else{
+                    fun();
+                }
+
+                function fun() {
+                    var i, data = {}, paramData = [], indexs = [];
+                    if (selections && selections.length > 0) {
+                        for (i = 0; i < selections.length; i++) {
+                            if (options.paramField) {
+                                paramData.push(selections[i][options.paramField]);
+                            } else {
+                                paramData.push(selections[i][$(options.grid.selector).datagrid('options').idField]);
+                            }
+                            indexs.push($(options.grid.selector).datagrid('getRowIndex', selections[i]));
+                        }
+                        data[options.paramName] = paramData;
+                        _expressui.ajax({
+                            url: options.url,
+                            type: options.type || 'post',
+                            data: data,
+                            success: function (result) {
+                                _expressui.response.okHasMessage(result, function () {
+
+                                    // indexs 数组的从大到小排序
+                                    indexs.sort(function (a, b) {
+                                        return a < b ? 1 : -1;
+                                    });
+                                    for (i = 0; i < indexs.length; i++) {
+                                        $(options.grid.selector).datagrid('deleteRow', indexs[i]);
+                                    }
+                                    if (options.reload) {
+                                        _expressui.grid.reload(options.reload);
+                                    }
+                                });
+                            },
+                            error: function () {
+
+                            }
+                        });
+                    }
+                }
+            }
+        };
+
+        $.fn.treegrid.defaults = $.extend(true, $.fn.treegrid.defaults, {
+            idField: 'id',
+            treeField: 'name',
+            fit: true,
+            checkbox: true,
+            // checkOnSelect: true,
+            // selectOnCheck: true,
+            onlyLeafCheck: true,
+            singleSelect: false,
+            pagination: true,
+            method: 'get',
+            pageNumber: 1,
+            pageList: [10, 20, 50, 100],
+            pageSize: 20,
+            loadMsg: '正在加载，请稍等...',
+            emptyMsg: '暂无记录',
+            loadFilter: function (data, parentId) {
+                if(data.hasOwnProperty(expressui.response.DATA)) {
+                    return  data[expressui.response.DATA];
+                } else{
+                    return [];
+                }
+            },
+
+            // 单选
+            // onBeforeSelect : function (row) {
+            //     $('#' + this.id).treegrid('unselectAll');
+            // }
+        });
+
+        _expressui.treegrid.create = function (options) {
+            _expressui.grid.appendToolbar(options);
+            if (typeof options.onBeforeExpand !== 'function') {
+                options.onBeforeExpand = function (node, param) {
+                    $(options.selector).treegrid('options').url = _expressui.replaceUrlPlaceholder(options.expandUrl, node);
+                }
+            }
+            $(options.selector).treegrid(options);
+
+        };
+        _expressui.treegrid.reload = function (options) {
+            $(options.selector).treegrid('options').url = options.url;
+            $(options.selector).treegrid('reload');
+        };
+
+        _expressui.treegrid.deleteRow = function (options) {
+            if (options.grid) {
+                var selected = _expressui.grid.getSelectedHasMessage(options.grid);
+                if (selected) {
+
+                    if(typeof options.onDeleteBefore === 'function'){
+                        var odb = options.onDeleteBefore(selected);
+                        if(odb === true){
+                            fun();
+                            return true;
+                        }
+                    }else{
+                        fun();
+                    }
+
+                    function fun() {
+                        options.url = options.url ? _expressui.replaceUrlPlaceholder(options.url, selected) : '';
+                        _expressui.ajax({
+                            url: options.url,
+                            type: options.type || 'post',
+                            success: function (result) {
+                                _expressui.response.okHasMessage(result, function () {
+                                    // var index = $(options.grid.selector).treegrid('getRowIndex', selected);
+                                    $(options.grid.selector).treegrid('remove', selected[$(options.grid.selector).treegrid('options').idField]);
+                                    if (options.reload) {
+                                        _expressui.grid.reload(options.reload);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        _expressui.treegrid.deleteRows = function (options) {
+            if (options.grid) {
+                var selections = _expressui.grid.getSelectionsHasMessage(options.grid);
+
+                if(typeof options.onDeleteBefore === 'function'){
+                    var odb = options.onDeleteBefore(selections);
+                    if(odb === true){
+                        fun();
+                        return true;
+                    }
+                }else{
+                    fun();
+                }
+
+                function fun() {
+                    var i, data = {}, paramData = [], indexs = [];
+                    if (selections && selections.length > 0) {
+                        for (i = 0; i < selections.length; i++) {
+                            if (options.paramField) {
+                                paramData.push(selections[i][options.paramField]);
+                            } else {
+                                paramData.push(selections[i][$(options.grid.selector).treegrid('options').idField]);
+                            }
+                            indexs.push($(options.grid.selector).treegrid('getRowIndex', selections[i]));
+                        }
+                        indexs = paramData;
+                        data[options.paramName] = paramData;
+                        if (selections) {
+                            _expressui.ajax({
+                                url: options.url,
+                                type: options.type || 'post',
+                                data: data,
+                                success: function (result) {
+                                    _expressui.response.okHasMessage(result, function () {
+
+                                        // indexs 数组的从大到小排序
+                                        indexs.sort(function (a, b) {
+                                            return a < b ? 1 : -1;
+                                        });
+                                        for (i = 0; i < indexs.length; i++) {
+                                            $(options.grid.selector).treegrid('remove', indexs[i]);
+                                        }
+                                        if (options.reload) {
+                                            _expressui.grid.reload(options.reload);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+})(expressui);

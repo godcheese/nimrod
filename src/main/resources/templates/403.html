@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base(title='ERROR 403 Forbidden')"></div>
+</head>
+<body>
+<h1>ERROR 403 Forbidden</h1>
+<h4 th:text="${exception}"></h4>
+<h4 th:text="${message}"></h4>
+<h4 th:text="${trace}"></h4>
+</body>
+</html>

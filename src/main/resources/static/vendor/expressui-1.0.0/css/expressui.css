@@ -1,0 +1,109 @@
+/**
+ * Expressui
+ * jQuery EasyUI extend plugin
+ * @version v1.0.0
+ * @author godcheese <godcheese@outlook.com>
+ * @uri http://www.github.com/godcheese/expressui
+ */
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 12px FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/*******************************************************/
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 12px FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-top:2px;
+}
+
+.datagrid-toolbar {
+    padding: 4px;
+}
+
+/* 对话框窗口的 form 表单  */
+
+.submit-form {
+    height:100% !important;
+    margin:0 auto;
+    background-color: #fff;
+    padding: 10px 20px 10px 20px;
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+    border: 2px solid #fff;
+}
+
+.submit-form table.submit-table {
+    width: 100%;
+    /*padding:10px 20px auto;*/
+    height: 100% !important;
+    table-layout: fixed;
+}
+
+.submit-form table.submit-table tr {
+    vertical-align: middle;
+    border: 1px solid #D3D3D3;
+    border-right-width: 0;
+    border-left-width: 0;
+}
+
+.submit-form table.submit-table tr td {
+    border: 1px solid #D3D3D3;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    padding: 5px;
+    width: 100%;
+}
+
+.submit-form table.submit-table tr td.label {
+    /*background: #E6EEF8;*/
+    width: 40%;
+    font-size: 12px;
+    color: #666;
+    min-width: 80px;
+    max-width: 140px;
+    text-align: right;
+    font-weight: 400;
+    margin: 0;
+    padding: 5px;
+    word-break: keep-all; /* for ie */
+    word-wrap: break-word;
+    background: #f5f5f5;
+    border: 1px solid #cacaca;
+}
+
+.submit-form table.submit-table span.textbox {
+    width: 70% !important;
+    /*margin: 0;*/
+    /*padding:0;*/
+    /*height:100%;*/
+}
+.submit-form table.submit-table input.textbox-text,.submit-form table.submit-table textarea.textbox-text {
+    width: 100% !important;
+}
+
+.submit-form .submit-button {
+    border-color: #dadde2;
+}
+
+.submit-form .submit-button {
+    background: rgb(244, 244, 244);
+    border-width: 1px;
+    border-style: solid;
+}
+.submit-form .submit-button {
+    position: relative;
+    top: -1px;
+    text-align: right;
+    padding: 5px;
+}

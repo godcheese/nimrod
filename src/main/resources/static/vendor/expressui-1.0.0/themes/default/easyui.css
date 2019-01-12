@@ -1,0 +1,180 @@
+
+.panel-body {
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 12px; /* font-size: 14px; */
+}
+.panel-title {
+  font-size: 12px; /* font-size: 14px; */
+  font-weight: bold;
+  color: #0E2D5F;
+  height: 20px;
+  line-height: 20px;
+}
+.l-btn-text {
+  display: inline-block;
+  vertical-align: top;
+  width: auto;
+  line-height: 28px;
+  font-size: 12px; /* font-size: 14px; */
+  padding: 0;
+  margin: 0 6px;
+}
+.l-btn-plain:hover {
+  padding: 1px; /* padding: 0; */
+}
+.l-btn {
+  color: #444;
+  background: #fafafa;
+  background-repeat: repeat-x;
+  border: 1px solid #bbb;
+  background: -webkit-linear-gradient(top,#ffffff 0,#eeeeee 100%);
+  background: -moz-linear-gradient(top,#ffffff 0,#eeeeee 100%);
+  background: -o-linear-gradient(top,#ffffff 0,#eeeeee 100%);
+  background: linear-gradient(to bottom,#ffffff 0,#eeeeee 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#eeeeee,GradientType=0);
+  -moz-border-radius: 0; /* -moz-border-radius: 5px 5px 5px 5px; */
+  -webkit-border-radius: 0; /* -webkit-border-radius: 5px 5px 5px 5px; */
+  border-radius: 0; /* border-radius:5px 5px 5px 5px; */
+}
+.l-btn-plain {
+  background: transparent;
+  border: 1px solid transparent; /*border-width: 0;*/
+  filter: none;
+}
+.l-btn-plain:hover {
+  background: #eaf2ff;
+  color: #000000;
+  border: 1px solid #b7d2ff;
+  -moz-border-radius: 0; /* -moz-border-radius: 5px 5px 5px 5px; */
+  -webkit-border-radius: 0; /* -webkit-border-radius: 5px 5px 5px 5px; */
+  border-radius: 0; /* border-radius:5px 5px 5px 5px; */
+}
+.textbox {
+  position: relative;
+  border: 1px solid #95B8E7;
+  background-color: #fff;
+  vertical-align: middle;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  -moz-border-radius: 0; /* -moz-border-radius: 5px 5px 5px 5px; */
+  -webkit-border-radius: 0; /* -webkit-border-radius: 5px 5px 5px 5px; */
+  border-radius: 0; /* border-radius:5px 5px 5px 5px; */
+}
+.textbox .textbox-text {
+  font-size: 12px; /* font-size: 14px; */
+  border: 0;
+  margin: 0;
+  padding: 0 4px;
+  white-space: normal;
+  vertical-align: top;
+  outline-style: none;
+  resize: none;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  height: 28px;
+  line-height: 28px;
+}
+.textbox .textbox-prompt {
+  font-size: 12px; /*font-size: 14px;*/
+  color: #aaa;
+}
+.combobox-item,
+.combobox-group,
+.combobox-stick {
+  font-size: 12px; /*font-size: 14px;*/
+  padding: 6px 4px;
+  line-height: 20px;
+}
+.tabs li a.tabs-inner {
+  display: inline-block;
+  text-decoration: none;
+  margin: 0;
+  padding: 0 10px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  white-space: nowrap;
+  border-width: 1px;
+  border-style: solid;
+  -moz-border-radius: 0; /* -moz-border-radius: 5px 5px 0 0; */
+  -webkit-border-radius: 0; /* -webkit-border-radius: 5px 5px 0 0; */
+  border-radius: 0; /* border-radius:5px 5px 0 0 */
+}
+.tabs li.tabs-selected a.tabs-inner {
+  font-weight: normal; /*font-weight: bold;*/
+  outline: none;
+}
+.tabs-title {
+  font-size: 12px; /*font-size: 14px;*/
+}
+.datagrid-cell,
+.datagrid-cell-group,
+.datagrid-header-rownumber,
+.datagrid-cell-rownumber {
+  margin: 0;
+  padding: 0 4px;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
+  height: 18px;
+  line-height: 18px;
+  font-size: 12px; /* font-size: 14px; */
+}
+.datagrid-header .datagrid-cell span {
+  font-size: 12px; /* font-size: 14px; */
+}
+.pagination .pagination-num {
+  border-width: 1px;
+  border-style: solid;
+  margin: 0 2px;
+  padding: 2px;
+  width: 3em;
+  height: auto;
+  text-align: center;
+  font-size: 12px; /* font-size: 14px; */
+}
+.pagination-info {
+  float: right;
+  margin: 0 6px;
+  padding: 0;
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px; /* font-size: 14px; */
+}
+.pagination span {
+  font-size: 12px; /*font-size: 14px;*/
+}
+.tree-title {
+  font-size: 12px; /* font-size: 14px; */
+  display: inline-block;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0 2px;
+  margin: 4px 0;
+  height: 18px;
+  line-height: 18px;
+}
+.tooltip {
+  position: absolute;
+  display: none;
+  z-index: 9900000;
+  outline: none;
+  opacity: 1;
+  filter: alpha(opacity=100);
+  padding: 5px;
+  border-width: 1px;
+  border-style: solid;
+  -moz-border-radius: 0; /* -moz-border-radius: 5px 5px 5px 5px; */
+  -webkit-border-radius: 0; /* -webkit-border-radius: 5px 5px 5px 5px; */
+  border-radius: 0 /* border-radius: 5px 5px 5px 5px; */
+}
+.tooltip-content {
+  font-size: 12px; /* font-size: 14px; */
+}

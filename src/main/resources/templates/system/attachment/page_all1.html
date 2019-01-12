@@ -1,0 +1,35 @@
+<div class="easyui-layout" data-options="fit:true">
+    <!--<div data-options="region:'north',title:'North Title',split:true" style="height:100px;"></div>-->
+    <!--<div data-options="region:'south',title:'South Title',split:true" style="height:100px;"></div>-->
+    <!--<div data-options="region:'east',title:'East',split:true" style="width:100px;"></div>-->
+    <!--<div data-options="region:'west',title:'West',split:true" style="width:100px;"></div>-->
+    <!--<div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;"></div>-->
+    <div data-options="region:'center'">
+    <div id="attachment1Toolbar">
+        <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/ATTACHMENT/PAGE_ALL1/UPLOAD_DIALOG'')')}"
+           href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload" plain="true"
+           onclick="uploadDialog();">上传附件</a>
+    </div>
+    <table id="attachment1"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'filename', title: '文件名'},
+            {field: 'size', title: '文件大小'},
+            {field: 'mimeType', title: 'MIME 类型'},
+            {field: 'path', title: '文件路径'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#attachment1').datagrid(expressui.grid.create, {
+            columns: [columns],
+            // url: Api.System.ATTACHMENT + '/page_all'
+        });
+    });
+</script>

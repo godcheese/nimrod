@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'west',split:true" style="width:40%">
+        <table id="viewPageComponentApiCategory"></table>
+    </div>
+    <div data-options="region:'center',split:true">
+        <div id="viewPageComponentApiToolbar">
+            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/VIEW_PAGE_COMPONENT_API/PAGE_ALL/ASSOCIATE_ALL_VIEW_PAGE_COMPONENT_API'')')}"
+               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
+               onclick="associateAllViewPageComponentApi();">关联</a>
+
+            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/VIEW_PAGE_COMPONENT_API/PAGE_ALL/REVOKE_ASSOCIATE_ALL_VIEW_PAGE_COMPONENT_API'')')}"
+               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+               onclick="revokeAssociateAllViewPageComponentApi();">撤销关联</a>
+        </div>
+        <table id="viewPageComponentApi"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var pageComponentId;
+
+    $(function () {
+        var selectedViewPageComponent = $('#viewPageComponent').datagrid('getSelected');
+        if (selectedViewPageComponent) {
+            pageComponentId = selectedViewPageComponent.id;
+        }
+
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '分类名称'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#viewPageComponentApiCategory').treegrid(expressui.grid.create, {
+            title: 'API 分类',
+            url: Api.System.API_CATEGORY + '/page_all_parent',
+            expandUrl: Api.System.API_CATEGORY + '/list_all_by_parent_id/{id}',
+            columns: [columns],
+            onCheck: function (row) {
+                if (row) {
+                    $('#viewPageComponentApi').datagrid('reload', Api.System.API + '/page_all_by_api_category_id/' + row.id);
+                }
+            },
+            onUncheck: function (index, row) {
+                $('#viewPageComponentApi').datagrid('loadData', []);
+            }
+
+        });
+
+        columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+
+            {
+                field: 'is_associated', title: '关联状态', formatter: function (value, row) {
+                    var isAssociated = '未关联';
+                    expressui.ajax({
+                        url: Api.System.VIEW_PAGE_COMPONENT_API + '/is_associated_by_page_component_id_and_api_id/?pageComponentId=' + pageComponentId + '&apiId=' + row.id,
+                        success: function (data) {
+                            if (data && (data.isAssociated === true)) {
+                                isAssociated = '已关联';
+                            }
+                        },
+                        async: false
+                    });
+
+                    return isAssociated;
+                }
+            },
+            {field: 'name', title: 'API 名称'},
+            {field: 'url', title: '请求地址（url）'},
+            {field: 'authority', title: '权限（authority）'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#viewPageComponentApi').datagrid(expressui.grid.create, {
+            title: 'API',
+            columns: [columns]
+        });
+    });
+
+    function associateAllViewPageComponentApi() {
+
+        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        //         $('#role').datagrid('reload');
+        //     } });
+
+        var selectAll = $('#viewPageComponentApi').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var apiIdList = [];
+        if (selectAll) {
+            for (var i = 0; i < selectAll.length; i++) {
+                apiIdList[i] = selectAll[i].id;
+            }
+            expressui.ajax({
+                url: Api.System.VIEW_PAGE_COMPONENT_API + '/associate_all_by_page_component_id_and_api_id_list',
+                data: {pageComponentId: pageComponentId, apiIdList: apiIdList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '关联成功'});
+                    $('#viewPageComponentApi').datagrid('reload');
+                    $('#viewPageComponentApi').datagrid('clearSelections');
+                    $('#viewPageComponentApi').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function revokeAssociateAllViewPageComponentApi() {
+
+        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        //         $('#role').datagrid('reload');
+        //     } });
+
+        var selectAll = $('#viewPageComponentApi').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var apiIdList = [];
+        if (selectAll) {
+            for (var i = 0; i < selectAll.length; i++) {
+                apiIdList[i] = selectAll[i].id;
+            }
+            expressui.ajax({
+                url: Api.System.VIEW_PAGE_COMPONENT_API + '/revoke_associate_all_by_page_component_id_and_api_id_list',
+                data: {pageComponentId: pageComponentId, apiIdList: apiIdList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '撤销关联成功'});
+                    $('#viewPageComponentApi').datagrid('reload');
+                    $('#viewPageComponentApi').datagrid('clearSelections');
+                    $('#viewPageComponentApi').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>

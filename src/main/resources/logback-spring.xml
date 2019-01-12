@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+    <pattern>
+        %d{yyyy-MM-dd HH:mm:ss} [%level] - %msg%n
+        Logger: %logger
+        Class: %class
+        File: %file
+        Caller: %caller
+        Line: %line
+        Message: %m
+        Method: %M
+        Relative: %relative
+        Thread: %thread
+        Exception: %ex
+        xException: %xEx
+        nopException: %nopex
+        rException: %rEx
+        Marker: %marker
+        newline:%n
+    </pattern>
+    -->
+
+    <!--
+       说明：
+       1、日志级别及文件
+           日志记录采用分级记录，级别与日志文件名相对应，不同级别的日志信息记录到不同的日志文件中
+           例如：error级别记录到log_error_xxx.log或log_error.log（该文件为当前记录的日志文件），而log_error_xxx.log为归档日志，日志文件按日期记录，同一天内，若日志文件大小等于或大于2M，则按0、1、2...顺序分别命名例如log-level-2013-12-21.0.log ，其它级别的日志也是如此。
+       2、文件路径
+           若开发测试时，在 IDEA 下则在项目的上级的目录 logs 文件夹中。
+           若部署到Tomcat下，则在Tomcat下的logs文件中。
+       3、Appender
+           FILE_ERROR对应error级别，文件名以log-error-xxx.log形式命名。
+           FILE_WARN对应warn级别，文件名以log-warn-xxx.log形式命名。
+           FILE_INFO对应info级别，文件名以log-info-xxx.log形式命名。
+           FILE_DEBUG对应debug级别，文件名以log-debug-xxx.log形式命名。
+           stdout将日志信息输出到控制上，为方便开发测试使用，项目部署到生产环境中建议关闭。
+    -->
+
+
+    <!-- 读取 spring.application.name 属性来生成日志文件名
+    scope：作用域
+    name：在 logback-spring.xml 使用的键
+    source：application.properties 文件中的键
+    defaultValue：默认值
+    -->
+
+    <!--<springProperty scope="nimrod" name="DATASOURCE_URL" source="spring.datasource.url" defaultValue=""/>-->
+    <!--<springProperty scope="nimrod" name="DATASOURCE_DRIVER_CLASS_NAME" source="spring.datasource.driver-class-name" defaultValue=""/>-->
+    <!--<springProperty scope="nimrod" name="DATASOURCE_USERNAME" source="spring.datasource.username" defaultValue=""/>-->
+    <!--<springProperty scope="nimrod" name="DATASOURCE_PASSWORD" source="spring.datasource.password" defaultValue=""/>-->
+
+    <springProperty scope="nimrod" name="APP_NAME" source="app.name" defaultValue="nimrod"/>
+    <springProperty scope="nimrod" name="LOG_DIR" source="log.dir" defaultValue="../logs"/>
+    <springProperty scope="nimrod" name="MAX_HISTORY" source="log.max_history" defaultValue="30"/>
+    <springProperty scope="nimrod" name="MAX_FILE_SIZE" source="log.max_file_size" defaultValue="10MB"/>
+    <springProperty scope="nimrod" name="TOTAL_SIZE_CAP" source="log.max_file_size" defaultValue="2GB"/>
+
+    <!--<property name="APP_NAME" value="nimrod"/>-->
+    <!--<property name="LOG_DIR" value="../logs"/>-->
+    <!--设置系统日志目录-->
+    <!--<property name="MAX_HISTORY" value="30"/>-->
+    <!--<property name="MAX_FILE_SIZE" value="10MB"/>-->
+    <!--<property name="TOTAL_SIZE_CAP" value="2GB"/>-->
+
+    <contextName>${APP_NAME}</contextName>
+
+    <!-- ConsoleAppender 控制台输出日志-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <!-- 日志格式化输出 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} Line:%-3L - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 日志记录器，日期滚动记录 -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 此日志文件只记录info级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 设置过滤级别 -->
+            <level>error</level>
+            <!-- 用于配置符合过滤条件的操作 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} Line:%-3L - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 正在记录的日志文件的路径及文件名，移除此项可以每天生成一个日志文件 -->
+        <!--<file>${LOG_DIR}/log_error.log</file>-->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 归档的日志文件的路径，例如今天是2013-12-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。
+            而2013-12-21的日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>${LOG_DIR}/error/log_error_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <!-- 日志文件的最大大小 -->
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <!-- 日志文件保存的最大天数 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <!-- 日志文件总量大小 -->
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+
+    </appender>
+
+    <!-- 日志记录器，日期滚动记录 -->
+    <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 此日志文件只记录info级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} Line:%-3L - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 正在记录的日志文件的路径及文件名，移除此项可以每天生成一个日志文件 -->
+        <!--<file>${LOG_DIR}/log_warn.log</file>-->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 归档的日志文件的路径，例如今天是2013-12-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。
+            而2013-12-21的日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>${LOG_DIR}/warn/log_warn_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <!-- 日志文件的最大大小 -->
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <!-- 日志文件保存的最大天数 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <!-- 日志文件总量大小 -->
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+
+
+
+    </appender>
+
+    <!-- 日志记录器，日期滚动记录 -->
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 此日志文件只记录info级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level in %logger Line:%-3L - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 正在记录的日志文件的路径及文件名，移除此项可以每天生成一个日志文件 -->
+        <!--<file>${LOG_DIR}/log_info.log</file>-->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 归档的日志文件的路径，例如今天是2013-12-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。
+            而2013-12-21的日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>${LOG_DIR}/info/log_info_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <!-- 日志文件的最大大小 -->
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <!-- 日志文件保存的最大天数 -->
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <!-- 日志文件总量大小 -->
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 输出到数据库 -->
+    <!--<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
+    <!--<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+    <!--<driverClass>${DATASOURCE_DRIVER_CLASS_NAME}</driverClass>-->
+    <!--<url>${DATASOURCE_URL}</url>-->
+    <!--<user>${DATASOURCE_USERNAME}</user>-->
+    <!--<password>${DATASOURCE_PASSWORD}</password>-->
+    <!--</connectionSource>-->
+    <!--</appender>-->
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+
+    <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
+    <root level="INFO">
+        <appender-ref ref="FILE_ERROR"/>
+        <appender-ref ref="FILE_WARN"/>
+        <appender-ref ref="FILE_INFO"/>
+
+        <!-- 生产环境将请 stdout 去掉 -->
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="DB"/>-->
+    </root>
+
+</configuration>
+

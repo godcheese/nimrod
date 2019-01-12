@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+git config --global user.name "godcheese"
+git config --global user.email "godcheese@outlook.com"
+ssh-keygen -o -t rsa -b 4096 -C "godcheese@outlook.com"
+cat ~/.ssh/id_rsa.pub
