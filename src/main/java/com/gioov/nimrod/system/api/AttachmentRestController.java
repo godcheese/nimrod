@@ -2,7 +2,7 @@ package com.gioov.nimrod.system.api;
 
 import com.gioov.common.mybatis.Sort;
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.AttachmentEntity;
 import com.gioov.nimrod.system.service.AttachmentService;
@@ -27,7 +27,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.System.ATTACHMENT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.System.ATTACHMENT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AttachmentRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AttachmentRestController.class);

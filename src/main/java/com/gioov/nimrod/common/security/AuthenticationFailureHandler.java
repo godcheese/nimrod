@@ -2,7 +2,7 @@ package com.gioov.nimrod.common.security;
 
 import com.gioov.common.web.http.FailureEntity;
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.common.constant.FailureMessage;
+import com.gioov.nimrod.common.FailureMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

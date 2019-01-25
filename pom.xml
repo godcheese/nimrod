@@ -5,7 +5,7 @@
 
     <groupId>com.gioov</groupId>
     <artifactId>nimrod</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <!-- jar 打包引用此属性值 -->
     <packaging>jar</packaging>
     <!-- war 打包引用此属性值 -->
@@ -75,13 +75,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- jar 部署时请注释此处，war 部署到外部 Tomcat 时无需自带 Tomcat -->
-            <!-- <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions> -->
+            <!-- jar 打包部署时请注释此处，war 打包部署到外部 Tomcat 时无需自带 Tomcat -->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.boot</groupId>-->
+                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
         <dependency>
@@ -112,6 +112,12 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+         <!-- https://mvnrepository.com/artifact/org.flowable/flowable-spring-boot-starter-rest -->
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-spring-boot-starter-rest</artifactId>
+            <version>6.4.1</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
@@ -135,6 +141,7 @@
             <systemPath>${project.basedir}/lib/com.gioov-common-1.0.0-jar-with-dependencies.jar</systemPath>
             <type>jar</type>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -144,7 +151,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <fork>true</fork><!-- 如果没有该项配置， devtools 不会起作用，即应用不会 restart -->
+                    <!-- 如果没有该项配置， devtools 不会起作用，即应用不会 restart -->
+                    <fork>true</fork>
                     <addResources>true</addResources>
                 </configuration>
             </plugin>
@@ -152,16 +160,19 @@
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/*.properties</include>
                 </includes>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
             </resource>
             <resource>
                 <directory>${project.basedir}/src/main/java</directory>
@@ -179,9 +190,9 @@
             <resource>
                 <directory>${project.basedir}/lib</directory>
                 <!-- jar 打包引用此属性值 -->
-               <targetPath>BOOT-INF/lib</targetPath>
+                <targetPath>BOOT-INF/lib</targetPath>
                 <!-- war 打包引用此属性值 -->
-                 <!-- <targetPath>${project.basedir}/target/${project.build.finalName}/WEB-INF/lib</targetPath> -->
+                <!-- <targetPath>${project.basedir}/target/${project.build.finalName}/WEB-INF/lib</targetPath> -->
                 <includes>
                     <include>**/*.jar</include>
                 </includes>

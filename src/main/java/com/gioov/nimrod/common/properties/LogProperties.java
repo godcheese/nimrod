@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @date 2018-02-22
  */
 @Component
-@ConfigurationProperties(prefix = "log", ignoreUnknownFields = true)
+@ConfigurationProperties(prefix = "log", ignoreUnknownFields = true, ignoreInvalidFields = true)
 public class LogProperties {
 
     /**

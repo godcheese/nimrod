@@ -1,6 +1,6 @@
 package com.gioov.nimrod.user.api;
 
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.user.entity.RoleAuthorityEntity;
 import com.gioov.nimrod.user.service.RoleAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.User.ROLE_AUTHORITY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.User.ROLE_AUTHORITY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class RoleAuthorityRestController {
 
     private static final String ROLE_AUTHORITY = "/API/USER/ROLE_AUTHORITY";

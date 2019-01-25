@@ -3,8 +3,7 @@ package com.gioov.nimrod.system.api;
 import com.gioov.common.util.ColorUtil;
 import com.gioov.common.util.ImageUtil;
 import com.gioov.common.util.RandomUtil;
-import com.gioov.nimrod.common.properties.AppProperties;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
 import com.gioov.nimrod.system.service.DictionaryService;
@@ -27,7 +26,7 @@ import java.io.IOException;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.SYSTEM, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.SYSTEM, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class SystemRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemRestController.class);
@@ -36,9 +35,6 @@ public class SystemRestController {
 
     @Autowired
     private DictionaryService dictionaryService;
-
-    @Autowired
-    private AppProperties appProperties;
 
     /**
      * 获取验证码

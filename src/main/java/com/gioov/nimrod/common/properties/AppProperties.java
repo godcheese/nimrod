@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2018-02-22
  */
 @Component
-@ConfigurationProperties(prefix = "app", ignoreUnknownFields = true)
+@ConfigurationProperties(prefix = "app", ignoreUnknownFields = true, ignoreInvalidFields = true)
 public class AppProperties {
 
     private String name;

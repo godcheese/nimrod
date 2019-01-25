@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.entity;
 
-import com.gioov.nimrod.common.exportbyexcel.IsOrNotExportByExcelHandler;
 import com.gioov.nimrod.common.exportbyexcel.ExportByExcel;
+import com.gioov.nimrod.common.exportbyexcel.IsOrNotExportByExcelHandler;
 import com.gioov.nimrod.common.exportbyexcel.SimpleDateFormatExportByExcelHandler;
 
 import java.io.Serializable;

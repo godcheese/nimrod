@@ -50,11 +50,11 @@
     <!--<springProperty scope="nimrod" name="DATASOURCE_USERNAME" source="spring.datasource.username" defaultValue=""/>-->
     <!--<springProperty scope="nimrod" name="DATASOURCE_PASSWORD" source="spring.datasource.password" defaultValue=""/>-->
 
-    <springProperty scope="nimrod" name="APP_NAME" source="app.name" defaultValue="nimrod"/>
+    <springProperty scope="nimrod" name="APP_NAME" source="app.secret" defaultValue="nimrod"/>
     <springProperty scope="nimrod" name="LOG_DIR" source="log.dir" defaultValue="../logs"/>
     <springProperty scope="nimrod" name="MAX_HISTORY" source="log.max_history" defaultValue="30"/>
     <springProperty scope="nimrod" name="MAX_FILE_SIZE" source="log.max_file_size" defaultValue="10MB"/>
-    <springProperty scope="nimrod" name="TOTAL_SIZE_CAP" source="log.max_file_size" defaultValue="2GB"/>
+    <springProperty scope="nimrod" name="TOTAL_SIZE_CAP" source="log.total_size_cap" defaultValue="2GB"/>
 
     <!--<property name="APP_NAME" value="nimrod"/>-->
     <!--<property name="LOG_DIR" value="../logs"/>-->

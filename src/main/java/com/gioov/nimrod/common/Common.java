@@ -2,7 +2,7 @@ package com.gioov.nimrod.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gioov.nimrod.common.mail.service.MailService;
+import com.gioov.nimrod.mail.service.MailService;
 import com.gioov.nimrod.system.service.DictionaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +56,7 @@ public class Common {
         return new ObjectMapper().readValue(json, clazz);
     }
 
-    public static String filterStartSlash(String string) {
+    public static String trimSlash(String string) {
         if(string != null) {
             int slashIndex = string.indexOf("/");
             if(slashIndex == 0 && string.length()>1) {

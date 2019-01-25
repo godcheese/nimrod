@@ -2,13 +2,12 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="./widget/base(title='登录')"></div>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
-    <script type="text/javascript" th:src="@{/js/util.js}" charset="UTF-8"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/login.css}">
+    <script type="text/javascript" th:src="@{/assets/js/util.js}" charset="UTF-8"></script>
 </head>
 <body>
+<noscript>当你看到这条信息，意味着 JavaScript 已被你的浏览器禁用，请开启 JavaScript 以使你的设备正常访问。</noscript>
 <div class="login-header">
-    <!--<div class="left-bg"></div>-->
-    <!--<div class="right-bg"></div>-->
     <div class="header-inner">
         <span class="logo"></span>
         <span class="split"></span>
@@ -31,14 +30,15 @@
                             <i class="fa fa-lock"></i>
                             <input type="password" value="123456" placeholder="密码" id="password">
                         </div>
-                        <div class="login-check">
-                            <div class="input-item clearfix">
+                        <div class="verify-code clearfix">
+                            <div class="input-item">
                                 <i class="fa fa-file-image-o"></i>
                                 <input type="text" id="verifyCode" placeholder="验证码">
                             </div>
                             <img th:src="@{/api/system/verify_code}" id="verifyCodeImage" alt="verifyCodeImage">
                             <!--<span class="verify-code-image">XD34F</span>-->
                         </div>
+
                         <div class="tips clearfix">
                             <label><input id="rememberMe" type="checkbox" checked="checked">记住我一周</label>
                             <!--<a href="javascript:" class="register">立即注册</a>-->

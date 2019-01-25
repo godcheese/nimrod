@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.ViewPageComponentEntity;
 import com.gioov.nimrod.system.service.ViewPageComponentService;
@@ -21,7 +21,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.System.VIEW_PAGE_COMPONENT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.System.VIEW_PAGE_COMPONENT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ViewPageComponentRestController {
 
     private static final String VIEW_PAGE_COMPONENT = "/API/SYSTEM/VIEW_PAGE_COMPONENT";
@@ -34,7 +34,7 @@ public class ViewPageComponentRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result                               <                               ViewPageComponentEntity>>
+     * @return ResponseEntity<Pagination.Result<ViewPageComponentEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE_COMPONENT + "/PAGE_ALL_BY_PAGE_ID')")
     @GetMapping(value = "/page_all_by_page_id/{pageId}")

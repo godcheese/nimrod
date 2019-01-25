@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        .preloader-hidden {
+            display: none;
+        }
+
+        .cs-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .cs-loader-inner {
+            transform: translateY(-50%);
+            top: 50%;
+            position: absolute;
+            width: 100%;
+            color: #fff;
+            text-align: center;
+        }
+
+        .cs-loader-inner label:nth-child(2) {
+            animation: lol 3s .4s infinite ease-in-out;
+        }
+
+        .cs-loader-inner label {
+            font-size: 20px;
+            opacity: 0;
+            display: inline-block;
+        }
+
+        .input-group, div, input, label, li, p, section, textarea, ul {
+            float: none;
+            text-align: left;
+        }
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        *, :after, :before {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        * {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        *, :after, :before {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<div class="preloader-hidden">
+    <div class="cs-loader">
+        <div class="cs-loader-inner"><label>●</label> <label>●</label> <label>●</label> <label>●</label>
+            <label>●</label> <label>●</label></div>
+    </div>
+</div>
+</body>
+</html>

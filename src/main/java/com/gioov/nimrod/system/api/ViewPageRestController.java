@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.ViewPageEntity;
 import com.gioov.nimrod.system.service.ViewPageService;
@@ -21,7 +21,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.System.VIEW_PAGE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.System.VIEW_PAGE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ViewPageRestController {
 
     private static final String VIEW_PAGE = "/API/SYSTEM/VIEW_PAGE";

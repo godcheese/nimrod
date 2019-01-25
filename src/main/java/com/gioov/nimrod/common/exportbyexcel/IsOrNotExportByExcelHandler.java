@@ -3,8 +3,6 @@ package com.gioov.nimrod.common.exportbyexcel;
 import com.gioov.nimrod.common.util.SpringContextUtil;
 import com.gioov.nimrod.system.entity.DictionaryEntity;
 import com.gioov.nimrod.system.service.DictionaryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 

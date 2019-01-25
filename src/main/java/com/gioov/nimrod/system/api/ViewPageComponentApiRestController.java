@@ -1,6 +1,6 @@
 package com.gioov.nimrod.system.api;
 
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.system.service.ViewPageComponentApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(Api.System.VIEW_PAGE_COMPONENT_API)
+@RequestMapping(Url.Api.System.VIEW_PAGE_COMPONENT_API)
 public class ViewPageComponentApiRestController {
 
     private static final String VIEW_PAGE_COMPONENT_API = "/API/SYSTEM/VIEW_PAGE_COMPONENT_API";
@@ -31,7 +31,7 @@ public class ViewPageComponentApiRestController {
      *
      * @param pageComponentId 视图页面组件 id
      * @param apiId           API id
-     * @return ResponseEntity<Map                               <                               String                               ,                                                               Object>>
+     * @return ResponseEntity<Map<String, Object>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE_COMPONENT_API + "/IS_ASSOCIATED_BY_PAGE_COMPONENT_ID_AND_API_ID')")
     @GetMapping(value = "/is_associated_by_page_component_id_and_api_id")
@@ -44,7 +44,7 @@ public class ViewPageComponentApiRestController {
      *
      * @param pageComponentId 视图页面组件 id
      * @param apiIdList       API id list
-     * @return ResponseEntity<List                               <                               Long>>
+     * @return ResponseEntity<List<Long>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE_COMPONENT_API + "/ASSOCIATE_ALL_BY_PAGE_COMPONENT_ID_AND_API_ID_LIST')")
     @PostMapping(value = "/associate_all_by_page_component_id_and_api_id_list")

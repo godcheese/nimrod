@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.mybatis.Sort;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
@@ -23,7 +23,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.System.OPERATION_LOG, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.System.OPERATION_LOG, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class OperationLogRestController {
 
     private static final String OPERATION_LOG = "/API/SYSTEM/OPERATION_LOG";
@@ -36,7 +36,7 @@ public class OperationLogRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result                               <                               OperationLogEntity>>
+     * @return ResponseEntity<Pagination.Result<OperationLogEntity>>
      */
     @OperationLog(value = "分页获取所有操作日志", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + OPERATION_LOG + "/PAGE_ALL')")

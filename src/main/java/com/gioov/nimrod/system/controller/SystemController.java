@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.controller;
 
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.common.constant.Page;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-
-import static com.gioov.nimrod.common.constant.Page.INDEX;
 import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
 
 /**
@@ -36,9 +32,9 @@ public class SystemController {
      */
     @OperationLog(value = "首页")
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAnyAuthority('/','/INDEX','/SYSTEM','/SYSTEM/INDEX')")
-    @RequestMapping(value = {"/", INDEX, Page.SYSTEM, Page.System.INDEX})
+    @RequestMapping(value = {"/", Url.Page.INDEX, Url.Page.SYSTEM, Url.Page.System.INDEX})
     public String index() {
-        return Common.filterStartSlash(Page.SYSTEM + "/index");
+        return Common.trimSlash(Url.Page.SYSTEM + "/index");
     }
 
     /**
@@ -48,9 +44,9 @@ public class SystemController {
      */
     @OperationLog(value = "工作台")
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/SYSTEM/WORKBENCH')")
-    @RequestMapping(value = Page.System.WORKBENCH)
+    @RequestMapping(value = Url.Page.System.WORKBENCH)
     public String workbench() {
-        return Common.filterStartSlash(Page.System.WORKBENCH);
+        return Common.trimSlash(Url.Page.System.WORKBENCH);
     }
 
 }

@@ -11,7 +11,7 @@
   <a href="https://travis-ci.org/godcheese/nimrod" rel="nofollow">
     <img src="https://travis-ci.org/godcheese/nimrod.svg?branch=master" alt="Build Status">
   </a>
-  <a href="https://github.com/godcheese/nimrod/blob/master/LICENSE">
+  <a href="https://github.com/godcheese/nirmod/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
   </a>
 <!--   <a href="https://gitter.im/repo-name/discuss">
@@ -27,11 +27,10 @@
 Nimrod 是一款基于 Spring Boot 封装的 Java Web 平台快速开发脚手架，所采用的技术栈包括 Spring Boot、Spring、Spring MVC、MyBatis、Thymeleaf等，遵守[阿里巴巴 Java 开发规约](https://github.com/alibaba/p3c)，帮助养成良好的编码习惯。整体采用 RBAC （ Role-Based Access Control ，基于角色的访问控制），具有严格的权限控制模块，支持系统与模块分离开发。最后希望这个项目能够对你有所帮助。
 
 - Nimrod 开发交流群：547252502（QQ 群）
-- [Preview](http://)
+- [Preview](http://150.109.70.167:8888/nimrod)
 - [Documentation](https://)
-- [Donate](https://)
+- [Donate](https://www.paypal.me/godcheese)
 - [Gitee](https://gitee.com/godcheese/nimrod)
-
 
 |环境  |版本|
 |:-----|---|
@@ -74,7 +73,7 @@ Nimrod 是一款基于 Spring Boot 封装的 Java Web 平台快速开发脚手�
 - 附件管理 ✓
 - 定时任务 ✗
 - 部门管理 ✓
-- 工作流 ✗
+- 工作流（Flowable） ✓
 
 ## 开始 Getting started
 
@@ -99,12 +98,12 @@ Detailed changes for each release are documented in the [release notes](https://
 
 ## 在线演示 Online Demo
 
-[Preview](https://github.com/godcheese/nimrod)
+[Preview](http://150.109.70.167:8888/nimrod)
 
 #### Screenshots
-![1.gif](./screenshots/1.png)
-![2.gif](./screenshots/2.png)
-![3.gif](./screenshots/3.png)
+![1.png](./screenshots/1.png)
+![2.png](./screenshots/2.png)
+![3.png](./screenshots/3.png)
 
 ## 捐赠 Donation
 

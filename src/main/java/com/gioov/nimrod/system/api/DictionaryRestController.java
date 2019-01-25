@@ -2,7 +2,7 @@ package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.DictionaryEntity;
 import com.gioov.nimrod.system.service.DictionaryService;
@@ -26,7 +26,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.System.DICTIONARY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.System.DICTIONARY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class DictionaryRestController {
 
     private static final String DICTIONARY = "/API/SYSTEM/DICTIONARY";
@@ -172,10 +172,12 @@ public class DictionaryRestController {
     }
 
     /**
-     * 指定数据字典 id ，获取数据字典信息
+     * 指定数据字典 id ，导出数据字典信息
      *
-     * @param id 数据字典 id
-     * @return ResponseEntity<DictionaryEntity>
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param idList
+     * @throws BaseResponseException
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/ONE')")
     @GetMapping(value = "/export_all_by_dictionary_category_id_list")

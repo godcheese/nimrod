@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div id="actHiProcinstToolbar">
+    <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/FLOWABLE/processInstance_DELETE_ALL'')')}"
+       href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+       onclick="actHiProcinstDeleteAll();">删除</a>
+</div>
+
+<table id="actHiProcinst"></table>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id_', title: '流程实例 ID'},
+            {field: 'processDefinitionName', title: '流程名'},
+            {field: 'processDiagram', title: '流程图', formatter: function (value, row, index) {
+                return '<a href="javascript:;" onclick="viewProcessDiagramDialog(\'' + row.procInstId_ + '\')">查看</a>';
+                }
+            },
+            {field: 'startTime_', title: '发起时间'},
+            {field: 'endTime_', title: '终止时间'},
+            {field: 'duration_', title: '耗时'},
+            {field: 'startUserId_', title: '发起人'},
+            {field: 'deleteReason_', title: '删除原因'},
+        ];
+
+        $('#actHiProcinst').datagrid(expressui.grid.create, {
+            title: '正在流转的流程实例',
+            url: Api.Flowable.ACT_HI_PROCINST + '/page_all_active',
+            columns: [columns],
+            idField: 'id_'
+        });
+    });
+
+    function actHiProcinstDeleteAll() {
+        var checked = $('#actHiProcinst').datagrid('getChecked');
+        var id_ = [];
+        for(var i=0; i<checked.length; i++) {
+            id_['id_[]'] = checked[i].id_;
+        }
+        $('#actHiProcinstDeleteAllDialog').dialog(expressui.dialog.create, {
+            title: '删除',
+            grid: {type: 'datagrid', selector: '#actHiProcinst'},
+            href: Page.Flowable.ACT_HI_PROCINST + '/delete_all_dialog',
+            // get: {url: Api.System.MAIL + '/one/{id}', method: 'get'},
+            save: {url: Api.Flowable.ACT_HI_PROCINST + '/delete_all', method: 'post', data: id_},
+            buttons: [{
+                text: '确定',
+                iconCls: 'fa fa-check',
+                handler: expressui.dialog.save,
+                reload: [{type: 'datagrid', selector: '#actHiProcinst'}],
+                success: '操作成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function viewProcessDiagramDialog(processInstanceId) {
+        $('#viewProcessDiagramDialog').dialog(expressui.dialog.create, {
+            title: '流程图',
+            width:800,
+            height:500,
+            content: '<img src="' + Api.Flowable.ACT_RE_PROCDEF + '/process_diagram?processInstanceId=' + processInstanceId + '">',
+            buttons: [{
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+
+    }
+
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.gioov.nimrod.user.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.entity.UserEntity;
 import com.gioov.nimrod.user.service.UserService;
@@ -21,7 +21,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.USER, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.USER, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserRestController {
 
     private static final String USER = "/API/USER";

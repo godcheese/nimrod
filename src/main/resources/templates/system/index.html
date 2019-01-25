@@ -3,7 +3,7 @@
 <head>
 
     <div th:replace="./widget/base(title=${#servletContext.getAttribute('WEB.NAME')})"></div>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
     <style>
 
         .happy {
@@ -85,10 +85,14 @@
     </style>
 </head>
 <body>
+<noscript>当你看到这条信息，意味着 JavaScript 已被你的浏览器禁用，请开启 JavaScript 以使你的设备正常访问。</noscript>
 
-<noscript>当你看到这条信息，意味着&lt;strong&gt; JavaScript 已被你的浏览器禁用&lt;/strong&gt;，请&lt;strong&gt;开启 JS
-    &lt;/strong&gt;以使你的设备正常访问。
-</noscript>
+<!--<div class="loading-wrap" id="loading" style="display: none;">-->
+    <!--<div class="loading-content">-->
+        <!--<div class="loading-round"></div>-->
+        <!--<div class="loading-dot"></div>-->
+    <!--</div>-->
+<!--</div>-->
 
 <!--[if lt IE 9]>
 <div class="happy">
@@ -113,7 +117,7 @@
 <div class="header">
 
     <div class="header-logo">
-        <!--<img src="/img/header_logo.png" alt="logo">-->
+        <!--<img src="/assets/img/header_logo.png" alt="logo">-->
         <span style="color:#ffffff;font-size:30px" th:utext="${#servletContext.getAttribute('WEB.NAME')}">Nimrod</span>
     </div>
     <div class="header-nav">
@@ -131,7 +135,7 @@
         <a href="javascript:" class="nav-next" style="display: none"><i class="fa fa-chevron-down"></i></a>
     </div>
     <div class="header-user">
-        <div class="user-avatar"><img th:src="@{/img/avatar.png}" alt="avatar"></div>
+        <div class="user-avatar"><img th:src="@{/assets/img/avatar.png}" alt="avatar"></div>
         <h4 class="user-name ellipsis" th:text="${_user.username}">Username</h4>
         <i class="fa fa-caret-down"></i>
         <ul class="user-dropdown-menu">
@@ -149,9 +153,9 @@
 </div>
 <div class="container">
     <div id="tabsContextMenu" class="easyui-menu" style="width: 140px;display: none">
-        <div id="mm-tabclose" name="6" iconCls="fa fa-refresh">刷新</div>
+        <div id="mm-tabclose" name="refresh" iconCls="fa fa-refresh">刷新</div>
         <div class="menu-sep"></div>
-        <div id="div1" name="1" iconCls="fa fa-close">关闭</div>
+        <div id="div1" name="close" iconCls="fa fa-close">关闭</div>
         <div id="mm-tabcloseother" name="3">关闭其他</div>
         <div id="mm-tabcloseall" name="2">关闭全部</div>
         <div class="menu-sep"></div>
@@ -198,6 +202,10 @@
 <![endif]-->
 
 <script type="text/javascript">
+
+    $(window).load(function () {
+        $("#loading").fadeOut();
+    });
 
     $(function () {
 

@@ -2,9 +2,575 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!--<div th:replace="./widget/base"></div>-->
-</head>
-<body style="padding:0;margin:0">
-<p>工作台</p>
-<p th:utext="${#servletContext.getAttribute('WEB.FOOTER')}"></p>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/assets/css/global.css}">-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/assets/css/workbench.css}">-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/font-awesome-4.7.0/css/font-awesome.css}">-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.7.1/themes/icon.css}">-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.7.1/themes/color.css}">-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.7.1/themes/default/easyui.css}"></head>-->
+
+    <div th:replace="./widget/base(title=${#servletContext.getAttribute('WEB.NAME')})"></div>
+    <script type="text/javascript" th:src="@{/assets/vendor/echarts.min.js}"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/workbench.css}">
+
+<body style="margin:0;padding: 10px 5px 5px 10px;">
+
+<div class="container">
+    <div id="body">
+        <div class="body-content">
+            <div class="right-zone">
+                <div class="right-box-one item-box">
+                    <div class="right-box-header">
+                        <label>通知公告</label>
+                        <a href="javascript:;">更多<span>&gt;</span></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">摩拜成为历史，前员工回忆昔日辉煌：“ofo根本就不是对手”</a>
+                            <label>01-11</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">程序员放弃互联网选择去银行，但想到同学工资高好几倍心里不平衡</a>
+                            <label>01-10</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">第二大内存制造商海力士两年来利润首降</a>
+                            <label>01-09</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">法国小哥感谢微信支付进入法国 要请马化腾来巴黎吃饭</a>
+                            <label>01-08</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">恶意扣费、信息窃取！7873款恶意APP被集中清理</a>
+                            <label>01-07</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">谷歌要求美国高院终止甲骨文Java侵权诉讼</a>
+                            <label>01-06</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="right-box-two item-box">
+                    <div class="right-box-header">
+                        <label>公司新闻</label>
+                        <a href="javascript:;">更多<span>&gt;</span></a>
+                    </div>
+                    <ul>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">电商平台，如何做好站内信功能</a>
+                            <label>01-11</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">戴森被中国人买成首富！一年大赚百亿 技术控还是营销大师？</a>
+                            <label>01-10</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">小程序，大视界：一文解读微信小程序用户行为</a>
+                            <label>01-09</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">摩拜这个名字价值16亿元，可惜美团已经下定改名决心</a>
+                            <label>01-08</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">淘宝卖家：一天几千营业额，还要省吃俭用，看直通车账户</a>
+                            <label>01-07</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">微软正在开发下一个Win10版本 预计年底发布</a>
+                            <label>01-06</label>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">滴滴顺风车春运将上线？官方回应！</a>
+                            <label>01-05</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="right-box-three item-box">
+                    <div class="right-box-header">
+                        <label>附件下载</label>
+                        <a href="javascript:;">更多<span>&gt;</span></a>
+                    </div>
+                    <div class="right-box-tab">
+                        <a class="current item-left" href="#attachmentCategory1">附件目录1</a>
+                        <a class="item-right" href="#attachmentCategory2">附件目录2</a>
+                    </div>
+                    <div class="right-box-tab-list">
+                    <ul id="attachmentCategory1">
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件1.xlsx</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件2.xls</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件3.doc</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件4.ppt</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件5.doc</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件6.doc</a>
+                        </li>
+                    </ul>
+                    <ul id="attachmentCategory2" class="hide">
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件7.doc</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件8.doc</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件9.doc</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件10.doc</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件11.doc</a>
+                        </li>
+                        <li>
+                            <span></span>
+                            <a href="javascript:;" class="ellipsis">文件12.doc</a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="center-part">
+                <div class="center-items todo">
+                    <div class="calendar-part">
+                        <div class="easyui-calendar" style="width:205px;height:231px;"></div>
+                    </div>
+                    <ul class="work-items clearfix">
+                        <li>
+                            <div class="work-inner">
+                                <div class="work-item blue">
+                                    <i class="fa fa-list" aria-hidden="true"></i>
+                                    <span class="num">21&nbsp;<span class="unit">个</span></span>
+                                    <label>我的待办</label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="work-inner">
+                                <div class="work-item red">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    <span class="num">3&nbsp;<span class="unit">条</span></span>
+                                    <label>未读预警信息</label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="work-inner">
+                                <div class="work-item yellow">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="num">12&nbsp;<span class="unit">封</span></span>
+                                    <label>邮件未读</label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="work-inner">
+                                <div class="work-item green">
+                                    <i class="fa fa-cny"></i>
+                                    <span title="8888,88万" class="num">8888,88&nbsp;<span class="unit">万</span></span>
+                                    <label>我的询价</label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="work-inner">
+                                <div class="work-item purple">
+                                    <i class="fa fa-book"></i>
+                                    <span title="6666,66万" class="num">666,66&nbsp;<span class="unit">万</span></span>
+                                    <label>签约金额</label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="work-inner">
+                                <div class="work-item gray">
+                                    <i class="fa fa-handshake-o"></i>
+                                    <span class="num">&nbsp;12&nbsp;<span class="unit">个</span></span>
+                                    <label>供应商数</label>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="center-items chart0 clearfix">
+                    <div class="chart0-item">
+                        <div class="item-inner">
+                            <div class="item-content">
+                                <div class="content-hd">员工归属地</div>
+                                <div class="chart-chart" id="chart0"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart0-item">
+                        <div class="item-inner">
+                            <div class="item-content">
+                                <div class="content-hd">项目成交金额</div>
+                                <div class="chart-chart" id="chart1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="center-items chart1">
+                    <div class="chart1-inner">
+                        <div class="item-hd">各平台使用频次</div>
+                        <div class="chart1-chart" id="chart3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="todo-panel">
+    <div class="todo-title">
+        <i class="fa fa-list" aria-hidden="true"></i>
+        <span class="num">21&nbsp;<span class="unit">个</span></span>
+        <label>待办未处理</label>
+    </div>
+    <div class="todo-items">
+        <ul>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>10条</span>供应商开发申请未处理<i></i></a>
+                <label>01-11</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>10条</span>供应商开发申请未处理<i></i></a></a>
+                <label>01-11</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>14条</span>供应商开发申请未处理，请及时审批<i></i></a></a>
+                <label>01-11</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>3条</span>供应商开发申请未处理，请及时审批</a></a>
+                <label>01-11</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>3条</span>供应商开发申请未处理，请及时审批</a></a>
+                <label>01-11</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>5条</span>供应商开发申请未处理，请及时审批，未处理会导致失效</a></a>
+                <label>01-11</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>2条</span>供应商开发申请未处理，请及时审批，未处理会导致失效</a></a>
+                <label>01-11</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>1条</span>供应商开发申请未处理，请及时审批，未处理会导致失效</a></a>
+                <label>01-10</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>6条</span>供应商开发申请未处理，请及时审批，未处理</a></a>
+                <label>01-10</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>7条</span>供应商开发申请未处理，请及时审批，未处理会导致失效</a></a>
+                <label>01-10</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>1条</span>供应商开发申请未处理，未处理会导致失效</a></a>
+                <label>01-10</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>3条</span>开发申请未处理，请及时审批，未处理会导致失效</a></a>
+                <label>01-09</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>5条</span>供应商开发申请未处理，请及时审批，未处理会导致失效</a></a>
+                <label>01-09</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>6条</span>供应商开发申请未处理，请及时审批，会导致失效</a></a>
+                <label>01-09</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>3条</span>供应商开发申请未处理，请及时审批，未处理</a></a>
+                <label>01-09</label>
+            </li>
+            <li>
+                <span></span>
+                <a href="javascript:;" class="ellipsis">您有<span>2条</span>供应商开发申请未处理，请及时审批</a></a>
+                <label>01-09</label>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--<script type="text/javascript" th:src="@{/assets/vendor/jquery/jquery-1.11.3.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/assets/vendor/jquery-easyui-1.7.1/jquery.easyui.min.js}"></script>-->
+<!-- <script type="text/javascript" src="js/menu.js"></script> -->
+
+<script type="text/javascript">
+    //chart0
+
+    $(document).ready(function(){
+        var option0 = {
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient : 'vertical',
+                x : 'left',
+                data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+                show:false
+            },
+            toolbox: {
+                show : false,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {
+                        show: true,
+                        type: ['pie', 'funnel'],
+                        option: {
+                            funnel: {
+                                x: '25%',
+                                width: '50%',
+                                funnelAlign: 'center',
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            series : [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius : ['50%', '70%'],
+                    itemStyle : {
+                        normal : {
+                            label : {
+                                show : false
+                            },
+                            labelLine : {
+                                show : false
+                            }
+                        },
+                        emphasis : {
+                            label : {
+                                show : true,
+                                position : 'center',
+                                textStyle : {
+                                    fontSize : '30',
+                                    fontWeight : 'bold'
+                                }
+                            }
+                        }
+                    },
+                    data:[
+                        {value:335, name:'直接访问'},
+                        {value:310, name:'邮件营销'},
+                        {value:234, name:'联盟广告'},
+                        {value:135, name:'视频广告'},
+                        {value:1548, name:'搜索引擎'}
+                    ]
+                }
+            ]
+        };
+
+        var myChart0 = echarts.init(document.getElementById('chart0'));
+        myChart0.setOption(option0);
+
+        //chart1
+        var option1 = {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎'],
+                show:false
+            },
+            toolbox: {
+                show : false,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['第一周','第二周','第三周','第四周','第五周','第六周','第七周']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'邮件营销',
+                    type:'line',
+                    stack: '总量',
+                    data:[120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name:'联盟广告',
+                    type:'line',
+                    stack: '总量',
+                    data:[220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name:'视频广告',
+                    type:'line',
+                    stack: '总量',
+                    data:[150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    name:'直接访问',
+                    type:'line',
+                    stack: '总量',
+                    data:[320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name:'搜索引擎',
+                    type:'line',
+                    stack: '总量',
+                    data:[820, 932, 901, 934, 1290, 1330, 1320]
+                }
+            ]
+        };
+        var myChart1 = echarts.init(document.getElementById('chart1'));
+        myChart1.setOption(option1);
+
+        var option3 = {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['蒸发量'],
+                show:false
+            },
+            toolbox: {
+                show : false,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : ['采购组织','供应商','新物料','OA','信息管理','业务系统','采购商']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'蒸发量',
+                    type:'bar',
+                    data:[60, 45, 73, 23, 37, 48, 18],
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name: '平均值'}
+                        ]
+                    }
+                }
+            ]
+        };
+
+        var myChart3 = echarts.init(document.getElementById('chart3'));
+        myChart3.setOption(option3);
+
+        //我的待办点击事件
+        $(document).on('click','.work-item.blue',function(event){
+            var width = (2 * $(this).width()) + 10;
+            $(".todo-panel").width(width -2).css({top:$(this).offset().top,left:$(this).offset().left}).show();
+            event.stopPropagation();
+        });
+        $(".todo-panel").click(function(){
+            event.stopPropagation();
+        });
+        $(document).click(function(){
+            $(".todo-panel").hide();
+        });
+
+    });
+
+    // 附件下载 tab 事件处理
+    $(".right-box-tab").on("click","a",function(){
+        $(this).closest(".right-box-tab").find("a").removeClass("current");
+        $(this).addClass("current");
+        $(this).closest(".right-box-tab-list").find("ul").addClass("hide");
+        $(this).closest(".right-box-tab-list").find("ul" + $(this).attr("href")).removeClass("hide");
+    })
+
+</script>
 </body>
 </html>

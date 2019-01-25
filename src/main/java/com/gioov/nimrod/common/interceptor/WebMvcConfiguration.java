@@ -1,7 +1,6 @@
 package com.gioov.nimrod.common.interceptor;
 
-import com.gioov.nimrod.common.constant.Page;
-import com.gioov.nimrod.common.constant.Url;
+import com.gioov.nimrod.common.Url;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -30,7 +29,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         // WebInterceptor
         registry.addInterceptor(webInterceptor())
                 .addPathPatterns(Url.ALL_PATH_PATTERN)
-                .excludePathPatterns(Page.STATIC);
+                .excludePathPatterns(Url.STATIC);
 
 //        // ApiInterceptor
 //        registry.addInterceptor(apiInterceptor())

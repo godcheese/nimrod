@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
 import com.gioov.nimrod.system.service.DictionaryCategoryService;
@@ -20,7 +20,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(Api.System.DICTIONARY_CATEGORY)
+@RequestMapping(Url.Api.System.DICTIONARY_CATEGORY)
 public class DictionaryCategoryRestController {
 
     private static final String DICTIONARY_CATEGORY = "/API/SYSTEM/DICTIONARY_CATEGORY";
@@ -33,7 +33,7 @@ public class DictionaryCategoryRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result                               <                               DictionaryCategoryEntity>>
+     * @return ResponseEntity<Pagination.Result<DictionaryCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY_CATEGORY + "/PAGE_ALL_PARENT')")
     @GetMapping(value = "/page_all_parent")

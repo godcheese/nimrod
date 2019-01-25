@@ -2,7 +2,7 @@ package com.gioov.nimrod.user.service.impl;
 
 import com.gioov.common.mybatis.Pageable;
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.constant.FailureMessage;
+import com.gioov.nimrod.common.FailureMessage;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.entity.RoleEntity;
 import com.gioov.nimrod.user.entity.UserRoleEntity;

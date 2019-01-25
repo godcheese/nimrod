@@ -1,7 +1,7 @@
 package com.gioov.nimrod.common.security;
 
 import com.gioov.common.util.ImageUtil;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +42,18 @@ public class VerifyCodeFilter extends OncePerRequestFilter {
     }
 
     private void verifyCodeCheck(HttpServletRequest httpServletRequest) throws VerifyCodeCheckException {
-        if (httpServletRequest.getRequestURI().equalsIgnoreCase(httpServletRequest.getContextPath() + Api.User.LOGIN)) {
+        if (httpServletRequest.getRequestURI().equalsIgnoreCase(httpServletRequest.getContextPath() + Url.Api.User.LOGIN)) {
             HttpSession httpSession = httpServletRequest.getSession();
             ImageUtil.VerifyCodeImage verifyCodeImage = (ImageUtil.VerifyCodeImage) httpSession.getAttribute(VERIFY_CODE_NAME);
             String requestVerifyCode = httpServletRequest.getParameter(VERIFY_CODE_NAME);
+
             if (requestVerifyCode == null || "".equals(requestVerifyCode) || verifyCodeImage == null) {
                 throw new VerifyCodeCheckException("验码不正确");
-            } else {
-                if (verifyCodeImage.isExpire()) {
-                    throw new VerifyCodeCheckException("验证码已过期");
-                } else if (!requestVerifyCode.equalsIgnoreCase(verifyCodeImage.getVerifyCode().toLowerCase())) {
-                    httpSession.removeAttribute(VERIFY_CODE_NAME);
-                    throw new VerifyCodeCheckException("验证码不正确");
-                }
+            } else if (verifyCodeImage.isExpire()) {
+                throw new VerifyCodeCheckException("验证码已过期");
+            } else if (!requestVerifyCode.equalsIgnoreCase(verifyCodeImage.getVerifyCode().toLowerCase())) {
+                httpSession.removeAttribute(VERIFY_CODE_NAME);
+                throw new VerifyCodeCheckException("验证码不正确");
             }
         }
     }

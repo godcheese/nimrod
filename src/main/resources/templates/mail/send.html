@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+
+<div class="submit-form" id="send" style="width: 500px;margin:0">
+    <form>
+        <table class="submit-table">
+            <tr>
+                <td class="label">发件人：</td>
+                <td>
+                    <input name="from" class="easyui-textbox" data-options="required:false">
+                </td>
+            </tr>
+            <tr>
+                <td class="label">收件人：</td>
+                <td>
+                    <input name="to" class="easyui-textbox" data-options="required:true">
+                </td>
+            </tr>
+            <tr>
+                <td class="label">主题：</td>
+                <td>
+                    <input name="subject" class="easyui-textbox" data-options="required:false">
+                </td>
+            </tr>
+            <tr>
+                <td class="label">内容：</td>
+                <td><input name="text" class="easyui-textbox" style="height:50px;"
+                           data-options="required:true,multiline:true"></td>
+            </tr>
+
+            <tr>
+                <td class="label">是否为 HTML：</td>
+                <td><input name="html" id="html" class="easyui-combobox">
+                </td>
+            </tr>
+            <tr>
+                <td class="label">备注：</td>
+                <td><input name="remark" class="easyui-textbox" style="height:50px;"
+                           data-options="required:false,multiline:true"></td>
+            </tr>
+
+        </table>
+        <div class="submit-button">
+            <a href="javascript:expressui.form.submit({selector:'#send', url:Api.MAIL + '/add_one', method:'post', success: '操作成功', reset: '#send'});"
+               class="easyui-linkbutton" data-options="iconCls:'fa fa-paper-plane'">发送</a>
+            <a href="javascript:expressui.form.reset('#send')" class="easyui-linkbutton"
+               data-options="iconCls:'fa fa-refresh'">重置</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(function () {
+        $('#html').combobox({
+            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            valueField: 'value',
+            textField: 'valueName',
+            required: true
+        });
+    });
+</script>
+</body>
+</html>

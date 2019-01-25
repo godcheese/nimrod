@@ -1,6 +1,6 @@
 package com.gioov.nimrod.user.api;
 
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.entity.ViewMenuEntity;
 import com.gioov.nimrod.user.service.ViewMenuService;
@@ -20,7 +20,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.User.VIEW_MENU, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.User.VIEW_MENU, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ViewMenuRestController {
 
     private static final String VIEW_MENU = "/API/USER/VIEW_MENU";

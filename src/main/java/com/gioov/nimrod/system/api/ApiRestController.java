@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.constant.Api;
+import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.ApiEntity;
 import com.gioov.nimrod.system.service.ApiService;
@@ -21,7 +21,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Api.System.API, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Url.Api.System.API, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiRestController {
 
     private static final String API = "/API/SYSTEM/API";
@@ -35,7 +35,7 @@ public class ApiRestController {
      * @param page          页
      * @param rows          每页显示数量
      * @param apiCategoryId API 分类 id
-     * @return ResponseEntity<Pagination.Result                               <                               ApiEntity>>
+     * @return ResponseEntity<Pagination.Result<ApiEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + API + "/PAGE_ALL_BY_API_CATEGORY_ID')")
     @GetMapping(value = "/page_all_by_api_category_id/{apiCategoryId}")
