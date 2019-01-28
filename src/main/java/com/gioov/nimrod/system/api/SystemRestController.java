@@ -3,6 +3,7 @@ package com.gioov.nimrod.system.api;
 import com.gioov.common.util.ColorUtil;
 import com.gioov.common.util.ImageUtil;
 import com.gioov.common.util.RandomUtil;
+import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
@@ -41,7 +42,7 @@ public class SystemRestController {
      */
     @OperationLog(value = "获取验证码", type = OperationLogType.API)
     @GetMapping(value = "/verify_code")
-    public void verifyCode(HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    public void verifyCode(HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) throws BaseResponseException {
         long expireIn = Long.valueOf((String) dictionaryService.get("VERIFY_CODE", "EXPIRE_IN"));
         Boolean yawp = Boolean.valueOf((String) dictionaryService.get("VERIFY_CODE", "YAWP"));
         int stringLength = Integer.valueOf((String) dictionaryService.get("VERIFY_CODE", "STRING_LENGTH"));
@@ -64,7 +65,11 @@ public class SystemRestController {
             ImageIO.write(verifyCodeImage.getBufferedImage(), "jpg", httpServletResponse.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
+            throw new BaseResponseException("验证码生成发生错误");
         }
+
+
+
     }
 
 }

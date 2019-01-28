@@ -18,11 +18,4 @@ public class NimrodJarBootstrap {
         SpringApplication.run(NimrodJarBootstrap.class, args);
         LOGGER.info("==================={}===================", "Nimrod is started");
     }
-
-//    @Bean
-//    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-//        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-//        propertySourcesPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
-//        return propertySourcesPlaceholderConfigurer;
-//    }
 }

@@ -14,9 +14,9 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/workbench.css}">
 
-<body style="margin:0;padding: 10px 5px 5px 10px;">
+<body style="overflow-x: hidden">
 
-<div class="container">
+<div class="container" style="margin:0;padding: 10px 5px 5px 10px;">
     <div id="body">
         <div class="body-content">
             <div class="right-zone">
@@ -107,7 +107,7 @@
                         <a href="javascript:;">更多<span>&gt;</span></a>
                     </div>
                     <div class="right-box-tab">
-                        <a class="current item-left" href="#attachmentCategory1">附件目录1</a>
+                         <a class="current item-left" href="#attachmentCategory1">附件目录1</a>
                         <a class="item-right" href="#attachmentCategory2">附件目录2</a>
                     </div>
                     <div class="right-box-tab-list">
@@ -232,7 +232,7 @@
                     <div class="chart0-item">
                         <div class="item-inner">
                             <div class="item-content">
-                                <div class="content-hd">员工归属地</div>
+                                <div class="content-header">访问来源</div>
                                 <div class="chart-chart" id="chart0"></div>
                             </div>
                         </div>
@@ -240,7 +240,7 @@
                     <div class="chart0-item">
                         <div class="item-inner">
                             <div class="item-content">
-                                <div class="content-hd">项目成交金额</div>
+                                <div class="content-header">每周访问来源频次</div>
                                 <div class="chart-chart" id="chart1"></div>
                             </div>
                         </div>
@@ -248,7 +248,7 @@
                 </div>
                 <div class="center-items chart1">
                     <div class="chart1-inner">
-                        <div class="item-hd">各平台使用频次</div>
+                        <div class="item-header">各平台使用频次</div>
                         <div class="chart1-chart" id="chart3"></div>
                     </div>
                 </div>
@@ -500,7 +500,7 @@
                 trigger: 'axis'
             },
             legend: {
-                data:['蒸发量'],
+                data:['访问次数'],
                 show:false
             },
             toolbox: {
@@ -527,7 +527,7 @@
             ],
             series : [
                 {
-                    name:'蒸发量',
+                    name:'访问次数',
                     type:'bar',
                     data:[60, 45, 73, 23, 37, 48, 18],
                     markPoint : {

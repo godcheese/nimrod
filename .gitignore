@@ -24,9 +24,6 @@
 /nbdist/
 /.nb-gradle/
 
-
-# upload
+### Nimrod ###
 /upload
-
-# logs
 /logs

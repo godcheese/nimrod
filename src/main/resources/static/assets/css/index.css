@@ -215,11 +215,11 @@ ol, ul {
     width:220px;
 }
 
-#left .secondMenu .accordion-nimrodheader {
+#left .secondMenu .accordion-header {
     height: 30px;
 }
 
-#left .secondMenu .accordion-nimrodheader .panel-title {
+#left .secondMenu .accordion-header .panel-title {
     height: 30px;
     line-height: 30px;
     padding-left: 15px;
@@ -402,10 +402,6 @@ ol, ul {
     overflow: hidden;
 }
 
-#left .accordion .accordion-nimrodheader-selected .panel-title {
-    color: #fff;
-}
-
 #left .panel-title {
     font-size: 12px;
     font-weight: normal;
@@ -431,14 +427,6 @@ ol, ul {
     height: 18px;
     line-height: 18px;
 }
-
-#left .accordion .accordion-nimrodheader {
-    height: 24px;
-}
-
-
-
-
 
 .submitButton{
     margin:10px;

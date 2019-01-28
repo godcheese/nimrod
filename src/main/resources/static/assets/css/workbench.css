@@ -14,19 +14,17 @@ body .todo-panel .todo-items ul li a>span{color:#f45438}
 body .todo-panel .todo-items ul li label{float:right;color:#b8b8b8}
 #body .body-content{position:relative;padding-right:300px}
 #body .body-content .right-zone{position:absolute;right:0;top:0;bottom:0;width:300px}
-#body .item-box{width:298px;border:1px solid #bfbfbf;margin-bottom:10px}
+#body .item-box{width:297px;border:1px solid #bfbfbf;margin-bottom:12px}
 #body .item-box.right-box-one{height:231px}
 #body .item-box.right-box-two{height:272px}
-#body .item-box.right-box-three{height:272px;margin-bottom:0}
-#body .item-box.right-box-three .right-box-header{border-bottom:0}
-#body .item-box.right-box-three .right-box-tab{height:31px;border-top:2px solid #0089d0;margin-bottom:5px}
-#body .item-box.right-box-three .right-box-tab a{display:inline-block;width:147px;height:31px;float:left;border:1px solid #bfbfbf;border-top:0;color:#000;text-align:center;line-height:31px;text-decoration:none;background-color:#f1f1f1}
-#body .item-box.right-box-three .right-box-tab a.item-left{border-left:1px solid #f1f1f1}
-#body .item-box.right-box-three .right-box-tab a.item-right{border-right:1px solid #f1f1f1}
-#body .item-box.right-box-three .right-box-tab a.current{font-weight:bold;border:1px solid #fff;background-color:#fff}
+#body .item-box.right-box-three{height:272px;}
+#body .item-box.right-box-three .right-box-header{border-bottom:0;}
+#body .item-box.right-box-three .right-box-tab{height:31px;border-top:2px solid #0089d0;margin-bottom:5px;border-left:1px solid #bfbfbf}
+#body .item-box.right-box-three .right-box-tab a{display:inline-block;width:147px;height:31px;float:left;border:0;color:#000;text-align:center;line-height:31px;text-decoration:none;background-color:#f1f1f1}
+#body .item-box.right-box-three .right-box-tab a.current{background-color:#fff;border-bottom:1px solid #bfbfbf;}
 #body .item-box.right-box-three ul.hide{display:none}
 #body .item-box.right-box-three ul li a{width:260px}
-#body .item-box .right-box-header{padding:0 10px;height:35px;line-height:35px;border-bottom:1px solid #bfbfbf;background-color:#e3e3e3}
+#body .item-box .right-box-header{padding:0 10px;height:35px;line-height:35px;background-color:#e3e3e3;border-left:1px solid #bfbfbf;}
 #body .item-box .right-box-header label{color:#000;font-weight:bold}
 #body .item-box .right-box-header a{text-decoration:none;float:right;color:#000}
 #body .item-box .right-box-header a:hover{text-decoration:underline}
@@ -37,7 +35,7 @@ body .todo-panel .todo-items ul li label{float:right;color:#b8b8b8}
 #body .item-box ul li a:hover{text-decoration:underline}
 #body .item-box ul li label{float:right;color:#b8b8b8}
 #body .center-part .center-items{margin-bottom:10px}
-#body .center-part .center-items .item-hd{padding:0 10px;height:35px;line-height:35px;border-bottom:1px solid #bfbfbf;background-color:#e3e3e3;font-weight:bold}
+#body .center-part .center-items .item-header{padding:0 10px;height:35px;line-height:35px;border-bottom:1px solid #bfbfbf;background-color:#e3e3e3;font-weight:bold}
 #body .center-part .center-items.todo{position:relative;height:233px;padding-right:215px}
 #body .center-part .center-items.todo .calendar-part{position:absolute;right:0;width:215px;top:0;bottom:0}
 #body .center-part .center-items.todo .work-items{height:233px}
@@ -57,7 +55,7 @@ body .todo-panel .todo-items ul li label{float:right;color:#b8b8b8}
 #body .center-part .center-items.chart0{height:274px}#body .center-part .center-items.chart0 .chart0-item{float:left;width:50%}
 #body .center-part .center-items.chart0 .chart0-item .item-inner{padding-right:10px}
 #body .center-part .center-items.chart0 .chart0-item .item-inner .item-content{height:272px;border:1px solid #bfbfbf}
-#body .center-part .center-items.chart0 .chart0-item .item-inner .item-content .content-hd{padding:0 10px;height:35px;line-height:35px;border-bottom:1px solid #bfbfbf;background-color:#e3e3e3;font-weight:bold}
+#body .center-part .center-items.chart0 .chart0-item .item-inner .item-content .content-header{padding:0 10px;height:35px;line-height:35px;border-bottom:1px solid #bfbfbf;background-color:#e3e3e3;font-weight:bold}
 #body .center-part .center-items.chart0 .chart0-item .item-inner .item-content .chart-chart{height:236px}
 #body .center-part .center-items.chart1{padding-right:10px;height:274px;border:0;margin-bottom:0}
 #body .center-part .center-items.chart1 .chart1-inner{height:272px;border:1px solid #bfbfbf}
