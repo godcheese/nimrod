@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getOneByEmailAndPassword(String email, String password) {
-        UserEntity userEntity = userMapper.getOneByEmail(email);
+    public UserEntity getOneByMailAndPassword(String mail, String password) {
+        UserEntity userEntity = userMapper.getOneByMail(mail);
         if (checkPassword(password, userEntity.getPassword())) {
             return userEntity;
         }
@@ -225,8 +225,8 @@ public class UserServiceImpl implements UserService {
             throw new BaseResponseException("该用户名已存在");
         }
         userEntity.setUsername(userEntity.getUsername());
-        userEntity.setEmail(userEntity.getEmail());
-        userEntity.setEmailIsVerified(userEntity.getEmailIsVerified());
+        userEntity.setMail(userEntity.getMail());
+        userEntity.setMailIsVerified(userEntity.getMailIsVerified());
         userEntity.setRemark(userEntity.getRemark());
         userEntity.setGmtModified(new Date());
         userMapper.updateOne(userEntity);

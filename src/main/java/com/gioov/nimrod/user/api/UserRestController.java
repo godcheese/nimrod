@@ -61,18 +61,18 @@ public class UserRestController {
      *
      * @param password 用户密码
      * @param username 用户名
-     * @param email    用户电子邮箱
+     * @param mail    用户电子邮箱
      * @param remark   备注
      * @return ResponseEntity<UserEntity>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/ADD_ONE')")
     @PostMapping(value = "/add_one")
-    public ResponseEntity<UserEntity> addOne(@RequestParam String password, @RequestParam String username, @RequestParam String email, @RequestParam Integer emailIsVerified, @RequestParam Long departmentId, @RequestParam String remark) throws BaseResponseException {
+    public ResponseEntity<UserEntity> addOne(@RequestParam String password, @RequestParam String username, @RequestParam String mail, @RequestParam Integer mailIsVerified, @RequestParam Long departmentId, @RequestParam String remark) throws BaseResponseException {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(username);
         userEntity.setPassword(password);
-        userEntity.setEmail(email);
-        userEntity.setEmailIsVerified(emailIsVerified);
+        userEntity.setMail(mail);
+        userEntity.setMailIsVerified(mailIsVerified);
         userEntity.setDepartmentId(departmentId);
         userEntity.setRemark(remark);
         UserEntity userEntity1 = userService.insertOne(userEntity);
@@ -84,18 +84,18 @@ public class UserRestController {
      *
      * @param id       用户 id
      * @param username 用户名
-     * @param email    用户电子邮箱
+     * @param mail    用户电子邮箱
      * @param remark   备注
      * @return ResponseEntity<UserEntity>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/SAVE_ONE')")
     @PostMapping(value = "/save_one")
-    public ResponseEntity<UserEntity> saveOne(@RequestParam Long id, @RequestParam String username, @RequestParam String email, @RequestParam Integer emailIsVerified, @RequestParam String remark) throws BaseResponseException {
+    public ResponseEntity<UserEntity> saveOne(@RequestParam Long id, @RequestParam String username, @RequestParam String mail, @RequestParam Integer mailIsVerified, @RequestParam String remark) throws BaseResponseException {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(id);
         userEntity.setUsername(username);
-        userEntity.setEmail(email);
-        userEntity.setEmailIsVerified(emailIsVerified);
+        userEntity.setMail(mail);
+        userEntity.setMailIsVerified(mailIsVerified);
         userEntity.setRemark(remark);
         UserEntity userEntity1 = userService.updateOne(userEntity);
         return new ResponseEntity<>(userEntity1, HttpStatus.OK);

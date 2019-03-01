@@ -29,12 +29,12 @@ public class UserEntity implements Serializable, Cloneable {
     /**
      * 电子邮箱
      */
-    private String email;
+    private String mail;
 
     /**
      * 电子邮箱是否已验证
      */
-    private Integer emailIsVerified;
+    private Integer mailIsVerified;
 
     /**
      * 部门 id
@@ -86,20 +86,20 @@ public class UserEntity implements Serializable, Cloneable {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public Integer getEmailIsVerified() {
-        return emailIsVerified;
+    public Integer getMailIsVerified() {
+        return mailIsVerified;
     }
 
-    public void setEmailIsVerified(Integer emailIsVerified) {
-        this.emailIsVerified = emailIsVerified;
+    public void setMailIsVerified(Integer mailIsVerified) {
+        this.mailIsVerified = mailIsVerified;
     }
 
     public Long getDepartmentId() {
@@ -148,8 +148,8 @@ public class UserEntity implements Serializable, Cloneable {
                 "id=" + id +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", emailIsVerified=" + emailIsVerified +
+                ", mail='" + mail + '\'' +
+                ", mailIsVerified=" + mailIsVerified +
                 ", departmentId=" + departmentId +
                 ", remark='" + remark + '\'' +
                 ", gmtDeleted=" + gmtDeleted +

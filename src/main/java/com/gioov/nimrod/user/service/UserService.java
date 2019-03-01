@@ -37,11 +37,11 @@ public interface UserService {
     /**
      * 指定电子邮箱、密码，获取用户
      *
-     * @param email    电子邮箱
+     * @param mail    电子邮箱
      * @param password 用户密码
      * @return UserEntity
      */
-    UserEntity getOneByEmailAndPassword(String email, String password);
+    UserEntity getOneByMailAndPassword(String mail, String password);
 
     /**
      * 指定手机号、密码，获取用户
