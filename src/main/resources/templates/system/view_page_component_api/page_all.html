@@ -43,12 +43,12 @@
         ];
         $('#viewPageComponentApiCategory').treegrid(expressui.grid.create, {
             title: 'API 分类',
-            url: Api.System.API_CATEGORY + '/page_all_parent',
-            expandUrl: Api.System.API_CATEGORY + '/list_all_by_parent_id/{id}',
+            url: Url.System.Api.API_CATEGORY + '/page_all_parent',
+            expandUrl: Url.System.Api.API_CATEGORY + '/list_all_by_parent_id/{id}',
             columns: [columns],
             onCheck: function (row) {
                 if (row) {
-                    $('#viewPageComponentApi').datagrid('reload', Api.System.API + '/page_all_by_api_category_id/' + row.id);
+                    $('#viewPageComponentApi').datagrid('reload', Url.System.Api.API + '/page_all_by_api_category_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -65,7 +65,7 @@
                 field: 'is_associated', title: '关联状态', formatter: function (value, row) {
                     var isAssociated = '未关联';
                     expressui.ajax({
-                        url: Api.System.VIEW_PAGE_COMPONENT_API + '/is_associated_by_page_component_id_and_api_id/?pageComponentId=' + pageComponentId + '&apiId=' + row.id,
+                        url: Url.System.Api.VIEW_PAGE_COMPONENT_API + '/is_associated_by_page_component_id_and_api_id/?pageComponentId=' + pageComponentId + '&apiId=' + row.id,
                         success: function (data) {
                             if (data && (data.isAssociated === true)) {
                                 isAssociated = '已关联';
@@ -93,18 +93,18 @@
 
     function associateAllViewPageComponentApi() {
 
-        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
         //         $('#role').datagrid('reload');
         //     } });
 
-        var selectAll = $('#viewPageComponentApi').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#viewPageComponentApi').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var apiIdList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 apiIdList[i] = selectAll[i].id;
             }
             expressui.ajax({
-                url: Api.System.VIEW_PAGE_COMPONENT_API + '/associate_all_by_page_component_id_and_api_id_list',
+                url: Url.System.Api.VIEW_PAGE_COMPONENT_API + '/associate_all_by_page_component_id_and_api_id_list',
                 data: {pageComponentId: pageComponentId, apiIdList: apiIdList},
                 type: 'post',
                 success: function (data) {
@@ -122,18 +122,18 @@
 
     function revokeAssociateAllViewPageComponentApi() {
 
-        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
         //         $('#role').datagrid('reload');
         //     } });
 
-        var selectAll = $('#viewPageComponentApi').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#viewPageComponentApi').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var apiIdList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 apiIdList[i] = selectAll[i].id;
             }
             expressui.ajax({
-                url: Api.System.VIEW_PAGE_COMPONENT_API + '/revoke_associate_all_by_page_component_id_and_api_id_list',
+                url: Url.System.Api.VIEW_PAGE_COMPONENT_API + '/revoke_associate_all_by_page_component_id_and_api_id_list',
                 data: {pageComponentId: pageComponentId, apiIdList: apiIdList},
                 type: 'post',
                 success: function (data) {

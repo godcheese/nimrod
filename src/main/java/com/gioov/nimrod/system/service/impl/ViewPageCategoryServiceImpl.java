@@ -31,14 +31,12 @@ public class ViewPageCategoryServiceImpl implements ViewPageCategoryService {
 
     @Override
     public Pagination.Result<ViewPageCategoryEntity> pageAllParent(Integer page, Integer rows) {
-        List<ViewPageCategoryEntity> viewPageCategoryEntityList;
         Pagination.Result<ViewPageCategoryEntity> paginationResult = new Pagination().new Result<>();
-        viewPageCategoryEntityList = viewPageCategoryMapper.pageAllByParentIdIsNull(new Pageable(page, rows));
+        List<ViewPageCategoryEntity> viewPageCategoryEntityList = viewPageCategoryMapper.pageAllByParentIdIsNull(new Pageable(page, rows));
         if (viewPageCategoryEntityList != null) {
             paginationResult.setRows(viewPageCategoryEntityList);
         }
-        int count = viewPageCategoryMapper.countAllByParentIdIsNull();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(viewPageCategoryMapper.countAllByParentIdIsNull());
         return paginationResult;
     }
 

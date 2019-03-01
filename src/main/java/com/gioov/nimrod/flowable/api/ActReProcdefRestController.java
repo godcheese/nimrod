@@ -3,7 +3,7 @@ package com.gioov.nimrod.flowable.api;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
-import com.gioov.nimrod.flowable.Url;
+import com.gioov.nimrod.flowable.Flowable;
 import com.gioov.nimrod.flowable.entity.ActReProcdefEntity;
 import com.gioov.nimrod.flowable.service.ActReProcdefService;
 import org.flowable.bpmn.model.BpmnModel;
@@ -26,7 +26,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
 
@@ -34,7 +33,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-01-18
  */
-@RequestMapping(Url.Api.ACT_RE_PROCDEF)
+@RequestMapping(Flowable.Api.ACT_RE_PROCDEF)
 @RestController
 public class ActReProcdefRestController {
 

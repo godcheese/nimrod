@@ -1,6 +1,7 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.nimrod.common.Url;
+import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.service.ViewPageComponentApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(Url.Api.System.VIEW_PAGE_COMPONENT_API)
+@RequestMapping(System.Api.VIEW_PAGE_COMPONENT_API)
 public class ViewPageComponentApiRestController {
 
     private static final String VIEW_PAGE_COMPONENT_API = "/API/SYSTEM/VIEW_PAGE_COMPONENT_API";

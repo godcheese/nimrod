@@ -20,7 +20,7 @@
 
         var OPERATION_TYPE = [];
         expressui.ajax({
-            url: Api.System.DICTIONARY + '/list_all_by_key/OPERATION_TYPE',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/OPERATION_TYPE',
             async: false,
             success: function (data) {
                 if (data) {
@@ -57,13 +57,13 @@
         $('#operationLog').datagrid(expressui.grid.create, {
             title: '操作日志',
             columns: [columns],
-            url: Api.System.OPERATION_LOG + '/page_all'
+            url: Url.System.Api.OPERATION_LOG + '/page_all'
         });
     });
 
     function operationLogDeleteAll() {
-        $('#operationLog').datagrid(expressui.grid.deleteRows, {
-            url: Api.System.OPERATION_LOG + '/delete_all',
+        $('#operationLog').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.OPERATION_LOG + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: {type: 'datagrid', selector: '#operationLog'}
@@ -73,7 +73,7 @@
     function operationLogClearAll() {
         $.messager.confirm('信息', '确定要操作吗', function (ok) {
             if(ok) {
-                $.ajax({url: Api.System.OPERATION_LOG + '/clear_all', type:'POST', dataType:'JSON',success:function (data) {
+                $.ajax({url: Url.System.Api.OPERATION_LOG + '/clear_all', type:'POST', dataType:'JSON',success:function (data) {
                         $.messager.show({title: '信息', msg: '操作成功'});
                         $('#operationLog').datagrid('reload');
                     }, error:function (xhr) {

@@ -29,14 +29,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Pagination.Result<DepartmentEntity> pageAllByParentIdIsNull(Integer page, Integer rows) {
-        List<DepartmentEntity> departmentEntityList;
         Pagination.Result<DepartmentEntity> paginationResult = new Pagination().new Result<>();
-        departmentEntityList = departmentMapper.pageAllByParentIdIsNull(new com.gioov.common.mybatis.Pageable(page, rows));
+        List<DepartmentEntity> departmentEntityList = departmentMapper.pageAllByParentIdIsNull(new com.gioov.common.mybatis.Pageable(page, rows));
         if (departmentEntityList != null) {
             paginationResult.setRows(departmentEntityList);
         }
-        int count = departmentMapper.countAllByParentIdIsNull();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(departmentMapper.countAllByParentIdIsNull());
         return paginationResult;
     }
 

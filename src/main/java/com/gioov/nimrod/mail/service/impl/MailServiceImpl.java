@@ -25,6 +25,7 @@ import javax.jms.Destination;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -194,14 +195,12 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public Pagination.Result<MailEntity> pageAll(Integer page, Integer rows, Sort sort) {
-        List<MailEntity> mailEntityList;
         Pagination.Result<MailEntity> paginationResult = new Pagination().new Result<>();
-        mailEntityList = mailMapper.pageAll(new Pageable(page, rows, sort));
+        List<MailEntity> mailEntityList = mailMapper.pageAll(new Pageable(page, rows, sort));
         if (mailEntityList != null) {
             paginationResult.setRows(mailEntityList);
         }
-        int count = mailMapper.countAll();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(mailMapper.countAll());
         return paginationResult;
     }
 
@@ -255,6 +254,28 @@ public class MailServiceImpl implements MailService {
     @Override
     public MailEntity getOne(Long id) {
         return mailMapper.getOne(id);
+    }
+
+    @Override
+    public void retry(List<MailEntity> mailEntityList) {
+        for(MailEntity mailEntity : mailEntityList) {
+            try {
+                mailService.produce(common.objectToJson(mailEntity));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void retry(boolean fail) {
+        List<Integer> statusList = new ArrayList<>();
+        statusList.add(Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "WAIT")));
+        if(fail) {
+            statusList.add(Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "FAIL")));
+        }
+        List<MailEntity> mailEntityList = mailMapper.listAllByStatus(statusList);
+        retry(mailEntityList);
     }
 
 }

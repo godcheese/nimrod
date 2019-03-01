@@ -30,14 +30,12 @@ public class ApiCategoryServiceImpl implements ApiCategoryService {
 
     @Override
     public Pagination.Result<ApiCategoryEntity> pageAllByParentIdIsNull(Integer page, Integer rows) {
-        List<ApiCategoryEntity> apiCategoryEntityList;
         Pagination.Result<ApiCategoryEntity> paginationResult = new Pagination().new Result<>();
-        apiCategoryEntityList = apiCategoryMapper.pageAllByParentIdIsNull(new com.gioov.common.mybatis.Pageable(page, rows));
+        List<ApiCategoryEntity> apiCategoryEntityList = apiCategoryMapper.pageAllByParentIdIsNull(new com.gioov.common.mybatis.Pageable(page, rows));
         if (apiCategoryEntityList != null) {
             paginationResult.setRows(apiCategoryEntityList);
         }
-        int count = apiCategoryMapper.countAllByParentIdIsNull();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(apiCategoryMapper.countAllByParentIdIsNull());
         return paginationResult;
     }
 

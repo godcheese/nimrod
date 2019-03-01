@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gioov.nimrod.quartz.mapper.JobRuntimeLogMapper">
+    <resultMap id="BaseResultMap" type="com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="job_class_name" property="jobClassName" jdbcType="VARCHAR"/> <!-- 任务类名 -->
+        <result column="job_group" property="jobGroup" jdbcType="VARCHAR"/> <!-- 任务分组 -->
+        <result column="description" property="description" jdbcType="VARCHAR"/> <!-- 描述 -->
+        <result column="fire_time" property="fireTime" jdbcType="TIMESTAMP"/> <!-- fireTime -->
+        <result column="next_fire_time" property="nextFireTime" jdbcType="TIMESTAMP"/> <!-- nextFireTime -->
+        <result column="job_run_time" property="jobRunTime" jdbcType="BIGINT"/> <!-- 任务运行耗时（毫秒） -->
+        <result column="log" property="log" jdbcType="VARCHAR"/> <!-- 日志 -->
+        <result column="job_exception" property="jobException" jdbcType="VARCHAR"/> <!-- 任务异常信息-->
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/> <!-- 创建时间 -->
+    </resultMap>
+
+    <sql id="TableName">
+        `job_runtime_log`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`
+        ,
+        `job_class_name`,
+        `job_group`,
+        `description`,
+        `fire_time`,
+        `next_fire_time`,
+        `job_run_time`,
+        `log`,
+        `job_exception`,
+        `gmt_created`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity">
+        INSERT INTO
+        <include refid="TableName"/>
+        (`id`, `job_class_name`, `job_group`, `description`, `fire_time`, `next_fire_time`, `job_run_time`, `log`, `job_exception`, `gmt_created`)
+        VALUES (#{id}, #{jobClassName}, #{jobGroup}, #{description}, #{fireTime}, #{nextFireTime}, #{jobRunTime}, #{log}, #{jobException}, #{gmtCreated})
+    </insert>
+
+    <delete id="deleteAll">
+        DELETE FROM
+        <include refid="TableName"/>
+        WHERE `id` IN
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `id` = #{id} LIMIT 1
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+    </select>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        ${pageable}
+    </select>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(1) FROM
+        <include refid="TableName"/>
+    </select>
+
+    <update id="truncate">
+        truncate table
+        <include refid="TableName"/>
+    </update>
+
+</mapper>

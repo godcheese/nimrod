@@ -3,7 +3,7 @@ package com.gioov.nimrod.flowable.api;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
-import com.gioov.nimrod.flowable.Url;
+import com.gioov.nimrod.flowable.Flowable;
 import com.gioov.nimrod.flowable.entity.ActHiProcinstEntity;
 import com.gioov.nimrod.flowable.service.ActHiProcinstService;
 import org.flowable.engine.ProcessEngine;
@@ -27,7 +27,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-01-18
  */
-@RequestMapping(Url.Api.ACT_HI_PROCINST)
+@RequestMapping(Flowable.Api.ACT_HI_PROCINST)
 @RestController
 public class ActHiProcinstRestController {
 

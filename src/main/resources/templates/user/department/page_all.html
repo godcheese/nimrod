@@ -66,12 +66,12 @@
         ];
         $('#department').treegrid(expressui.grid.create, {
             title: '部门管理',
-            url: Api.User.DEPARTMENT + '/page_all_parent',
-            expandUrl: Api.User.DEPARTMENT + '/list_all_by_parent_id/{id}',
+            url: Url.User.Api.DEPARTMENT + '/page_all_parent',
+            expandUrl: Url.User.Api.DEPARTMENT + '/list_all_by_parent_id/{id}',
             columns: [columns],
             onCheck: function (row) {
                 if (row) {
-                    $('#user').datagrid('reload', Api.USER + '/page_all_by_department_id/' + row.id);
+                    $('#user').datagrid('reload', Url.User.Api.USER + '/page_all_by_department_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -82,7 +82,7 @@
 
         var IS_OR_NOT = [];
         expressui.ajax({
-            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             async: false,
             success: function (data) {
                 if (data) {
@@ -110,19 +110,19 @@
         $('#user').datagrid(expressui.grid.create, {
             title: '用户管理',
             columns: [columns],
-            // url: Api.USER + '/page_all'
+            // url: Url.User.Api.USER + '/page_all'
         });
     });
 
     function departmentAddDialog() {
-        var department = $('#department').treegrid(expressui.grid.getCheckedOneOrMoreShowAlert);
+        var department = $('#department').treegrid(expressui.grid.getCheckedOneNoCheckedOrShowAlert);
 
         $('#departmentAddDialog').dialog(expressui.dialog.create, {
             title: '新增部门',
             grid: {type: 'treegrid', selector: '#department'},
-            href: Page.User.DEPARTMENT + '/add_dialog',
+            href: Url.User.Page.DEPARTMENT + '/add_dialog',
             save: {
-                url: Api.User.DEPARTMENT + '/add_one',
+                url: Url.User.Api.DEPARTMENT + '/add_one',
                 data: department ? {parentId: department.id} : {}, // 非必传参数
                 method: 'post'
             },
@@ -141,14 +141,14 @@
     }
 
     function departmentEditDialog() {
-        var one = $('#department').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#department').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#departmentEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑 API 分类',
                 grid: {type: 'treegrid', selector: '#department'},
-                href: Page.User.DEPARTMENT + '/edit_dialog',
-                get: {url: Api.User.DEPARTMENT + '/one/{id}', method: 'get'},
-                save: {url: Api.User.DEPARTMENT + '/save_one', method: 'post'},
+                href: Url.User.Page.DEPARTMENT + '/edit_dialog',
+                get: {url: Url.User.Api.DEPARTMENT + '/one/{id}', method: 'get'},
+                save: {url: Url.User.Api.DEPARTMENT + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -169,8 +169,8 @@
     }
 
     function departmentDeleteAll() {
-        $('#department').treegrid(expressui.grid.deleteRows, {
-            url: Api.User.DEPARTMENT + '/delete_all',
+        $('#department').treegrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.DEPARTMENT + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: [{type: 'treegrid', selector: '#department'}, {type: 'datagrid', selector: '#user', data: []}]
@@ -178,7 +178,7 @@
     }
 
     function userAddDialog() {
-        var department = $('#department').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var department = $('#department').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!department) {
             return;
         }
@@ -186,9 +186,9 @@
             title: '新增用户',
             width: 600,
             grid: {type: 'datagrid', selector: '#user'},
-            href: Page.USER + '/add_dialog',
+            href: Url.User.Page.USER  + '/add_dialog',
             save: {
-                url: Api.USER + '/add_one',
+                url: Url.User.Api.USER + '/add_one',
                 data: department ? {departmentId: department.id} : {}, // 非必传参数
                 method: 'post'
             },
@@ -207,18 +207,18 @@
     }
 
     function userEditDialog() {
-        var one = $('#user').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#user').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
-        $('#userDialog').dialog(expressui.dialog.create, {
+        $('#userEditDialog').dialog(expressui.dialog.create, {
             title: '编辑用户',
             width: 600,
             grid: {type: 'datagrid', selector: '#user'},
             selector: '#userEditDialog',
-            href: Page.USER + '/edit_dialog',
-            get: {url: Api.USER + '/one/{id}', method: 'get'},
-            save: {url: Api.USER + '/save_one', method: 'post'},
+            href: Url.User.Page.USER + '/edit_dialog',
+            get: {url: Url.User.Api.USER + '/one/{id}', method: 'get'},
+            save: {url: Url.User.Api.USER + '/save_one', method: 'post'},
             buttons: [{
                 text: '保存',
                 iconCls: 'fa fa-save',
@@ -234,7 +234,7 @@
     }
 
     function userFakeDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         if (!checked) {
             return;
         }
@@ -244,8 +244,8 @@
             id.push(checked[i].id);
         }
 
-        $('#user').datagrid(expressui.grid.deleteRows, {
-            url: Api.USER + '/fake_delete_all',
+        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.USER + '/fake_delete_all',
             data: {id: id},
             method: 'post',
             success: '删除成功',
@@ -254,7 +254,7 @@
     }
 
     function userRevokeFakeDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         if (!checked) {
             return;
         }
@@ -264,8 +264,8 @@
             id.push(checked[i].id);
         }
 
-        $('#user').datagrid(expressui.grid.deleteRows, {
-            url: Api.USER + '/revoke_fake_delete_all',
+        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.USER + '/revoke_fake_delete_all',
             data: {id: id},
             method: 'post',
             confirmMessage: '确定要撤销删除勾选项吗',
@@ -275,7 +275,7 @@
     }
 
     function userDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         if (!checked) {
             return;
         }
@@ -285,8 +285,8 @@
             id.push(checked[i].id);
         }
 
-        $('#user').datagrid(expressui.grid.deleteRows, {
-            url: Api.USER + '/delete_all',
+        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.USER + '/delete_all',
             data: {id: id},
             method: 'post',
             success: '删除成功',
@@ -295,7 +295,7 @@
     }
 
     function userRoleDialog() {
-        var one = $('#user').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#user').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
@@ -303,7 +303,7 @@
         $('#userRoleDialog').dialog(expressui.dialog.create, {
             title: '角色管理',
             grid: {type: 'datagrid', selector: '#user'},
-            href: Page.User.USER_ROLE + '/page_all',
+            href: Url.User.Page.USER_ROLE + '/page_all',
             width: 850,
             height: 450,
             buttons: [{

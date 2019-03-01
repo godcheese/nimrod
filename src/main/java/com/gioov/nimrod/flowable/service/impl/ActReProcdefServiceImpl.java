@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -45,28 +46,14 @@ public class ActReProcdefServiceImpl implements ActReProcdefService {
         page = page == 0 ? 1 : page;
         int first = (page - 1) * max;
         List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().listPage(first, max);
-
-
-        List<ActReProcdefEntity> actReProcDefEntityList;
         Pagination.Result<ActReProcdefEntity> paginationResult = new Pagination().new Result<>();
-        actReProcDefEntityList = actReProcDefMapper.pageAll(new Pageable(page, rows));
+        List<ActReProcdefEntity> actReProcDefEntityList = actReProcDefMapper.pageAll(new Pageable(page, rows));
         if (actReProcDefEntityList != null) {
             paginationResult.setRows(actReProcDefEntityList);
         }
+        paginationResult.setTotal(actReProcDefMapper.countAll());
         return paginationResult;
     }
-
-
-//    @Override
-//    public Pagination.Result<Map<String, Object>> pageAll(Integer page, Integer rows) {
-//        List<Map<String, Object>> mapList = new ArrayList<>();
-//        Pagination.Result<Map<String, Object>> paginationResult = new Pagination().new Result<>();
-//
-//
-//        paginationResult.setRows(mapList);
-//        paginationResult.setTotal(mapList.size());
-//        return paginationResult;
-//    }
 
     @Override
     public int deleteProcessDefinition(List<String> idList) {

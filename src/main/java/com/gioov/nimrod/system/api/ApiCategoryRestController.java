@@ -1,7 +1,6 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.gioov.nimrod.system.System;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Url.Api.System.API_CATEGORY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = System.Api.API_CATEGORY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ApiCategoryRestController {
 
     private static final String API_CATEGORY = "/API/SYSTEM/API_CATEGORY";

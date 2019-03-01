@@ -29,7 +29,7 @@
             ];
             $('#userRole').datagrid(expressui.grid.create, {
                 columns: [columns],
-                url: Api.User.ROLE + '/list_all_by_user_id/' + user[0].id
+                url: Url.User.Api.ROLE + '/list_all_by_user_id/' + user[0].id
             });
         }
     });
@@ -38,9 +38,9 @@
         $('#userRoleAddDialog').dialog(expressui.dialog.create, {
             title: '授权用户角色',
             grid: {type: 'datagrid', selector: '#user'},
-            href: Page.User.USER_ROLE + '/add_dialog',
+            href: Url.User.Page.USER_ROLE + '/add_dialog',
             save: {
-                url: Api.User.USER_ROLE + '/add_one',
+                url: Url.User.Api.USER_ROLE + '/add_one',
                 data: {userId: '{id}'},
                 method: 'post'
             },
@@ -67,8 +67,8 @@
             }
         }
 
-        $('#userRole').datagrid(expressui.grid.deleteRows, {
-            url: Api.User.USER_ROLE + '/delete_all_by_user_id_and_role_id_list',
+        $('#userRole').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.USER_ROLE + '/delete_all_by_user_id_and_role_id_list',
             data: {
                 userId: user[0].id,
                 roleIdList: roleIdList

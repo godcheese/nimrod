@@ -26,7 +26,7 @@
             {field: 'checkbox', checkbox: true},
             {field: 'id', title: 'ID'},
             {field: 'download', title: '下载', formatter: function (value, row, index) {
-                value = '<a target="_blank" href="' + Api.System.ATTACHMENT + '/download/' + row.guid + '">下载</a>';
+                value = '<a target="_blank" href="' + Url.System.Api.ATTACHMENT + '/download/' + row.guid + '">下载</a>';
                 return value;
                 }},
             {field: 'name', title: '文件名'},
@@ -41,16 +41,17 @@
         $('#attachment').datagrid(expressui.grid.create, {
             title: '附件管理',
             columns: [columns],
-            url: Api.System.ATTACHMENT + '/page_all'
+            url: Url.System.Api.ATTACHMENT + '/page_all'
         });
     });
 
     function attachmentUploadOneDialog() {
         $('#uploadOneDialog').dialog(expressui.dialog.create, {
             title: '单文件上传',
-            height:200,
+            height: 200,
+            width: 410,
             grid: {type: 'datagrid', selector: '#attachment'},
-            href: Page.System.ATTACHMENT + '/upload_one_dialog',
+            href: Url.System.Page.ATTACHMENT + '/upload_one_dialog',
             buttons: [{
                 text: '关闭',
                 iconCls: 'fa fa-close',
@@ -62,9 +63,10 @@
     function attachmentUploadAllDialog() {
         $('#uploadAllDialog').dialog(expressui.dialog.create, {
             title: '多文件上传',
-            height:200,
+            height: 200,
+            width: 410,
             grid: {type: 'datagrid', selector: '#attachment'},
-            href: Page.System.ATTACHMENT + '/upload_all_dialog',
+            href: Url.System.Page.ATTACHMENT + '/upload_all_dialog',
             buttons: [{
                 text: '关闭',
                 iconCls: 'fa fa-close',
@@ -74,7 +76,7 @@
     }
 
     function attachmentEditDialog() {
-        var one = $('#attachment').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#attachment').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#attachmentEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑附件',
@@ -82,9 +84,9 @@
                 height: 390,
                 grid: {type: 'datagrid', selector: '#attachment'},
                 selector: '#attachmentEditDialog',
-                href: Page.System.ATTACHMENT + '/edit_dialog',
-                get: {url: Api.System.ATTACHMENT + '/one/{id}', method: 'get'},
-                save: {url: Api.System.ATTACHMENT + '/save_one', method: 'post'},
+                href: Url.System.Page.ATTACHMENT + '/edit_dialog',
+                get: {url: Url.System.Api.ATTACHMENT + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.ATTACHMENT + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -101,8 +103,8 @@
     }
 
     function attachmentDeleteAll() {
-        $('#attachment').datagrid(expressui.grid.deleteRows, {
-            url: Api.System.ATTACHMENT + '/delete_all',
+        $('#attachment').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.ATTACHMENT + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: {type: 'datagrid', selector: '#attachment'}

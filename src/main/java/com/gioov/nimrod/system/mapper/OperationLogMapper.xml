@@ -101,4 +101,5 @@
         truncate table
         <include refid="TableName"/>
     </update>
+
 </mapper>

@@ -37,22 +37,12 @@ import java.util.*;
 public class DictionaryServiceImpl implements DictionaryService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DictionaryServiceImpl.class);
+
     @Autowired
     private DictionaryMapper dictionaryMapper;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    /**
-     * 添加字典到 ModelAndView
-     *
-     * @param modelAndView ModelAndView
-     */
-    public void addDictionaryToModelAndView(ModelAndView modelAndView) {
-        if (modelAndView != null) {
-            modelAndView.addAllObjects(keyValueMap());
-        }
-    }
 
     @Override
     public void addDictionaryToServletContext() {
@@ -184,39 +174,20 @@ public class DictionaryServiceImpl implements DictionaryService {
         return mapMap;
     }
 
-
     @Override
     public Pagination.Result<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows) {
-        List<DictionaryEntity> dictionaryEntityList;
         Pagination.Result<DictionaryEntity> paginationResult = new Pagination().new Result<>();
-        dictionaryEntityList = dictionaryMapper.pageAllByDictionaryCategoryId(dictionaryCategoryId, new Pageable(page, rows));
+        List<DictionaryEntity> dictionaryEntityList = dictionaryMapper.pageAllByDictionaryCategoryId(dictionaryCategoryId, new Pageable(page, rows));
         if (dictionaryEntityList != null) {
             paginationResult.setRows(dictionaryEntityList);
         }
-        int count = dictionaryMapper.countAllByDictionaryCategoryId(dictionaryCategoryId);
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(dictionaryMapper.countAllByDictionaryCategoryId(dictionaryCategoryId));
         return paginationResult;
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public DictionaryEntity insertOne(DictionaryEntity dictionaryEntity) {
-//        DictionaryEntity dictionaryEntity1 = new DictionaryEntity();
-//        Date date = new Date();
-//        dictionaryEntity1.setKeyName(dictionaryEntity.getKeyName());
-//        dictionaryEntity1.setKey(dictionaryEntity.getKey().toUpperCase());
-//        dictionaryEntity1.setValueName(dictionaryEntity.getValueName());
-//        dictionaryEntity1.setValueSlug(dictionaryEntity.getValueSlug().toUpperCase());
-//        dictionaryEntity1.setValue(dictionaryEntity.getValue());
-//        dictionaryEntity1.setEditable(dictionaryEntity.getEditable());
-//        dictionaryEntity1.setDictionaryCategoryId(dictionaryEntity.getDictionaryCategoryId());
-//        dictionaryEntity1.setSort(dictionaryEntity.getSort());
-//        dictionaryEntity1.setRemark(dictionaryEntity.getRemark());
-//        dictionaryEntity1.setGmtModified(date);
-//        dictionaryEntity1.setGmtCreated(date);
-//        dictionaryMapper.insertOne(dictionaryEntity1);
-//        return dictionaryEntity1;
-
         Date date = new Date();
         dictionaryEntity.setKey(dictionaryEntity.getKey().toUpperCase());
         dictionaryEntity.setValueSlug(dictionaryEntity.getValueSlug().toUpperCase());
@@ -229,22 +200,6 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public DictionaryEntity updateOne(DictionaryEntity dictionaryEntity) {
-
-
-//        DictionaryEntity dictionaryEntity1 = dictionaryMapper.getOne(dictionaryEntity.getId());
-//        Date date = new Date();
-//        dictionaryEntity1.setKeyName(dictionaryEntity.getKeyName());
-//        dictionaryEntity1.setKey(dictionaryEntity.getKey().toUpperCase());
-//        dictionaryEntity1.setValueName(dictionaryEntity.getValueName());
-//        dictionaryEntity1.setValueSlug(dictionaryEntity.getValueSlug().toUpperCase());
-//        dictionaryEntity1.setValue(dictionaryEntity.getValue());
-//        dictionaryEntity1.setEditable(dictionaryEntity.getEditable());
-//        dictionaryEntity1.setSort(dictionaryEntity.getSort());
-//        dictionaryEntity1.setRemark(dictionaryEntity.getRemark());
-//        dictionaryEntity1.setGmtModified(date);
-//        dictionaryMapper.updateOne(dictionaryEntity1);
-//        return dictionaryEntity1;
-
         dictionaryEntity.setKey(dictionaryEntity.getKey().toUpperCase());
         dictionaryEntity.setValueSlug(dictionaryEntity.getValueSlug().toUpperCase());
         dictionaryEntity.setGmtModified(new Date());

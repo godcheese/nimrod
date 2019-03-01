@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="./widget/base"></div>
@@ -36,7 +36,7 @@
     $(function () {
         var IS_OR_NOT = [];
         expressui.ajax({
-            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             async: false,
             success: function (data) {
                 if (data) {
@@ -64,7 +64,7 @@
         $('#user').datagrid(expressui.grid.create, {
             title: '用户管理',
             columns: [columns],
-            url: Api.USER + '/page_all'
+            url: Url.User.Api.USER + '/page_all'
         });
 
     });
@@ -74,9 +74,9 @@
             title: '新增用户',
             width: 600,
             grid: {type: 'datagrid', selector: '#user'},
-            href: Page.USER + '/add_dialog',
+            href: Url.User.Page.USER + '/add_dialog',
             save: {
-                url: Api.USER + '/add_one',
+                url: Url.User.Api.USER + '/add_one',
                 method: 'post'
             },
             buttons: [{
@@ -94,18 +94,17 @@
     }
 
     function userEditDialog() {
-        var one = $('#user').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#user').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
-        $('#userDialog').dialog(expressui.dialog.create, {
+        $('#userEditDialog').dialog(expressui.dialog.create, {
             title: '编辑用户',
             width: 600,
             grid: {type: 'datagrid', selector: '#user'},
-            selector: '#userEditDialog',
-            href: Page.USER + '/edit_dialog',
-            get: {url: Api.USER + '/one/{id}', method: 'get'},
-            save: {url: Api.USER + '/save_one', method: 'post'},
+            href: Url.User.Page.USER  + '/edit_dialog',
+            get: {url: Url.User.Api.USER + '/one/{id}', method: 'get'},
+            save: {url: Url.User.Api.USER + '/save_one', method: 'post'},
             buttons: [{
                 text: '保存',
                 iconCls: 'fa fa-save',
@@ -121,7 +120,7 @@
     }
 
     function userFakeDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         if (!checked) {
             return;
         }
@@ -131,8 +130,8 @@
             id.push(checked[i].id);
         }
 
-        $('#user').datagrid(expressui.grid.deleteRows, {
-            url: Api.USER + '/fake_delete_all',
+        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.USER + '/fake_delete_all',
             data: {id: id},
             method: 'post',
             success: '删除成功',
@@ -141,7 +140,7 @@
     }
 
     function userRevokeFakeDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         if (!checked) {
             return;
         }
@@ -151,8 +150,8 @@
             id.push(checked[i].id);
         }
 
-        $('#user').datagrid(expressui.grid.deleteRows, {
-            url: Api.USER + '/revoke_fake_delete_all',
+        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.USER + '/revoke_fake_delete_all',
             data: {id: id},
             method: 'post',
             confirmMessage: '确定要撤销删除勾选项吗',
@@ -162,7 +161,7 @@
     }
 
     function userDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         if (!checked) {
             return;
         }
@@ -172,8 +171,8 @@
             id.push(checked[i].id);
         }
 
-        $('#user').datagrid(expressui.grid.deleteRows, {
-            url: Api.USER + '/delete_all',
+        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.USER + '/delete_all',
             data: {id: id},
             method: 'post',
             success: '删除成功',
@@ -182,15 +181,15 @@
     }
 
     function userRoleDialog() {
-        var one = $('#user').datagrid(expressui.grid.getCheckedOneShowAlert);
-        if (!one) {
+        var checked = $('#user').datagrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (!checked) {
             return;
         }
 
         $('#userRoleDialog').dialog(expressui.dialog.create, {
             title: '角色管理',
             grid: {type: 'datagrid', selector: '#user'},
-            href: Page.User.USER_ROLE + '/page_all',
+            href: Url.User.Page.USER_ROLE + '/page_all',
             width: 850,
             height: 450,
             buttons: [{

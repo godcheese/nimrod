@@ -45,14 +45,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public Pagination.Result<AttachmentEntity> pageAll(Integer page, Integer rows, Sort sort) {
-        List<AttachmentEntity> attachmentEntityList;
         Pagination.Result<AttachmentEntity> paginationResult = new Pagination().new Result<>();
-        attachmentEntityList = attachmentMapper.pageAll(new Pageable(page, rows, sort));
+        List<AttachmentEntity> attachmentEntityList = attachmentMapper.pageAll(new Pageable(page, rows, sort));
         if (attachmentEntityList != null) {
             paginationResult.setRows(attachmentEntityList);
         }
-        int count = attachmentMapper.countAll();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(attachmentMapper.countAll());
         return paginationResult;
     }
 

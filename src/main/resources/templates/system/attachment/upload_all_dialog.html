@@ -37,7 +37,7 @@
             formData.append('file[]', files[i]);
         }
         return $.ajax({
-            url: Api.System.ATTACHMENT + '/upload_all',
+            url: Url.System.Api.ATTACHMENT + '/upload_all',
             type: 'post',
             data: formData,
             processData: false, // 不要对data参数进行序列化处理，默认为true

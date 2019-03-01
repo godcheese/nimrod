@@ -85,13 +85,11 @@
     </select>
 
     <select id="pageAllActive" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-        <!--SELECT-->
-        <!--<include refid="BaseColumnList"/>-->
-        <!--FROM-->
-        <!--<include refid="TableName"/> WHERE `end_time_` is null-->
-        <!--${pageable}-->
-
         select distinct RES.* , P.KEY_ as ProcessDefinitionKey, P.ID_ as ProcessDefinitionId, P.NAME_ as ProcessDefinitionName, P.VERSION_ as ProcessDefinitionVersion, P.DEPLOYMENT_ID_ as DeploymentId from ACT_RU_EXECUTION RES inner join ACT_RE_PROCDEF P on RES.PROC_DEF_ID_ = P.ID_ WHERE RES.PARENT_ID_ is null and (RES.SUSPENSION_STATE_ = 1) order by RES.ID_ asc ${pageable}
+    </select>
+
+    <select id="countAllActive" resultType="int">
+        select count(1) from (select distinct RES.* from ACT_RU_EXECUTION RES inner join ACT_RE_PROCDEF P on RES.PROC_DEF_ID_ = P.ID_ WHERE RES.PARENT_ID_ is null and (RES.SUSPENSION_STATE_ = 1) order by RES.ID_ asc) t
     </select>
 
 </mapper>

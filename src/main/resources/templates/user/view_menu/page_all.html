@@ -59,12 +59,12 @@
         ];
         $('#viewMenuCategory').treegrid(expressui.grid.create, {
             title: '视图菜单分类',
-            url: Api.User.VIEW_MENU_CATEGORY + '/page_all_parent_by_role_id/' + roleId,
-            expandUrl: Api.User.VIEW_MENU_CATEGORY + '/list_all_by_parent_id_and_role_id/?parentId={id}' + '&roleId=' + roleId,
+            url: Url.User.Api.VIEW_MENU_CATEGORY + '/page_all_parent_by_role_id/' + roleId,
+            expandUrl: Url.User.Api.VIEW_MENU_CATEGORY + '/list_all_by_parent_id_and_role_id/?parentId={id}' + '&roleId=' + roleId,
             columns: [columns],
             onCheck: function (row) {
                 if (row) {
-                    $('#viewMenu').datagrid('reload', Api.User.VIEW_MENU + '/page_all_by_menu_category_id_and_role_id/?menuCategoryId=' + row.id + '&roleId=' + roleId);
+                    $('#viewMenu').datagrid('reload', Url.User.Api.VIEW_MENU + '/page_all_by_menu_category_id_and_role_id/?menuCategoryId=' + row.id + '&roleId=' + roleId);
                 }
             },
             onUncheck: function (index, row) {
@@ -91,7 +91,7 @@
     });
 
     function viewMenuCategoryAddDialog() {
-        var one = $('#viewMenuCategory').treegrid(expressui.grid.getCheckedOneOrMoreShowAlert);
+        var one = $('#viewMenuCategory').treegrid(expressui.grid.getCheckedOneNoCheckedOrShowAlert);
         if (!one) {
             return;
         }
@@ -99,10 +99,10 @@
         $('#viewMenuCategoryAddDialog').dialog(expressui.dialog.create, {
             title: '新增视图菜单分类',
             grid: {type: 'datagrid', selector: '#role'},
-            href: Page.User.VIEW_MENU_CATEGORY + '/add_dialog',
+            href: Url.User.Page.VIEW_MENU_CATEGORY + '/add_dialog',
             save: {
-                url: Api.User.VIEW_MENU_CATEGORY + '/add_one',
-                data: one ? {roleId: '{id}', parentId: one.id} : {roleId: '{id}'}, // 非必传参数
+                url: Url.User.Api.VIEW_MENU_CATEGORY + '/add_one',
+                data: one ? {roleId: '{id}', parentId: one.id } : {roleId: '{id}'}, // 非必传参数
                 method: 'post'
             },
             buttons: [{
@@ -124,14 +124,14 @@
     }
 
     function viewMenuCategoryEditDialog() {
-        var one = $('#viewMenuCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewMenuCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#viewMenuCategoryEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑视图菜单分类',
                 grid: {type: 'treegrid', selector: '#viewMenuCategory'},
-                href: Page.User.VIEW_MENU_CATEGORY + '/edit_dialog',
-                get: {url: Api.User.VIEW_MENU_CATEGORY + '/one/{id}', method: 'get'},
-                save: {url: Api.User.VIEW_MENU_CATEGORY + '/save_one', method: 'post'},
+                href: Url.User.Page.VIEW_MENU_CATEGORY + '/edit_dialog',
+                get: {url: Url.User.Api.VIEW_MENU_CATEGORY + '/one/{id}', method: 'get'},
+                save: {url: Url.User.Api.VIEW_MENU_CATEGORY + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -152,8 +152,8 @@
     }
 
     function viewMenuCategoryDeleteAll() {
-        $('#viewMenuCategory').treegrid(expressui.grid.deleteRows, {
-            url: Api.User.VIEW_MENU_CATEGORY + '/delete_all?roleId=' + roleId,
+        $('#viewMenuCategory').treegrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.VIEW_MENU_CATEGORY + '/delete_all?roleId=' + roleId,
             method: 'post',
             success: '删除成功',
             reload: [{type: 'treegrid', selector: '#viewMenuCategory'}, {
@@ -165,17 +165,18 @@
     }
 
     function viewMenuAddDialog() {
-        var one = $('#viewMenuCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewMenuCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
 
         $('#viewMenuAddDialog').dialog(expressui.dialog.create, {
             title: '新增视图菜单',
+            width:460,
             grid: {type: 'treegrid', selector: '#viewMenuCategory'},
-            href: Page.User.VIEW_MENU + '/add_dialog',
+            href: Url.User.Page.VIEW_MENU + '/add_dialog',
             save: {
-                url: Api.User.VIEW_MENU + '/add_one/',
+                url: Url.User.Api.VIEW_MENU + '/add_one/',
                 data: {menuCategoryId: '{id}', roleId: roleId}, // 必传参数
                 method: 'post'
             },
@@ -194,15 +195,14 @@
     }
 
     function viewMenuEditDialog() {
-        var one = $('#viewMenu').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewMenu').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#viewMenuEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑视图菜单分类',
                 grid: {type: 'datagrid', selector: '#viewMenu'},
-                selector: '#viewMenuEditDialog',
-                href: Page.User.VIEW_MENU + '/edit_dialog',
-                get: {url: Api.User.VIEW_MENU + '/one/{id}', method: 'get'},
-                save: {url: Api.User.VIEW_MENU + '/save_one', method: 'post'},
+                href: Url.User.Page.VIEW_MENU + '/edit_dialog',
+                get: {url: Url.User.Api.VIEW_MENU + '/one/{id}', method: 'get'},
+                save: {url: Url.User.Api.VIEW_MENU + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -219,8 +219,8 @@
     }
 
     function viewMenuDeleteAll() {
-        $('#viewMenu').datagrid(expressui.grid.deleteRows, {
-            url: Api.User.VIEW_MENU + '/delete_all?roleId=' + roleId,
+        $('#viewMenu').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.VIEW_MENU + '/delete_all?roleId=' + roleId,
             method: 'post',
             success: '删除成功',
             reload: {type: 'datagrid', selector: '#viewMenu'}

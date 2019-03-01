@@ -59,4 +59,12 @@ public interface MailService {
      */
     MailEntity getOne(Long id);
 
+    void retry(List<MailEntity> mailEntityList);
+
+    /**
+     * 将待发送的邮件重新加入到发送队列
+     * @param fail 是否将发送失败的邮件也重新加入到队列 默认 false
+     */
+    void retry(boolean fail);
+
 }

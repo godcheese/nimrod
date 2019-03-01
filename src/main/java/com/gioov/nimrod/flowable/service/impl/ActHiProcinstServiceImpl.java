@@ -10,7 +10,6 @@ import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,20 +62,12 @@ public class ActHiProcinstServiceImpl implements ActHiProcinstService {
 
     @Override
     public Pagination.Result<ActHiProcinstEntity> pageAll(int page, int rows, boolean active) {
-
-        List<ActHiProcinstEntity> actHiProcinstEntityList = null;
         Pagination.Result<ActHiProcinstEntity> paginationResult = new Pagination().new Result<>();
-
-//        List<ProcessInstance> processInstanceList = runtimeService.createProcessInstanceQuery().listPage(first,max);
-//        for(ProcessInstance processInstance : processInstanceList) {
-//        }
-
-        actHiProcinstEntityList = actHiProcinstMapper.pageAllActive(new Pageable(page, rows));
-
+        List<ActHiProcinstEntity> actHiProcinstEntityList = actHiProcinstMapper.pageAllActive(new Pageable(page, rows));
         if (actHiProcinstEntityList != null) {
             paginationResult.setRows(actHiProcinstEntityList);
         }
-//        paginationResult.setTotal(actHiProcinstMapper.countAllActive());
+        paginationResult.setTotal(actHiProcinstMapper.countAllActive());
         return paginationResult;
 
 

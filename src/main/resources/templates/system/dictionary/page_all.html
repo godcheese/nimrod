@@ -6,7 +6,7 @@
 <body>
 
 <div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'west',split:true" style="width:40%">
+    <div data-options="region:'west',split:true" style="width:45%">
 
         <div id="dictionaryCategoryToolbar">
             <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_ADD_DIALOG'')')}"
@@ -17,13 +17,20 @@
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
                onclick="dictionaryCategoryEditDialog();">编辑</a>
 
+            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_MOVE_TO_DICTIONARY_CATEGORY_DIALOG'')')}"
+               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
+               onclick="dictionaryCategoryMoveToDictionaryCategoryDialog();">移动到</a>
+
             <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_DELETE_ALL'')')}"
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
                onclick="dictionaryCategoryDeleteAll();">删除</a>
 
+
             <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_EXPORT_ALL'')')}"
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-download" plain="true"
                onclick="dictionaryCategoryExportAll();">导出</a>
+
+            <hr/>
 
             <span th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_IMPORT_ALL'')')}">
                 <label>导入：</label><input id="file" class="easyui-filebox" style="width:200px" data-options="buttonText:'选择文件'"> <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload" plain="true" id="uploadButton">立即导入</a>
@@ -48,6 +55,10 @@
             <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_EDIT_DIALOG'')')}"
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
                onclick="dictionaryEditDialog();">编辑</a>
+
+            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_MOVE_TO_DICTIONARY_CATEGORY_DIALOG'')')}"
+               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
+               onclick="dictionaryMoveToDictionaryCategoryDialog();">移动到</a>
 
             <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_DELETE_ALL'')')}"
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
@@ -75,12 +86,12 @@
         ];
         $('#dictionaryCategory').treegrid(expressui.grid.create, {
             title: '字典分类',
-            url: Api.System.DICTIONARY_CATEGORY + '/page_all_parent',
-            expandUrl: Api.System.DICTIONARY_CATEGORY + '/list_all_by_parent_id/{id}',
+            url: Url.System.Api.DICTIONARY_CATEGORY + '/page_all_parent',
+            expandUrl: Url.System.Api.DICTIONARY_CATEGORY + '/list_all_by_parent_id/{id}',
             columns: [columns],
             onCheck: function (row) {
                 if (row) {
-                    $('#dictionary').datagrid('reload', Api.System.DICTIONARY + '/page_all_by_dictionary_category_id/' + row.id);
+                    $('#dictionary').datagrid('reload', Url.System.Api.DICTIONARY + '/page_all_by_dictionary_category_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -90,7 +101,7 @@
 
         var IS_OR_NOT = [];
         expressui.ajax({
-            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             async: false,
             success: function (data) {
                 if (data) {
@@ -124,7 +135,7 @@
     });
 
     function dictionaryCategoryAddDialog() {
-        var one = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedOneOrMoreShowAlert);
+        var one = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedOneNoCheckedOrShowAlert);
         if (!one) {
             return;
         }
@@ -132,9 +143,9 @@
         $('#dictionaryCategoryAddDialog').dialog(expressui.dialog.create, {
             title: '新增字典分类',
             grid: {type: 'treegrid', selector: '#dictionaryCategory'},
-            href: Page.System.DICTIONARY_CATEGORY + '/add_dialog',
+            href: Url.System.Page.DICTIONARY_CATEGORY + '/add_dialog',
             save: {
-                url: Api.System.DICTIONARY_CATEGORY + '/add_one',
+                url: Url.System.Api.DICTIONARY_CATEGORY + '/add_one',
                 data: one ? {parentId: one.id} : {},
                 method: 'post'
             },
@@ -157,7 +168,7 @@
     }
 
     function dictionaryCategoryEditDialog() {
-        var one = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
@@ -165,9 +176,9 @@
         $('#dictionaryCategoryEditDialog').dialog(expressui.dialog.create, {
             title: '编辑字典分类',
             grid: {type: 'treegrid', selector: '#dictionaryCategory'},
-            href: Page.System.DICTIONARY_CATEGORY + '/edit_dialog',
-            get: {url: Api.System.DICTIONARY_CATEGORY + '/one/{id}', method: 'get'},
-            save: {url: Api.System.DICTIONARY_CATEGORY + '/save_one', method: 'post'},
+            href: Url.System.Page.DICTIONARY_CATEGORY + '/edit_dialog',
+            get: {url: Url.System.Api.DICTIONARY_CATEGORY + '/one/{id}', method: 'get'},
+            save: {url: Url.System.Api.DICTIONARY_CATEGORY + '/save_one', method: 'post'},
             buttons: [{
                 text: '保存',
                 iconCls: 'fa fa-save',
@@ -186,9 +197,63 @@
         });
     }
 
+    function dictionaryCategoryMoveToDictionaryCategoryDialog() {
+        var checked = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        if (!checked) {
+            return;
+        }
+
+        $('#dictionaryCategoryMoveToDictionaryCategoryDialog').dialog(expressui.dialog.create, {
+            title: '字典分类',
+            grid: {type: 'treegrid', selector: '#dictionaryCategory'},
+            href: Url.System.Page.DICTIONARY + '/move_to_dictionary_category_dialog',
+            width: 850,
+            height: 450,
+            buttons: [{
+                text: '确定',
+                iconCls: 'fa fa-check',
+                handler: function () {
+
+                    var dictionaryCategoryChecked = $('#moveToDictionaryCategoryDialog').treegrid(expressui.grid.getCheckedOneOrShowAlert);
+                    if (!dictionaryCategoryChecked) {
+                        return;
+                    }
+
+                    var dictionaryCategoryId = [];
+                    for(var i=0; i < checked.length; i++) {
+                        dictionaryCategoryId.push(checked[i].id);
+                    }
+
+                    expressui.ajax({url: Url.System.Api.DICTIONARY + '/move_to_dictionary_category', method: 'post', data: {dictionaryCategoryId: dictionaryCategoryChecked.id, "dictionaryCategoryId[]": dictionaryCategoryId},
+                        success: function (data, statusText, XMLHttpRequest) {
+                            if((XMLHttpRequest.status + '').indexOf('20') > -1) {
+                                $.messager.show({title: '信息', msg: '操作成功'});
+                                $('#dictionaryCategoryMoveToDictionaryCategoryDialog').dialog('close');
+                                $('#dictionaryCategory').treegrid('reload');
+                            } else {
+                                $.messager.alert('信息', XMLHttpRequest.responseText, 'error');
+                            }
+                        },
+                        error: function (XMLHttpRequest, statusText, errorThrown) {
+                            $.messager.alert('信息', XMLHttpRequest.responseJSON.message, 'error');
+                        }
+                    });
+
+                },
+                reload: [{type: 'datagrid', selector: '#dictionary'}],
+                success: '保存成功'
+            },
+                {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: expressui.dialog.close
+                }]
+        });
+    }
+
     function dictionaryCategoryDeleteAll() {
-        $('#dictionaryCategory').treegrid(expressui.grid.deleteRows, {
-            url: Api.System.DICTIONARY_CATEGORY + '/delete_all',
+        $('#dictionaryCategory').treegrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.DICTIONARY_CATEGORY + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: [{type: 'treegrid', selector: '#dictionaryCategory'}, {
@@ -206,89 +271,12 @@
             for (var i = 0; i < checked.length; i++) {
                 id.push(checked[i].id);
             }
-            window.open(Api.System.DICTIONARY + '/export_all_by_dictionary_category_id_list?id=' + id)
+            window.open(Url.System.Api.DICTIONARY + '/export_all_by_dictionary_category_id_list?id=' + id)
         }
-    }
-
-    $('#uploadButton').click(function () {
-
-        var one = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
-        if (!one) {
-            return;
-        }
-
-        if(!window._ajaxing) {
-            window._ajaxing = upload(one);
-        } else {
-            $.messager.progress('正在上传...');
-            window._ajaxing.abort();
-            window._ajaxing = undefined;
-        }
-        if(window._ajaxing) {
-            $(this).linkbutton({text: '取消', iconCls: 'fa fa-close'});
-        } else {
-            $(this).linkbutton({text: '立即导入', iconCls: 'fa fa-upload'});
-        }
-    });
-
-    function upload(one) {
-        var formData = new FormData();
-        var file = $('#file').filebox('files')[0];
-        formData.append('categoryId', one.id);
-        formData.append('file', file);
-        return $.ajax({
-            url: Api.System.DICTIONARY + '/import_all_by_dictionary_category_id',
-            type: 'post',
-            data: formData,
-            processData: false, // 不要对data参数进行序列化处理，默认为true
-            contentType: false, // 不要设置Content-Type请求头，因为文件数据是以 multipart/form-data 来编码
-            xhr: function () {
-                var xhr = $.ajaxSettings.xhr();
-                if (xhr.upload) {
-                    xhr.upload.addEventListener('progress', function (e) {
-                        if (e.lengthComputable) {
-                            var total = e.total;
-                            var position = e.loaded || e.position;
-                            var percent = Math.ceil(position * 100 / total);
-                            if (percent === 100) {
-                                // progress.progressbar({text: '正在保存，请稍等...100%', value: 100});
-                            }
-                        }
-                    }, false);
-                }
-                return xhr;
-            },
-            success: function (res, statusText, xhr) {
-                if (res && res.code) {
-                    // progress.progressbar('setValue', 0);
-                    // progress.progressbar({text: '上传失败：0%', value: 0});
-                    $.messager.alert('信息', res.message, 'error');
-                } else {
-                    if (xhr.readyState === 4) {
-                        // progress.progressbar('setValue', 0);
-                        // progress.progressbar({text: '未开始：0%', value: 0});
-                        $('#file').filebox('clear');
-                        $.messager.show({title: '信息', msg: '上传成功'});
-                        $('#dictionary').datagrid('reload');
-                    }
-                }
-                $('#uploadButton').linkbutton({text: '立即导入', iconCls: 'fa fa-upload'});
-                window._ajaxing= undefined;
-                $.messager.progress('close');
-            },
-            error: function (res) {
-                if(res.responseJSON) {
-                    $.messager.alert('信息', res.responseJSON.message, 'error');
-                }
-                $('#uploadButton').linkbutton({text: '立即导入', iconCls: 'fa fa-upload'});
-                window._ajaxing= undefined;
-                $.messager.progress('close');
-            }
-        });
     }
 
     function dictionaryAddDialog() {
-        var one = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#dictionaryCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
@@ -296,9 +284,9 @@
         $('#dictionaryAddDialog').dialog(expressui.dialog.create, {
             title: '新增字典',
             grid: {type: 'treegrid', selector: '#dictionaryCategory'},
-            href: Page.System.DICTIONARY + '/add_dialog',
+            href: Url.System.Page.DICTIONARY + '/add_dialog',
             save: {
-                url: Api.System.DICTIONARY + '/add_one',
+                url: Url.System.Api.DICTIONARY + '/add_one',
                 data: {dictionaryCategoryId: '{id}'},
                 method: 'post'
             },
@@ -317,7 +305,7 @@
     }
 
     function dictionaryCopyAddDialog() {
-        var dictionaryCategory = $('#dictionaryCategory').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var dictionaryCategory = $('#dictionaryCategory').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!dictionaryCategory) {
             return;
         }
@@ -325,10 +313,10 @@
         $('#dictionaryCopyAddDialog').dialog(expressui.dialog.create, {
             title: '复制新增字典',
             grid: {type: 'datagrid', selector: '#dictionary'},
-            href: Page.System.DICTIONARY + '/add_dialog',
-            get: {url: Api.System.DICTIONARY + '/one/{id}', method: 'get'},
+            href: Url.System.Page.DICTIONARY + '/add_dialog',
+            get: {url: Url.System.Api.DICTIONARY + '/one/{id}', method: 'get'},
             save: {
-                url: Api.System.DICTIONARY + '/add_one',
+                url: Url.System.Api.DICTIONARY + '/add_one',
                 method: 'post',
                 data: {dictionaryCategoryId: dictionaryCategory.id}
             },
@@ -347,7 +335,7 @@
     }
 
     function dictionaryEditDialog() {
-        var one = $('#dictionary').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#dictionary').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
@@ -355,9 +343,9 @@
         $('#dictionaryEditDialog').dialog(expressui.dialog.create, {
             title: '编辑字典',
             grid: {type: 'datagrid', selector: '#dictionary'},
-            href: Page.System.DICTIONARY + '/edit_dialog',
-            get: {url: Api.System.DICTIONARY + '/one/{id}', method: 'get'},
-            save: {url: Api.System.DICTIONARY + '/save_one', method: 'post'},
+            href: Url.System.Page.DICTIONARY + '/edit_dialog',
+            get: {url: Url.System.Api.DICTIONARY + '/one/{id}', method: 'get'},
+            save: {url: Url.System.Api.DICTIONARY + '/save_one', method: 'post'},
             buttons: [{
                 text: '保存',
                 iconCls: 'fa fa-save',
@@ -372,9 +360,63 @@
         });
     }
 
+    function dictionaryMoveToDictionaryCategoryDialog() {
+        var checked = $('#dictionary').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        if (!checked) {
+            return;
+        }
+
+        $('#dictionaryMoveToDictionaryCategoryDialog').dialog(expressui.dialog.create, {
+            title: '字典分类',
+            grid: {type: 'datagrid', selector: '#dictionary'},
+            href: Url.System.Page.DICTIONARY + '/move_to_dictionary_category_dialog',
+            width: 850,
+            height: 450,
+            buttons: [{
+                text: '确定',
+                iconCls: 'fa fa-check',
+                handler: function () {
+
+                    var dictionaryCategoryChecked = $('#moveToDictionaryCategoryDialog').treegrid(expressui.grid.getCheckedOneOrShowAlert);
+                    if (!dictionaryCategoryChecked) {
+                        return;
+                    }
+
+                    var dictionaryId = [];
+                    for(var i=0; i < checked.length; i++) {
+                        dictionaryId.push(checked[i].id);
+                    }
+
+                    expressui.ajax({url: Url.System.Api.DICTIONARY + '/move_to_dictionary_category', method: 'post', data: {dictionaryCategoryId: dictionaryCategoryChecked.id, "dictionaryId[]": dictionaryId},
+                        success: function (data, statusText, XMLHttpRequest) {
+                            if((XMLHttpRequest.status + '').indexOf('20') > -1) {
+                                $.messager.show({title: '信息', msg: '操作成功'});
+                                $('#dictionaryMoveToDictionaryCategoryDialog').dialog('close');
+                                $('#dictionary').datagrid('reload');
+                            } else {
+                                $.messager.alert('信息', XMLHttpRequest.responseText, 'error');
+                            }
+                        },
+                        error: function (XMLHttpRequest, statusText, errorThrown) {
+                            $.messager.alert('信息', XMLHttpRequest.responseJSON.message, 'error');
+                        }
+                    });
+
+                },
+                reload: [{type: 'datagrid', selector: '#dictionary'}],
+                success: '保存成功'
+            },
+                {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: expressui.dialog.close
+                }]
+        });
+    }
+
     function dictionaryDeleteAll() {
-        $('#dictionary').datagrid(expressui.grid.deleteRows, {
-            url: Api.System.DICTIONARY + '/delete_all',
+        $('#dictionary').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.DICTIONARY + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: {type: 'datagrid', selector: '#dictionary'}
@@ -385,17 +427,17 @@
         $.messager.confirm('信息', '确定继续操作吗？', function (ok) {
             if(ok) {
                 expressui.ajax({
-                    url: Api.System.DICTIONARY + '/sync_to_memory',
+                    url: Url.System.Api.DICTIONARY + '/sync_to_memory',
                     type: 'post',
                     success: function (data) {
                         $.messager.show({title: '信息', msg: '操作成功'});
                     },
                     error: function (XMLHttpRequest) {
-                            if(XMLHttpRequest.status === 200) {
-                                $.messager.show({title: '信息', msg: '操作成功'});
-                            } else {
-                                $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
-                            }
+                        if(XMLHttpRequest.status === 200) {
+                            $.messager.show({title: '信息', msg: '操作成功'});
+                        } else {
+                            $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                        }
                     }
                 });
             }

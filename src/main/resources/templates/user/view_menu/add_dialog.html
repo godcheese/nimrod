@@ -34,7 +34,7 @@
             hasDownArrow: false,
             mode: 'remote',
             valueField: 'name',
-            url: Api.User.VIEW_MENU + '/search_all_by_name',
+            url: Url.User.Api.VIEW_MENU + '/search_all_by_name',
             onBeforeLoad: function (param) {
                 if (param && param.q) {
                     var value = param.q.replace('/ /g', '');

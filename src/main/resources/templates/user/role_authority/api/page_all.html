@@ -43,17 +43,17 @@
         ];
         $('#roleAuthorityApiCategory').treegrid(expressui.grid.create, {
             title: 'API 分类',
-            url: Api.System.API_CATEGORY + '/page_all_parent',
-            expandUrl: Api.System.API_CATEGORY + '/list_all_by_parent_id/{id}',
+            url: Url.System.Api.API_CATEGORY + '/page_all_parent',
+            expandUrl: Url.System.Api.API_CATEGORY + '/list_all_by_parent_id/{id}',
             columns: [columns],
             // onSelect: function(row) {
             //     if(row){
-            //         $('#roleAuthorityApi').datagrid('reload', Api.System.API + '/page_all_by_api_category_id/' + row.id);
+            //         $('#roleAuthorityApi').datagrid('reload', Url.System.Api.API + '/page_all_by_api_category_id/' + row.id);
             //     }
             // },
             onCheck: function (row) {
                 if (row) {
-                    $('#roleAuthorityApi').datagrid('reload', Api.System.API + '/page_all_by_api_category_id/' + row.id);
+                    $('#roleAuthorityApi').datagrid('reload', Url.System.Api.API + '/page_all_by_api_category_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -67,7 +67,7 @@
                 field: 'is_granted', title: '授权状态', formatter: function (value, row) {
                     var isGranted = '未授权';
                     expressui.ajax({
-                        url: Api.User.ROLE_AUTHORITY + '/is_granted_by_role_id_and_authority/?roleId=' + roleId + '&authority=' + row.authority,
+                        url: Url.User.Api.ROLE_AUTHORITY + '/is_granted_by_role_id_and_authority/?roleId=' + roleId + '&authority=' + row.authority,
                         success: function (data) {
                             if (data && (data.isGranted === true)) {
                                 isGranted = '已授权';
@@ -95,18 +95,18 @@
     });
 
     function grantAllRoleAuthorityApi() {
-        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
         //         $('#role').datagrid('reload');
         //     } });
 
-        var selectAll = $('#roleAuthorityApi').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#roleAuthorityApi').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var authorityList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 authorityList[i] = selectAll[i].authority;
             }
             expressui.ajax({
-                url: Api.User.ROLE_AUTHORITY + '/grant_all_by_role_id_and_api_authority_list',
+                url: Url.User.Api.ROLE_AUTHORITY + '/grant_all_by_role_id_and_api_authority_list',
                 data: {roleId: roleId, authorityList: authorityList},
                 type: 'post',
                 success: function (data) {
@@ -123,18 +123,18 @@
     }
 
     function revokeAllRoleAuthorityApi() {
-        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
         //         $('#role').datagrid('reload');
         //     } });
 
-        var selectAll = $('#roleAuthorityApi').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#roleAuthorityApi').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var authorityList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 authorityList[i] = selectAll[i].authority;
             }
             expressui.ajax({
-                url: Api.User.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_api_authority_list',
+                url: Url.User.Api.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_api_authority_list',
                 data: {roleId: roleId, authorityList: authorityList},
                 type: 'post',
                 success: function (data) {

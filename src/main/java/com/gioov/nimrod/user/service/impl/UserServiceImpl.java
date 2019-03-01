@@ -13,6 +13,7 @@ import com.gioov.nimrod.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -117,10 +118,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getCurrentUser() {
         UserEntity userEntity = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            SimpleUserDetails simpleUserDetails = (SimpleUserDetails) principal;
-            userEntity = userMapper.getOne(simpleUserDetails.getId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                SimpleUserDetails simpleUserDetails = (SimpleUserDetails) principal;
+                userEntity = userMapper.getOne(simpleUserDetails.getId());
+            }
         }
         return userEntity;
     }
@@ -131,10 +135,13 @@ public class UserServiceImpl implements UserService {
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                 .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         if (securityContextImpl != null) {
-            Object principal = securityContextImpl.getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                SimpleUserDetails simpleUserDetails = (SimpleUserDetails) principal;
-                userEntity = userMapper.getOne(simpleUserDetails.getId());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                Object principal = authentication.getPrincipal();
+                if (principal instanceof UserDetails) {
+                    SimpleUserDetails simpleUserDetails = (SimpleUserDetails) principal;
+                    userEntity = userMapper.getOne(simpleUserDetails.getId());
+                }
             }
         }
         return userEntity;
@@ -166,8 +173,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Pagination.Result<UserEntity> pageAll(Integer page, Integer rows) {
-        List<UserEntity> userEntityList = new ArrayList<>();
         Pagination.Result<UserEntity> paginationResult = new Pagination().new Result<>();
+        List<UserEntity> userEntityList = new ArrayList<>();
         List<UserEntity> tempUserEntityList = userMapper.pageAll(new Pageable(page, rows));
         if (tempUserEntityList != null) {
             for (UserEntity userEntity : tempUserEntityList) {
@@ -176,15 +183,14 @@ public class UserServiceImpl implements UserService {
             }
         }
         paginationResult.setRows(userEntityList);
-        int count = userMapper.countAll();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(userMapper.countAll());
         return paginationResult;
     }
 
     @Override
     public Pagination.Result<UserEntity> pageAllByDepartmentId(Long departmentId, Integer page, Integer rows) {
-        List<UserEntity> userEntityList = new ArrayList<>();
         Pagination.Result<UserEntity> paginationResult = new Pagination().new Result<>();
+        List<UserEntity> userEntityList = new ArrayList<>();
         List<UserEntity> tempUserEntityList = userMapper.pageAllByDepartmentId(departmentId, new Pageable(page, rows));
         if (tempUserEntityList != null) {
             for (UserEntity userEntity : tempUserEntityList) {
@@ -193,8 +199,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         paginationResult.setRows(userEntityList);
-        int count = userMapper.countAllByDepartmentId(departmentId);
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(userMapper.countAllByDepartmentId(departmentId));
         return paginationResult;
     }
 

@@ -33,7 +33,7 @@
 
         $('#actHiProcinst').datagrid(expressui.grid.create, {
             title: '正在流转的流程实例',
-            url: Api.Flowable.ACT_HI_PROCINST + '/page_all_active',
+            url: Url.Flowable.Api.ACT_HI_PROCINST + '/page_all_active',
             columns: [columns],
             idField: 'id_'
         });
@@ -43,14 +43,15 @@
         var checked = $('#actHiProcinst').datagrid('getChecked');
         var id_ = [];
         for(var i=0; i<checked.length; i++) {
-            id_['id_[]'] = checked[i].id_;
+            id_ = checked[i].id_;
         }
+        console.log(id_);
         $('#actHiProcinstDeleteAllDialog').dialog(expressui.dialog.create, {
             title: '删除',
             grid: {type: 'datagrid', selector: '#actHiProcinst'},
-            href: Page.Flowable.ACT_HI_PROCINST + '/delete_all_dialog',
-            // get: {url: Api.System.MAIL + '/one/{id}', method: 'get'},
-            save: {url: Api.Flowable.ACT_HI_PROCINST + '/delete_all', method: 'post', data: id_},
+            href: Url.Flowable.Page.ACT_HI_PROCINST + '/delete_all_dialog',
+            // get: {url: Url.Mail.Api.MAIL + '/one/{id}', method: 'get'},
+            save: {url: Url.Flowable.Api.ACT_HI_PROCINST + '/delete_all', method: 'post', data: {'id_[]': id_}},
             buttons: [{
                 text: '确定',
                 iconCls: 'fa fa-check',
@@ -70,7 +71,7 @@
             title: '流程图',
             width:800,
             height:500,
-            content: '<img src="' + Api.Flowable.ACT_RE_PROCDEF + '/process_diagram?processInstanceId=' + processInstanceId + '">',
+            content: '<img src="' + Url.Flowable.Api.ACT_RE_PROCDEF + '/process_diagram?processInstanceId=' + processInstanceId + '">',
             buttons: [{
                 text: '关闭',
                 iconCls: 'fa fa-close',

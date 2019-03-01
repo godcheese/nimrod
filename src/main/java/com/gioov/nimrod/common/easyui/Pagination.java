@@ -1,6 +1,5 @@
 package com.gioov.nimrod.common.easyui;
 
-import com.alibaba.druid.sql.parser.Lexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

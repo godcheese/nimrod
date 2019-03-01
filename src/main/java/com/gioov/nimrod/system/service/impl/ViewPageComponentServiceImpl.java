@@ -25,14 +25,12 @@ public class ViewPageComponentServiceImpl implements ViewPageComponentService {
 
     @Override
     public Pagination.Result<ViewPageComponentEntity> pageAllByPageId(Long pageId, Integer page, Integer rows) {
-        List<ViewPageComponentEntity> viewPageComponentEntityList;
         Pagination.Result<ViewPageComponentEntity> paginationResult = new Pagination().new Result<>();
-        viewPageComponentEntityList = viewPageComponentMapper.pageAllByPageId(pageId, new Pageable(page, rows));
+        List<ViewPageComponentEntity> viewPageComponentEntityList = viewPageComponentMapper.pageAllByPageId(pageId, new Pageable(page, rows));
         if (viewPageComponentEntityList != null) {
             paginationResult.setRows(viewPageComponentEntityList);
         }
-        int count = viewPageComponentMapper.countAllByPageId(pageId);
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(viewPageComponentMapper.countAllByPageId(pageId));
         return paginationResult;
     }
 

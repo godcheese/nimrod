@@ -2,6 +2,7 @@ package com.gioov.nimrod.user.api;
 
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.UserRoleEntity;
 import com.gioov.nimrod.user.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Url.Api.User.USER_ROLE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value =  User.Api.USER_ROLE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserRoleRestController {
 
     private static final String USER_ROLE = "/API/USER/USER_ROLE";

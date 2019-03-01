@@ -18,6 +18,6 @@ import java.util.List;
 public interface ActHiProcinstMapper extends CrudMapper<ActHiProcinstEntity, String> {
 
     List<ActHiProcinstEntity> pageAllActive(@Param("pageable") Pageable pageable);
-    int countAllActive();
 
+    int countAllActive();
 }

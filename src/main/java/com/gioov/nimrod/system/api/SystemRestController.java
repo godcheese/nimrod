@@ -7,6 +7,7 @@ import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
+import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.service.DictionaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ import java.io.IOException;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Url.Api.SYSTEM, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = System.Api.SYSTEM, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class SystemRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemRestController.class);

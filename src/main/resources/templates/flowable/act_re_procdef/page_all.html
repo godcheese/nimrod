@@ -22,27 +22,6 @@
 <script type="text/javascript">
 
     $(function () {
-        // var SMS_STATUS = [];
-        // expressui.ajax({
-        //     url: Api.System.DICTIONARY + '/list_all_by_key/SMS_STATUS',
-        //     async: false,
-        //     success: function (data) {
-        //         if (data) {
-        //             SMS_STATUS = data;
-        //         }
-        //     }
-        // });
-
-        // var IS_OR_NOT = [];
-        // expressui.ajax({
-        //     url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
-        //     async: false,
-        //     success: function (data) {
-        //         if (data) {
-        //             IS_OR_NOT = data;
-        //         }
-        //     }
-        // });
 
         var columns = [
             {field: 'checkbox', checkbox: true},
@@ -103,69 +82,24 @@
 
         $('#actReProcdef').datagrid(expressui.grid.create, {
             title: '流程定义',
-            url: Api.Flowable.ACT_RE_PROCDEF + '/page_all',
+            url: Url.Flowable.Api.ACT_RE_PROCDEF + '/page_all',
             columns: [columns],
             idField: 'id_',
 
         });
     });
 
-    function mailEditAndSendDialog() {
-        var one = $('#actReProcdef').datagrid(expressui.grid.getCheckedOneShowAlert);
-        if (one) {
-            $('#actReProcdefEditAndSendDialog').dialog(expressui.dialog.create, {
-                title: '编辑重发',
-                grid: {type: 'datagrid', selector: '#actReProcdef'},
-                href: Page.System.MAIL + '/edit_and_send_dialog',
-                get: {url: Api.System.MAIL + '/one/{id}', method: 'get'},
-                save: {url: Api.System.MAIL + '/add_one', method: 'post'},
-                buttons: [{
-                    text: '发送',
-                    iconCls: 'fa fa-save',
-                    handler: expressui.dialog.save,
-                    reload: [{type: 'datagrid', selector: '#actReProcdef'}],
-                    success: '操作成功'
-                }, {
-                    text: '关闭',
-                    iconCls: 'fa fa-close',
-                    handler: expressui.dialog.close
-                }]
-            });
-        }
-    }
-
     function mailReload() {
         expressui.grid.reload({type: 'datagrid', selector: '#actReProcdef'})
     }
 
     function actReProcdefDeleteAll() {
-        $('#actReProcdef').datagrid(expressui.grid.deleteRows, {
-            url: Api.Flowable.ACT_RE_PROCDEF + '/delete_all',
+        $('#actReProcdef').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Flowable.Api.ACT_RE_PROCDEF + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: [{type: 'datagrid', selector: '#actReProcdef'}],
         });
-
-            //
-            // $('#actReProcdefDeleteAllDialog').dialog(expressui.dialog.create, {
-            //     title: '删除',
-            //     // grid: {type: 'datagrid', selector: '#actReProcdef'},
-            //     href: Page.Flowable.ACT_RE_PROCDEF + '/delete_dialog_dialog',
-            //     // get: {url: Api.System.MAIL + '/one/{id}', method: 'get'},
-            //     save: {url: Api.Flowable.ACT_RE_PROCDEF + '/delete_all', method: 'post'},
-            //     buttons: [{
-            //         text: '确定',
-            //         iconCls: 'fa fa-ok',
-            //         handler: expressui.dialog.save,
-            //         reload: [{type: 'datagrid', selector: '#actReProcdef'}],
-            //         success: '操作成功'
-            //     }, {
-            //         text: '关闭',
-            //         iconCls: 'fa fa-close',
-            //         handler: expressui.dialog.close
-            //     }]
-            // });
-
     }
 
     function viewProcessDiagramDialog(processDefinitionId) {
@@ -173,7 +107,7 @@
             title: '流程图',
             width:800,
             height:500,
-            content: '<img src="' + Api.Flowable.ACT_RE_PROCDEF + '/process_diagram?processDefinitionId=' + processDefinitionId + '">',
+            content: '<img src="' + Url.Flowable.Api.ACT_RE_PROCDEF + '/process_diagram?processDefinitionId=' + processDefinitionId + '">',
             buttons: [{
                 text: '关闭',
                 iconCls: 'fa fa-close',

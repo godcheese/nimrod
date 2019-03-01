@@ -24,7 +24,7 @@
     $(function () {
         var SMS_STATUS = [];
         expressui.ajax({
-            url: Api.System.DICTIONARY + '/list_all_by_key/SMS_STATUS',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/SMS_STATUS',
             async: false,
             success: function (data) {
                 if (data) {
@@ -35,7 +35,7 @@
 
         var IS_OR_NOT = [];
         expressui.ajax({
-            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             async: false,
             success: function (data) {
                 if (data) {
@@ -70,20 +70,20 @@
 
         $('#mail').datagrid(expressui.grid.create, {
             title: '邮件队列',
-            url: Api.MAIL + '/page_all',
+            url: Url.Mail.Api.MAIL + '/page_all',
             columns: [columns]
         });
     });
 
     function mailEditAndSendDialog() {
-        var one = $('#mail').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#mail').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#mailEditAndSendDialog').dialog(expressui.dialog.create, {
                 title: '编辑重发',
                 grid: {type: 'datagrid', selector: '#mail'},
-                href: Page.MAIL + '/edit_and_send_dialog',
-                get: {url: Api.MAIL + '/one/{id}', method: 'get'},
-                save: {url: Api.MAIL + '/add_one', method: 'post'},
+                href: Url.Mail.Page.MAIL + '/edit_and_send_dialog',
+                get: {url: Url.Mail.Api.MAIL + '/one/{id}', method: 'get'},
+                save: {url: Url.Mail.Api.MAIL + '/add_one', method: 'post'},
                 buttons: [{
                     text: '发送',
                     iconCls: 'fa fa-save',
@@ -104,8 +104,8 @@
     }
 
     function mailDeleteAll() {
-        $('#mail').datagrid(expressui.grid.deleteRows, {
-            url: Api.MAIL + '/delete_all',
+        $('#mail').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Mail.Api.MAIL + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: [{type: 'datagrid', selector: '#mail'}],

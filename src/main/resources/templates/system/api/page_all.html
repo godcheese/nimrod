@@ -61,12 +61,12 @@
         ];
         $('#apiCategory').treegrid(expressui.grid.create, {
             title: 'API 分类',
-            url: Api.System.API_CATEGORY + '/page_all_parent',
-            expandUrl: Api.System.API_CATEGORY + '/list_all_by_parent_id/{id}',
+            url: Url.System.Api.API_CATEGORY + '/page_all_parent',
+            expandUrl: Url.System.Api.API_CATEGORY + '/list_all_by_parent_id/{id}',
             columns: [columns],
             onCheck: function (row) {
                 if (row) {
-                    $('#api').datagrid('reload', Api.System.API + '/page_all_by_api_category_id/' + row.id);
+                    $('#api').datagrid('reload', Url.System.Api.API + '/page_all_by_api_category_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -93,14 +93,14 @@
     });
 
     function apiCategoryAddDialog() {
-        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneOrMoreShowAlert);
+        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneNoCheckedOrShowAlert);
 
         $('#apiCategoryAddDialog').dialog(expressui.dialog.create, {
             title: '新增 API 分类',
             grid: {type: 'treegrid', selector: '#apiCategory'},
-            href: Page.System.API_CATEGORY + '/add_dialog',
+            href: Url.System.Page.API_CATEGORY + '/add_dialog',
             save: {
-                url: Api.System.API_CATEGORY + '/add_one',
+                url: Url.System.Api.API_CATEGORY + '/add_one',
                 data: one ? {parentId: one.id} : {}, // 非必传参数
                 method: 'post'
             },
@@ -119,14 +119,14 @@
     }
 
     function apiCategoryEditDialog() {
-        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#apiCategoryEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑 API 分类',
                 grid: {type: 'treegrid', selector: '#apiCategory'},
-                href: Page.System.API_CATEGORY + '/edit_dialog',
-                get: {url: Api.System.API_CATEGORY + '/one/{id}', method: 'get'},
-                save: {url: Api.System.API_CATEGORY + '/save_one', method: 'post'},
+                href: Url.System.Page.API_CATEGORY + '/edit_dialog',
+                get: {url: Url.System.Api.API_CATEGORY + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.API_CATEGORY + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -147,8 +147,8 @@
     }
 
     function apiCategoryDeleteAll() {
-        $('#apiCategory').treegrid(expressui.grid.deleteRows, {
-            url: Api.System.API_CATEGORY + '/delete_all',
+        $('#apiCategory').treegrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.API_CATEGORY + '/delete_all',
             method: 'post',
             success: '删除成功',
             error: '删除失败',
@@ -157,7 +157,7 @@
     }
 
     function apiAddDialog() {
-        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
@@ -165,9 +165,9 @@
         $('#apiAddDialog').dialog(expressui.dialog.create, {
             title: '新增 API ',
             grid: {type: 'treegrid', selector: '#apiCategory'},
-            href: Page.System.API + '/add_dialog',
+            href: Url.System.Page.API + '/add_dialog',
             save: {
-                url: Api.System.API + '/add_one',
+                url: Url.System.Api.API + '/add_one',
                 data: {apiCategoryId: '{id}'}, // 必传参数
                 method: 'post'
             },
@@ -186,15 +186,14 @@
     }
 
     function apiEditDialog() {
-        var one = $('#api').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#api').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#apiEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑 API',
                 grid: {type: 'datagrid', selector: '#api'},
-                selector: '#apiEditDialog',
-                href: Page.System.API + '/edit_dialog',
-                get: {url: Api.System.API + '/one/{id}', method: 'get'},
-                save: {url: Api.System.API + '/save_one', method: 'post'},
+                href: Url.System.Page.API + '/edit_dialog',
+                get: {url: Url.System.Api.API + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.API + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -211,8 +210,8 @@
     }
 
     function apiDeleteAll() {
-        $('#api').datagrid(expressui.grid.deleteRows, {
-            url: Api.System.API + '/delete_all',
+        $('#api').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.API + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: {type: 'datagrid', selector: '#api'}
@@ -220,12 +219,12 @@
     }
 
     function apiCopyAddDialog() {
-        var apiCategory = $('#apiCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var apiCategory = $('#apiCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!apiCategory) {
             return;
         }
 
-        var api = $('#api').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var api = $('#api').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!api) {
             return;
         }
@@ -233,10 +232,10 @@
         $('#apiCopyDialog').dialog(expressui.dialog.create, {
             title: '复制新增 API',
             grid: {type: 'datagrid', selector: '#api'},
-            href: Page.System.API + '/add_dialog',
-            get: {url: Api.System.API + '/one/{id}', method: 'get'},
+            href: Url.System.Page.API + '/add_dialog',
+            get: {url: Url.System.Api.API + '/one/{id}', method: 'get'},
             save: {
-                url: Api.System.API + '/add_one',
+                url: Url.System.Api.API + '/add_one',
                 data: {apiCategoryId: apiCategory.id}, // 必传参数
                 method: 'post'
             },
@@ -255,15 +254,15 @@
     }
 
     function apiMoveToDialog() {
-        var one = $('#api').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#api').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#apiEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑 API',
                 grid: {type: 'datagrid', selector: '#api'},
                 selector: '#apiEditDialog',
-                href: Page.System.API + '/edit_dialog',
-                get: {url: Api.System.API + '/one/{id}', method: 'get'},
-                save: {url: Api.System.API + '/save_one', method: 'post'},
+                href: Url.System.Page.API + '/edit_dialog',
+                get: {url: Url.System.Api.API + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.API + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',

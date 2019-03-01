@@ -20,7 +20,7 @@
         <tr>
             <td class="label">字典值：</td>
             <td><input name="value" class="easyui-textbox" style="height: 50px;"
-                       data-options="required:true,multiline:true">
+                       data-options="required:false,multiline:true">
             </td>
         </tr>
         <tr>
@@ -43,7 +43,7 @@
 <script>
     $(function () {
         $('#enable').combobox({
-            url: Api.System.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             valueField: 'value',
             textField: 'valueName',
             required: true

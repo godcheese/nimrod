@@ -95,12 +95,12 @@
         ];
         $('#viewPageCategory').treegrid(expressui.grid.create, {
             title: '视图页面分类',
-            url: Api.System.VIEW_PAGE_CATEGORY + '/page_all_parent',
-            expandUrl: Api.System.VIEW_PAGE_CATEGORY + '/list_all_by_parent_id/{id}',
+            url: Url.System.Api.VIEW_PAGE_CATEGORY + '/page_all_parent',
+            expandUrl: Url.System.Api.VIEW_PAGE_CATEGORY + '/list_all_by_parent_id/{id}',
             columns: [columns],
             onCheck: function (row) {
                 if (row) {
-                    $('#viewPage').datagrid('reload', Api.System.VIEW_PAGE + '/page_all_by_page_category_id/' + row.id);
+                    $('#viewPage').datagrid('reload', Url.System.Api.VIEW_PAGE + '/page_all_by_page_category_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -126,7 +126,7 @@
             columns: [columns],
             onCheck: function (index, row) {
                 if (row) {
-                    $('#viewPageComponent').datagrid('reload', Api.System.VIEW_PAGE_COMPONENT + '/page_all_by_page_id/' + row.id);
+                    $('#viewPageComponent').datagrid('reload', Url.System.Api.VIEW_PAGE_COMPONENT + '/page_all_by_page_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -137,7 +137,7 @@
         // 视图页面组件
         var PAGE_COMPONENT_TYPE = [];
         expressui.ajax({
-            url: Api.System.DICTIONARY + '/list_all_by_key/VIEW_PAGE_COMPONENT_TYPE',
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/VIEW_PAGE_COMPONENT_TYPE',
             async: false,
             success: function (data) {
                 if (data) {
@@ -168,7 +168,7 @@
     });
 
     function viewPageCategoryAddDialog() {
-        var viewPageCategory = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneOrMoreShowAlert);
+        var viewPageCategory = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneNoCheckedOrShowAlert);
         if (!viewPageCategory) {
             return;
         }
@@ -176,9 +176,9 @@
         $('#viewPageCategoryAddDialog').dialog(expressui.dialog.create, {
             title: '新增视图页面分类',
             grid: {type: 'treegrid', selector: '#viewPageCategory'},
-            href: Page.System.VIEW_PAGE_CATEGORY + '/add_dialog',
+            href: Url.System.Page.VIEW_PAGE_CATEGORY + '/add_dialog',
             save: {
-                url: Api.System.VIEW_PAGE_CATEGORY + '/add_one',
+                url: Url.System.Api.VIEW_PAGE_CATEGORY + '/add_one',
                 data: viewPageCategory ? {parentId: viewPageCategory.id} : {},
                 method: 'post'
             },
@@ -201,14 +201,14 @@
     }
 
     function viewPageCategoryEditDialog() {
-        var one = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#viewPageCategoryEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑视图页面分类',
                 grid: {type: 'treegrid', selector: '#viewPageCategory'},
-                href: Page.System.VIEW_PAGE_CATEGORY + '/edit_dialog',
-                get: {url: Api.System.VIEW_PAGE_CATEGORY + '/one/{id}', method: 'get'},
-                save: {url: Api.System.VIEW_PAGE_CATEGORY + '/save_one', method: 'post'},
+                href: Url.System.Page.VIEW_PAGE_CATEGORY + '/edit_dialog',
+                get: {url: Url.System.Api.VIEW_PAGE_CATEGORY + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.VIEW_PAGE_CATEGORY + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -229,8 +229,8 @@
     }
 
     function viewPageCategoryDeleteAll() {
-        $('#viewPageCategory').treegrid(expressui.grid.deleteRows, {
-            url: Api.System.VIEW_PAGE_CATEGORY + '/delete_all',
+        $('#viewPageCategory').treegrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.VIEW_PAGE_CATEGORY + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: [{type: 'treegrid', selector: '#viewPageCategory'}, {
@@ -242,7 +242,7 @@
     }
 
     function viewPageAddDialog() {
-        var viewPageCategory = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneShowAlert, '请勾选要操作的视图页面分类');
+        var viewPageCategory = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert, '请勾选要操作的视图页面分类');
         if (!viewPageCategory) {
             return;
         }
@@ -250,9 +250,9 @@
         $('#viewPageAddDialog').dialog(expressui.dialog.create, {
             title: '新增视图页面',
             grid: {type: 'treegrid', selector: '#viewPageCategory'},
-            href: Page.System.VIEW_PAGE + '/add_dialog',
+            href: Url.System.Page.VIEW_PAGE + '/add_dialog',
             save: {
-                url: Api.System.VIEW_PAGE + '/add_one',
+                url: Url.System.Api.VIEW_PAGE + '/add_one',
                 data: {pageCategoryId: '{id}'},
                 method: 'post'
             },
@@ -275,12 +275,12 @@
     }
 
     function viewPageCopyAddDialog() {
-        var viewPageCategory = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneShowAlert);
+        var viewPageCategory = $('#viewPageCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!viewPageCategory) {
             return;
         }
 
-        var viewPage = $('#viewPage').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var viewPage = $('#viewPage').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!viewPage) {
             return;
         }
@@ -288,10 +288,10 @@
         $('#viewPageCopyDialog').dialog(expressui.dialog.create, {
             title: '复制新增视图页面',
             grid: {type: 'datagrid', selector: '#viewPage'},
-            href: Page.System.VIEW_PAGE + '/add_dialog',
-            get: {url: Api.System.VIEW_PAGE + '/one/{id}', method: 'get'},
+            href: Url.System.Page.VIEW_PAGE + '/add_dialog',
+            get: {url: Url.System.Api.VIEW_PAGE + '/one/{id}', method: 'get'},
             save: {
-                url: Api.System.VIEW_PAGE + '/add_one',
+                url: Url.System.Api.VIEW_PAGE + '/add_one',
                 data: {pageCategoryId: viewPageCategory.id}, // 必传参数
                 method: 'post'
             },
@@ -314,14 +314,14 @@
     }
 
     function viewPageEditDialog() {
-        var one = $('#viewPage').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewPage').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#viewPageEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑视图页面分类',
                 grid: {type: 'datagrid', selector: '#viewPage'},
-                href: Page.System.VIEW_PAGE + '/edit_dialog',
-                get: {url: Api.System.VIEW_PAGE + '/one/{id}', method: 'get'},
-                save: {url: Api.System.VIEW_PAGE + '/save_one', method: 'post'},
+                href: Url.System.Page.VIEW_PAGE + '/edit_dialog',
+                get: {url: Url.System.Api.VIEW_PAGE + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.VIEW_PAGE + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -342,8 +342,8 @@
     }
 
     function viewPageDeleteAll() {
-        $('#viewPage').datagrid(expressui.grid.deleteRows, {
-            url: Api.System.VIEW_PAGE + '/delete_all',
+        $('#viewPage').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.VIEW_PAGE + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: [{type: 'datagrid', selector: '#viewPage'}, {
@@ -359,12 +359,12 @@
      * 关联 API 对话框
      */
     function viewPageApiDialog() {
-        var one = $('#viewPage').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewPage').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#viewPageApiDialog').dialog(expressui.dialog.create, {
                 title: '关联 API',
                 grid: {type: 'datagrid', selector: '#viewPage'},
-                href: Page.System.VIEW_PAGE_API + '/page_all',
+                href: Url.System.Page.VIEW_PAGE_API + '/page_all',
                 width: 850,
                 height: 450,
                 buttons: [{
@@ -377,7 +377,7 @@
     }
 
     function viewPageComponentAddDialog() {
-        var one = $('#viewPage').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewPage').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
@@ -385,9 +385,9 @@
         $('#viewPageComponentAddDialog').dialog(expressui.dialog.create, {
             title: '新增视图页面组件',
             grid: {type: 'datagrid', selector: '#viewPage'},
-            href: Page.System.VIEW_PAGE_COMPONENT + '/add_dialog',
+            href: Url.System.Page.VIEW_PAGE_COMPONENT + '/add_dialog',
             save: {
-                url: Api.System.VIEW_PAGE_COMPONENT + '/add_one',
+                url: Url.System.Api.VIEW_PAGE_COMPONENT + '/add_one',
                 data: {pageId: '{id}'},
                 method: 'post'
             },
@@ -406,12 +406,12 @@
     }
 
     function viewPageComponentCopyAddDialog() {
-        var viewPage = $('#viewPage').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var viewPage = $('#viewPage').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!viewPage) {
             return;
         }
 
-        var viewPageComponent = $('#viewPageComponent').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var viewPageComponent = $('#viewPageComponent').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!viewPageComponent) {
             return;
         }
@@ -419,10 +419,10 @@
         $('#viewPageComponentCopyDialog').dialog(expressui.dialog.create, {
             title: '复制新增视图页面组件',
             grid: {type: 'datagrid', selector: '#viewPageComponent'},
-            href: Page.System.VIEW_PAGE_COMPONENT + '/add_dialog',
-            get: {url: Api.System.VIEW_PAGE_COMPONENT + '/one/{id}', method: 'get'},
+            href: Url.System.Page.VIEW_PAGE_COMPONENT + '/add_dialog',
+            get: {url: Url.System.Api.VIEW_PAGE_COMPONENT + '/one/{id}', method: 'get'},
             save: {
-                url: Api.System.VIEW_PAGE_COMPONENT + '/add_one',
+                url: Url.System.Api.VIEW_PAGE_COMPONENT + '/add_one',
                 data: {pageId: viewPage.id}, // 必传参数
                 method: 'post'
             },
@@ -441,14 +441,14 @@
     }
 
     function viewPageComponentEditDialog() {
-        var one = $('#viewPageComponent').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewPageComponent').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (one) {
             $('#viewPageComponentEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑视图页面组件',
                 grid: {type: 'datagrid', selector: '#viewPageComponent'},
-                href: Page.System.VIEW_PAGE_COMPONENT + '/edit_dialog',
-                get: {url: Api.System.VIEW_PAGE_COMPONENT + '/one/{id}', method: 'get'},
-                save: {url: Api.System.VIEW_PAGE_COMPONENT + '/save_one', method: 'post'},
+                href: Url.System.Page.VIEW_PAGE_COMPONENT + '/edit_dialog',
+                get: {url: Url.System.Api.VIEW_PAGE_COMPONENT + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.VIEW_PAGE_COMPONENT + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
                     iconCls: 'fa fa-save',
@@ -465,8 +465,8 @@
     }
 
     function viewPageComponentDeleteAll() {
-        $('#viewPageComponent').datagrid(expressui.grid.deleteRows, {
-            url: Api.System.VIEW_PAGE_COMPONENT + '/delete_all',
+        $('#viewPageComponent').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.VIEW_PAGE_COMPONENT + '/delete_all',
             method: 'post',
             success: '删除成功',
             reload: {type: 'datagrid', selector: '#viewPageComponent'}
@@ -477,7 +477,7 @@
      * 关联 API 对话框
      */
     function viewPageComponentApiDialog() {
-        var one = $('#viewPageComponent').datagrid(expressui.grid.getCheckedOneShowAlert);
+        var one = $('#viewPageComponent').datagrid(expressui.grid.getCheckedOneOrShowAlert);
         if (!one) {
             return;
         }
@@ -485,7 +485,7 @@
         $('#viewPageComponentApiDialog').dialog(expressui.dialog.create, {
             title: '关联 API',
             grid: {type: 'datagrid', selector: '#viewPageComponent'},
-            href: Page.System.VIEW_PAGE_COMPONENT_API + '/page_all',
+            href: Url.System.Page.VIEW_PAGE_COMPONENT_API + '/page_all',
             width: 800,
             height: 420,
             buttons: [{

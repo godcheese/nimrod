@@ -89,4 +89,16 @@
         <include refid="TableName"/>
     </select>
 
+    <select id="listAllByStatus" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/> WHERE `status`  IN
+        (
+        <foreach collection="statusList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
 </mapper>

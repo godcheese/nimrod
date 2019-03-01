@@ -51,14 +51,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Pagination.Result<RoleEntity> pageAll(Integer page, Integer rows) {
-        List<RoleEntity> roleEntityList;
         Pagination.Result<RoleEntity> paginationResult = new Pagination().new Result<>();
-        roleEntityList = roleMapper.pageAll(new Pageable(page, rows));
+        List<RoleEntity> roleEntityList = roleMapper.pageAll(new Pageable(page, rows));
         if (roleEntityList != null) {
             paginationResult.setRows(roleEntityList);
         }
-        int count = roleMapper.countAll();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(roleMapper.countAll());
         return paginationResult;
     }
 

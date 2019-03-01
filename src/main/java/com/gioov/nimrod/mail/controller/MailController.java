@@ -1,7 +1,7 @@
 package com.gioov.nimrod.mail.controller;
 
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.mail.Url;
+import com.gioov.nimrod.mail.Mail;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @Controller
-@RequestMapping(Url.Page.MAIL)
+@RequestMapping(Mail.Page.MAIL)
 public class MailController {
 
     /**
@@ -24,7 +24,7 @@ public class MailController {
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/MAIL/PAGE_ALL')")
     @RequestMapping("/page_all")
     public String pageAllQueue() {
-        return Common.trimSlash(Url.Page.MAIL + "/page_all");
+        return Common.trimSlash(Mail.Page.MAIL + "/page_all");
     }
 
     /**
@@ -35,7 +35,7 @@ public class MailController {
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/MAIL/SEND')")
     @RequestMapping("/send")
     public String send() {
-        return Common.trimSlash(Url.Page.MAIL  + "/send");
+        return Common.trimSlash(Mail.Page.MAIL  + "/send");
     }
 
     /**
@@ -46,7 +46,7 @@ public class MailController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/edit_and_send_dialog")
     public String editAndSendDialog() {
-        return Common.trimSlash(Url.Page.MAIL + "/edit_and_send_dialog");
+        return Common.trimSlash(Mail.Page.MAIL + "/edit_and_send_dialog");
     }
 
 }

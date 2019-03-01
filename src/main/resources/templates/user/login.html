@@ -4,6 +4,7 @@
     <div th:replace="./widget/base(title='登录')"></div>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/login.css}">
     <script type="text/javascript" th:src="@{/assets/js/util.js}" charset="UTF-8"></script>
+    <script th:src="@{/assets/js/login.js}"></script>
 </head>
 <body>
 <noscript>当你看到这条信息，意味着 JavaScript 已被你的浏览器禁用，请开启 JavaScript 以使你的设备正常访问。</noscript>
@@ -64,87 +65,9 @@
             <a href="javascript:">服务条款</a>
             <a href="javascript:">联系方式</a>
         </div>
-        <div class="address">地址：浙江省xx市xxx科技园区xx幢xxx室&nbsp;邮编：320000&nbsp;&nbsp;Copyright&nbsp;©&nbsp;2017&nbsp;-&nbsp;2019&nbsp;&nbsp;版权所有</div>
-        <div class="other-info">建议使用IE8及以上版本浏览器&nbsp;浙ICP备&nbsp;00000000号&nbsp;E-mail：godcheese#outlook.com</div>
+        <div class="address">地址：浙江省xx市xxx科技园区xx幢xxx室，邮编：320000，E-mail：godcheese#outlook.com，Copyright&nbsp;©&nbsp;2017&nbsp;-&nbsp;2019&nbsp;&nbsp;版权所有</div>
+        <div class="other-info">推荐使用 Chrome39+（下载）、Firefox 22+、IE9 及其以上版本的浏览器。推荐分辩率为1440*900或者更高。&nbsp;浙ICP备00000000号&nbsp;</div>
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        // iframe 框架刷新父页面
-        if (window.top !== window.self) {
-            window.top.location = window.location;
-        }
-
-        var verifyCodeImageSrc = $('#verifyCodeImage').attr('src');
-        $('#verifyCodeImage').click(function () {
-            refreshVerifyCode($(this), verifyCodeImageSrc);
-        });
-
-        function refreshVerifyCode(_this, verifyCodeImageSrc) {
-            _this.attr('src', verifyCodeImageSrc + '?t=' + Math.random());
-        }
-
-        $('#loginButton').click(function () {
-            var account = $('#account').val();
-            var password = $('#password').val();
-            var rememberMe = $('#rememberMe').is(':checked');
-            var verifyCode = $('#verifyCode').val();
-            if (account === '' || password === '') {
-                $('#alertMessage').html(' <div class="alert alert-error">\n' +
-                    '<i class="fa fa-exclamation-triangle"></i>\n' +
-                    '<span id="alertMessage">请先输入账号和密码</span>\n' +
-                    '</div>');
-                return;
-            }
-
-            $.ajax({
-                url: Api.User.LOGIN,
-                data: {
-                    account: account,
-                    password: password,
-                    rememberMe: rememberMe,
-                    verifyCode: verifyCode
-                },
-                type: 'post',
-                success: function (XMLHttpRequest, statusText) {
-                    $('#alertMessage').html('<div class="alert alert-success">\n' +
-                        '<i class="fa fa-exclamation-triangle"></i>\n' +
-                        '<span id="alertMessage">登录成功</span>\n' +
-                        '</div>');
-
-                    // 刷新页面跳转到首页
-                    console.log(_contextPath);
-                    // window.location.href = _contextPath !== null && _contextPath !== '/' ?;
-                    window.location.href = _contextPath;
-                },
-                error: function (XMLHttpRequest, statusText, errorThrown) {
-                    $('#alertMessage').html('<div class="alert alert-error">\n' +
-                        '<i class="fa fa-exclamation-triangle"></i>\n' +
-                        '<span id="alertMessage">' + XMLHttpRequest.responseJSON.message + '</span>\n' +
-                        '</div>');
-                    $('#verifyCodeImage').click();
-                    // refreshVerifyCode($('#verifyCodeImage'),verifyCodeImageSrc);
-                }
-            });
-        });
-
-        var state = util.request.getQueryParam('state');
-        switch (state) {
-            case 'logout':
-                $('#alertMessage').html('<div class="alert alert-success">\n' +
-                    '<i class="fa fa-exclamation-triangle"></i>\n' +
-                    '<span id="alertMessage">注销成功</span>\n' +
-                    '</div>');
-                break;
-            default:
-                break;
-        }
-
-    });
-
-    util.document.keyDown(13, function () {
-        $('#loginButton').click();
-    });
-</script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.gioov.nimrod.system.api;
 import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.ViewPageComponentEntity;
 import com.gioov.nimrod.system.service.ViewPageComponentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Url.Api.System.VIEW_PAGE_COMPONENT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = System.Api.VIEW_PAGE_COMPONENT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ViewPageComponentRestController {
 
     private static final String VIEW_PAGE_COMPONENT = "/API/SYSTEM/VIEW_PAGE_COMPONENT";

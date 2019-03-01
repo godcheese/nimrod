@@ -5,6 +5,7 @@ import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
+import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.OperationLogEntity2;
 import com.gioov.nimrod.system.service.OperationLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Url.Api.System.OPERATION_LOG, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = System.Api.OPERATION_LOG, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class OperationLogRestController {
 
     private static final String OPERATION_LOG = "/API/SYSTEM/OPERATION_LOG";

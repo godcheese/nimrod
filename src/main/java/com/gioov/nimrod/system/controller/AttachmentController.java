@@ -2,6 +2,7 @@ package com.gioov.nimrod.system.controller;
 
 import com.gioov.nimrod.common.Common;
 import com.gioov.nimrod.common.Url;
+import com.gioov.nimrod.system.System;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,31 +14,31 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @Controller
-@RequestMapping(Url.Page.System.ATTACHMENT)
+@RequestMapping(System.Page.ATTACHMENT)
 public class AttachmentController {
 
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/SYSTEM/ATTACHMENT/PAGE_ALL')")
     @RequestMapping("/page_all")
     public String pageAll() {
-        return Common.trimSlash(Url.Page.System.ATTACHMENT + "/page_all");
+        return Common.trimSlash(System.Page.ATTACHMENT + "/page_all");
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/upload_one_dialog")
     public String uploadOneDialog() {
-        return Common.trimSlash(Url.Page.System.ATTACHMENT + "/upload_one_dialog");
+        return Common.trimSlash(System.Page.ATTACHMENT + "/upload_one_dialog");
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/upload_all_dialog")
     public String uploadAllDialog() {
-        return Common.trimSlash(Url.Page.System.ATTACHMENT + "/upload_all_dialog");
+        return Common.trimSlash(System.Page.ATTACHMENT + "/upload_all_dialog");
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/edit_dialog")
     public String editDialog() {
-        return Common.trimSlash(Url.Page.System.ATTACHMENT + "/edit_dialog");
+        return Common.trimSlash(System.Page.ATTACHMENT + "/edit_dialog");
     }
 
 }

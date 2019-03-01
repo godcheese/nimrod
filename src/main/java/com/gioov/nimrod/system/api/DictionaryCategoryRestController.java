@@ -3,6 +3,7 @@ package com.gioov.nimrod.system.api;
 import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
 import com.gioov.nimrod.system.service.DictionaryCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(Url.Api.System.DICTIONARY_CATEGORY)
+@RequestMapping(System.Api.DICTIONARY_CATEGORY)
 public class DictionaryCategoryRestController {
 
     private static final String DICTIONARY_CATEGORY = "/API/SYSTEM/DICTIONARY_CATEGORY";

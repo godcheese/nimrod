@@ -4,7 +4,10 @@ import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.Common;
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.system.System;
+import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
 import com.gioov.nimrod.system.entity.DictionaryEntity;
+import com.gioov.nimrod.system.service.DictionaryCategoryService;
 import com.gioov.nimrod.system.service.DictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +29,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = Url.Api.System.DICTIONARY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = System.Api.DICTIONARY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class DictionaryRestController {
 
     private static final String DICTIONARY = "/API/SYSTEM/DICTIONARY";
@@ -36,6 +39,9 @@ public class DictionaryRestController {
 
     @Autowired
     private Common common;
+
+    @Autowired
+    private DictionaryCategoryService dictionaryCategoryService;
 
     /**
      * 指定父级数据字典分类 id ，获取所有数据字典
@@ -98,8 +104,7 @@ public class DictionaryRestController {
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/SAVE_ONE')")
     @PostMapping(value = "/save_one")
     public ResponseEntity<DictionaryEntity> saveOne(@RequestParam Long id, @RequestParam String keyName, @RequestParam String key, @RequestParam String valueName, @RequestParam String valueSlug, @RequestParam String value, @RequestParam Integer enable, @RequestParam Long sort, @RequestParam String remark) {
-        DictionaryEntity dictionaryEntity = new DictionaryEntity();
-        dictionaryEntity.setId(id);
+        DictionaryEntity dictionaryEntity = dictionaryService.getOne(id);
         dictionaryEntity.setKeyName(keyName);
         dictionaryEntity.setKey(key);
         dictionaryEntity.setValueName(valueName);
@@ -170,6 +175,46 @@ public class DictionaryRestController {
         common.initialize();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     * 保存数据字典
+     *
+     * @param id        数据字典 id
+     * @param key       数据字典键
+     * @param keyName   数据字典键名
+     * @param valueName 数据字典值名
+     * @param valueSlug 数据字典值别名
+     * @param value     数据字典值
+     * @param sort      排序
+     * @param remark    备注
+     * @return ResponseEntity<DictionaryEntity>
+     */
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/MOVE_TO_DICTIONARY_CATEGORY')")
+    @PostMapping(value = "/move_to_dictionary_category")
+    public ResponseEntity<Integer> moveToDictionaryCategory(@RequestParam Long dictionaryCategoryId, @RequestParam(required = false, name = "dictionaryId[]") List<Long> dictionaryIdList, @RequestParam(required = false, name = "dictionaryCategoryId[]") List<Long> dictionaryCategoryIdList) {
+        DictionaryEntity dictionaryEntity;
+        DictionaryCategoryEntity dictionaryCategoryEntity;
+
+        int index = 0;
+        if(dictionaryIdList != null) {
+            for (Long dictionaryId : dictionaryIdList) {
+                dictionaryEntity = dictionaryService.getOne(dictionaryId);
+                dictionaryEntity.setDictionaryCategoryId(dictionaryCategoryId);
+                dictionaryService.updateOne(dictionaryEntity);
+                index++;
+            }
+        } else if(dictionaryCategoryIdList != null) {
+            for (Long mDictionaryCategoryId : dictionaryCategoryIdList) {
+                dictionaryCategoryEntity = dictionaryCategoryService.getOne(mDictionaryCategoryId);
+                dictionaryCategoryEntity.setParentId(dictionaryCategoryId);
+                dictionaryCategoryService.updateOne(dictionaryCategoryEntity);
+                index++;
+            }
+        }
+
+        return new ResponseEntity<>(index, HttpStatus.OK);
+    }
+
 
     /**
      * 指定数据字典 id ，导出数据字典信息

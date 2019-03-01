@@ -23,14 +23,12 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public Pagination.Result<UserRoleEntity> pageAll(Integer page, Integer rows) {
-        List<UserRoleEntity> userRoleEntityList;
         Pagination.Result<UserRoleEntity> paginationResult = new Pagination().new Result<>();
-        userRoleEntityList = userRoleMapper.pageAll(new Pageable(page, rows));
+        List<UserRoleEntity> userRoleEntityList = userRoleMapper.pageAll(new Pageable(page, rows));
         if (userRoleEntityList != null) {
             paginationResult.setRows(userRoleEntityList);
         }
-        int count = userRoleMapper.countAll();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(userRoleMapper.countAll());
         return paginationResult;
     }
 

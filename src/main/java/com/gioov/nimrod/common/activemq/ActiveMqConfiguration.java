@@ -9,5 +9,5 @@ import org.springframework.jms.annotation.EnableJms;
  */
 @EnableJms
 @Configuration
-public class ActiveMqConfig {
+public class ActiveMqConfiguration {
 }

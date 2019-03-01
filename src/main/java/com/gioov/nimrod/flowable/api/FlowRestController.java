@@ -1,7 +1,6 @@
 package com.gioov.nimrod.flowable.api;
 
-import com.gioov.example.service.ExampleService;
-import com.gioov.nimrod.flowable.Url;
+import com.gioov.nimrod.flowable.Flowable;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.task.api.Task;
@@ -22,7 +21,7 @@ import java.util.Map;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(Url.Api.FLOWABLE + "/flow")
+@RequestMapping(Flowable.Api.FLOWABLE + "/flow")
 public class FlowRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FlowRestController.class);

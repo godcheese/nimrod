@@ -55,12 +55,12 @@
         ];
         $('#roleAuthorityViewPageCategory').treegrid(expressui.grid.create, {
             title: '视图页面分类',
-            url: Api.System.VIEW_PAGE_CATEGORY + '/page_all_parent',
-            expandUrl: Api.System.VIEW_PAGE_CATEGORY + '/list_all_by_parent_id/{id}',
+            url: Url.System.Api.VIEW_PAGE_CATEGORY + '/page_all_parent',
+            expandUrl: Url.System.Api.VIEW_PAGE_CATEGORY + '/list_all_by_parent_id/{id}',
             columns: [columns],
             onCheck: function (row) {
                 if (row) {
-                    $('#roleAuthorityViewPage').datagrid('reload', Api.System.VIEW_PAGE + '/page_all_by_page_category_id/' + row.id);
+                    $('#roleAuthorityViewPage').datagrid('reload', Url.System.Api.VIEW_PAGE + '/page_all_by_page_category_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -75,7 +75,7 @@
                 field: 'is_granted', title: '授权状态', formatter: function (value, row) {
                     var isGranted = '未授权';
                     expressui.ajax({
-                        url: Api.User.ROLE_AUTHORITY + '/is_granted_by_role_id_and_authority/?roleId=' + roleId + '&authority=' + row.authority,
+                        url: Url.User.Api.ROLE_AUTHORITY + '/is_granted_by_role_id_and_authority/?roleId=' + roleId + '&authority=' + row.authority,
                         success: function (data) {
                             if (data && (data.isGranted === true)) {
                                 isGranted = '已授权';
@@ -101,7 +101,7 @@
             columns: [columns],
             onCheck: function (index, row) {
                 if (row) {
-                    $('#roleAuthorityViewPageComponent').datagrid('reload', Api.System.VIEW_PAGE_COMPONENT + '/page_all_by_page_id/' + row.id);
+                    $('#roleAuthorityViewPageComponent').datagrid('reload', Url.System.Api.VIEW_PAGE_COMPONENT + '/page_all_by_page_id/' + row.id);
                 }
             },
             onUncheck: function (index, row) {
@@ -115,7 +115,7 @@
                 field: 'is_granted', title: '授权状态', formatter: function (value, row) {
                     var isGranted = '未授权';
                     expressui.ajax({
-                        url: Api.User.ROLE_AUTHORITY + '/is_granted_by_role_id_and_authority',
+                        url: Url.User.Api.ROLE_AUTHORITY + '/is_granted_by_role_id_and_authority',
                         data: {
                             roleId: roleId,
                             authority: row.authority
@@ -147,14 +147,14 @@
     });
 
     function grantAllRoleAuthorityViewPage() {
-        var selectAll = $('#roleAuthorityViewPage').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#roleAuthorityViewPage').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var authorityList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 authorityList[i] = selectAll[i].authority;
             }
             expressui.ajax({
-                url: Api.User.ROLE_AUTHORITY + '/grant_all_by_role_id_and_page_authority_list',
+                url: Url.User.Api.ROLE_AUTHORITY + '/grant_all_by_role_id_and_page_authority_list',
                 data: {roleId: roleId, authorityList: authorityList},
                 type: 'post',
                 success: function (data) {
@@ -175,18 +175,18 @@
     }
 
     function revokeAllRoleAuthorityViewPage() {
-        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
         //         $('#role').datagrid('reload');
         //     } });
 
-        var selectAll = $('#roleAuthorityViewPage').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#roleAuthorityViewPage').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var authorityList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 authorityList[i] = selectAll[i].authority;
             }
             expressui.ajax({
-                url: Api.User.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_page_authority_list',
+                url: Url.User.Api.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_page_authority_list',
                 data: {roleId: roleId, authorityList: authorityList},
                 type: 'post',
                 success: function (data) {
@@ -207,14 +207,14 @@
     }
 
     function grantAllRoleAuthorityViewPageComponent() {
-        var selectAll = $('#roleAuthorityViewPageComponent').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#roleAuthorityViewPageComponent').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var authorityList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 authorityList[i] = selectAll[i].authority;
             }
             expressui.ajax({
-                url: Api.User.ROLE_AUTHORITY + '/grant_all_by_role_id_and_page_component_authority_list',
+                url: Url.User.Api.ROLE_AUTHORITY + '/grant_all_by_role_id_and_page_component_authority_list',
                 data: {roleId: roleId, authorityList: authorityList},
                 type: 'post',
                 success: function (data) {
@@ -231,18 +231,18 @@
     }
 
     function revokeAllRoleAuthorityViewPageComponent() {
-        // $('#role').datagrid( expressui.grid.deleteRows,  {url: Api.User.ROLE + '/delete_all', method:'post', success: function () {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
         //         $('#role').datagrid('reload');
         //     } });
 
-        var selectAll = $('#roleAuthorityViewPageComponent').datagrid(expressui.grid.getCheckedLessOneShowAlert);
+        var selectAll = $('#roleAuthorityViewPageComponent').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
         var authorityList = [];
         if (selectAll) {
             for (var i = 0; i < selectAll.length; i++) {
                 authorityList[i] = selectAll[i].authority;
             }
             expressui.ajax({
-                url: Api.User.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_page_component_authority_list',
+                url: Url.User.Api.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_page_component_authority_list',
                 data: {roleId: roleId, authorityList: authorityList},
                 type: 'post',
                 success: function (data) {

@@ -3,6 +3,7 @@ package com.gioov.nimrod.system.controller;
 import com.gioov.nimrod.common.Common;
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
+import com.gioov.nimrod.system.System;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +33,9 @@ public class SystemController {
      */
     @OperationLog(value = "首页")
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAnyAuthority('/','/INDEX','/SYSTEM','/SYSTEM/INDEX')")
-    @RequestMapping(value = {"/", Url.Page.INDEX, Url.Page.SYSTEM, Url.Page.System.INDEX})
+    @RequestMapping(value = {"/", Url.Page.INDEX, System.Page.SYSTEM,System.Page.INDEX})
     public String index() {
-        return Common.trimSlash(Url.Page.SYSTEM + "/index");
+        return Common.trimSlash(System.Page.SYSTEM + "/index");
     }
 
     /**
@@ -44,9 +45,9 @@ public class SystemController {
      */
     @OperationLog(value = "工作台")
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/SYSTEM/WORKBENCH')")
-    @RequestMapping(value = Url.Page.System.WORKBENCH)
+    @RequestMapping(value = System.Page.WORKBENCH)
     public String workbench() {
-        return Common.trimSlash(Url.Page.System.WORKBENCH);
+        return Common.trimSlash(System.Page.WORKBENCH);
     }
 
 }

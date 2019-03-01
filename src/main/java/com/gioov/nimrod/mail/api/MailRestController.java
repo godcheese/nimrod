@@ -2,7 +2,7 @@ package com.gioov.nimrod.mail.api;
 
 import com.gioov.common.mybatis.Sort;
 import com.gioov.nimrod.common.easyui.Pagination;
-import com.gioov.nimrod.mail.Url;
+import com.gioov.nimrod.mail.Mail;
 import com.gioov.nimrod.mail.entity.MailEntity;
 import com.gioov.nimrod.mail.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(Url.Api.MAIL)
+@RequestMapping(Mail.Api.MAIL)
 public class MailRestController {
 
     private static final String MAIL = "/API/MAIL";

@@ -21,7 +21,6 @@
             window._ajaxing.abort();
             window._ajaxing = undefined;
         }
-        console.log(window._ajaxing);
         if(window._ajaxing) {
             $(this).linkbutton({text: '取消', iconCls: 'fa fa-close'});
         } else {
@@ -34,7 +33,7 @@
         var file = $('#file').filebox('files')[0];
         formData.append('file', file);
         return $.ajax({
-            url: Api.System.ATTACHMENT + '/upload_one',
+            url: Url.System.Api.ATTACHMENT + '/upload_one',
             type: 'post',
             data: formData,
             processData: false, // 不要对data参数进行序列化处理，默认为true

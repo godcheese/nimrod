@@ -1,8 +1,13 @@
 package com.gioov.nimrod.common.util;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 
@@ -38,4 +43,18 @@ public class SpringContextUtil implements ApplicationContextAware {
         return getApplicationContext().getBean(clazz);
     }
 
+    public static void registerBean(String beanId,String className) {
+
+     ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) getApplicationContext();
+
+        BeanDefinitionRegistry beanDefinitionRegistry = (DefaultListableBeanFactory) configurableContext.getBeanFactory();
+
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(className);
+
+        // get the BeanDefinition
+        BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
+
+        // register the bean
+        beanDefinitionRegistry.registerBeanDefinition(beanId,beanDefinition);
+    }
 }

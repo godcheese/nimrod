@@ -4,7 +4,7 @@ package com.gioov.nimrod.flowable;
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-01-18
  */
-public class Url {
+public class Flowable {
 
     public class Page {
         public static final String FLOWABLE = "/flowable";

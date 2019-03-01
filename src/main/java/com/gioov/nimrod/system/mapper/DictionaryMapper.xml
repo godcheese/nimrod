@@ -49,7 +49,7 @@
         UPDATE
         <include refid="TableName"/>
         SET `key_name` = #{keyName}, `key` = #{key}, `value_name` = #{valueName}, `value_slug` = #{valueSlug}, `value` =
-        #{value}, `enable` = #{enable}, `sort` = #{sort}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        #{value}, `enable` = #{enable}, `dictionary_category_id` = #{dictionaryCategoryId}, `sort` = #{sort}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
         WHERE `id`= #{id}
     </update>
 

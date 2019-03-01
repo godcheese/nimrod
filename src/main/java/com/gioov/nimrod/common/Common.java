@@ -2,6 +2,7 @@ package com.gioov.nimrod.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gioov.nimrod.mail.mapper.MailMapper;
 import com.gioov.nimrod.mail.service.MailService;
 import com.gioov.nimrod.system.service.DictionaryService;
 import org.slf4j.Logger;
@@ -26,10 +27,16 @@ public class Common {
     @Autowired
     private DictionaryService dictionaryService;
 
+    @Autowired
+    private MailMapper mailMapper;
+
     public void initialize() {
         // 首次启动加载数据字典到 ServletContext 内存
         dictionaryService.addDictionaryToServletContext();
         mailService.initialize();
+
+        // 将待发送的邮件重新加入到发送队列
+        mailService.retry(false);
     }
 
     /**

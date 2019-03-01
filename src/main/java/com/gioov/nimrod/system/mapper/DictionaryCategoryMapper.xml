@@ -37,7 +37,7 @@
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.system.entity.DictionaryCategoryEntity">
         UPDATE
         <include refid="TableName"/>
-        SET `name` = #{name}
+        SET `name` = #{name}, `parent_id` = #{parentId}, `gmt_modified` = #{gmtModified}
         WHERE `id`= #{id}
     </update>
 

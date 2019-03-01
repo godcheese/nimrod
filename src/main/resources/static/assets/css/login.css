@@ -89,6 +89,7 @@ body.white .login-body .login-zone .login-box .login-label p {
     box-shadow:2px 2px 3px #ddd,-2px 0 3px #ddd;
     width:364px;
     padding-bottom:20px;
+    border:1px solid #ddd;
 }
 .login-body .body-inner .inner-wrap .login-zone .login-box .login-label {
     color:#000;
@@ -193,7 +194,6 @@ body.white .login-body .login-zone .login-box .login-label p {
 }
 .login-body .body-inner .inner-wrap .login-zone .login-box .enter a.login-button {
     margin-left:34px;
-    /*background-color:#f45438;*/
     background-color:#0089d0;
     margin-right:9px
 }

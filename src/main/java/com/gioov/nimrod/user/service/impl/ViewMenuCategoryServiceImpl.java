@@ -142,15 +142,12 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
 
     @Override
     public Pagination.Result<ViewMenuCategoryEntity> pageAllParent(Long roleId, Integer page, Integer rows) {
-        List<ViewMenuCategoryEntity> viewMenuCategoryEntityList;
         Pagination.Result<ViewMenuCategoryEntity> paginationResult = new Pagination().new Result<>();
-
-        viewMenuCategoryEntityList = viewMenuCategoryMapper.pageAllByParentIdIsNullAndRoleId(roleId, new Pageable(page, rows));
+        List<ViewMenuCategoryEntity> viewMenuCategoryEntityList = viewMenuCategoryMapper.pageAllByParentIdIsNullAndRoleId(roleId, new Pageable(page, rows));
         if (viewMenuCategoryEntityList != null) {
             paginationResult.setRows(viewMenuCategoryEntityList);
         }
-        int count = viewMenuCategoryMapper.countAllByParentIdIsNullAndRoleId(roleId);
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(viewMenuCategoryMapper.countAllByParentIdIsNullAndRoleId(roleId));
         return paginationResult;
     }
 

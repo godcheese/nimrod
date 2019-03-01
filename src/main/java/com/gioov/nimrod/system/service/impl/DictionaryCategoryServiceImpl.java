@@ -31,14 +31,12 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
 
     @Override
     public Pagination.Result<DictionaryCategoryEntity> pageAllParent(Integer page, Integer rows) {
-        List<DictionaryCategoryEntity> dictionaryCategoryEntityList;
         Pagination.Result<DictionaryCategoryEntity> paginationResult = new Pagination().new Result<>();
-        dictionaryCategoryEntityList = dictionaryCategoryMapper.pageAllByParentIdIsNull(new Pageable(page, rows));
+        List<DictionaryCategoryEntity> dictionaryCategoryEntityList = dictionaryCategoryMapper.pageAllByParentIdIsNull(new Pageable(page, rows));
         if (dictionaryCategoryEntityList != null) {
             paginationResult.setRows(dictionaryCategoryEntityList);
         }
-        int count = dictionaryCategoryMapper.countAllByParentIdIsNull();
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(dictionaryCategoryMapper.countAllByParentIdIsNull());
         return paginationResult;
     }
 
@@ -50,31 +48,20 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public DictionaryCategoryEntity insertOne(DictionaryCategoryEntity dictionaryCategoryEntity) {
-        DictionaryCategoryEntity dictionaryCategoryEntity1 = new DictionaryCategoryEntity();
         Date date = new Date();
-        dictionaryCategoryEntity1.setName(dictionaryCategoryEntity.getName());
-        dictionaryCategoryEntity1.setParentId(dictionaryCategoryEntity.getParentId());
-        dictionaryCategoryEntity1.setSort(dictionaryCategoryEntity.getSort());
-        dictionaryCategoryEntity1.setRemark(dictionaryCategoryEntity.getRemark());
-        dictionaryCategoryEntity1.setGmtModified(date);
-        dictionaryCategoryEntity1.setGmtCreated(date);
-        dictionaryCategoryMapper.insertOne(dictionaryCategoryEntity1);
-        return dictionaryCategoryEntity1;
+        dictionaryCategoryEntity.setGmtCreated(date);
+        dictionaryCategoryMapper.insertOne(dictionaryCategoryEntity);
+        return dictionaryCategoryEntity;
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public DictionaryCategoryEntity updateOne(DictionaryCategoryEntity dictionaryCategoryEntity) {
         Date date = new Date();
-        DictionaryCategoryEntity dictionaryCategoryEntity1 = dictionaryCategoryMapper.getOne(dictionaryCategoryEntity.getId());
-        dictionaryCategoryEntity1.setName(dictionaryCategoryEntity.getName());
-        dictionaryCategoryEntity1.setSort(dictionaryCategoryEntity.getSort());
-        dictionaryCategoryEntity1.setRemark(dictionaryCategoryEntity.getRemark());
-        dictionaryCategoryEntity1.setGmtModified(date);
-        dictionaryCategoryMapper.updateOne(dictionaryCategoryEntity1);
-        return dictionaryCategoryEntity1;
+        dictionaryCategoryEntity.setGmtModified(date);
+        dictionaryCategoryMapper.updateOne(dictionaryCategoryEntity);
+        return dictionaryCategoryEntity;
     }
-
 
     @Override
     @Transactional(rollbackFor = Throwable.class)

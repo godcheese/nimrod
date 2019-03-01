@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# CentOS 7 自动化安装 oracle 11gR2
+# CentOS 7 自动化安装 oracle 11g r2
 
 # 安装一些必要的软件
 # wget         下载用的
@@ -22,7 +22,6 @@ yum install oracle-rdbms-server-11gR2-preinstall -y
 
 # 加载内核参数 和sysctl -p一样
 sysctl -f
-
 
 # 创建一些目录和配置
 # 配置oracle系统配置文件&授权

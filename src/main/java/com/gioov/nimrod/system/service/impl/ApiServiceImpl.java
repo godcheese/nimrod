@@ -26,14 +26,12 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public Pagination.Result<ApiEntity> pageAllByApiCategoryId(Long apiCategoryId, Integer page, Integer rows) {
-        List<ApiEntity> apiEntityList;
         Pagination.Result<ApiEntity> paginationResult = new Pagination().new Result<>();
-        apiEntityList = apiMapper.pageAllByApiCategoryId(apiCategoryId, new Pageable(page, rows));
+        List<ApiEntity> apiEntityList = apiMapper.pageAllByApiCategoryId(apiCategoryId, new Pageable(page, rows));
         if (apiEntityList != null) {
             paginationResult.setRows(apiEntityList);
         }
-        int count = apiMapper.countAllByApiCategoryId(apiCategoryId);
-        paginationResult.setTotal(count);
+        paginationResult.setTotal(apiMapper.countAllByApiCategoryId(apiCategoryId));
         return paginationResult;
     }
 
