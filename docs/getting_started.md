@@ -1,4 +1,5 @@
-## 项目目录结构
+### 项目目录结构
+```
 ├── main
 │   │  
 │   ├── java
@@ -41,9 +42,10 @@
 │   │     ├─ logback-spring.xml ------- Logback 配置文件
 │   │     │ 
 │   │     ├─ mybatis-config.xml ---------- MyBatis 配置文件
-
+```
 
 ### 运行实例
+
 - 一、安装 JDK 8+、MySQL 5.7+
 - 二、导入数据库
 `/db/mysql/nimrod/nimrod.sql`
@@ -52,9 +54,9 @@
 - 三、运行 `java -jar nimrod-*.jar`，浏览器打开 `http://localhost:8080/nimrod`
 
 ### 开发调试
+
 - 一、安装 JDK 8+、MySQL 5.7+、Maven 3.5+
 - 二、在 Intelli IDEA 中打开项目
 - 三、在 Terminal 中运行 `mvn spring-boot:run`，浏览器打开 `http://localhost:8080/nimrod`
 
-
-[环境搭建]https://github.com/godcheese/nimrod/blob/master/docs/java.md)
+### [环境搭建](https://github.com/godcheese/nimrod/blob/master/docs/java.md)
