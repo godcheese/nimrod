@@ -5,7 +5,7 @@
 
     <groupId>com.gioov</groupId>
     <artifactId>nimrod</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.1</version>
     <!-- jar 打包引用此属性值 -->
     <packaging>jar</packaging>
      <!-- war 打包引用此属性值 -->
