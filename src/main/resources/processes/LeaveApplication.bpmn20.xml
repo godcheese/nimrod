@@ -6,7 +6,7 @@
         <userTask id="approveTask" name="经理审批（批准或驳回）" flowable:candidateGroups="managers"></userTask>
         <sequenceFlow id="sequenceFlow-3f9aa66b-0c73-4035-816b-6416c803d046" sourceRef="approveTask" targetRef="decision"></sequenceFlow>
         <exclusiveGateway id="decision"></exclusiveGateway>
-        <serviceTask id="sendApprovedMail" name="发送批准邮件通知申请人" flowable:class="com.gioov.nimrod.flowable.delegate.leaveApplicationDelegate"></serviceTask>
+        <serviceTask id="sendApprovedMail" name="发送批准邮件通知申请人" flowable:class="com.gioov.nimrod.flowable.delegate.LeaveApplicationDelegate"></serviceTask>
         <sequenceFlow id="sequenceFlow-cc6009b3-d759-47c4-b1e0-3d67430bee72" sourceRef="sendApprovedMail" targetRef="approvedTask"></sequenceFlow>
         <userTask id="approvedTask" name="审批通过" flowable:assignee="${assignee}">
             <extensionElements>
@@ -14,7 +14,7 @@
             </extensionElements>
         </userTask>
         <sequenceFlow id="sequenceFlow-6c446dee-3a1d-42ce-b76e-456e5a3442be" sourceRef="approvedTask" targetRef="approveEnd"></sequenceFlow>
-        <serviceTask id="sendRejectionMail" name="发送驳回邮件通知申请人" flowable:class="com.gioov.nimrod.flowable.delegate.leaveApplicationDelegate"></serviceTask>
+        <serviceTask id="sendRejectionMail" name="发送驳回邮件通知申请人" flowable:class="com.gioov.nimrod.flowable.delegate.LeaveApplicationDelegate"></serviceTask>
         <sequenceFlow id="sequenceFlow-80fea9ad-5a88-487d-9664-9fd36e74699e" sourceRef="sendRejectionMail" targetRef="rejectEnd"></sequenceFlow>
         <endEvent id="approveEnd"></endEvent>
         <endEvent id="rejectEnd"></endEvent>

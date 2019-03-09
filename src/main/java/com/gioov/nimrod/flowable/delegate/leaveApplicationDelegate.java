@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-01-16
  */
-public class leaveApplicationDelegate implements JavaDelegate {
-    private static final Logger LOGGER = LoggerFactory.getLogger(leaveApplicationDelegate.class);
+public class LeaveApplicationDelegate implements JavaDelegate {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LeaveApplicationDelegate.class);
 
     @Override
     public void execute(DelegateExecution delegateExecution) {

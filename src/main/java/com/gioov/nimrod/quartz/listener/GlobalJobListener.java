@@ -33,7 +33,6 @@ public class GlobalJobListener implements JobListener {
 
     @Override
     public void jobToBeExecuted(JobExecutionContext context) {
-//        SpringContextUtil.getBean("jobRuntimeLogService", JobRuntimeLogServiceImpl.class);
         LOGGER.info("jobLogEntity={}", jobRuntimeLogService().log(context,null, "开始执行"));
     }
 

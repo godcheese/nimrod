@@ -45,7 +45,7 @@ public class FlowRestController {
      */
     @RequestMapping("/leaveApplication/apply")
     public String apply() {
-        Map<String, Object> variables = new HashMap<>();
+        Map<String, Object> variables = new HashMap<>(3);
         variables.put("assignee", "godcheese");
         variables.put("day", 2);
         variables.put("description", "事假");
@@ -80,7 +80,8 @@ public class FlowRestController {
      */
     @RequestMapping("/leaveApplication/approve")
     public String approve(@RequestParam String taskId) {
-        Map<String, Object> variables = new HashMap<>(); variables.put("approved", true);
+        Map<String, Object> variables = new HashMap<>(1);
+        variables.put("approved", true);
         taskService.complete(taskId, variables);
         return "approve";
     }
@@ -92,7 +93,8 @@ public class FlowRestController {
      */
     @RequestMapping("/leaveApplication/reject")
     public String reject(@RequestParam String taskId) {
-        Map<String, Object> variables = new HashMap<>(); variables.put("approved", false);
+        Map<String, Object> variables = new HashMap<>(1);
+        variables.put("approved", false);
         taskService.complete(taskId, variables);
         return "reject";
     }

@@ -23,6 +23,7 @@ import org.springframework.web.method.HandlerMethod;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -128,10 +129,10 @@ public class OperationLogServiceImpl implements OperationLogService {
         operationLogEntity.setReferer(request.getHeader("Referer"));
         operationLogEntity.setUserAgent(request.getHeader("User-Agent"));
         operationLogEntity.setHandler(handler.toString());
-//        HttpSession httpSession = request.getSession();
-//        if(httpSession!= null) {
-//            operationLogEntity.setSessionId(httpSession.getId());
-//        }
+        HttpSession httpSession = request.getSession();
+        if(httpSession!= null) {
+            operationLogEntity.setSessionId(httpSession.getId());
+        }
         Cookie[] cookies = request.getCookies();
         map = new HashMap<>(2);
         if (cookies != null) {

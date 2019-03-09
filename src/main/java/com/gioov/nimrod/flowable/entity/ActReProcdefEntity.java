@@ -3,12 +3,10 @@ package com.gioov.nimrod.flowable.entity;
 import java.io.Serializable;
 
 /**
- * @author godcheese [godcheese@outlook.com]
- * @date 2019-01-18
- */
-
-/**
  * Flowable 流程定义
+ *
+ * @author godcheese [godcheese@outlook.com]
+ * @date 2018-02-22
  */
 public class ActReProcdefEntity implements Serializable {
 

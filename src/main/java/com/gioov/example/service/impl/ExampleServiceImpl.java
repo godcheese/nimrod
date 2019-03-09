@@ -24,13 +24,13 @@ public class ExampleServiceImpl implements ExampleService {
     @Autowired
     private TaskService taskService;
 
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     @Override
     public void startProcess() {
         runtimeService.startProcessInstanceByKey("oneTaskProcess");
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     @Override
     public List<Task> getTasks(String assignee) {
         return taskService.createTaskQuery().taskAssignee(assignee).list();

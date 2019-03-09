@@ -23,6 +23,7 @@
 </p>
 
 ## 简介 Introduction
+> Nimrod 英[ˈnimrɔd] 美[ˈnɪmˌrɑd] n.	好猎手，猎人;
 
 Nimrod 是一款基于 Spring Boot 封装的 Java Web 平台快速开发脚手架，所采用的技术栈包括 Spring Boot、Spring、Spring MVC、MyBatis、Thymeleaf 等，遵守[阿里巴巴 Java 开发规约](https://github.com/alibaba/p3c)，帮助养成良好的编码习惯。整体采用 RBAC （ Role-Based Access Control ，基于角色的访问控制），具有严格的权限控制模块，支持系统与模块分离开发。最后希望这个项目能够对你有所帮助。
 
@@ -89,11 +90,9 @@ mvn clean package
 # develop
 mvn spring-boot:run
 ```
-### [开发文档](https://github.com/godcheese/nimrod/wiki)
+### [开发文档 Documentation](https://github.com/godcheese/nimrod/blob/master/docs/getting_started.md)
 
 This will open http://localhost:8080/nimrod.
-
-Refer to [Documentation](https://godcheese.github.io/nirmod/guide/essentials/deploy.html) for more information
 
 ## 更新日志 Changelog
 

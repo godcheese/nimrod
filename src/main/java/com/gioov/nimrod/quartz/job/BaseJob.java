@@ -9,5 +9,8 @@ import org.quartz.JobExecutionException;
  * @date 2019-02-01
  */
 public interface BaseJob extends Job {
+
+    @Override
     void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException;
+
 }
