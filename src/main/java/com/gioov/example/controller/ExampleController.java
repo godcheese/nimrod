@@ -1,5 +1,7 @@
 package com.gioov.example.controller;
 
+import com.gioov.example.Example;
+import com.gioov.nimrod.common.Common;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2018-02-22
  */
 @Controller
-@RequestMapping("/example")
+@RequestMapping(Example.Page.EXAMPLE)
 public class ExampleController {
 
     /**
@@ -20,6 +22,7 @@ public class ExampleController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/test")
     public String pageAll() {
-        return "example/test";
+        return  Common.trimSlash(Example.Page.EXAMPLE + "/test");
     }
+
 }

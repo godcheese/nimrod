@@ -60,13 +60,10 @@ public class VerifyCodeFilter extends OncePerRequestFilter {
     }
 
     public class VerifyCodeCheckException extends AuthenticationException {
-
         private static final long serialVersionUID = 7399186031568040869L;
-
         public VerifyCodeCheckException(String msg) {
             super(msg);
         }
-
     }
 
 }

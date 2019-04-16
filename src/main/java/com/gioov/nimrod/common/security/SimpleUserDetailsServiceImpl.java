@@ -67,7 +67,7 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public SimpleUserDetails loadUserByUsername(String account) {
+    public SimpleUser loadUserByUsername(String account) {
 
         // 从数据库中获取 user 实体
         UserEntity userEntity = userMapper.getOneByUsername(account);

@@ -49,12 +49,12 @@ public class WebInterceptor implements HandlerInterceptor {
             modelAndView.addObject(systemAdmin, systemAdmin);
             String contextPath = request.getContextPath();
             modelAndView.addObject(contextPathKey, (contextPath != null && !"".equals(contextPath)) ? contextPath : "/");
-            SimpleUser userPrincipal = userService.getUserPrincipal(request);
+            SimpleUser simpleUser = userService.getCurrentSimpleUser(request);
             Map<String, Object> userMap = new HashMap<>(2);
             userMap.put("id", null);
             userMap.put("username", null);
-            if (userPrincipal != null) {
-                UserEntity userEntity = userService.getOneByIdNoPassword(userPrincipal.getId());
+            if (simpleUser != null) {
+                UserEntity userEntity = userService.getOneByIdNoPassword(simpleUser.getId());
                 if (userEntity != null) {
                     userMap.put("id", userEntity.getId());
                     userMap.put("username", userEntity.getUsername());

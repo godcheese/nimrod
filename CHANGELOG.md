@@ -1,5 +1,12 @@
 
 ## Changelog
+- v0.5.2 2019.04.15
+  - 升级 Spring Boot Starter Parent 至 2.1.4.RELEASE 版本(20190415)
+  - 升级 MyBatis Spring Boot Starter 至 2.0.1(20190415)
+  - 升级 Druid Spring Boot Starter 至 1.1.16
+  - 升级 EasyUI 至 1.7.6(20190415)
+  - 移除工作流 Flowable(20190415)
+  - 优化代码(20190309)(20190415)
 - v0.5.1 2019.03.09
   - 优化代码(20190309)
 - v0.5.0 2019.02.01

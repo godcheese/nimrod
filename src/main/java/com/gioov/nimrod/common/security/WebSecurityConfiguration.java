@@ -61,8 +61,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Druid 需要权限或者系统管理员角色才能访问
         http.authorizeRequests().antMatchers(DruidConfiguration.DRUID_URL).hasAnyAuthority(SimpleUserDetailsServiceImpl.ROLE_PREFIX + SYSTEM_ADMIN, DruidConfiguration.DRUID_URL.toUpperCase());
 
-        // 禁用 csrf，建议不要禁用 csrf
-        http.csrf().disable()
+        http
+                // 禁用 csrf，建议不要禁用 csrf
+                .csrf().disable()
                 // 解决 in a frame because it set 'X-Frame-Options' to 'deny'. 问题
                 .headers().frameOptions().disable().and()
                 .authorizeRequests()
@@ -86,8 +87,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl(User.Api.LOGOUT).logoutSuccessHandler(logoutSuccessHandler).deleteCookies("JSESSIONID", "remember-me");
 
         // 一个帐号只允许同时在线一个 session
-        http.sessionManagement().sessionAuthenticationFailureHandler(authenticationFailureHandler).maximumSessions(1).expiredUrl(User.Page.LOGIN);
-
+//        http.sessionManagement().sessionAuthenticationFailureHandler(authenticationFailureHandler).maximumSessions(1).expiredUrl(User.Page.LOGIN);
     }
 
 }

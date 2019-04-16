@@ -70,14 +70,6 @@ public interface UserService {
     String encodePassword(String plainPassword);
 
     /**
-     * 指定 HttpServletRequest ，获取 user principal
-     *
-     * @param request HttpServletRequest
-     * @return SimpleUser
-     */
-    SimpleUser getUserPrincipal(HttpServletRequest request);
-
-    /**
      * 指定用户 id ，获取用户
      *
      * @param id 用户 id
@@ -113,6 +105,21 @@ public interface UserService {
      * @return UserEntity
      */
     UserEntity getCurrentUser(HttpServletRequest request);
+
+    /**
+     * 可能会 null
+     *
+     * @return UserEntity
+     */
+    SimpleUser getCurrentSimpleUser();
+
+    /**
+     * 更可靠的获取，但需指定 HttpServletRequest
+     *
+     * @param request HttpServletRequest
+     * @return UserEntity
+     */
+    SimpleUser getCurrentSimpleUser(HttpServletRequest request);
 
 //    /**
 //     * 注销当前用户

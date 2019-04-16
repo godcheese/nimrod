@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
@@ -24,8 +24,10 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
-    private static final Log logger = LogFactory.getLog(User.class);
+    private static final Log logger = LogFactory.getLog(SimpleUser.class);
 
+    // ~ Instance fields
+    // ================================================================================================
     private Long id;
     private String password;
     private final String username;
@@ -38,18 +40,41 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
     // ~ Constructors
     // ===================================================================================================
 
+    /**
+     * Calls the more complex constructor with all boolean arguments set to {@code true}.
+     */
     public SimpleUser(Long id, String username, String password,
                       Collection<? extends GrantedAuthority> authorities) {
         this(id, username, password, true, true, true, true, authorities);
     }
 
+
+    /**
+     * Construct the <code>SimpleUser</code> with the details required by
+     * {@link org.springframework.security.authentication.dao.DaoAuthenticationProvider}.
+     *
+     * @param username the username presented to the
+     * <code>DaoAuthenticationProvider</code>
+     * @param password the password that should be presented to the
+     * <code>DaoAuthenticationProvider</code>
+     * @param enabled set to <code>true</code> if the user is enabled
+     * @param accountNonExpired set to <code>true</code> if the account has not expired
+     * @param credentialsNonExpired set to <code>true</code> if the credentials have not
+     * expired
+     * @param accountNonLocked set to <code>true</code> if the account is not locked
+     * @param authorities the authorities that should be granted to the caller if they
+     * presented the correct username and password and the user is enabled. Not null.
+     *
+     * @throws IllegalArgumentException if a <code>null</code> value was passed either as
+     * a parameter or as an element in the <code>GrantedAuthority</code> collection
+     */
     public SimpleUser(Long id, String username, String password, boolean enabled,
                       boolean accountNonExpired, boolean credentialsNonExpired,
                       boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
 
-        boolean b = (id == null || (username == null) || "".equals(username));
-        if (b || password == null) {
-            throw new IllegalArgumentException("Cannot pass null or empty values to constructor");
+        if (((username == null) || "".equals(username)) || (password == null)) {
+            throw new IllegalArgumentException(
+                    "Cannot pass null or empty values to constructor");
         }
 
         this.id = id;
@@ -62,6 +87,8 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
     }
 
+    // ~ Methods
+    // ========================================================================================================
 
     @Override
     public Long getId() {
@@ -114,7 +141,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
         // Ensure array iteration order is predictable (as per
         // UserDetails.getAuthorities() contract and SEC-717)
         SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet<>(
-                new AuthorityComparator());
+                new SimpleUser.AuthorityComparator());
 
         for (GrantedAuthority grantedAuthority : authorities) {
             Assert.notNull(grantedAuthority,
@@ -148,7 +175,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
     }
 
     /**
-     * Returns {@code true} if the supplied object is a {@code User} instance with the
+     * Returns {@code true} if the supplied object is a {@code SimpleUser} instance with the
      * same {@code username} value.
      * <p>
      * In other words, the objects are equal if they have the same username, representing
@@ -157,7 +184,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
     @Override
     public boolean equals(Object rhs) {
         if (rhs instanceof SimpleUser) {
-            return id.equals(((SimpleUser) rhs).id);
+            return username.equals(((SimpleUser) rhs).username);
         }
         return false;
     }
@@ -167,7 +194,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
      */
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return username.hashCode();
     }
 
     @Override
@@ -195,7 +222,8 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
 
                 sb.append(auth);
             }
-        } else {
+        }
+        else {
             sb.append("Not granted any authorities");
         }
 
@@ -203,28 +231,98 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
     }
 
 
-    public static SimpleUserBuilder withId(Long id) {
+    public static SimpleUser.SimpleUserBuilder withId(Long id) {
         return builder().id(id);
     }
 
     /**
-     * Creates a UserBuilder
+     * Creates a SimpleUserBuilder with a specified user name
      *
-     * @return the UserBuilder
+     * @param username the username to use
+     * @return the SimpleUserBuilder
      */
-    public static SimpleUserBuilder builder() {
-        return new SimpleUserBuilder();
+    public static SimpleUser.SimpleUserBuilder withUsername(String username) {
+        return builder().username(username);
     }
 
+    /**
+     * Creates a SimpleUserBuilder
+     *
+     * @return the SimpleUserBuilder
+     */
+    public static SimpleUser.SimpleUserBuilder builder() {
+        return new SimpleUser.SimpleUserBuilder();
+    }
+
+    /**
+     * <p>
+     * <b>WARNING:</b> This method is considered unsafe for production and is only intended
+     * for sample applications.
+     * </p>
+     * <p>
+     * Creates a user and automatically encodes the provided password using
+     * {@code PasswordEncoderFactories.createDelegatingPasswordEncoder()}. For example:
+     * </p>
+     *
+     * <pre>
+     * <code>
+     * UserDetails user = SimpleUser.withDefaultPasswordEncoder()
+     *     .username("user")
+     *     .password("password")
+     *     .roles("USER")
+     *     .build();
+     * // outputs {bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
+     * System.out.println(user.getPassword());
+     * </code>
+     * </pre>
+     *
+     * This is not safe for production (it is intended for getting started experience)
+     * because the password "password" is compiled into the source code and then is
+     * included in memory at the time of creation. This means there are still ways to
+     * recover the plain text password making it unsafe. It does provide a slight
+     * improvement to using plain text passwords since the UserDetails password is
+     * securely hashed. This means if the UserDetails password is accidentally exposed,
+     * the password is securely stored.
+     *
+     * In a production setting, it is recommended to hash the password ahead of time.
+     * For example:
+     *
+     * <pre>
+     * <code>
+     * PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+     * // outputs {bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
+     * // remember the password that is printed out and use in the next step
+     * System.out.println(encoder.encode("password"));
+     * </code>
+     * </pre>
+     *
+     * <pre>
+     * <code>
+     * UserDetails user = SimpleUser.withUsername("user")
+     *     .password("{bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG")
+     *     .roles("USER")
+     *     .build();
+     * </code>
+     * </pre>
+     *
+     * @return a SimpleUserBuilder that automatically encodes the password with the default
+     * PasswordEncoder
+     * @deprecated Using this method is not considered safe for production, but is
+     * acceptable for demos and getting started. For production purposes, ensure the
+     * password is encoded externally. See the method Javadoc for additional details.
+     * There are no plans to remove this support. It is deprecated to indicate
+     * that this is considered insecure for production purposes.
+     */
     @Deprecated
-    public static SimpleUserBuilder withDefaultPasswordEncoder() {
-        logger.warn("User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.");
+    public static SimpleUser.SimpleUserBuilder withDefaultPasswordEncoder() {
+        logger.warn("SimpleUser.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.");
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return builder().passwordEncoder(encoder::encode);
     }
 
-    public static SimpleUserBuilder withSimpleUserDetails(SimpleUserDetails simpleUserDetails) {
-        return withId(simpleUserDetails.getId()).username(simpleUserDetails.getUsername())
+    public static SimpleUser.SimpleUserBuilder withSimpleUserDetails(SimpleUserDetails simpleUserDetails) {
+        return withId(simpleUserDetails.getId())
+                .username(simpleUserDetails.getUsername())
                 .password(simpleUserDetails.getPassword())
                 .accountExpired(!simpleUserDetails.isAccountNonExpired())
                 .accountLocked(!simpleUserDetails.isAccountNonLocked())
@@ -254,14 +352,8 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
         private SimpleUserBuilder() {
         }
 
-        /**
-         * Populates the username. This attribute is required.
-         *
-         * @param id the id. Cannot be null.
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
-         * additional attributes for this user)
-         */
-        public SimpleUserBuilder id(Long id) {
+
+        public SimpleUser.SimpleUserBuilder id(Long id) {
             Assert.notNull(id, "id cannot be null");
             this.id = id;
             return this;
@@ -271,10 +363,10 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the username. This attribute is required.
          *
          * @param username the username. Cannot be null.
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder username(String username) {
+        public SimpleUser.SimpleUserBuilder username(String username) {
             Assert.notNull(username, "username cannot be null");
             this.username = username;
             return this;
@@ -284,10 +376,10 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the password. This attribute is required.
          *
          * @param password the password. Cannot be null.
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder password(String password) {
+        public SimpleUser.SimpleUserBuilder password(String password) {
             Assert.notNull(password, "password cannot be null");
             this.password = password;
             return this;
@@ -298,10 +390,10 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * to {@link #password(String)}.
          *
          * @param encoder the encoder to use
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder passwordEncoder(Function<String, String> encoder) {
+        public SimpleUser.SimpleUserBuilder passwordEncoder(Function<String, String> encoder) {
             Assert.notNull(encoder, "encoder cannot be null");
             this.passwordEncoder = encoder;
             return this;
@@ -313,13 +405,13 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * "ROLE_". This means the following:
          *
          * <code>
-         * builder.roles("USER","ADMIN");
+         *     builder.roles("USER","ADMIN");
          * </code>
-         * <p>
+         *
          * is equivalent to
          *
          * <code>
-         * builder.authorities("ROLE_USER","ROLE_ADMIN");
+         *     builder.authorities("ROLE_USER","ROLE_ADMIN");
          * </code>
          *
          * <p>
@@ -328,15 +420,15 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * </p>
          *
          * @param roles the roles for this user (i.e. USER, ADMIN, etc). Cannot be null,
-         *              contain null values or start with "ROLE_"
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * contain null values or start with "ROLE_"
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder roles(String... roles) {
+        public SimpleUser.SimpleUserBuilder roles(String... roles) {
             List<GrantedAuthority> authorities = new ArrayList<>(
                     roles.length);
             for (String role : roles) {
-                Assert.isTrue(!role.startsWith("ROLE_"), role
+                Assert.isTrue(!role.startsWith("ROLE_"), () -> role
                         + " cannot start with ROLE_ (it is automatically added)");
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
             }
@@ -347,12 +439,12 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the authorities. This attribute is required.
          *
          * @param authorities the authorities for this user. Cannot be null, or contain
-         *                    null values
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * null values
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          * @see #roles(String...)
          */
-        public SimpleUserBuilder authorities(GrantedAuthority... authorities) {
+        public SimpleUser.SimpleUserBuilder authorities(GrantedAuthority... authorities) {
             return authorities(Arrays.asList(authorities));
         }
 
@@ -360,12 +452,12 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the authorities. This attribute is required.
          *
          * @param authorities the authorities for this user. Cannot be null, or contain
-         *                    null values
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * null values
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          * @see #roles(String...)
          */
-        public SimpleUserBuilder authorities(Collection<? extends GrantedAuthority> authorities) {
+        public SimpleUser.SimpleUserBuilder authorities(Collection<? extends GrantedAuthority> authorities) {
             this.authorities = new ArrayList<>(authorities);
             return this;
         }
@@ -374,12 +466,12 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the authorities. This attribute is required.
          *
          * @param authorities the authorities for this user (i.e. ROLE_USER, ROLE_ADMIN,
-         *                    etc). Cannot be null, or contain null values
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * etc). Cannot be null, or contain null values
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          * @see #roles(String...)
          */
-        public SimpleUserBuilder authorities(String... authorities) {
+        public SimpleUser.SimpleUserBuilder authorities(String... authorities) {
             return authorities(AuthorityUtils.createAuthorityList(authorities));
         }
 
@@ -387,10 +479,10 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Defines if the account is expired or not. Default is false.
          *
          * @param accountExpired true if the account is expired, false otherwise
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder accountExpired(boolean accountExpired) {
+        public SimpleUser.SimpleUserBuilder accountExpired(boolean accountExpired) {
             this.accountExpired = accountExpired;
             return this;
         }
@@ -399,10 +491,10 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Defines if the account is locked or not. Default is false.
          *
          * @param accountLocked true if the account is locked, false otherwise
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder accountLocked(boolean accountLocked) {
+        public SimpleUser.SimpleUserBuilder accountLocked(boolean accountLocked) {
             this.accountLocked = accountLocked;
             return this;
         }
@@ -411,10 +503,10 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Defines if the credentials are expired or not. Default is false.
          *
          * @param credentialsExpired true if the credentials are expired, false otherwise
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder credentialsExpired(boolean credentialsExpired) {
+        public SimpleUser.SimpleUserBuilder credentialsExpired(boolean credentialsExpired) {
             this.credentialsExpired = credentialsExpired;
             return this;
         }
@@ -423,15 +515,15 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Defines if the account is disabled or not. Default is false.
          *
          * @param disabled true if the account is disabled, false otherwise
-         * @return the {@link User.UserBuilder} for method chaining (i.e. to populate
+         * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
-        public SimpleUserBuilder disabled(boolean disabled) {
+        public SimpleUser.SimpleUserBuilder disabled(boolean disabled) {
             this.disabled = disabled;
             return this;
         }
 
-        public SimpleUserDetails build() {
+        public UserDetails build() {
             String encodedPassword = this.passwordEncoder.apply(password);
             return new SimpleUser(id, username, encodedPassword, !disabled, !accountExpired,
                     !credentialsExpired, !accountLocked, authorities);

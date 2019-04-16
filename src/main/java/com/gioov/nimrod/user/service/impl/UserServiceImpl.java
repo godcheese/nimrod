@@ -84,16 +84,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SimpleUser getUserPrincipal(HttpServletRequest request) {
-        Object object = request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-        if(object != null) {
-            SecurityContextImpl securityContextImpl = (SecurityContextImpl) object;
-            return (SimpleUser) securityContextImpl.getAuthentication().getPrincipal();
-        }
-        return null;
-    }
-
-    @Override
     public UserEntity getOneByIdNoPassword(Long id) {
         UserEntity userEntity = userMapper.getOne(id);
         if (userEntity != null) {
@@ -117,21 +107,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getCurrentUser() {
-        UserEntity userEntity = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                SimpleUserDetails simpleUserDetails = (SimpleUserDetails) principal;
-                userEntity = userMapper.getOne(simpleUserDetails.getId());
-            }
+        SimpleUserDetails simpleUserDetails;
+        if((simpleUserDetails = getCurrentSimpleUser()) != null) {
+            return userMapper.getOne(simpleUserDetails.getId());
         }
-        return userEntity;
+        return null;
     }
 
     @Override
     public UserEntity getCurrentUser(HttpServletRequest request) {
-        UserEntity userEntity = null;
+        SimpleUserDetails simpleUserDetails;
+        if((simpleUserDetails = getCurrentSimpleUser(request)) != null) {
+            return userMapper.getOne(simpleUserDetails.getId());
+        }
+        return null;
+    }
+
+    @Override
+    public SimpleUser getCurrentSimpleUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                return (SimpleUser) principal;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public SimpleUser getCurrentSimpleUser(HttpServletRequest request) {
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
                 .getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         if (securityContextImpl != null) {
@@ -139,12 +144,11 @@ public class UserServiceImpl implements UserService {
             if (authentication != null) {
                 Object principal = authentication.getPrincipal();
                 if (principal instanceof UserDetails) {
-                    SimpleUserDetails simpleUserDetails = (SimpleUserDetails) principal;
-                    userEntity = userMapper.getOne(simpleUserDetails.getId());
+                    return (SimpleUser) principal;
                 }
             }
         }
-        return userEntity;
+        return null;
     }
 
 //    @Override
