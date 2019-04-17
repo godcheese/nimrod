@@ -86,11 +86,11 @@ mvn spring-boot:run
 ```
 ## [开发文档 Documentation](https://github.com/godcheese/nimrod/blob/master/docs/getting_started.md)
 
-## [更新日志 Changelog](https://github.com/godcheese/nimrod/releases).
+## [更新日志 Changelog](https://github.com/godcheese/nimrod/releases)
 
 ## [在线演示 Online Demo](http://150.109.70.167:8083/nimrod)
 
-登录用户名密码请加QQ群547252502获取
+登录用户名密码加QQ群547252502获取。
 
 #### Screenshots
 
