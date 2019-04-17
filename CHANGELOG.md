@@ -1,5 +1,7 @@
 
 ## Changelog
+- v0.5.3 2019.04.17
+  - 修复部署到 Linux 系统中验证码生成乱码的问题(20190417)
 - v0.5.2 2019.04.15
   - 升级 Spring Boot Starter Parent 至 2.1.4.RELEASE 版本(20190415)
   - 升级 MyBatis Spring Boot Starter 至 2.0.1(20190415)

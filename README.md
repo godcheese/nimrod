@@ -90,7 +90,7 @@ mvn spring-boot:run
 ```
 ### [开发文档 Documentation](https://github.com/godcheese/nimrod/blob/master/docs/getting_started.md)
 
-This will open http://localhost:8080/nimrod.
+This will open http://localhost:8083/nimrod.
 
 ## 更新日志 Changelog
 
@@ -99,6 +99,7 @@ Detailed changes for each release are documented in the [release notes](https://
 ## 在线演示 Online Demo
 
 [Preview](http://150.109.70.167:8083/nimrod)
+> 登录用户名密码请加QQ群547252502获取
 
 #### Screenshots
 

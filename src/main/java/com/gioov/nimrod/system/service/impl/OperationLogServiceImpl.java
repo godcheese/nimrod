@@ -99,7 +99,7 @@ public class OperationLogServiceImpl implements OperationLogService {
         if (userEntity != null) {
             operationLogEntity.setUserId(userEntity.getId());
         }
-        operationLogEntity.setIpAddress(ClientUtil.getIpAddress(request));
+        operationLogEntity.setIpAddress(ClientUtil.getClientIp(request));
         String operation = "";
         if (handler instanceof HandlerMethod) {
             OperationLog operationLog = ((HandlerMethod) handler).getMethod().getAnnotation(OperationLog.class);

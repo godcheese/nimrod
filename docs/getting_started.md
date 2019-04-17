@@ -45,9 +45,7 @@
 - 一、安装 JDK 8+、MySQL 5.7+
 - 二、导入数据库
 `/db/mysql/nimrod/nimrod.sql`
-`/db/mysql/quartz/tables_mysql_innodb.sql`
-`/db/mysql/flowable/flowable.mysql.all.create.sql`
-- 三、运行 `java -jar nimrod-*.jar`，浏览器打开 `http://localhost:8080/nimrod`
+- 三、运行 `java -jar nimrod-*.jar`，浏览器打开 `http://localhost:8083/nimrod`
 
 ### 开发调试
 

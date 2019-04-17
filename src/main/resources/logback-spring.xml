@@ -56,7 +56,7 @@
     <springProperty scope="nimrod" name="MAX_FILE_SIZE" source="log.max_file_size" defaultValue="10MB"/>
     <springProperty scope="nimrod" name="TOTAL_SIZE_CAP" source="log.total_size_cap" defaultValue="2GB"/>
 
-    <!--<property name="APP_NAME" value="nimrod"/>-->
+    <property name="APP_NAME" value ="nimrod"/>
     <!--<property name="LOG_DIR" value="../logs"/>-->
     <!--设置系统日志目录-->
     <!--<property name="MAX_HISTORY" value="30"/>-->

@@ -20,16 +20,16 @@
         <div class="inner-wrap">
             <div class="login-zone">
                 <div class="login-box">
-                    <div class="login-label"><p>用户登录</p></div>
+                    <div class="login-label"><p>用户登录<span style="font-size: 14px">-加QQ群547252502获取用户名密码</span></p></div>
                     <div id="alertMessage"></div>
                     <form method="post" th:action="@{/user/login/form}" id="loginForm">
                         <div class="login-username input-item clearfix">
                             <i class="fa fa-user"></i>
-                            <input type="text" value="system_admin" placeholder="用户名/E-mail" id="account">
+                            <input type="text" value="" placeholder="用户名/电子邮箱" id="account">
                         </div>
                         <div class="login-password input-item clearfix">
                             <i class="fa fa-lock"></i>
-                            <input type="password" value="123456" placeholder="密码" id="password">
+                            <input type="password" value="" placeholder="密码" id="password">
                         </div>
                         <div class="verify-code clearfix">
                             <div class="input-item">
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="tips clearfix">
-                            <label><input id="rememberMe" type="checkbox" checked="checked">记住我一周</label>
+                            <label><input id="rememberMe" type="checkbox">记住我一周</label>
                             <!--<a href="javascript:" class="register">立即注册</a>-->
                             <a href="javascript:" class="forget-password">忘记密码？</a>
 

@@ -5,11 +5,11 @@
 
     <groupId>com.gioov</groupId>
     <artifactId>nimrod</artifactId>
-    <version>0.5.2</version>
+    <version>0.5.3</version>
     <!-- jar 打包引用此属性值 -->
     <packaging>jar</packaging>
-     <!-- war 打包引用此属性值 -->
-     <!--<packaging>war</packaging>-->
+    <!-- war 打包引用此属性值 -->
+    <!-- <packaging>war</packaging> -->
 
     <name>${project.artifactId}</name>
     <description>Demo project for Spring Boot</description>
@@ -77,14 +77,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <!-- jar 打包部署时请注释此处，war 打包部署到外部 Tomcat 时无需自带 Tomcat -->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+            <!-- <exclusions>
+            <exclusion>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+            </exclusion>
+        </exclusions> -->
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -183,14 +183,15 @@
                 <targetPath>${project.basedir}/target/${project.build.finalName}</targetPath>
                 <includes>
                     <include>*.md</include>
+                    <include>LICENSE</include>
                 </includes>
             </resource>
             <resource>
                 <directory>${project.basedir}/lib</directory>
                 <!-- jar 打包引用此属性值 -->
                 <targetPath>BOOT-INF/lib</targetPath>
-                 <!-- war 打包引用此属性值 -->
-                 <!--<targetPath>${project.basedir}/target/${project.build.finalName}/WEB-INF/lib</targetPath>-->
+                <!-- war 打包引用此属性值 -->
+                <!-- <targetPath>${project.basedir}/target/${project.build.finalName}/WEB-INF/lib</targetPath> -->
                 <includes>
                     <include>**/*.jar</include>
                 </includes>
