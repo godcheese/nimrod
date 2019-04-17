@@ -28,10 +28,6 @@
 Nimrod 是一款基于 Spring Boot 封装的 Java Web 平台快速开发脚手架，所采用的技术栈包括 Spring Boot、Spring、Spring MVC、MyBatis、Thymeleaf 等，遵守[阿里巴巴 Java 开发规约](https://github.com/alibaba/p3c)，帮助养成良好的编码习惯。整体采用 RBAC （ Role-Based Access Control ，基于角色的访问控制），具有严格的权限控制模块，支持系统与模块分离开发。最后希望这个项目能够对你有所帮助。
 
 - Nimrod 开发交流群：[547252502](https://jq.qq.com/?_wv=1027&k=5yxyg73)（QQ 群）
-- [Preview](http://150.109.70.167:8083/nimrod)
-- [Documentation](https://godcheese.github.io/nirmod/guide/essentials/deploy.html)
-- [Feedback](https://github.com/godcheese/nimrod/issues)
-- [Donate](https://www.paypal.me/godcheese)
 - [Gitee](https://gitee.com/godcheese/nimrod)
 
 |环境  |版本|
@@ -88,18 +84,13 @@ mvn clean package
 # develop
 mvn spring-boot:run
 ```
-### [开发文档 Documentation](https://github.com/godcheese/nimrod/blob/master/docs/getting_started.md)
+## [开发文档 Documentation](https://github.com/godcheese/nimrod/blob/master/docs/getting_started.md)
 
-This will open http://localhost:8083/nimrod.
+## [更新日志 Changelog](https://github.com/godcheese/nimrod/releases).
 
-## 更新日志 Changelog
+## [在线演示 Online Demo](http://150.109.70.167:8083/nimrod)
 
-Detailed changes for each release are documented in the [release notes](https://github.com/godcheese/nimrod/releases).
-
-## 在线演示 Online Demo
-
-[Preview](http://150.109.70.167:8083/nimrod)
-> 登录用户名密码请加QQ群547252502获取
+登录用户名密码请加QQ群547252502获取
 
 #### Screenshots
 
@@ -113,7 +104,8 @@ Detailed changes for each release are documented in the [release notes](https://
 
 ## 捐赠 Donation
 
-If you find Nimrod useful, you can buy us a cup of coffee
+If you find Nimrod useful, you can buy us a cup of coffee.
+如果此项目对你有所帮助，不妨请我喝咖啡。
 
 [Paypal Me](https://www.paypal.me/godcheese)
 
