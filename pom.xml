@@ -5,7 +5,7 @@
 
     <groupId>com.gioov</groupId>
     <artifactId>nimrod</artifactId>
-    <version>0.5.3</version>
+    <version>0.5.4</version>
     <!-- jar 打包引用此属性值 -->
     <packaging>jar</packaging>
     <!-- war 打包引用此属性值 -->
@@ -83,8 +83,8 @@
                 <artifactId>spring-boot-starter-tomcat</artifactId>
             </exclusion>
         </exclusions> -->
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -139,7 +139,6 @@
             <systemPath>${project.basedir}/lib/com.gioov-common-1.0.0-jar-with-dependencies.jar</systemPath>
             <type>jar</type>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -198,5 +197,4 @@
             </resource>
         </resources>
     </build>
-
 </project>

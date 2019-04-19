@@ -20,12 +20,12 @@ public class DruidConfiguration {
     /**
      * DataSource 配置注入
      *
-     * @return
+     * @return DataSource
      * @Primary 注释在同样的 DataSource 中，首先使用被标注的 DataSource
      * 声明其为 Bean 实例
      */
     @Primary
-    @Bean(destroyMethod = "close", initMethod = "init")
+    @Bean(initMethod = "init", destroyMethod = "close")
     @ConfigurationProperties("spring.datasource.druid")
     public DataSource dataSource() {
         return DruidDataSourceBuilder.create().build();

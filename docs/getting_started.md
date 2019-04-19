@@ -1,14 +1,15 @@
 ### 项目目录结构
 ```
+│
 ├── main
 │   │  
 │   ├── java
 │   │   │
-│   │   └── com.gioov ----------------- 平台主代码
+│   │   └── com.gioov ----------------- 项目主类包
 │   │       │
 │   │       ├── nimrod ---------------- Nimrod 核心模块存放目录
 │   │       │   │  
-│   │       │   ├─ common ------------- 项目公用的部分
+│   │       │   ├─ common ------------- 项目公用部分
 │   │       │   │
 │   │       │   ├─ mail --------------- 电子邮箱模块
 │   │       │   │
@@ -17,13 +18,15 @@
 │   │       │   ├─ system ------------- 系统模块
 │   │       │   │
 │   │       │   ├─ user --------------- 用户模块
-│   │              
-│   │          
-│   ├── resources ------------------------------- 平台资源文件
+│   │       │   │  
+│   │
+│   ├── resources ------------------------------- 项目资源目录
+│   │   │ 
+│   │   ├─ fonts ------------------------------- 字体存放目录
 │   │   │ 
 │   │   ├─ static ------------------------------ js/css/png 等静态文件存放目录
 │   │   │ 
-│   │   ├─ templates --------------------------- 模板
+│   │   ├─ templates --------------------------- Web 模板
 │   │   │ 
 │   │   ├─ application.properties -------------- 项目环境配置文件
 │   │   │ 
@@ -38,6 +41,7 @@
 │   │   ├─ logback-spring.xml ------------------ Logback 配置文件
 │   │   │ 
 │   │   ├─ mybatis-config.xml ------------------ MyBatis 配置文件
+│   │   │
 ```
 
 ### 运行实例
@@ -51,6 +55,6 @@
 
 - 一、安装 JDK 8+、MySQL 5.7+、Maven 3.5+
 - 二、在 Intelli IDEA 中打开项目
-- 三、在 Terminal 中运行 `mvn spring-boot:run`，浏览器打开 `http://localhost:8080/nimrod`
+- 三、在 Terminal 中运行 `mvn spring-boot:run`，浏览器打开 `http://localhost:8083/nimrod`
 
 ### [环境搭建](https://github.com/godcheese/nimrod/blob/master/docs/java.md)
