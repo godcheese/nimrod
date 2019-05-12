@@ -22,9 +22,9 @@ public interface OperationLogService {
      * @param page 页
      * @param rows 每页显示数量
      * @param sort 排序
-     * @return Pagination.Result<OperationLogEntity2>
+     * @return Pagination<OperationLogEntity2>
      */
-    Pagination.Result<OperationLogEntity2> pageAll(int page, int rows, Sort sort);
+    Pagination<OperationLogEntity2> pageAll(int page, int rows, Sort sort);
 
     /**
      * 新增操作日志

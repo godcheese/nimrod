@@ -21,9 +21,9 @@ public interface AttachmentService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<AttachmentEntity>
+     * @return Pagination<AttachmentEntity>
      */
-    Pagination.Result<AttachmentEntity> pageAll(Integer page, Integer rows, Sort sort);
+    Pagination<AttachmentEntity> pageAll(Integer page, Integer rows, Sort sort);
 
     /**
      * 新增附件

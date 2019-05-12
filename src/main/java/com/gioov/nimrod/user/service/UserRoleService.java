@@ -16,9 +16,9 @@ public interface UserRoleService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<UserRoleEntity>
+     * @return Pagination<UserRoleEntity>
      */
-    Pagination.Result<UserRoleEntity> pageAll(Integer page, Integer rows);
+    Pagination<UserRoleEntity> pageAll(Integer page, Integer rows);
 
     /**
      * 新增角色

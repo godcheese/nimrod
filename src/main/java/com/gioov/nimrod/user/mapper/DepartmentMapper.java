@@ -23,14 +23,21 @@ public interface DepartmentMapper extends CrudMapper<DepartmentEntity, Long> {
      * @param pageable Pageable
      * @return List<ApiCategoryEntity>
      */
-    List<DepartmentEntity> pageAllByParentIdIsNull(@Param("pageable") Pageable pageable);
+    List<DepartmentEntity> pageAllParentIdIsNull(@Param("pageable") Pageable pageable);
 
     /**
      * 统计所有父级 id 为 null 的 API 分类个数
      *
      * @return int
      */
-    int countAllByParentIdIsNull();
+    int countAllParentIdIsNull();
+
+    /**
+     * 分页获取所有父级 id 为 null 的 API 分类
+     *
+     * @return List<DepartmentEntity>
+     */
+    List<DepartmentEntity> listAllParentIdIsNull();
 
     /**
      * 指定 API 分类父级 id ，获取所有 API 分类

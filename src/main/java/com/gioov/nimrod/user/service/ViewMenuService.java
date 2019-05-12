@@ -20,7 +20,7 @@ public interface ViewMenuService {
      */
     List<ViewMenuEntity> listAllByUserIdAndMenuCategoryId(Long userId, Long menuCategoryId);
 
-    Pagination.Result<ViewMenuEntity> pageAllByMenuCategoryIdAndRoleId(Long menuCategoryId, Long roleId, Integer page, Integer rows);
+    Pagination<ViewMenuEntity> pageAllByMenuCategoryIdAndRoleId(Long menuCategoryId, Long roleId, Integer page, Integer rows);
 
     List<ViewMenuEntity> searchAllByName(String name);
 

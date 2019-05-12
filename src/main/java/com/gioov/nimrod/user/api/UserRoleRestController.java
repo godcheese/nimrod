@@ -1,6 +1,5 @@
 package com.gioov.nimrod.user.api;
 
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.UserRoleEntity;
@@ -34,11 +33,11 @@ public class UserRoleRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result                               <                               UserRoleEntity>>
+     * @return ResponseEntity<Pagination<UserRoleEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER_ROLE + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
-    public ResponseEntity<Pagination.Result<UserRoleEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<UserRoleEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(userRoleService.pageAll(page, rows), HttpStatus.OK);
     }
 

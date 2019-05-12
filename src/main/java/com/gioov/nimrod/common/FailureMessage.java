@@ -23,7 +23,12 @@ public enum FailureMessage implements com.gioov.common.web.http.FailureMessage {
     /**
      * 用户登录失败
      */
-    LOGIN_FAIL("登录失败，账号或密码错误", 404010001),
+    LOGIN_FAIL("登录失败，帐号或密码错误", 404010001),
+
+    /**
+     * 用户登录失败
+     */
+    LOGIN_FAIL_USER_IS_DISABLED("登录失败，帐号未启用", 404010001),
 
     /**
      * 用户注销失败

@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getOneByMailAndPassword(String mail, String password) {
-        UserEntity userEntity = userMapper.getOneByMail(mail);
+    public UserEntity getOneByEmailAndPassword(String email, String password) {
+        UserEntity userEntity = userMapper.getOneByEmail(email);
         if (checkPassword(password, userEntity.getPassword())) {
             return userEntity;
         }
@@ -176,8 +176,8 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public Pagination.Result<UserEntity> pageAll(Integer page, Integer rows) {
-        Pagination.Result<UserEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<UserEntity> pageAll(Integer page, Integer rows) {
+        Pagination<UserEntity> pagination = new Pagination<>();
         List<UserEntity> userEntityList = new ArrayList<>();
         List<UserEntity> tempUserEntityList = userMapper.pageAll(new Pageable(page, rows));
         if (tempUserEntityList != null) {
@@ -186,14 +186,14 @@ public class UserServiceImpl implements UserService {
                 userEntityList.add(userEntity);
             }
         }
-        paginationResult.setRows(userEntityList);
-        paginationResult.setTotal(userMapper.countAll());
-        return paginationResult;
+        pagination.setRows(userEntityList);
+        pagination.setTotal(userMapper.countAll());
+        return pagination;
     }
 
     @Override
-    public Pagination.Result<UserEntity> pageAllByDepartmentId(Long departmentId, Integer page, Integer rows) {
-        Pagination.Result<UserEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<UserEntity> pageAllByDepartmentId(Long departmentId, Integer page, Integer rows) {
+        Pagination<UserEntity> pagination = new Pagination<>();
         List<UserEntity> userEntityList = new ArrayList<>();
         List<UserEntity> tempUserEntityList = userMapper.pageAllByDepartmentId(departmentId, new Pageable(page, rows));
         if (tempUserEntityList != null) {
@@ -202,9 +202,9 @@ public class UserServiceImpl implements UserService {
                 userEntityList.add(userEntity);
             }
         }
-        paginationResult.setRows(userEntityList);
-        paginationResult.setTotal(userMapper.countAllByDepartmentId(departmentId));
-        return paginationResult;
+        pagination.setRows(userEntityList);
+        pagination.setTotal(userMapper.countAllByDepartmentId(departmentId));
+        return pagination;
     }
 
     @Override
@@ -214,6 +214,7 @@ public class UserServiceImpl implements UserService {
         if (userMapper.getOneByUsername(userEntity.getUsername()) != null) {
             throw new BaseResponseException("该用户名已存在");
         }
+        userEntity.setPassword(encodePassword(userEntity.getPassword()));
         userEntity.setGmtModified(date);
         userEntity.setGmtCreated(date);
         userMapper.insertOne(userEntity);
@@ -223,18 +224,23 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public UserEntity updateOne(UserEntity userEntity) throws BaseResponseException {
-        UserEntity userEntity1 = userMapper.getOne(userEntity.getId());
-        UserEntity userEntity2 = userMapper.getOneByUsername(userEntity.getUsername());
-        if (userEntity2 != null && !userEntity2.getId().equals(userEntity.getId())) {
+        UserEntity userEntity1 = userMapper.getOneByUsername(userEntity.getUsername());
+        if (userEntity1 != null && !userEntity1.getId().equals(userEntity.getId())) {
             throw new BaseResponseException("该用户名已存在");
         }
-        userEntity.setUsername(userEntity.getUsername());
-        userEntity.setMail(userEntity.getMail());
-        userEntity.setMailIsVerified(userEntity.getMailIsVerified());
-        userEntity.setRemark(userEntity.getRemark());
+
+        LOGGER.info("userEntity.getPassword={}", userEntity.getPassword());
+        if(userEntity.getPassword() != null && !"".equals(userEntity.getPassword())) {
+            userEntity.setPassword(encodePassword(userEntity.getPassword()));
+        } else {
+            UserEntity userEntity2 = userMapper.getOne(userEntity.getId());
+            if (userEntity2 != null) {
+                userEntity.setPassword(userEntity2.getPassword());
+            }
+        }
         userEntity.setGmtModified(new Date());
         userMapper.updateOne(userEntity);
-        return userEntity1;
+        return userEntity;
     }
 
     @Override

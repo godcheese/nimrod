@@ -18,9 +18,9 @@ public interface ViewPageComponentService {
      * @param pageId 视图页面 id
      * @param page   页
      * @param rows   每页显示数量
-     * @return Pagination.Result<ViewPageComponentEntity>
+     * @return Pagination<ViewPageComponentEntity>
      */
-    Pagination.Result<ViewPageComponentEntity> pageAllByPageId(Long pageId, Integer page, Integer rows);
+    Pagination<ViewPageComponentEntity> pageAllByPageId(Long pageId, Integer page, Integer rows);
 
     /**
      * 新增视图页面组件

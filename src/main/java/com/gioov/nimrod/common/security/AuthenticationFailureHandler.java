@@ -3,9 +3,13 @@ package com.gioov.nimrod.common.security;
 import com.gioov.common.web.http.FailureEntity;
 import com.gioov.nimrod.common.Common;
 import com.gioov.nimrod.common.FailureMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +26,8 @@ import java.io.PrintWriter;
 @Component
 public class AuthenticationFailureHandler implements org.springframework.security.web.authentication.AuthenticationFailureHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationFailureHandler.class);
+
     @Autowired
     private Common common;
 
@@ -34,10 +40,16 @@ public class AuthenticationFailureHandler implements org.springframework.securit
         // 检查 e 是否为验证码错误类
         if (e instanceof VerifyCodeFilter.VerifyCodeCheckException) {
             printWriter.write(common.objectToJson(new FailureEntity(e.getMessage())));
-        } else {
+        } else if(e instanceof BadCredentialsException) {
             printWriter.write(common.objectToJson(new FailureEntity(FailureMessage.LOGIN_FAIL)));
+        } else if(e instanceof DisabledException) {
+            LOGGER.info("e.getClass={}", e.getClass());
+            LOGGER.info("e.getMessage={}", e.getMessage());
+            printWriter.write(common.objectToJson(new FailureEntity(FailureMessage.LOGIN_FAIL_USER_IS_DISABLED)));
         }
+        e.printStackTrace();
         printWriter.flush();
         printWriter.close();
     }
+
 }

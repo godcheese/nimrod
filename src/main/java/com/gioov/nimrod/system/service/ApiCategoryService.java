@@ -17,9 +17,9 @@ public interface ApiCategoryService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<ApiCategoryEntity>
+     * @return Pagination<ApiCategoryEntity>
      */
-    Pagination.Result<ApiCategoryEntity> pageAllByParentIdIsNull(Integer page, Integer rows);
+    Pagination<ApiCategoryEntity> pageAllByParentIdIsNull(Integer page, Integer rows);
 
     /**
      * 新增 API 分类

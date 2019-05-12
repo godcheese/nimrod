@@ -2,7 +2,6 @@ package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
@@ -49,11 +48,11 @@ public class DictionaryRestController {
      * @param page                 页
      * @param rows                 每页显示数量
      * @param dictionaryCategoryId 数据字典分类 id
-     * @return ResponseEntity<Pagination.Result<DictionaryEntity>>
+     * @return ResponseEntity<Pagination<DictionaryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/PAGE_ALL_BY_DICTIONARY_CATEGORY_ID')")
     @GetMapping(value = "/page_all_by_dictionary_category_id/{dictionaryCategoryId}")
-    public ResponseEntity<Pagination.Result<DictionaryEntity>> pageAllByDictionaryCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @PathVariable Long dictionaryCategoryId) {
+    public ResponseEntity<Pagination<DictionaryEntity>> pageAllByDictionaryCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @PathVariable Long dictionaryCategoryId) {
         return new ResponseEntity<>(dictionaryService.pageAllByDictionaryCategoryId(dictionaryCategoryId, page, rows), HttpStatus.OK);
     }
 

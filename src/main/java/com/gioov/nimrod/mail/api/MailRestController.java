@@ -33,11 +33,11 @@ public class MailRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result < MailEntity>>
+     * @return ResponseEntity<Pagination<MailEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + MAIL + "/PAGE_ALL_QUEUE')")
     @GetMapping(value = "/page_all")
-    public ResponseEntity<Pagination.Result<MailEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<MailEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         Sort sort = new Sort(Sort.Direction.DESC, "gmt_created");
         return new ResponseEntity<>(mailService.pageAll(page, rows, sort), HttpStatus.OK);
     }

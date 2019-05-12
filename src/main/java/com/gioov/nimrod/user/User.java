@@ -47,7 +47,7 @@ public class User extends Url {
 
         public static final String FORGOT_PASSWORD = USER + "/forgot_password";
 
-        public static final String SEND_PASSWORD_MAIL = USER + "/send_password_mail";
+        public static final String SEND_PASSWORD_EMAIL = USER + "/send_password_email";
         public static final String SEND_PASSWORD_SMS = USER + "/send_password_sms";
 
         public static final String ROLE = USER + "/role";

@@ -57,14 +57,14 @@ public class ViewMenuServiceImpl implements ViewMenuService {
     }
 
     @Override
-    public Pagination.Result<ViewMenuEntity> pageAllByMenuCategoryIdAndRoleId(Long menuCategoryId, Long roleId, Integer page, Integer rows) {
-        Pagination.Result<ViewMenuEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<ViewMenuEntity> pageAllByMenuCategoryIdAndRoleId(Long menuCategoryId, Long roleId, Integer page, Integer rows) {
+        Pagination<ViewMenuEntity> pagination = new Pagination<>();
         List<ViewMenuEntity> viewMenuEntityList = viewMenuMapper.pageAllByMenuCategoryIdAndRoleId(menuCategoryId, roleId, new Pageable(page, rows));
         if (viewMenuEntityList != null) {
-            paginationResult.setRows(viewMenuEntityList);
+            pagination.setRows(viewMenuEntityList);
         }
-        paginationResult.setTotal(viewMenuMapper.countAllByMenuCategoryIdAndRoleId(menuCategoryId, roleId));
-        return paginationResult;
+        pagination.setTotal(viewMenuMapper.countAllByMenuCategoryIdAndRoleId(menuCategoryId, roleId));
+        return pagination;
     }
 
     @Override

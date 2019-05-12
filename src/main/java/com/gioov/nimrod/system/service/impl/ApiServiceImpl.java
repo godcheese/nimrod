@@ -25,34 +25,28 @@ public class ApiServiceImpl implements ApiService {
     private ApiMapper apiMapper;
 
     @Override
-    public Pagination.Result<ApiEntity> pageAllByApiCategoryId(Long apiCategoryId, Integer page, Integer rows) {
-        Pagination.Result<ApiEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<ApiEntity> pageAllByApiCategoryId(Long apiCategoryId, Integer page, Integer rows) {
+        Pagination<ApiEntity> pagination = new Pagination<>();
         List<ApiEntity> apiEntityList = apiMapper.pageAllByApiCategoryId(apiCategoryId, new Pageable(page, rows));
         if (apiEntityList != null) {
-            paginationResult.setRows(apiEntityList);
+            pagination.setRows(apiEntityList);
         }
-        paginationResult.setTotal(apiMapper.countAllByApiCategoryId(apiCategoryId));
-        return paginationResult;
+        pagination.setTotal(apiMapper.countAllByApiCategoryId(apiCategoryId));
+        return pagination;
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public ApiEntity insertOne(ApiEntity apiEntity) throws BaseResponseException {
-        ApiEntity apiEntity1 = new ApiEntity();
         Date date = new Date();
         String authority = apiEntity.getAuthority().toUpperCase();
         if (apiMapper.getOneByAuthority(authority) != null) {
             throw new BaseResponseException(FailureMessage.ADD_API_AUTHORITY_FAIL);
         }
-        apiEntity1.setName(apiEntity.getName());
-        apiEntity1.setUrl(apiEntity.getName());
-        apiEntity1.setAuthority(authority);
-        apiEntity1.setApiCategoryId(apiEntity.getApiCategoryId());
-        apiEntity1.setSort(apiEntity.getSort());
-        apiEntity1.setRemark(apiEntity.getRemark());
-        apiEntity1.setGmtModified(date);
-        apiEntity1.setGmtCreated(date);
-        apiMapper.insertOne(apiEntity1);
+        apiEntity.setAuthority(apiEntity.getAuthority().toUpperCase());
+        apiEntity.setGmtModified(date);
+        apiEntity.setGmtCreated(date);
+        apiMapper.insertOne(apiEntity);
         return apiEntity;
     }
 

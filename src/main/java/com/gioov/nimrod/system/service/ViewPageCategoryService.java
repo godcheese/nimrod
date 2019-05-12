@@ -17,9 +17,9 @@ public interface ViewPageCategoryService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<ViewPageCategoryEntity>
+     * @return Pagination<ViewPageCategoryEntity>
      */
-    Pagination.Result<ViewPageCategoryEntity> pageAllParent(Integer page, Integer rows);
+    Pagination<ViewPageCategoryEntity> pageAllParent(Integer page, Integer rows);
 
     /**
      * 指定父级视图页面分类 id ，获取所有视图页面分类

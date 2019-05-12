@@ -18,7 +18,7 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(NimrodBootstrap.class, args);
-        LOGGER.info("==================={}===================", "Nimrod is started");
+        LOGGER.info("=================={}==================", "Nimrod is started");
     }
 
     @Override

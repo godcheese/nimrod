@@ -21,6 +21,7 @@ public class AppProperties {
     private String url;
     private List<String> systemAdminRole = Collections.singletonList("SYSTEM_ADMIN");
     private String attachmentUploadPath = "/upload";
+    private String[] permitUrl;
 
     public String getName() {
         return name;
@@ -68,5 +69,13 @@ public class AppProperties {
 
     public void setAttachmentUploadPath(String attachmentUploadPath) {
         this.attachmentUploadPath = attachmentUploadPath;
+    }
+
+    public String[] getPermitUrl() {
+        return permitUrl;
+    }
+
+    public void setPermitUrl(String[] permitUrl) {
+        this.permitUrl = permitUrl;
     }
 }

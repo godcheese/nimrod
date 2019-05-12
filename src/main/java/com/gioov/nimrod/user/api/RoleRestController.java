@@ -1,7 +1,6 @@
 package com.gioov.nimrod.user.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.RoleEntity;
@@ -35,11 +34,11 @@ public class RoleRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result < RoleEntity>>
+     * @return ResponseEntity<Pagination<RoleEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
-    public ResponseEntity<Pagination.Result<RoleEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<RoleEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(roleService.pageAll(page, rows), HttpStatus.OK);
     }
 

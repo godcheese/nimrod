@@ -24,14 +24,14 @@ public class ViewPageServiceImpl implements ViewPageService {
     private ViewPageMapper viewPageMapper;
 
     @Override
-    public Pagination.Result<ViewPageEntity> pageAllByPageCategoryId(Long pageCategoryId, Integer page, Integer rows) {
-        Pagination.Result<ViewPageEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<ViewPageEntity> pageAllByPageCategoryId(Long pageCategoryId, Integer page, Integer rows) {
+        Pagination<ViewPageEntity> pagination = new Pagination<>();
         List<ViewPageEntity> viewPageEntityList = viewPageMapper.pageAllByPageCategoryId(pageCategoryId, new Pageable(page, rows));
         if (viewPageEntityList != null) {
-            paginationResult.setRows(viewPageEntityList);
+            pagination.setRows(viewPageEntityList);
         }
-        paginationResult.setTotal(viewPageMapper.countAllByPageCategoryId(pageCategoryId));
-        return paginationResult;
+        pagination.setTotal(viewPageMapper.countAllByPageCategoryId(pageCategoryId));
+        return pagination;
     }
 
     @Override

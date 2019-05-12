@@ -1,6 +1,5 @@
 package com.gioov.nimrod.system.api;
 
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.service.ViewPageApiService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -27,3 +27,5 @@
 ### Nimrod ###
 /upload
 /logs
+*.jar
+*.war

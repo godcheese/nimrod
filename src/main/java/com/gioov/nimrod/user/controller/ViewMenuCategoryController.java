@@ -1,7 +1,6 @@
 package com.gioov.nimrod.user.controller;
 
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.user.User;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

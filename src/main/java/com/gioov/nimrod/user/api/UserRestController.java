@@ -1,7 +1,6 @@
 package com.gioov.nimrod.user.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.UserEntity;
@@ -35,11 +34,11 @@ public class UserRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result < UserEntity>>
+     * @return ResponseEntity<Pagination<UserEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
-    public ResponseEntity<Pagination.Result<UserEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<UserEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(userService.pageAll(page, rows), HttpStatus.OK);
     }
 
@@ -48,11 +47,11 @@ public class UserRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result < UserEntity>>
+     * @return ResponseEntity<Pagination<UserEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/PAGE_ALL_BY_DEPARTMENT_ID')")
     @GetMapping(value = "/page_all_by_department_id/{departmentId}")
-    public ResponseEntity<Pagination.Result<UserEntity>> pageAllByDepartmentId(@PathVariable Long departmentId, @RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<UserEntity>> pageAllByDepartmentId(@PathVariable Long departmentId, @RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(userService.pageAllByDepartmentId(departmentId, page, rows), HttpStatus.OK);
     }
 
@@ -61,19 +60,20 @@ public class UserRestController {
      *
      * @param password 用户密码
      * @param username 用户名
-     * @param mail    用户电子邮箱
+     * @param email    用户电子邮箱
      * @param remark   备注
      * @return ResponseEntity<UserEntity>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/ADD_ONE')")
     @PostMapping(value = "/add_one")
-    public ResponseEntity<UserEntity> addOne(@RequestParam String password, @RequestParam String username, @RequestParam String mail, @RequestParam Integer mailIsVerified, @RequestParam Long departmentId, @RequestParam String remark) throws BaseResponseException {
+    public ResponseEntity<UserEntity> addOne(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam Integer emailIsVerified, @RequestParam Long departmentId, @RequestParam Integer disabled, @RequestParam String remark) throws BaseResponseException {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(username);
         userEntity.setPassword(password);
-        userEntity.setMail(mail);
-        userEntity.setMailIsVerified(mailIsVerified);
+        userEntity.setEmail(email);
+        userEntity.setEmailIsVerified(emailIsVerified);
         userEntity.setDepartmentId(departmentId);
+        userEntity.setDisabled(disabled);
         userEntity.setRemark(remark);
         UserEntity userEntity1 = userService.insertOne(userEntity);
         return new ResponseEntity<>(userEntity1, HttpStatus.OK);
@@ -84,18 +84,21 @@ public class UserRestController {
      *
      * @param id       用户 id
      * @param username 用户名
-     * @param mail    用户电子邮箱
+     * @param email    用户电子邮箱
      * @param remark   备注
      * @return ResponseEntity<UserEntity>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/SAVE_ONE')")
     @PostMapping(value = "/save_one")
-    public ResponseEntity<UserEntity> saveOne(@RequestParam Long id, @RequestParam String username, @RequestParam String mail, @RequestParam Integer mailIsVerified, @RequestParam String remark) throws BaseResponseException {
+    public ResponseEntity<UserEntity> saveOne(@RequestParam Long id, @RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam Integer emailIsVerified, @RequestParam Long departmentId, @RequestParam Integer disabled, @RequestParam String remark) throws BaseResponseException {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(id);
         userEntity.setUsername(username);
-        userEntity.setMail(mail);
-        userEntity.setMailIsVerified(mailIsVerified);
+        userEntity.setPassword(password);
+        userEntity.setEmail(email);
+        userEntity.setEmailIsVerified(emailIsVerified);
+        userEntity.setDepartmentId(departmentId);
+        userEntity.setDisabled(disabled);
         userEntity.setRemark(remark);
         UserEntity userEntity1 = userService.updateOne(userEntity);
         return new ResponseEntity<>(userEntity1, HttpStatus.OK);

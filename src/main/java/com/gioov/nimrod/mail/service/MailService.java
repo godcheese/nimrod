@@ -31,9 +31,9 @@ public interface MailService {
      * @param page 页
      * @param rows 每页显示数量
      * @param sort 排序
-     * @return Pagination.Result<MailEntity>
+     * @return Pagination<MailEntity>
      */
-    Pagination.Result<MailEntity> pageAll(Integer page, Integer rows, Sort sort);
+    Pagination<MailEntity> pageAll(Integer page, Integer rows, Sort sort);
 
     /**
      * 新增邮件

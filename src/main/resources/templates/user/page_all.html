@@ -45,6 +45,18 @@
             }
         });
         IS_OR_NOT.push({value: 'default', valueName: 0});
+        //
+        // var  = [];
+        // expressui.ajax({
+        //     url: Url.System.Api.DICTIONARY + '/list_all_by_key/USER_STATUS',
+        //     async: false,
+        //     success: function (data) {
+        //         if (data) {
+        //             USER_STATUS = data;
+        //         }
+        //     }
+        // });
+        // USER_STATUS.push({value: 'default', valueName: 0});
 
         var columns = [
             {field: 'checkbox', checkbox: true},
@@ -53,6 +65,27 @@
             {field: 'email', title: '电子邮箱'},
             {
                 field: 'emailIsVerified', title: '电子邮箱是否验证通过', formatter: function (value, row, index) {
+                    return expressui.grid.formatter(value, IS_OR_NOT);
+                }
+            },
+            {
+                field: 'departmentId', title: '所在部门', formatter: function (value, row, index) {
+
+                    var departmentName = [];
+                    expressui.ajax({
+                        url: Url.User.Api.DEPARTMENT + '/list_all_by_department_id/' + value,
+                        async: false,
+                        success: function (data) {
+                            for(var i=0; i< data.length; i++) {
+                                departmentName.push(data[i].name);
+                            }
+                        }
+                    });
+                    return departmentName.join('\\')
+                }
+            },
+            {
+                field: 'disabled', title: '是否禁用', formatter: function (value, row, index) {
                     return expressui.grid.formatter(value, IS_OR_NOT);
                 }
             },

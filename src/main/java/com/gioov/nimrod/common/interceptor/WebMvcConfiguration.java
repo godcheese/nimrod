@@ -18,24 +18,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return new WebInterceptor();
     }
 
-    @Bean
-    public ApiInterceptor apiInterceptor() {
-        return new ApiInterceptor();
-    }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
         // WebInterceptor
         registry.addInterceptor(webInterceptor())
                 .addPathPatterns(Url.ALL_PATH_PATTERN)
                 .excludePathPatterns(Url.STATIC);
-
-//        // ApiInterceptor
-//        registry.addInterceptor(apiInterceptor())
-//                .addPathPatterns(Url.API_ALL_PATTERN)
-//                .excludePathPatterns(Page.STATIC);
-
     }
 
 }

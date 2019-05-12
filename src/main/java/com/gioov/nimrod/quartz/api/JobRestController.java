@@ -5,7 +5,6 @@ import com.gioov.common.web.http.SuccessEntity;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.quartz.Quartz;
 import com.gioov.nimrod.quartz.entity.JobEntity;
-import com.gioov.nimrod.quartz.mapper.JobMapper;
 import com.gioov.nimrod.quartz.service.JobService;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -49,7 +48,7 @@ public class JobRestController {
     }
 
     @RequestMapping("/page_all")
-    public ResponseEntity<Pagination.Result<JobEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<JobEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(jobService.pageAll(page, rows), HttpStatus.OK);
     }
 

@@ -1,7 +1,9 @@
 package com.gioov.nimrod.user.service;
 
 import com.gioov.common.web.exception.BaseResponseException;
+import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.easyui.TreeGrid;
 import com.gioov.nimrod.user.entity.DepartmentEntity;
 
 import java.util.List;
@@ -12,8 +14,14 @@ import java.util.List;
  */
 public interface DepartmentService {
 
-    Pagination.Result<DepartmentEntity> pageAllByParentIdIsNull(Integer page, Integer rows);
+    Pagination<DepartmentEntity> pageAllParent(Integer page, Integer rows);
 
+    /**
+     * 指定父级 API 分类 id ，获取所有 API 分类
+     *
+     * @return List<ApiCategoryEntity>
+     */
+    List<DepartmentEntity> listAllParent();
 
     /**
      * 指定父级 API 分类 id ，获取所有 API 分类
@@ -36,9 +44,9 @@ public interface DepartmentService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<DepartmentEntity>
+     * @return Pagination<DepartmentEntity>
      */
-    Pagination.Result<DepartmentEntity> pageAll(Integer page, Integer rows);
+    Pagination<DepartmentEntity> pageAll(Integer page, Integer rows);
 
     /**
      * 获取所有角色
@@ -86,5 +94,13 @@ public interface DepartmentService {
      * @return DepartmentEntity
      */
     DepartmentEntity getOne(Long id);
+
+    List<ComboTree> listAllDepartmentComboTree();
+
+    List<ComboTree> getComboTreeChildren(long parentId, List<ComboTree> departmentComboTreeList);
+
+    List<TreeGrid> listAllDepartmentTreeGrid();
+
+    List<TreeGrid> getTreeGridChildren(long parentId, List<TreeGrid> departmentTreeGridList);
 
 }

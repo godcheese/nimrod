@@ -1,13 +1,16 @@
 package com.gioov.nimrod.user.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
+import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.easyui.TreeGrid;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.DepartmentEntity;
 import com.gioov.nimrod.user.service.DepartmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
@@ -27,6 +32,8 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
 @RequestMapping(value =  User.Api.DEPARTMENT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class DepartmentRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentRestController.class);
+
     private static final String DEPARTMENT = "/API/USER/DEPARTMENT";
 
     @Autowired
@@ -37,13 +44,25 @@ public class DepartmentRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<DepartmentEntity>
+     * @return Pagination<DepartmentEntity>
      */
     @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/PAGE_ALL_PARENT')")
     @GetMapping(value = "/page_all_parent")
-    public ResponseEntity<Pagination.Result<DepartmentEntity>> pageAllParent(@RequestParam Integer page, @RequestParam Integer rows) {
-        return new ResponseEntity<>(departmentService.pageAllByParentIdIsNull(page, rows), HttpStatus.OK);
+    public ResponseEntity<Pagination<DepartmentEntity>> pageAllParent(@RequestParam Integer page, @RequestParam Integer rows) {
+        return new ResponseEntity<>(departmentService.pageAllParent(page, rows), HttpStatus.OK);
+    }
+
+    /**
+     * 分页获取所有父级部门
+     *
+     * @return List<DepartmentEntity>
+     */
+    @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/LIST_ALL_PARENT')")
+    @GetMapping(value = "/list_all_parent")
+    public ResponseEntity<List<DepartmentEntity>> listAllParent() {
+        return new ResponseEntity<>(departmentService.listAllParent(), HttpStatus.OK);
     }
 
     /**
@@ -89,10 +108,11 @@ public class DepartmentRestController {
     @OperationLog("保存部门")
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/SAVE_ONE')")
     @PostMapping(value = "/save_one")
-    public ResponseEntity<DepartmentEntity> saveOne(@RequestParam Long id, @RequestParam String name, @RequestParam String remark) {
+    public ResponseEntity<DepartmentEntity> saveOne(@RequestParam Long id, @RequestParam String name, @RequestParam Long parentId, @RequestParam String remark) {
         DepartmentEntity departmentEntity = new DepartmentEntity();
         departmentEntity.setId(id);
         departmentEntity.setName(name);
+        departmentEntity.setParentId(parentId);
         departmentEntity.setRemark(remark);
         DepartmentEntity departmentEntity1 = departmentService.updateOne(departmentEntity);
         return new ResponseEntity<>(departmentEntity1, HttpStatus.OK);
@@ -122,6 +142,83 @@ public class DepartmentRestController {
     @GetMapping(value = "/one/{id}")
     public ResponseEntity<DepartmentEntity> getOne(@PathVariable Long id) {
         return new ResponseEntity<>(departmentService.getOne(id), HttpStatus.OK);
+    }
+
+    @OperationLog(value = "根据子节点获取所有父级节点部门", type = OperationLogType.API)
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/LIST_ALL_BY_DEPARTMENT_ID')")
+    @GetMapping(value = "/list_all_by_department_id/{id}")
+    public List<DepartmentEntity> listAllByDepartmentId(@PathVariable Long id) {
+        List<DepartmentEntity> departmentEntityResultList = new ArrayList<>(0);
+        List<DepartmentEntity> departmentEntityList = departmentService.listAll();
+
+        DepartmentEntity departmentEntity = departmentService.getOne(id);
+        departmentEntityResultList.add(departmentEntity);
+        forEachParent(departmentEntity, departmentEntityList, departmentEntityResultList);
+        Collections.reverse(departmentEntityResultList);
+        return departmentEntityResultList;
+    }
+
+    public void forEachParent(DepartmentEntity departmentEntity, List<DepartmentEntity> departmentEntityList, List<DepartmentEntity> departmentEntityResultList) {
+        for(DepartmentEntity entity : departmentEntityList) {
+            if(departmentEntity.getParentId() != null) {
+                if(departmentEntity.getParentId().equals(entity.getId())){
+                    departmentEntityResultList.add(entity);
+                    forEachParent(entity, departmentEntityList, departmentEntityResultList);
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取所有部门，以 Antd TreeNode 形式展示
+     *
+     * @return Pagination<DepartmentEntity>
+     */
+    @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/LIST_ALL_AS_COMBO_TREE')")
+    @GetMapping(value = "/list_all_as_combo_tree")
+    public ResponseEntity<List<ComboTree>> listAllAsComboTree() {
+
+        List<ComboTree> comboTreeResultList = new ArrayList<>();
+        List<ComboTree> departmentComboTreeList = departmentService.listAllDepartmentComboTree();
+
+        for(ComboTree comboTree : departmentComboTreeList) {
+            if(comboTree.getParentId() == null) {
+                comboTreeResultList.add(comboTree);
+            }
+        }
+
+        for(ComboTree comboTree : comboTreeResultList) {
+            comboTree.setChildren(departmentService.getComboTreeChildren(comboTree.getId(), departmentComboTreeList));
+        }
+
+        return new ResponseEntity<>(comboTreeResultList, HttpStatus.OK);
+    }
+
+    /**
+     * 获取所有部门，以 EasyUI TreeGrid 形式展示
+     *
+     * @return Pagination<DepartmentEntity>
+     */
+    @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/LIST_ALL_AS_COMBO_TREE')")
+    @GetMapping(value = "/list_all_as_tree_grid")
+    public ResponseEntity<List<TreeGrid>> listAllAsTreeGrid() {
+
+        List<TreeGrid> treeGridResultList = new ArrayList<>();
+        List<TreeGrid> departmentTreeGridList = departmentService.listAllDepartmentTreeGrid();
+
+        for(TreeGrid treeGrid : departmentTreeGridList) {
+            if(treeGrid.getParentId() == null) {
+               treeGridResultList.add(treeGrid);
+            }
+        }
+
+        for(TreeGrid treeGrid : treeGridResultList) {
+            treeGrid.setChildren(departmentService.getTreeGridChildren(treeGrid.getId(), departmentTreeGridList));
+        }
+
+        return new ResponseEntity<>(treeGridResultList, HttpStatus.OK);
     }
 
 }

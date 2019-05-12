@@ -47,14 +47,14 @@ public class OperationLogServiceImpl implements OperationLogService {
     private OperationLogMapper2 operationLogMapper2;
 
     @Override
-    public Pagination.Result<OperationLogEntity2> pageAll(int page, int rows, Sort sort) {
-        Pagination.Result<OperationLogEntity2> paginationResult = new Pagination().new Result<>();
+    public Pagination<OperationLogEntity2> pageAll(int page, int rows, Sort sort) {
+        Pagination<OperationLogEntity2> pagination = new Pagination<>();
         List<OperationLogEntity2> operationLogEntity2List = operationLogMapper2.pageAll(new Pageable(page, rows, sort));
         if (operationLogEntity2List != null) {
-            paginationResult.setRows(operationLogEntity2List);
+            pagination.setRows(operationLogEntity2List);
         }
-        paginationResult.setTotal(operationLogMapper.countAll());
-        return paginationResult;
+        pagination.setTotal(operationLogMapper.countAll());
+        return pagination;
     }
 
     @Override

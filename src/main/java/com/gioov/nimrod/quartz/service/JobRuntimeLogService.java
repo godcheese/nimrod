@@ -13,7 +13,7 @@ public interface JobRuntimeLogService {
 
     JobRuntimeLogEntity log(JobExecutionContext jobExecutionContext, JobExecutionException jobExecutionException, String log);
 
-    Pagination.Result<JobRuntimeLogEntity> pageAll(Integer page, Integer rows);
+    Pagination<JobRuntimeLogEntity> pageAll(Integer page, Integer rows);
 
     void truncate();
 }

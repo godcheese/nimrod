@@ -5,9 +5,10 @@
         <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
         <result column="password" property="password" jdbcType="VARCHAR"/> <!-- 用户密码 -->
         <result column="username" property="username" jdbcType="VARCHAR"/> <!-- 用户名 -->
-        <result column="mail" property="mail" jdbcType="VARCHAR"/> <!-- 电子邮箱 -->
-        <result column="mail_is_verified" property="mailIsVerified" jdbcType="INTEGER"/> <!-- 电子邮箱是否已验证 -->
+        <result column="email" property="email" jdbcType="VARCHAR"/> <!-- 电子邮箱 -->
+        <result column="email_is_verified" property="emailIsVerified" jdbcType="INTEGER"/> <!-- 电子邮箱是否已验证 -->
         <result column="department_id" property="departmentId" jdbcType="BIGINT"/> <!-- 部门 id -->
+        <result column="disabled" property="disabled" jdbcType="INTEGER"/> <!-- 是否禁用 -->
         <result column="remark" property="remark" jdbcType="VARCHAR"/> <!-- 备注 -->
         <result column="gmt_deleted" property="gmtDeleted" jdbcType="TIMESTAMP"/> <!-- 删除时间 -->
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/> <!-- 更新时间 -->
@@ -23,9 +24,10 @@
         ,
         `password`,
         `username`,
-        `mail`,
-        `mail_is_verified`,
+        `email`,
+        `email_is_verified`,
         `department_id`,
+        `disabled`,
         `remark`,
         `gmt_deleted`,
         `gmt_modified`,
@@ -36,18 +38,18 @@
             parameterType="com.gioov.nimrod.user.entity.UserEntity">
         INSERT INTO
         <include refid="TableName"/>
-        (`id`, `password`, `username`, `mail`, `mail_is_verified`, `department_id`, `remark`, `gmt_deleted`,
+        (`username`, `password`, `email`, `email_is_verified`, `department_id`, `disabled`, `remark`, `gmt_deleted`,
         `gmt_modified`,
         `gmt_created`)
-        VALUES (#{id}, #{password}, #{username}, #{mail}, #{mailIsVerified}, #{departmentId}, #{remark},
+        VALUES (#{username}, #{password}, #{email}, #{emailIsVerified}, #{departmentId}, #{disabled}, #{remark},
         #{gmtDeleted}, #{gmtModified}, #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.UserEntity">
         UPDATE
         <include refid="TableName"/>
-        SET `username` = #{username}, `mail` = #{mail},`mail_is_verified` =
-        #{mailIsVerified}, `remark`
+        SET `username` = #{username}, `password` = #{password}, `email` = #{email}, `email_is_verified` =
+        #{emailIsVerified}, `department_id` = #{departmentId}, `disabled` = #{disabled}, `remark`
         = #{remark}, `gmt_modified` = #{gmtModified}
         WHERE `id`= #{id}
     </update>
@@ -98,12 +100,12 @@
         <include refid="BaseColumnList"/>
         FROM
         <include refid="TableName"/>
-        where department_id = #{departmentId} ${pageable}
+        WHERE department_id = #{departmentId} ${pageable}
     </select>
     <select id="countAllByDepartmentId" resultType="int">
         SELECT COUNT(1) FROM
         <include refid="TableName"/>
-        where department_id = #{departmentId}
+        WHERE department_id = #{departmentId}
     </select>
 
     <select id="getOneByUsername" resultMap="BaseResultMap" parameterType="string">

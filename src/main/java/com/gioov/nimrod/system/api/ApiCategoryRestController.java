@@ -4,6 +4,7 @@ import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
+import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.ApiCategoryEntity;
 import com.gioov.nimrod.system.service.ApiCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import com.gioov.nimrod.system.System;
 
 import java.util.List;
 
@@ -36,12 +36,12 @@ public class ApiCategoryRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<ApiCategoryEntity>
+     * @return Pagination<ApiCategoryEntity>
      */
     @OperationLog(value = "分页获取所有父级 API 分类", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + API_CATEGORY + "/PAGE_ALL_PARENT')")
     @GetMapping(value = "/page_all_parent")
-    public ResponseEntity<Pagination.Result<ApiCategoryEntity>> pageAllParent(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<ApiCategoryEntity>> pageAllParent(@RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(apiCategoryService.pageAllByParentIdIsNull(page, rows), HttpStatus.OK);
     }
 

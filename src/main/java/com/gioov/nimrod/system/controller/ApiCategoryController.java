@@ -1,7 +1,6 @@
 package com.gioov.nimrod.system.controller;
 
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.system.System;
 import org.springframework.security.access.prepost.PreAuthorize;

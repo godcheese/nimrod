@@ -29,17 +29,22 @@ public class UserEntity implements Serializable, Cloneable {
     /**
      * 电子邮箱
      */
-    private String mail;
+    private String email;
 
     /**
      * 电子邮箱是否已验证
      */
-    private Integer mailIsVerified;
+    private Integer emailIsVerified;
 
     /**
      * 部门 id
      */
     private Long departmentId;
+
+    /**
+     * 是否禁用（0=否，1=是，默认=0）
+     */
+    private Integer disabled;
 
     /**
      * 备注
@@ -60,7 +65,6 @@ public class UserEntity implements Serializable, Cloneable {
      * 创建时间
      */
     private Date gmtCreated;
-
 
     public Long getId() {
         return id;
@@ -86,20 +90,20 @@ public class UserEntity implements Serializable, Cloneable {
         this.username = username;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Integer getMailIsVerified() {
-        return mailIsVerified;
+    public Integer getEmailIsVerified() {
+        return emailIsVerified;
     }
 
-    public void setMailIsVerified(Integer mailIsVerified) {
-        this.mailIsVerified = mailIsVerified;
+    public void setEmailIsVerified(Integer emailIsVerified) {
+        this.emailIsVerified = emailIsVerified;
     }
 
     public Long getDepartmentId() {
@@ -108,6 +112,14 @@ public class UserEntity implements Serializable, Cloneable {
 
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public Integer getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Integer disabled) {
+        this.disabled = disabled;
     }
 
     public String getRemark() {
@@ -148,9 +160,10 @@ public class UserEntity implements Serializable, Cloneable {
                 "id=" + id +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
-                ", mail='" + mail + '\'' +
-                ", mailIsVerified=" + mailIsVerified +
+                ", email='" + email + '\'' +
+                ", emailIsVerified=" + emailIsVerified +
                 ", departmentId=" + departmentId +
+                ", disabled=" + disabled +
                 ", remark='" + remark + '\'' +
                 ", gmtDeleted=" + gmtDeleted +
                 ", gmtModified=" + gmtModified +

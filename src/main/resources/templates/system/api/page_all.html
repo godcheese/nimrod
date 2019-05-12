@@ -35,13 +35,14 @@
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
                onclick="apiEditDialog();">编辑</a>
 
-            <a th:if="${#authorization.expression('hasRole('''+ SYST3EM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/API/PAGE_ALL/API_DELETE_ALL'')')}"
+            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/API/PAGE_ALL/API_DELETE_ALL'')')}"
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
                onclick="apiDeleteAll();">删除</a>
 
             <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/SYSTEM/API/PAGE_ALL/API_MOVE_TO_DIALOG'')')}"
                href="javascript:" class="easyui-linkbutton" iconCls="fa fa-copy" plain="true"
                onclick="apiMoveToDialog();">移动到...</a>
+
         </div>
         <table id="api"></table>
     </div>

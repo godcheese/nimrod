@@ -1,7 +1,6 @@
 package com.gioov.nimrod.user.controller;
 
 import com.gioov.nimrod.common.Common;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.user.User;
 import org.slf4j.Logger;

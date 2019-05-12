@@ -21,6 +21,6 @@ public interface JobService {
 
     int deleteAll(List<String> jobClassNameList, List<String> jobGroupList) throws BaseResponseException;
 
-    Pagination.Result<JobEntity> pageAll(Integer page, Integer rows);
+    Pagination<JobEntity> pageAll(Integer page, Integer rows);
 
 }

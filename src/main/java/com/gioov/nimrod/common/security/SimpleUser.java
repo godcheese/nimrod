@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
@@ -523,7 +522,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
             return this;
         }
 
-        public UserDetails build() {
+        public SimpleUserDetails build() {
             String encodedPassword = this.passwordEncoder.apply(password);
             return new SimpleUser(id, username, encodedPassword, !disabled, !accountExpired,
                     !credentialsExpired, !accountLocked, authorities);

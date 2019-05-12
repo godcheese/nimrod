@@ -1,7 +1,6 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.ViewPageEntity;
@@ -36,11 +35,11 @@ public class ViewPageRestController {
      * @param page           页
      * @param rows           每页显示数量
      * @param pageCategoryId 视图页面分类
-     * @return ResponseEntity<Pagination.Result < ViewPageEntity>>
+     * @return ResponseEntity<Pagination<ViewPageEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE + "/PAGE_ALL_BY_PAGE_CATEGORY_ID')")
     @GetMapping(value = "/page_all_by_page_category_id/{pageCategoryId}")
-    public ResponseEntity<Pagination.Result<ViewPageEntity>> pageAllByPageCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @PathVariable Long pageCategoryId) {
+    public ResponseEntity<Pagination<ViewPageEntity>> pageAllByPageCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @PathVariable Long pageCategoryId) {
         return new ResponseEntity<>(viewPageService.pageAllByPageCategoryId(pageCategoryId, page, rows), HttpStatus.OK);
     }
 

@@ -2,7 +2,6 @@ package com.gioov.nimrod.system.api;
 
 import com.gioov.common.mybatis.Sort;
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.AttachmentEntity;
@@ -43,11 +42,11 @@ public class AttachmentRestController {
      *
      * @param page
      * @param rows
-     * @return ResponseEntity<Pagination.Result                               <                               AttachmentEntity>>
+     * @return ResponseEntity<Pagination<AttachmentEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ATTACHMENT + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
-    public ResponseEntity<Pagination.Result<AttachmentEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<AttachmentEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         Sort sort = new Sort(Sort.Direction.DESC, "gmt_created");
         return new ResponseEntity<>(attachmentService.pageAll(page, rows, sort), HttpStatus.OK);
     }

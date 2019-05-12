@@ -5,7 +5,6 @@ import com.gioov.common.util.ImageUtil;
 import com.gioov.common.util.RandomUtil;
 import com.gioov.common.util.ResourceUtil;
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
 import com.gioov.nimrod.system.System;

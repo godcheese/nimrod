@@ -79,13 +79,13 @@
     });
 
     function jobRuntimeLogPauseOrStartRefresh() {
-        window._state = !_state;
+        window._status = !_status;
     }
 
     function jobRuntimeLogStartRefresh() {
         window._t = setInterval(f, $('#refresh').combobox('getValue'));
         function f() {
-            if(_state) {
+            if(_status) {
                 $('#jobRuntimeLog').datagrid('reload');
             }
         }

@@ -1,6 +1,5 @@
 package com.gioov.nimrod.user.api;
 
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.RoleAuthorityEntity;
 import com.gioov.nimrod.user.service.RoleAuthorityService;

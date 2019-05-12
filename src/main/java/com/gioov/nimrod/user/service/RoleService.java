@@ -26,9 +26,9 @@ public interface RoleService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<RoleEntity>
+     * @return Pagination<RoleEntity>
      */
-    Pagination.Result<RoleEntity> pageAll(Integer page, Integer rows);
+    Pagination<RoleEntity> pageAll(Integer page, Integer rows);
 
     /**
      * 获取所有角色

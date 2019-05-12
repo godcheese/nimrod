@@ -2,6 +2,7 @@ package com.gioov.nimrod.common.security;
 
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.druid.DruidConfiguration;
+import com.gioov.nimrod.common.properties.AppProperties;
 import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.user.User;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfiguration.class);
@@ -48,6 +49,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
 
+    @Autowired
+    private AppProperties appProperties;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
@@ -61,9 +65,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Druid 需要权限或者系统管理员角色才能访问
         http.authorizeRequests().antMatchers(DruidConfiguration.DRUID_URL).hasAnyAuthority(SimpleUserDetailsServiceImpl.ROLE_PREFIX + SYSTEM_ADMIN, DruidConfiguration.DRUID_URL.toUpperCase());
 
+//        if(appProperties.getPermitUrl() != null){
+//            http.authorizeRequests().antMatchers(appProperties.getPermitUrl()).permitAll();
+//        }
+
+//        LOGGER.info("appProperties.getPermitUrl={}", appProperties.getPermitUrl());
+
+//                http.authorizeRequests().antMatchers("/api/system/dictionary/list_all_by_key/IS_OR_NOT").permitAll();
+
         http
                 // 禁用 csrf，建议不要禁用 csrf
-                .csrf().disable()
+                .csrf().disable().anonymous().and()
                 // 解决 in a frame because it set 'X-Frame-Options' to 'deny'. 问题
                 .headers().frameOptions().disable().and()
                 .authorizeRequests()

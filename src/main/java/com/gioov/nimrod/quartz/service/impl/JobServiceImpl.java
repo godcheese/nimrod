@@ -93,14 +93,14 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Pagination.Result<JobEntity> pageAll(Integer page, Integer rows) {
-        Pagination.Result<JobEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<JobEntity> pageAll(Integer page, Integer rows) {
+        Pagination<JobEntity> pagination = new Pagination<>();
         List<JobEntity> jobEntityList = jobMapper.pageAll(new Pageable(page, rows));
         if(jobEntityList != null) {
-            paginationResult.setRows(jobEntityList);
+            pagination.setRows(jobEntityList);
         }
-        paginationResult.setTotal(jobMapper.countAll());
-        return paginationResult;
+        pagination.setTotal(jobMapper.countAll());
+        return pagination;
     }
 
     public static BaseJob getClass(String classname) throws ClassNotFoundException, IllegalAccessException, InstantiationException {

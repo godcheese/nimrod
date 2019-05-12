@@ -194,14 +194,14 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public Pagination.Result<MailEntity> pageAll(Integer page, Integer rows, Sort sort) {
-        Pagination.Result<MailEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<MailEntity> pageAll(Integer page, Integer rows, Sort sort) {
+        Pagination<MailEntity> pagination = new Pagination<>();
         List<MailEntity> mailEntityList = mailMapper.pageAll(new Pageable(page, rows, sort));
         if (mailEntityList != null) {
-            paginationResult.setRows(mailEntityList);
+            pagination.setRows(mailEntityList);
         }
-        paginationResult.setTotal(mailMapper.countAll());
-        return paginationResult;
+        pagination.setTotal(mailMapper.countAll());
+        return pagination;
     }
 
     /**

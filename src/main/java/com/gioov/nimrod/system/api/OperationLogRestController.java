@@ -1,7 +1,6 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.mybatis.Sort;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
@@ -37,12 +36,12 @@ public class OperationLogRestController {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination.Result<OperationLogEntity>>
+     * @return ResponseEntity<Pagination<OperationLogEntity>>
      */
     @OperationLog(value = "分页获取所有操作日志", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + OPERATION_LOG + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
-    public ResponseEntity<Pagination.Result<OperationLogEntity2>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<OperationLogEntity2>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         Sort sort = new Sort(Sort.Direction.DESC, "gmt_created");
         return new ResponseEntity<>(operationLogService.pageAll(page, rows, sort), HttpStatus.OK);
     }

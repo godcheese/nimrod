@@ -17,15 +17,15 @@ public interface DictionaryCategoryService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<ApiEntity>
+     * @return Pagination<ApiEntity>
      */
-    Pagination.Result<DictionaryCategoryEntity> pageAllParent(Integer page, Integer rows);
+    Pagination<DictionaryCategoryEntity> pageAllParent(Integer page, Integer rows);
 
     /**
      * 指定父级数据字典分类 id ，获取所有数据字典分类
      *
      * @param parentId 父级数据字典分类 id
-     * @return Pagination.Result<ApiEntity>
+     * @return Pagination<ApiEntity>
      */
     List<DictionaryCategoryEntity> listAllByParentId(Long parentId);
 

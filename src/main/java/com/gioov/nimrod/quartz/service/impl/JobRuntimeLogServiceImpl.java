@@ -53,12 +53,12 @@ public class JobRuntimeLogServiceImpl implements JobRuntimeLogService {
     }
 
     @Override
-    public Pagination.Result<JobRuntimeLogEntity> pageAll(Integer page, Integer rows) {
-        Pagination.Result<JobRuntimeLogEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<JobRuntimeLogEntity> pageAll(Integer page, Integer rows) {
+        Pagination<JobRuntimeLogEntity> pagination = new Pagination<>();
         List<JobRuntimeLogEntity> jobRuntimeLogEntityList = jobRuntimeLogMapper.pageAll(new Pageable(page, rows, new Sort(Sort.Direction.DESC, "id")));
-        paginationResult.setRows(jobRuntimeLogEntityList);
-        paginationResult.setTotal(jobRuntimeLogMapper.countAll());
-        return paginationResult;
+        pagination.setRows(jobRuntimeLogEntityList);
+        pagination.setTotal(jobRuntimeLogMapper.countAll());
+        return pagination;
     }
 
     @Override

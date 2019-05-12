@@ -56,9 +56,8 @@ var expressui = expressui || {};
 
 (function (_expressui) {
 
-
     if (!window.jQuery) {
-        console.error('expressui.js 需要 jQuery 支持');
+        console.error('expressui 需要 jQuery 支持');
         return;
     }
 
@@ -78,7 +77,6 @@ var expressui = expressui || {};
         },
         httpStatus: {}
     });
-
 
     _expressui.util.toObject = function (json) {
         return eval('(' + json + ')');
@@ -361,36 +359,67 @@ var expressui = expressui || {};
         });
     };
 
-    // 创建对话框
+    /**
+     * 创建并打开一个对话框实例
+     * @type {string}
+     */
     _expressui.dialog.create = 'create';
 
-    // 对话框新增数据提交表单方法
+    /**
+     * 对话框新增数据提交表单方法
+     * @type {string}
+     */
     _expressui.dialog.add = 'add';
 
-    // 对话框保存数据提交表单方法
+    /**
+     * 对话框保存数据提交表单方法
+     * @type {string}
+     */
     _expressui.dialog.save = 'save';
 
-    // 对话框关闭
+    /**
+     * 对话框实例关闭
+     * @type {string}
+     */
     _expressui.dialog.close = 'close';
 
-    // 创建表格
+    /**
+     * 创建表格实例
+     * @type {string}
+     */
     _expressui.grid.create = 'create';
 
-    // 删除多项
+    /**
+     * 删除多项
+     * @type {string}
+     */
     _expressui.grid.deleteChecked = 'deleteChecked';
 
     // 删除一项
-    _expressui.grid.deleteRow = 'deleteRow';
+    _expressui.grid.deleteCheckedOne = 'deleteCheckedOne';
 
-    // 获取必须一个勾选项，否则弹出警告信息
+    /**
+     * 获取必须一个勾选项，否则弹出警告信息
+     * @type {string}
+     */
     _expressui.grid.getCheckedOneOrShowAlert = 'getCheckedOneOrShowAlert';
 
-    // 勾选一项或不勾选项都不弹出警告信息，否则弹出警告信息
+    /**
+     * 勾选一项或不勾选项都不弹出警告信息，否则弹出警告信息
+     * @type {string}
+     */
     _expressui.grid.getCheckedOneNoCheckedOrShowAlert = 'getCheckedOneNoCheckedOrShowAlert';
 
-    // 获取勾选的一项
+    /**
+     * 获取勾选的一项
+     * @type {string}
+     */
     _expressui.grid.getCheckedOne = 'getCheckedOne';
 
+    /**
+     * 获取勾选的多项
+     * @type {string}
+     */
     _expressui.grid.getChecked = 'getChecked';
 
     // 获取至少勾选一项，否则弹出警告信息
@@ -526,6 +555,8 @@ var expressui = expressui || {};
                     if (grid.url) {
                         $(grid.selector).treegrid('options').url = grid.url;
                     }
+                    console.log($(grid.selector).treegrid('options'))
+                    console.log(grid);
                     $(grid.selector).treegrid('reload');
                 }
                 break;
@@ -838,7 +869,6 @@ var expressui = expressui || {};
 
 })(expressui);
 
-
 $.extend($.fn.dialog.defaults, {onMove: expressui.onMove});
 $.extend($.fn.window.defaults, {onMove: expressui.onMove});
 $.extend($.fn.panel.defaults, {onMove: expressui.onMove});
@@ -873,16 +903,12 @@ $.extend($.fn.panel.defaults, {
     }
 });
 
-$.extend($.fn.combobox.defaults, {
-    panelHeight: '100px'
-});
-
 $.extend($.fn.calendar.defaults, {
+    // 设置周一为一周开始日
     firstDay: 1
 });
 
 $.extend($.fn.dialog.defaults, {
-
     // dialog
     // title: '对话框',
     collapsible: true,
@@ -939,6 +965,7 @@ $.extend($.fn.dialog.defaults, {
                 $.ajax({
                     url: options.get.url,
                     type: options.get.method,
+                    async: true,
                     dataType: 'json',
                     success: function (data) {
                         $(_this).form('load', data);
@@ -957,7 +984,14 @@ $.extend($.fn.dialog.defaults, {
 });
 
 $.extend($.fn.dialog.methods, {
-    // 创建一个 dialog 实例，并打开一个对话框
+
+    /**
+     * dialog.create
+     * 创建并打开一个 dialog 对话框实例
+     * @param jq
+     * @param options
+     * @returns {jQuery|*}
+     */
     create: function (jq, options) {
         options.selector = expressui.util.initSelector(jq);
         if(!options.buttons) {
@@ -985,11 +1019,11 @@ $.extend($.fn.dialog.methods, {
                                 reload: _button.reload || undefined
                             };
                             options.buttons[i].handler = function () {
-                                $(options.selector).dialog(expressui.dialog.add, _buttonOptions );
+                                $(options.selector).dialog(expressui.dialog.add, _buttonOptions);
                             };
                             break;
                         case 'save':
-                            var _buttonOptions =  {
+                            _buttonOptions =  {
                                 success: _button.success || undefined,
                                 error: _button.error || undefined,
                                 reload: _button.reload || undefined
@@ -1022,6 +1056,11 @@ $.extend($.fn.dialog.methods, {
         return  $(options.selector).dialog(options);
     },
 
+    /**
+     * dialog.add
+     * @param jq
+     * @param options
+     */
     add: function (jq, options) {
         var selector = expressui.util.initSelector(jq);
         var dialogOptions = $(selector).dialog('options');
@@ -1132,6 +1171,11 @@ $.extend($.fn.dialog.methods, {
         }
     },
 
+    /**
+     * dialog.save
+     * @param jq
+     * @param options
+     */
     save: function (jq, options) {
         var selector = expressui.util.initSelector(jq);
         var dialogOptions = $(selector).dialog('options');
@@ -1157,7 +1201,6 @@ $.extend($.fn.dialog.methods, {
                         if (typeof options.success === 'function') {
                             options.success(data);
                         }
-
                         if (typeof options.success === 'string') {
                             $.messager.show({title: '信息', msg: options.success});
                             if (typeof options.reload === 'object') {
@@ -1196,6 +1239,7 @@ $.extend($.fn.dialog.methods, {
                             //         expressui.grid.reload(options.reload);
                             //     }
                             // }
+                            console.log(typeof options.reload);
 
                             if (typeof options.success === 'string') {
                                 $.messager.show({title: '信息', msg: options.success});
@@ -1786,7 +1830,7 @@ $.extend($.fn.treegrid.defaults, {
     singleSelect: false,
     selectOnCheck:false,
     checkOnSelect:true,
-    checkbox: true,
+    // checkbox: true,
     pagination: true,
     scrollbarSize: 0,
     method: 'get',
@@ -1800,18 +1844,19 @@ $.extend($.fn.treegrid.defaults, {
         $(this).treegrid('clearChecked');
     },
     loadFilter: function (data, parentId) {
-
         if(!data) {
             data = [];
         }
 
-        if(data.rows) {
-            for (var i = 0; i < data.rows.length; i++) {
-                data.rows[i].state = 'closed';
-            }
-        } else {
-            for (var i = 0; i < data.length; i++) {
-                data[i].state = 'closed';
+        if($(this).treegrid('options').expandUrl) {
+            if (data.rows) {
+                for (var i = 0; i < data.rows.length; i++) {
+                    data.rows[i].state = 'closed';
+                }
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    data[i].state = 'closed';
+                }
             }
         }
 
@@ -1819,7 +1864,9 @@ $.extend($.fn.treegrid.defaults, {
     },
     onBeforeExpand : function (row) {
         var options = $(this).treegrid('options');
-        options.url = expressui.replaceUrlPlaceholder(options.expandUrl, row);
+        if(options.expandUrl) {
+            options.url = expressui.replaceUrlPlaceholder(options.expandUrl, row);
+        }
         // var checked = $(this).treegrid('getSelected');
         // if(checked){
         //     var idField = options.idField;
@@ -1856,6 +1903,7 @@ $.extend($.fn.treegrid.methods, {
             options._url = options.url;
         }
 
+        console.log(options);
         return $(options.selector).treegrid(options);
     },
 
@@ -2068,7 +2116,7 @@ $.extend($.fn.treegrid.methods, {
     },
 
     // 删除一项
-    deleteRow: function (jq, url) {
+    deleteCheckedOne: function (jq, url) {
         $.messager.progress({title:'请稍等', msg:'正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'treegrid', selector: selector});
@@ -2154,7 +2202,12 @@ $.extend($.fn.treegrid.methods, {
     }
 });
 
-$.extend($.fn.combobox.defaults, {valueField: 'id', textField:'name', method: 'get', editable: false
+$.extend($.fn.combobox.defaults, {
+    valueField: 'id',
+    textField: 'text',
+    method: 'get',
+    editable: false,
+    panelHeight: '100px',
     // onBeforeLoad: function(param){
     // console.log(param);
     //     if(param && param.q) {
@@ -2167,49 +2220,7 @@ $.extend($.fn.combobox.defaults, {valueField: 'id', textField:'name', method: 'g
     // }
 });
 
-// $.extend($.fn.datagrid.methods, {
-//     refresh: function (jq, options) {
-//         if(typeof options === 'string') {
-//             var url = options;
-//             options = {};
-//             options.url = url;
-//         } else {
-//             options = {};
-//         }
-//         options.selector = expressui.util.initSelector(jq);
-//
-//         $(options.selector).datagrid('clearSelections');
-//         $(options.selector).datagrid('clearChecked');
-//
-//         if(options.url) {
-//             $(options.selector).datagrid('reload', options.url);
-//         } else {
-//             $(options.selector).datagrid('reload');
-//         }
-//     }
-// });
-
-//
-// $.extend($.fn.treegrid.methods, {
-//     refresh: function (jq, options) {
-//         if(typeof options === 'string') {
-//             var url = options;
-//             options = {};
-//             options.url = url;
-//         } else {
-//             options = {};
-//         }
-//         options.selector = expressui.util.initSelector(jq);
-//
-//         $(options.selector).treegrid('clearSelections');
-//         $(options.selector).treegrid('clearChecked');
-//
-//         if(options.url) {
-//             $(options.selector).treegrid('reload', options.url);
-//         } else {
-//             $(options.selector).treegrid('reload');
-//         }
-//     }
-// });
-
+$.extend($.fn.combotree.defaults, {
+    panelHeight: '100px',
+})
 // $.extend($.fn.linkbutton.defaults, {plain: true});

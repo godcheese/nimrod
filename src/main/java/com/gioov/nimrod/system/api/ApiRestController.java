@@ -1,7 +1,6 @@
 package com.gioov.nimrod.system.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.ApiEntity;
@@ -36,11 +35,11 @@ public class ApiRestController {
      * @param page          页
      * @param rows          每页显示数量
      * @param apiCategoryId API 分类 id
-     * @return ResponseEntity<Pagination.Result<ApiEntity>>
+     * @return ResponseEntity<Pagination<ApiEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + API + "/PAGE_ALL_BY_API_CATEGORY_ID')")
     @GetMapping(value = "/page_all_by_api_category_id/{apiCategoryId}")
-    public ResponseEntity<Pagination.Result<ApiEntity>> pageAllByApiCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @PathVariable Long apiCategoryId) {
+    public ResponseEntity<Pagination<ApiEntity>> pageAllByApiCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @PathVariable Long apiCategoryId) {
         return new ResponseEntity<>(apiService.pageAllByApiCategoryId(apiCategoryId, page, rows), HttpStatus.OK);
     }
 

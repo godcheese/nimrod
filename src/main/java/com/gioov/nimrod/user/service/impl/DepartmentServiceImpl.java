@@ -1,16 +1,21 @@
 package com.gioov.nimrod.user.service.impl;
 
 import com.gioov.common.web.exception.BaseResponseException;
+import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.easyui.TreeGrid;
 import com.gioov.nimrod.user.entity.DepartmentEntity;
 import com.gioov.nimrod.user.entity.UserEntity;
 import com.gioov.nimrod.user.mapper.DepartmentMapper;
 import com.gioov.nimrod.user.mapper.UserMapper;
 import com.gioov.nimrod.user.service.DepartmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +26,8 @@ import java.util.List;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentServiceImpl.class);
+
     @Autowired
     private DepartmentMapper departmentMapper;
 
@@ -28,14 +35,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     private UserMapper userMapper;
 
     @Override
-    public Pagination.Result<DepartmentEntity> pageAllByParentIdIsNull(Integer page, Integer rows) {
-        Pagination.Result<DepartmentEntity> paginationResult = new Pagination().new Result<>();
-        List<DepartmentEntity> departmentEntityList = departmentMapper.pageAllByParentIdIsNull(new com.gioov.common.mybatis.Pageable(page, rows));
+    public Pagination<DepartmentEntity> pageAllParent(Integer page, Integer rows) {
+        Pagination<DepartmentEntity> pagination = new Pagination<>();
+        List<DepartmentEntity> departmentEntityList = departmentMapper.pageAllParentIdIsNull(new com.gioov.common.mybatis.Pageable(page, rows));
         if (departmentEntityList != null) {
-            paginationResult.setRows(departmentEntityList);
+            pagination.setRows(departmentEntityList);
         }
-        paginationResult.setTotal(departmentMapper.countAllByParentIdIsNull());
-        return paginationResult;
+        pagination.setTotal(departmentMapper.countAllParentIdIsNull());
+        return pagination;
+    }
+
+    @Override
+    public List<DepartmentEntity> listAllParent() {
+        return departmentMapper.listAllParentIdIsNull();
     }
 
     @Override
@@ -44,7 +56,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Pagination.Result<DepartmentEntity> pageAll(Integer page, Integer rows) {
+    public Pagination<DepartmentEntity> pageAll(Integer page, Integer rows) {
         return null;
     }
 
@@ -88,28 +100,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public DepartmentEntity insertOne(DepartmentEntity departmentEntity) {
-        DepartmentEntity departmentEntity1 = new DepartmentEntity();
         Date date = new Date();
-        departmentEntity1.setName(departmentEntity.getName());
-        departmentEntity1.setParentId(departmentEntity.getParentId());
-        departmentEntity1.setRemark(departmentEntity.getRemark());
-        departmentEntity1.setGmtModified(date);
-        departmentEntity1.setGmtCreated(date);
-        departmentMapper.insertOne(departmentEntity1);
-        return departmentEntity1;
+        departmentEntity.setGmtModified(date);
+        departmentEntity.setGmtCreated(date);
+        departmentMapper.insertOne(departmentEntity);
+        return departmentEntity;
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public DepartmentEntity updateOne(DepartmentEntity departmentEntity) {
-        DepartmentEntity departmentEntity1 = new DepartmentEntity();
-        departmentEntity1.setId(departmentEntity.getId());
-        departmentEntity1.setName(departmentEntity.getName());
-        departmentEntity1.setParentId(departmentEntity.getParentId());
-        departmentEntity1.setRemark(departmentEntity.getRemark());
-        departmentEntity1.setGmtModified(new Date());
-        departmentMapper.updateOne(departmentEntity1);
-        return departmentEntity1;
+        departmentEntity.setGmtModified(new Date());
+        departmentMapper.updateOne(departmentEntity);
+        return departmentEntity;
     }
 
     @Override
@@ -134,6 +137,81 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentEntity getOne(Long id) {
         return departmentMapper.getOne(id);
+    }
+
+    @Override
+    public List<ComboTree> listAllDepartmentComboTree() {
+        List<ComboTree> comboTreeList = new ArrayList<>(0);
+        List<DepartmentEntity> departmentEntityList = listAll();
+        for(DepartmentEntity departmentEntity : departmentEntityList) {
+            ComboTree comboTree = new ComboTree();
+            comboTree.setId(departmentEntity.getId());
+            comboTree.setText(departmentEntity.getName());
+            comboTree.setParentId(departmentEntity.getParentId());
+            comboTreeList.add(comboTree);
+        }
+        return comboTreeList;
+    }
+
+    @Override
+    public List<ComboTree> getComboTreeChildren(long parentId, List<ComboTree> departmentComboTreeList) {
+
+        List<ComboTree> children = new ArrayList<>(0);
+
+        for(ComboTree comboTree : departmentComboTreeList) {
+            if(comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
+                children.add(comboTree);
+            }
+        }
+
+        for(ComboTree child : children) {
+
+            List<ComboTree> childChildren = getComboTreeChildren(child.getId(), departmentComboTreeList);
+            if(childChildren == null) {
+                childChildren = new ArrayList<>(0);
+            }
+            child.setChildren(childChildren);
+        }
+
+        return children;
+    }
+
+    @Override
+    public List<TreeGrid> listAllDepartmentTreeGrid() {
+        List<TreeGrid> treeGridList = new ArrayList<>(0);
+        List<DepartmentEntity> departmentEntityList = listAll();
+        for(DepartmentEntity departmentEntity : departmentEntityList) {
+            TreeGrid treeGrid = new TreeGrid();
+            treeGrid.setId(departmentEntity.getId());
+            treeGrid.setName(departmentEntity.getName());
+            treeGrid.setParentId(departmentEntity.getParentId());
+            treeGridList.add(treeGrid);
+        }
+        return treeGridList;
+    }
+
+    @Override
+    public List<TreeGrid> getTreeGridChildren(long parentId, List<TreeGrid> departmentTreeGridList) {
+
+        List<TreeGrid> children = new ArrayList<>(0);
+
+        LOGGER.info("departmentTreeGridList={}", departmentTreeGridList);
+        for(TreeGrid treeGrid : departmentTreeGridList) {
+
+            if(treeGrid.getParentId() != null && treeGrid.getParentId().equals(parentId)) {
+                children.add(treeGrid);
+            }
+        }
+
+        for(TreeGrid child : children) {
+
+            List<TreeGrid> childChildren = getTreeGridChildren(child.getId(), departmentTreeGridList);
+            if(childChildren == null) {
+                childChildren = new ArrayList<>(0);
+            }
+            child.setChildren(childChildren);
+        }
+        return children;
     }
 
 }

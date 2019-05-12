@@ -1,7 +1,6 @@
 package com.gioov.nimrod.user.api;
 
 import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.ViewMenuCategoryEntity;
@@ -36,11 +35,11 @@ public class ViewMenuCategoryRestController {
      * @param roleId 角色 id
      * @param page   页
      * @param rows   每页显示数量
-     * @return ResponseEntity<Pagination.Result                               <                               ViewMenuCategoryEntity>>
+     * @return ResponseEntity<Pagination<ViewMenuCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/PAGE_ALL_PARENT_BY_ROLE_ID')")
     @GetMapping(value = "/page_all_parent_by_role_id/{roleId}")
-    public ResponseEntity<Pagination.Result<ViewMenuCategoryEntity>> pageAllParent(@PathVariable Long roleId, @RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<ViewMenuCategoryEntity>> pageAllParent(@PathVariable Long roleId, @RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(viewMenuCategoryService.pageAllParent(roleId, page, rows), HttpStatus.OK);
     }
 

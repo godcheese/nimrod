@@ -45,9 +45,9 @@ public interface ViewMenuCategoryService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<ViewMenuCategoryEntity>
+     * @return Pagination<ViewMenuCategoryEntity>
      */
-    Pagination.Result<ViewMenuCategoryEntity> pageAllParent(Long roleId, Integer page, Integer rows);
+    Pagination<ViewMenuCategoryEntity> pageAllParent(Long roleId, Integer page, Integer rows);
 
     /**
      * 新增角色

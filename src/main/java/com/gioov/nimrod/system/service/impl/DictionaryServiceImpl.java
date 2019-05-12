@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -175,14 +174,14 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    public Pagination.Result<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows) {
-        Pagination.Result<DictionaryEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows) {
+        Pagination<DictionaryEntity> pagination = new Pagination<>();
         List<DictionaryEntity> dictionaryEntityList = dictionaryMapper.pageAllByDictionaryCategoryId(dictionaryCategoryId, new Pageable(page, rows));
         if (dictionaryEntityList != null) {
-            paginationResult.setRows(dictionaryEntityList);
+            pagination.setRows(dictionaryEntityList);
         }
-        paginationResult.setTotal(dictionaryMapper.countAllByDictionaryCategoryId(dictionaryCategoryId));
-        return paginationResult;
+        pagination.setTotal(dictionaryMapper.countAllByDictionaryCategoryId(dictionaryCategoryId));
+        return pagination;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class JobRuntimeLogRestController {
 //    }
 
     @RequestMapping("/page_all")
-    public ResponseEntity<Pagination.Result<JobRuntimeLogEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
+    public ResponseEntity<Pagination<JobRuntimeLogEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(jobRuntimeLogService.pageAll(page, rows), HttpStatus.OK);
     }
 

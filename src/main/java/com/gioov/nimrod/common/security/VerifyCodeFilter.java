@@ -1,7 +1,6 @@
 package com.gioov.nimrod.common.security;
 
 import com.gioov.common.util.ImageUtil;
-import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

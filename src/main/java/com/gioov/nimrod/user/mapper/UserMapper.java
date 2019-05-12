@@ -26,7 +26,7 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
      */
     UserEntity getOneByUsername(@Param("username") String username);
 
-    UserEntity getOneByMail(@Param("mail") String mail);
+    UserEntity getOneByEmail(@Param("email") String email);
 
     UserEntity getOneByCellphone(@Param("cellphone") String cellphone);
 
@@ -52,4 +52,5 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
     int countAllByDepartmentId(@Param("departmentId") Long departmentId);
 
     UserEntity getOneByDepartmentId(@Param("departmentId") Long departmentId);
+
 }

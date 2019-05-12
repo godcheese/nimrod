@@ -30,14 +30,14 @@ public class ViewPageCategoryServiceImpl implements ViewPageCategoryService {
 
 
     @Override
-    public Pagination.Result<ViewPageCategoryEntity> pageAllParent(Integer page, Integer rows) {
-        Pagination.Result<ViewPageCategoryEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<ViewPageCategoryEntity> pageAllParent(Integer page, Integer rows) {
+        Pagination<ViewPageCategoryEntity> pagination = new Pagination<>();
         List<ViewPageCategoryEntity> viewPageCategoryEntityList = viewPageCategoryMapper.pageAllByParentIdIsNull(new Pageable(page, rows));
         if (viewPageCategoryEntityList != null) {
-            paginationResult.setRows(viewPageCategoryEntityList);
+            pagination.setRows(viewPageCategoryEntityList);
         }
-        paginationResult.setTotal(viewPageCategoryMapper.countAllByParentIdIsNull());
-        return paginationResult;
+        pagination.setTotal(viewPageCategoryMapper.countAllByParentIdIsNull());
+        return pagination;
     }
 
     @Override

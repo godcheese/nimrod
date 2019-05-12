@@ -11,7 +11,8 @@ $(function () {
                 // dataType: 'json',
                 url: Url.User.Api.LOGOUT,
                 success: function (data) {
-                    window.location.href = Url.User.Page.LOGIN + '?state=logout';
+                    // window.location.href = Url.User.Page.LOGIN + '?state=logout';
+                    window.location.href = Url.User.Page.LOGIN;
                 },
                 error: function (xhr) {
                     alert("注销失败");

@@ -33,7 +33,7 @@
         VALUES (#{roleId}, #{authority})
     </insert>
 
-    <insert id="insertAllByRoleIdAndAuthorityList" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertAllByRoleIdAndAuthorityList" useGeneratedKeys="true">
         INSERT INTO
         <include refid="TableName"/>
         (`role_id`, `authority`)

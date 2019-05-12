@@ -21,7 +21,7 @@ public class Accordion {
      */
     private String iconCls;
 
-    private String content;
+  private String content;
 
     /**
      * Set to true to expand the panel.

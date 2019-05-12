@@ -37,11 +37,11 @@ public interface UserService {
     /**
      * 指定电子邮箱、密码，获取用户
      *
-     * @param mail    电子邮箱
+     * @param email    电子邮箱
      * @param password 用户密码
      * @return UserEntity
      */
-    UserEntity getOneByMailAndPassword(String mail, String password);
+    UserEntity getOneByEmailAndPassword(String email, String password);
 
     /**
      * 指定手机号、密码，获取用户
@@ -134,18 +134,18 @@ public interface UserService {
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<UserEntity>
+     * @return Pagination<UserEntity>
      */
-    Pagination.Result<UserEntity> pageAll(Integer page, Integer rows);
+    Pagination<UserEntity> pageAll(Integer page, Integer rows);
 
     /**
      * 指定 API 分类 id ，分页获取所有 API
      *
      * @param page 页
      * @param rows 每页显示数量
-     * @return Pagination.Result<UserEntity>
+     * @return Pagination<UserEntity>
      */
-    Pagination.Result<UserEntity> pageAllByDepartmentId(Long departmentId, Integer page, Integer rows);
+    Pagination<UserEntity> pageAllByDepartmentId(Long departmentId, Integer page, Integer rows);
 
     /**
      * 新增角色

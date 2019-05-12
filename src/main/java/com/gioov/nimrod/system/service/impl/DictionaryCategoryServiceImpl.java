@@ -30,14 +30,14 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
     private DictionaryMapper dictionaryMapper;
 
     @Override
-    public Pagination.Result<DictionaryCategoryEntity> pageAllParent(Integer page, Integer rows) {
-        Pagination.Result<DictionaryCategoryEntity> paginationResult = new Pagination().new Result<>();
+    public Pagination<DictionaryCategoryEntity> pageAllParent(Integer page, Integer rows) {
+        Pagination<DictionaryCategoryEntity> pagination = new Pagination<>();
         List<DictionaryCategoryEntity> dictionaryCategoryEntityList = dictionaryCategoryMapper.pageAllByParentIdIsNull(new Pageable(page, rows));
         if (dictionaryCategoryEntityList != null) {
-            paginationResult.setRows(dictionaryCategoryEntityList);
+            pagination.setRows(dictionaryCategoryEntityList);
         }
-        paginationResult.setTotal(dictionaryCategoryMapper.countAllByParentIdIsNull());
-        return paginationResult;
+        pagination.setTotal(dictionaryCategoryMapper.countAllByParentIdIsNull());
+        return pagination;
     }
 
     @Override

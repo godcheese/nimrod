@@ -10,12 +10,19 @@
             <td class="label">电子邮箱：</td>
             <td><input name="email" class="easyui-textbox" data-options="required:true"></td>
             <td class="label">电子邮箱是否验证通过：</td>
-            <td><input name="emailIsVerified" id="emailIsVerified" class="easyui-combobox"></td>
+            <td><input name="emailIsVerified" id="emailIsVerified"></td>
+        </tr>
+        <tr>
+            <td class="label">所在部门：</td>
+            <td colspan="3"><input name="departmentId" id="departmentId"></td>
+        </tr>
+        <tr>
+            <td class="label">是否禁用：</td>
+            <td colspan="3"><input name="disabled" id="disabled"></td>
         </tr>
         <tr>
             <td class="label">备注：</td>
-            <td colspan="3"><input name="remark" class="easyui-textbox" style="height:50px;"
-                                   data-options="required:false,multiline:true"></td>
+            <td colspan="3"><input name="remark" class="easyui-textbox" style="height:50px;" data-options="required:false,multiline:true"></td>
         </tr>
     </table>
 </div>
@@ -24,6 +31,21 @@
     $(function () {
         $('#emailIsVerified').combobox({
             url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            method: 'get',
+            valueField: 'value',
+            textField: 'valueName',
+            required: true
+        });
+        $('#departmentId').combotree({
+            required: true,
+            editable: false,
+            method: 'get',
+            valueField: 'id',
+            textField: 'text',
+            url: Url.User.Api.DEPARTMENT + '/list_all_as_combo_tree',
+        });
+        $('#disabled').combobox({
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/ IS_OR_NOT',
             method: 'get',
             valueField: 'value',
             textField: 'valueName',

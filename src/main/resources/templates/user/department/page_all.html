@@ -5,53 +5,20 @@
 </head>
 <body>
 
-<div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'west',split:true" style="width:40%">
-        <div id="departmentToolbar">
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_ADD_DIALOG'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-               onclick="departmentAddDialog();">新增</a>
+<div id="departmentToolbar">
+    <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_ADD_DIALOG'')')}"
+       href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
+       onclick="departmentAddDialog();">新增</a>
 
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_EDIT_DIALOG'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-               onclick="departmentEditDialog();">编辑</a>
+    <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_EDIT_DIALOG'')')}"
+       href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
+       onclick="departmentEditDialog();">编辑</a>
 
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_DELETE_ALL'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-               onclick="departmentDeleteAll();">删除</a>
-        </div>
-        <table id="department"></table>
-    </div>
-    <div data-options="region:'center',split:true">
-
-        <div id="userToolbar">
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/PAGE_ALL/USER_ADD_DIALOG'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-               onclick="userAddDialog();">新增</a>
-
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/PAGE_ALL/USER_EDIT_DIALOG'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-               onclick="userEditDialog();">编辑</a>
-
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/PAGE_ALL/USER_FAKE_DELETE_ALL'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-               onclick="userFakeDeleteAll();">删除</a>
-
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/PAGE_ALL/USER_REVOKE_FAKE_DELETE_ALL'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-undo" plain="true"
-               onclick="userRevokeFakeDeleteAll();">撤销删除</a>
-
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/PAGE_ALL/USER_DELETE_ALL'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-               onclick="userDeleteAll();">永久删除</a>
-
-            <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/PAGE_ALL/USER_ROLE_DIALOG'')')}"
-               href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-               onclick="userRoleDialog();">角色管理</a>
-        </div>
-        <table id="user"></table>
-    </div>
+    <a th:if="${#authorization.expression('hasRole('''+ SYSTEM_ADMIN +''') OR hasAuthority(''/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_DELETE_ALL'')')}"
+       href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+       onclick="departmentDeleteAll();">删除</a>
 </div>
+<table id="department"></table>
 
 <script type="text/javascript">
 
@@ -66,52 +33,17 @@
         ];
         $('#department').treegrid(expressui.grid.create, {
             title: '部门管理',
-            url: Url.User.Api.DEPARTMENT + '/page_all_parent',
-            expandUrl: Url.User.Api.DEPARTMENT + '/list_all_by_parent_id/{id}',
+            url: Url.User.Api.DEPARTMENT + '/list_all_as_tree_grid',
             columns: [columns],
-            onCheck: function (row) {
-                if (row) {
-                    $('#user').datagrid('reload', Url.User.Api.USER + '/page_all_by_department_id/' + row.id);
-                }
-            },
-            onUncheck: function (index, row) {
-                $('#user').datagrid('loadData', []);
-            }
-
+            pagination: false
         });
-
-        var IS_OR_NOT = [];
-        expressui.ajax({
-            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
-            async: false,
-            success: function (data) {
-                if (data) {
-                    IS_OR_NOT = data;
-                }
-            }
-        });
-        IS_OR_NOT.push({value: 'default', valueName: 0});
-
-        columns = [
-            {field: 'checkbox', checkbox: true},
-            {field: 'id', title: 'ID'},
-            {field: 'username', title: '用户名'},
-            {field: 'email', title: '电子邮箱'},
-            {
-                field: 'emailIsVerified', title: '电子邮箱是否验证通过', formatter: function (value, row, index) {
-                    return expressui.grid.formatter(value, IS_OR_NOT);
-                }
-            },
-            {field: 'remark', title: '备注'},
-            {field: 'gmtDeleted', title: '删除时间'},
-            {field: 'gmtModified', title: '更新时间'},
-            {field: 'gmtCreated', title: '创建时间'}
-        ];
-        $('#user').datagrid(expressui.grid.create, {
-            title: '用户管理',
-            columns: [columns],
-            // url: Url.User.Api.USER + '/page_all'
-        });
+        // $('#department').treegrid({
+        //     title: '部门管理',
+        //     url: Url.User.Api.DEPARTMENT + '/list_all_as_tree_grid',
+        //     // expandUrl: Url.User.Api.DEPARTMENT + '/list_all_by_parent_id/{id}',
+        //     columns: [columns],
+        //     pagination: false
+        // });
     });
 
     function departmentAddDialog() {
@@ -130,7 +62,7 @@
                 text: '保存',
                 iconCls: 'fa fa-save',
                 handler: expressui.dialog.add,
-                reload: [{type: 'treegrid', selector: '#department'}, {type: 'datagrid', selector: '#user', data: []}],
+                reload: [{type: 'treegrid', selector: '#department'}],
                 success: '新增成功'
             }, {
                 text: '关闭',
@@ -153,11 +85,7 @@
                     text: '保存',
                     iconCls: 'fa fa-save',
                     handler: expressui.dialog.save,
-                    reload: [{type: 'treegrid', selector: '#department'}, {
-                        type: 'datagrid',
-                        selector: '#user',
-                        data: []
-                    }],
+                    reload: [{type: 'treegrid', selector: '#department'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
@@ -173,146 +101,10 @@
             url: Url.User.Api.DEPARTMENT + '/delete_all',
             method: 'post',
             success: '删除成功',
-            reload: [{type: 'treegrid', selector: '#department'}, {type: 'datagrid', selector: '#user', data: []}]
+            reload: [{type: 'treegrid', selector: '#department'}]
         });
     }
 
-    function userAddDialog() {
-        var department = $('#department').treegrid(expressui.grid.getCheckedOneOrShowAlert);
-        if (!department) {
-            return;
-        }
-        $('#userAddDialog').dialog(expressui.dialog.create, {
-            title: '新增用户',
-            width: 600,
-            grid: {type: 'datagrid', selector: '#user'},
-            href: Url.User.Page.USER  + '/add_dialog',
-            save: {
-                url: Url.User.Api.USER + '/add_one',
-                data: department ? {departmentId: department.id} : {}, // 非必传参数
-                method: 'post'
-            },
-            buttons: [{
-                text: '保存',
-                iconCls: 'fa fa-save',
-                handler: expressui.dialog.add,
-                reload: [{type: 'datagrid', selector: '#user'}],
-                success: '新增成功'
-            }, {
-                text: '关闭',
-                iconCls: 'fa fa-close',
-                handler: expressui.dialog.close
-            }]
-        });
-    }
-
-    function userEditDialog() {
-        var one = $('#user').datagrid(expressui.grid.getCheckedOneOrShowAlert);
-        if (!one) {
-            return;
-        }
-        $('#userEditDialog').dialog(expressui.dialog.create, {
-            title: '编辑用户',
-            width: 600,
-            grid: {type: 'datagrid', selector: '#user'},
-            selector: '#userEditDialog',
-            href: Url.User.Page.USER + '/edit_dialog',
-            get: {url: Url.User.Api.USER + '/one/{id}', method: 'get'},
-            save: {url: Url.User.Api.USER + '/save_one', method: 'post'},
-            buttons: [{
-                text: '保存',
-                iconCls: 'fa fa-save',
-                handler: expressui.dialog.save,
-                reload: [{type: 'datagrid', selector: '#user'}],
-                success: '保存成功'
-            }, {
-                text: '关闭',
-                iconCls: 'fa fa-close',
-                handler: expressui.dialog.close
-            }]
-        });
-    }
-
-    function userFakeDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
-        if (!checked) {
-            return;
-        }
-
-        var id = [];
-        for (var i = 0; i < checked.length; i++) {
-            id.push(checked[i].id);
-        }
-
-        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
-            url: Url.User.Api.USER + '/fake_delete_all',
-            data: {id: id},
-            method: 'post',
-            success: '删除成功',
-            reload: {type: 'datagrid', selector: '#user'}
-        });
-    }
-
-    function userRevokeFakeDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
-        if (!checked) {
-            return;
-        }
-
-        var id = [];
-        for (var i = 0; i < checked.length; i++) {
-            id.push(checked[i].id);
-        }
-
-        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
-            url: Url.User.Api.USER + '/revoke_fake_delete_all',
-            data: {id: id},
-            method: 'post',
-            confirmMessage: '确定要撤销删除勾选项吗',
-            success: '撤销删除成功',
-            reload: {type: 'datagrid', selector: '#user'}
-        });
-    }
-
-    function userDeleteAll() {
-        var checked = $('#user').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
-        if (!checked) {
-            return;
-        }
-
-        var id = [];
-        for (var i = 0; i < checked.length; i++) {
-            id.push(checked[i].id);
-        }
-
-        $('#user').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
-            url: Url.User.Api.USER + '/delete_all',
-            data: {id: id},
-            method: 'post',
-            success: '删除成功',
-            reload: {type: 'datagrid', selector: '#user'}
-        });
-    }
-
-    function userRoleDialog() {
-        var one = $('#user').datagrid(expressui.grid.getCheckedOneOrShowAlert);
-        if (!one) {
-            return;
-        }
-
-        $('#userRoleDialog').dialog(expressui.dialog.create, {
-            title: '角色管理',
-            grid: {type: 'datagrid', selector: '#user'},
-            href: Url.User.Page.USER_ROLE + '/page_all',
-            width: 850,
-            height: 450,
-            buttons: [{
-                text: '关闭',
-                iconCls: 'fa fa-close',
-                handler: expressui.dialog.close
-            }]
-        });
-    }
 </script>
 </body>
 </html>

@@ -604,9 +604,10 @@ CREATE TABLE `user`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户密码',
   `username` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
-  `mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电子邮箱',
-  `mail_is_verified` tinyint(1) UNSIGNED NULL DEFAULT NULL COMMENT '电子邮箱是否验证通过（0=未验证，1=已验证，默认=0）',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电子邮箱',
+  `email_is_verified` tinyint(1) UNSIGNED NULL DEFAULT NULL COMMENT '电子邮箱是否验证通过（0=未验证，1=已验证，默认=0）',
   `department_id` bigint(20) NULL DEFAULT NULL COMMENT '部门 id',
+  `disabled` tinyint(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否禁用（0=否，1=是，默认=0）',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
   `gmt_deleted` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
@@ -618,9 +619,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, '$2a$10$2ASJsYX1q5AMjHCji6DkrOt/mmS4D1nCXwnUW4kt.n/FvONR6Kjiq', 'normal_user', 'normal_user@outlook.com', 1, 1, '测试备注', NULL, '2018-11-13 04:26:59', '2018-06-27 21:22:40');
-INSERT INTO `user` VALUES (2, '$2a$10$2ASJsYX1q5AMjHCji6DkrOt/mmS4D1nCXwnUW4kt.n/FvONR6Kjiq', 'admin', 'admin@outlook.com', 1, 1, '测试备注', NULL, '2018-11-13 04:27:08', '2018-06-27 21:22:40');
-INSERT INTO `user` VALUES (3, '$2a$10$2ASJsYX1q5AMjHCji6DkrOt/mmS4D1nCXwnUW4kt.n/FvONR6Kjiq', 'system_admin', 'godcheese@outlook.com', 1, 1, '测试备注', NULL, '2018-11-13 04:26:44', '2018-06-27 21:22:40');
+INSERT INTO `user` VALUES (1, '$2a$10$2ASJsYX1q5AMjHCji6DkrOt/mmS4D1nCXwnUW4kt.n/FvONR6Kjiq', 'normal_user', 'normal_user@outlook.com', 1, 1, 0, '测试备注', NULL, '2018-11-13 04:26:59', '2018-06-27 21:22:40');
+INSERT INTO `user` VALUES (2, '$2a$10$2ASJsYX1q5AMjHCji6DkrOt/mmS4D1nCXwnUW4kt.n/FvONR6Kjiq', 'admin', 'admin@outlook.com', 1, 1, 0, '测试备注', NULL, '2018-11-13 04:27:08', '2018-06-27 21:22:40');
+INSERT INTO `user` VALUES (3, '$2a$10$2ASJsYX1q5AMjHCji6DkrOt/mmS4D1nCXwnUW4kt.n/FvONR6Kjiq', 'system_admin', 'godcheese@outlook.com', 1, 1, 0, '测试备注', NULL, '2018-11-13 04:26:44', '2018-06-27 21:22:40');
 
 -- ----------------------------
 -- Table structure for user_password_reset

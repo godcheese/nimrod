@@ -55,17 +55,17 @@ $(function () {
         });
     });
 
-    var state = util.request.getQueryParam('state');
-    switch (state) {
-        case 'logout':
-            $('#alertMessage').html('<div class="alert alert-success">\n' +
-                '<i class="fa fa-exclamation-triangle"></i>\n' +
-                '<span id="alertMessage">注销成功</span>\n' +
-                '</div>');
-            break;
-        default:
-            break;
-    }
+    // var state = util.request.getQueryParam('state');
+    // switch (state) {
+        // case 'logout':
+        //     $('#alertMessage').html('<div class="alert alert-success">\n' +
+        //         '<i class="fa fa-exclamation-triangle"></i>\n' +
+        //         '<span id="alertMessage">注销成功</span>\n' +
+        //         '</div>');
+        //     break;
+    //     default:
+    //         break;
+    // }
 
 });
 

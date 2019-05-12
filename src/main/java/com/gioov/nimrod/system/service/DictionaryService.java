@@ -71,9 +71,9 @@ public interface DictionaryService {
      * @param dictionaryCategoryId 数据字典分类 id
      * @param page                 页
      * @param rows                 每页显示数量
-     * @return Pagination.Result<DictionaryEntity>
+     * @return Pagination<DictionaryEntity>
      */
-    Pagination.Result<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows);
+    Pagination<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows);
 
     /**
      * 新增数据字典

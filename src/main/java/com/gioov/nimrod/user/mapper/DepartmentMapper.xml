@@ -34,7 +34,7 @@
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.DepartmentEntity">
         UPDATE
         <include refid="TableName"/>
-        SET `name` = #{name}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        SET `name` = #{name}, `parent_id` = #{parentId}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
         WHERE `id`= #{id}
     </update>
 
@@ -90,14 +90,14 @@
         <include refid="TableName"/>
     </select>
 
-    <select id="pageAllByParentIdIsNull" resultMap="BaseResultMap">
+    <select id="pageAllParentIdIsNull" resultMap="BaseResultMap">
         SELECT
         <include refid="BaseColumnList"/>
         FROM
         <include refid="TableName"/>
         WHERE `parent_id` IS NULL ${pageable}
     </select>
-    <select id="countAllByParentIdIsNull" resultType="int">
+    <select id="countAllParentIdIsNull" resultType="int">
         SELECT COUNT(1) FROM
         <include refid="TableName"/>
         WHERE `parent_id` IS NULL
@@ -109,6 +109,14 @@
         FROM
         <include refid="TableName"/>
         WHERE `parent_id` = #{parentId}
+    </select>
+
+    <select id="listAllParentIdIsNull" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BaseColumnList"/>
+        FROM
+        <include refid="TableName"/>
+        WHERE `parent_id` IS NULL
     </select>
 
 </mapper>
