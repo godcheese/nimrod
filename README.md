@@ -11,6 +11,10 @@
   <a href="https://travis-ci.org/godcheese/nimrod" rel="nofollow">
     <img src="https://travis-ci.org/godcheese/nimrod.svg?branch=master" alt="Build Status">
   </a>
+   <a href="https://sonarcloud.io/dashboard?id=godcheese_nimrod" rel="nofollow">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=godcheese_nimrod&metric=alert_status" alt="Quality Gate Status">
+    </a>
+<a href="https://www.codacy.com/app/godcheese/nimrod?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=godcheese/nimrod&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/a8b58a98bd3541548e5705c65372734d" alt="Codacy Badge"/></a>
   <a href="https://github.com/godcheese/nirmod/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
   </a>
