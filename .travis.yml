@@ -10,9 +10,6 @@ addons:
   apt:
     sources:
       - mysql-5.7-trusty
-    packages:
-      - mysql-server
-      - mysql-client
 install:
   - ./scripts/travis.build.sh
   - ./mvnw -e clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dspring-boot.run.profiles=dev
