@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-apt-get install mysql-server
-apt-get install mysql-client
+sudo apt-get install mysql-server mysql-client
 java -version
-mysql -version
+mysql -V
 chmod +x ./mvnw
 ./mvnw --version
 sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('123456') where User='root'; update user set plugin='mysql_native_password';flush privileges;"
