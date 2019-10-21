@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 java -version
-mysql -V
+mysql -version
 chmod +x ./mvnw
 ./mvnw --version
 sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('123456') where User='root'; update user set plugin='mysql_native_password';flush privileges;"
