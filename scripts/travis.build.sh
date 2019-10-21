@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt-get install mysql-server mysql-client
+sudo apt-get install mysql-server-5.5 mysql-client-5.5
 java -version
 mysql -V
 chmod +x ./mvnw
