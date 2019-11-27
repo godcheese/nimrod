@@ -402,5 +402,4 @@ function tabsContextMenu(menu, tabsSelector, type) {
             window.open(refreshIframe.src);
             break;
     }
-
 }

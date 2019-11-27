@@ -1,10 +1,11 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.common.mybatis.Pageable;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.user.entity.UserRoleEntity;
 import com.gioov.nimrod.user.mapper.UserRoleMapper;
 import com.gioov.nimrod.user.service.UserRoleService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,19 +23,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     private UserRoleMapper userRoleMapper;
 
     @Override
-    public Pagination<UserRoleEntity> pageAll(Integer page, Integer rows) {
-        Pagination<UserRoleEntity> pagination = new Pagination<>();
-        List<UserRoleEntity> userRoleEntityList = userRoleMapper.pageAll(new Pageable(page, rows));
-        if (userRoleEntityList != null) {
-            pagination.setRows(userRoleEntityList);
-        }
-        pagination.setTotal(userRoleMapper.countAll());
-        return pagination;
-    }
-
-    @Override
     @Transactional(rollbackFor = Throwable.class)
-    public UserRoleEntity insertOne(UserRoleEntity userRoleEntity) {
+    public UserRoleEntity addOne(UserRoleEntity userRoleEntity) {
         UserRoleEntity userRoleEntity1 = userRoleMapper.getOneByUserIdAndRoleId(userRoleEntity.getUserId(), userRoleEntity.getRoleId());
         if (userRoleEntity1 == null) {
             userRoleMapper.insertOne(userRoleEntity);
@@ -48,4 +38,18 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleMapper.deleteAllByUserIdAndRoleIdList(userId, roleIdList);
     }
 
+    @Override
+    public Pagination<UserRoleEntity> pageAll(Integer page, Integer rows) {
+        Pagination<UserRoleEntity> pagination = new Pagination<>();
+        PageHelper.startPage(page, rows);
+        Page<UserRoleEntity> userRoleEntityPage = userRoleMapper.pageAll();
+        pagination.setRows(userRoleEntityPage.getResult());
+        pagination.setTotal(userRoleEntityPage.getTotal());
+        return pagination;
+    }
+
+    @Override
+    public List<UserRoleEntity> listAllByUserId(Long userId) {
+        return userRoleMapper.listAllByUserId(userId);
+    }
 }

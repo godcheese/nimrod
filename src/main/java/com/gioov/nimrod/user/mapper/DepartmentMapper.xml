@@ -15,39 +15,34 @@
     </sql>
 
     <sql id="BaseColumnList">
-        `id`,
-        `name`,
-        `parent_id`,
-        `remark`,
-        `gmt_modified`,
-        `gmt_created`
+        `id`, `name`, `parent_id`, `remark`, `gmt_modified`, `gmt_created`
     </sql>
 
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.gioov.nimrod.user.entity.DepartmentEntity">
-        INSERT INTO
+        insert into
         <include refid="TableName"/>
         (<include refid="BaseColumnList"/>)
-        VALUES (#{id}, #{name}, #{parentId}, #{remark}, #{gmtModified}, #{gmtCreated})
+        values (#{id}, #{name}, #{parentId}, #{remark}, #{gmtModified}, #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.DepartmentEntity">
-        UPDATE
+        update
         <include refid="TableName"/>
-        SET `name` = #{name}, `parent_id` = #{parentId}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
-        WHERE `id`= #{id}
+        set `name` = #{name}, `parent_id` = #{parentId}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        where `id`= #{id}
     </update>
 
     <delete id="deleteOne" parameterType="long">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` = #{id}
+        where `id` = #{id}
     </delete>
 
     <delete id="deleteAll">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` IN
+        where `id` in
         (
         <foreach collection="list" item="item" index="index" separator=",">
             #{item}
@@ -56,67 +51,50 @@
     </delete>
 
     <select id="getOne" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `id` = #{id} LIMIT 1
+        where `id` = #{id} limit 1
     </select>
 
     <select id="getOneByParentId" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `parent_id` = #{parentId} LIMIT 1
+        where `parent_id` = #{parentId} limit 1
     </select>
 
     <select id="listAll" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
     </select>
 
-    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-        SELECT
+    <select id="pageAllParentIdIsNull" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        ${pageable}
-    </select>
-    <select id="countAll" resultType="int">
-        SELECT COUNT(1) FROM
-        <include refid="TableName"/>
-    </select>
-
-    <select id="pageAllParentIdIsNull" resultMap="BaseResultMap">
-        SELECT
-        <include refid="BaseColumnList"/>
-        FROM
-        <include refid="TableName"/>
-        WHERE `parent_id` IS NULL ${pageable}
-    </select>
-    <select id="countAllParentIdIsNull" resultType="int">
-        SELECT COUNT(1) FROM
-        <include refid="TableName"/>
-        WHERE `parent_id` IS NULL
+        where `parent_id` is null
     </select>
 
     <select id="listAllByParentId" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `parent_id` = #{parentId}
+        where `parent_id` = #{parentId}
     </select>
 
     <select id="listAllParentIdIsNull" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `parent_id` IS NULL
+        where `parent_id` is null
     </select>
 
 </mapper>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div id="jobToolbar">
+    <nimrod:security authority="/COMPONENT/SYSTEM/API/PAGE_ALL/API_CATEGORY_ADD_DIALOG">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="jobAddDialog();">新增</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/SYSTEM/API/PAGE_ALL/API_CATEGORY_EDIT_DIALOG">
+    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="jobEditDialog();">编辑</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/QUARTZ/JOB_PAUSE_ALL">
+    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-pause" plain="true" onclick="jobPauseAll();">暂停</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/QUARTZ/JOB_RESUME_ALL">
+    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-play" plain="true" onclick="jobResumeAll();">运行</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/QUARTZ/JOB_DELETE_ALL">
+    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="jobDeleteAll();">删除</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/QUARTZ/JOB_RESET_STATE">
+    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-repeat" plain="true" onclick="jobResetState();">重置状态</a>
+    </nimrod:security>
+</div>
+<table id="job"></table>
+
+<script type="text/javascript">
+    $(function () {
+        var QUARTZ_TRIGGER_STATE = [];
+        // Quartz 任务
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'jobClassName', title: '任务类名'},
+            {field: 'jobGroup', title: '任务分组'},
+            {field: 'triggerState', title: '任务状态', formatter: function (value, row, index) {
+                    return expressui.grid.formatter(value, QUARTZ_TRIGGER_STATE);
+                }
+            },
+            {field: 'cronExpression', title: 'CRON 表达式'},
+            {field: 'timeZoneId', title: '时区 ID'},
+            {field: 'description', title: '描述'},
+        ];
+        $('#job').datagrid(expressui.grid.create, {
+            title: 'Quartz 任务管理',
+            url: Url.Quartz.Api.JOB + '/page_all',
+            columns: [columns],
+            onBeforeLoad: function (param) {
+                util.ajax({
+                    url: Url.System.Api.DICTIONARY + '/list_all_by_key/QUARTZ_TRIGGER_STATE',
+                    success: function (data) {
+                        if (data) {
+                            QUARTZ_TRIGGER_STATE = data;
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    function jobAddDialog() {
+        $('#jobAddDialog').dialog(expressui.dialog.create, {
+            title: '新增任务',
+            width: 420,
+            grid: {type: 'datagrid', selector: '#job'},
+            href: Url.Quartz.Page.JOB + '/add_dialog',
+            get: {url: Url.Quartz.Api.JOB + '/one?jobClassName={jobClassName}&jobGroup={jobGroup}', method: 'get'},
+            save: {
+                url: Url.Quartz.Api.JOB + '/add_one',
+                method: 'post'
+            },
+            buttons: [{
+                text: '保存',
+                iconCls: 'fa fa-save',
+                handler: expressui.dialog.add,
+                reload: [{type: 'datagrid', selector: '#job'}],
+                success: '新增成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function jobEditDialog() {
+        var checked = $('#job').datagrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (checked) {
+            $('#jobEditDialog').dialog(expressui.dialog.create, {
+                title: '编辑任务',
+                grid: {type: 'datagrid', selector: '#job'},
+                href: Url.Quartz.Page.JOB + '/edit_dialog',
+                get: {url: Url.Quartz.Api.JOB + '/one?jobClassName={jobClassName}&jobGroup={jobGroup}', method: 'get'},
+                save: {url: Url.Quartz.Api.JOB + '/save_one', method: 'post'},
+                buttons: [{
+                    text: '保存',
+                    iconCls: 'fa fa-save',
+                    handler: expressui.dialog.save,
+                    reload: [{type: 'datagrid', selector: '#job'}],
+                    success: '保存成功'
+                }, {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: expressui.dialog.close
+                }]
+            });
+        }
+    }
+
+    function jobPauseAll() {
+        var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        if(!checked) {
+            return;
+        }
+        var jobClassNameList = [];
+        var jobGroupList = [];
+        for(var i=0; i<checked.length; i++) {
+            jobClassNameList.push(checked[i].jobClassName);
+            jobGroupList.push(checked[i].jobGroup);
+        }
+        $('#job').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Quartz.Api.JOB + '/pause_all',
+            method: 'post',
+            success: '操作成功',
+            data: {'jobClassName[]': jobClassNameList, 'jobGroup[]': jobGroupList},
+            reload: [{type: 'datagrid', selector: '#job'}],
+        });
+    }
+
+    function jobResumeAll() {
+        var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        if(!checked) {
+            return;
+        }
+        var jobClassNameList = [];
+        var jobGroupList = [];
+        for(var i=0; i<checked.length; i++) {
+            jobClassNameList.push(checked[i].jobClassName);
+            jobGroupList.push(checked[i].jobGroup);
+        }
+        $('#job').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Quartz.Api.JOB + '/resume_all',
+            method: 'post',
+            success: '操作成功',
+            data: {'jobClassName[]': jobClassNameList, 'jobGroup[]': jobGroupList},
+            reload: [{type: 'datagrid', selector: '#job'}],
+        });
+    }
+
+    function jobDeleteAll() {
+        var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        if(!checked) {
+            return;
+        }
+        var jobClassName = [];
+        var jobGroup = [];
+        for(var i=0; i<checked.length; i++) {
+            jobClassName.push(checked[i].jobClassName);
+            jobGroup.push(checked[i].jobGroup);
+        }
+        $('#job').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Quartz.Api.JOB + '/delete_all',
+            method: 'post',
+            success: '删除成功',
+            data: {'jobClassName[]': jobClassName, 'jobGroup[]': jobGroup},
+            reload: [{type: 'datagrid', selector: '#job'}],
+        });
+    }
+
+    function jobResetState() {
+        var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        if(!checked) {
+            return;
+        }
+        var jobClassName = [];
+        var jobGroup = [];
+        for(var i=0; i<checked.length; i++) {
+            jobClassName.push(checked[i].jobClassName);
+            jobGroup.push(checked[i].jobGroup);
+        }
+        $('#job').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Quartz.Api.JOB + '/reset_state',
+            method: 'post',
+            success: '操作成功',
+            data: {'jobClassName[]': jobClassName, 'jobGroup[]': jobGroup},
+            reload: [{type: 'datagrid', selector: '#job'}],
+        });
+    }
+</script>
+</body>
+</html>

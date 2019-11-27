@@ -13,8 +13,7 @@ import java.util.Date;
  */
 public class DictionaryEntity implements Serializable {
 
-    private static final long serialVersionUID = -4000696333938261490L;
-
+    private static final long serialVersionUID = 1964884843454780630L;
     /**
      * id
      */
@@ -52,15 +51,15 @@ public class DictionaryEntity implements Serializable {
     private String value;
 
     /**
-     * 是否有效（0=否，1=是，默认=0）
-     */
-    @ExportByExcel(value = "是否有效", handler = IsOrNotExportByExcelHandler.class)
-    private Integer enable;
-
-    /**
      * 字典分类 id
      */
     private Long dictionaryCategoryId;
+
+    /**
+     * 是否有效（0=否，1=是，默认=0）
+     */
+    @ExportByExcel(value = "是否启用", handler = IsOrNotExportByExcelHandler.class)
+    private Integer enabled;
 
     /**
      * 排序
@@ -135,12 +134,12 @@ public class DictionaryEntity implements Serializable {
         this.value = value;
     }
 
-    public Integer getEnable() {
-        return enable;
+    public Integer getEnabled() {
+        return enabled;
     }
 
-    public void setEnable(Integer enable) {
-        this.enable = enable;
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
     }
 
     public Long getDictionaryCategoryId() {
@@ -192,7 +191,7 @@ public class DictionaryEntity implements Serializable {
                 ", valueName='" + valueName + '\'' +
                 ", valueSlug='" + valueSlug + '\'' +
                 ", value='" + value + '\'' +
-                ", enable=" + enable +
+                ", enabled=" + enabled +
                 ", dictionaryCategoryId=" + dictionaryCategoryId +
                 ", sort=" + sort +
                 ", remark='" + remark + '\'' +

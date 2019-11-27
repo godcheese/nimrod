@@ -12,13 +12,12 @@
         </tr>
         <tr>
             <td class="label">备注：</td>
-            <td><input name="remark" class="easyui-textbox" style="height:50px;" data-options="required:false,multiline:true"></td>
+            <td><input name="remark" class="easyui-textbox" style="height:50px;" data-options="multiline:true"></td>
         </tr>
     </table>
 </div>
 <script>
     $('#parentId').combotree({
-        editable: false,
         method: 'get',
         valueField: 'id',
         textField: 'text',

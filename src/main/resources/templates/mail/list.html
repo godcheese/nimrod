@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div id="mailToolbar">
+    <nimrod:security authority="/COMPONENT/MAIL/SEND_DIALOG">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="mailSendDialog();">新建发送</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/MAIL/MAIL_DELETE_ALL">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+           onclick="mailDeleteAll();">删除</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/MAIL/MAIL_RELOAD">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-refresh" plain="true" onclick="mailReload();">刷新</a>
+    </nimrod:security>
+</div>
+<table id="mail"></table>
+
+<script type="text/javascript">
+    $(function () {
+        var SMS_STATUS = [];
+        var IS_OR_NOT = [];
+        // 邮件发送队列
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'operation', title: '操作', formatter: function (value, row, index) {
+                    return '<a href="javascript:" onclick="viewDialog(' + row.id + ')">查看</a>'
+                }},
+            {
+                field: 'status', title: '状态', formatter: function (value, row, index) {
+                    return expressui.grid.formatter(value, SMS_STATUS);
+                }
+            },
+            {field: 'from', title: '发件人'},
+            {field: 'to', title: '收件人'},
+            {field: 'subject', title: '主题'},
+            {field: 'text', title: '内容', formatter: function (value, row, index) {
+                    return '<a href="javascript:" onclick="viewDialog(' + row.id + ')">查看</a>'
+                }
+            },
+            {
+                field: 'html', title: '是否为 HTML', formatter: function (value, row, index) {
+                    return expressui.grid.formatter(value, IS_OR_NOT);
+                }
+            },
+            {field: 'error', title: '发信报错'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#mail').datagrid(expressui.grid.create, {
+            title: '邮件队列',
+            url: Url.Mail.Api.MAIL + '/page_all',
+            columns: [columns],
+            onBeforeLoad: function (params) {
+                util.ajax({
+                    url: Url.System.Api.DICTIONARY + '/list_all_by_key/SMS_STATUS',
+                    success: function (data) {
+                        if (data) {
+                            SMS_STATUS = data;
+                        }
+                    }
+                });
+                util.ajax({
+                    url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+                    success: function (data) {
+                        if (data) {
+                            IS_OR_NOT = data;
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    function mailSendDialog() {
+        $('#mailSendDialog').dialog(expressui.dialog.create, {
+            title: '新建发送',
+            grid: {type: 'datagrid', selector: '#mail'},
+            href: Url.Mail.Page.MAIL + '/send_dialog',
+            get: {url: Url.Mail.Api.MAIL + '/one/{id}', method: 'get'},
+            save: {url: Url.Mail.Api.MAIL + '/add_one', method: 'post'},
+            buttons: [{
+                text: '发送',
+                iconCls: 'fa fa-save',
+                handler: expressui.dialog.save,
+                reload: [{type: 'datagrid', selector: '#mail'}],
+                success: '操作成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function mailReload() {
+        expressui.grid.reload({type: 'datagrid', selector: '#mail'})
+    }
+
+    function mailDeleteAll() {
+        $('#mail').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Mail.Api.MAIL + '/delete_all',
+            method: 'post',
+            success: '删除成功',
+            reload: [{type: 'datagrid', selector: '#mail'}],
+        });
+    }
+
+    function viewDialog(id) {
+        $('#viewDialog').dialog(expressui.dialog.create, {
+            title: '查看',
+            width: 600,
+            height: 430,
+            href: Url.Mail.Page.MAIL  + '/view_dialog',
+            get: {url: Url.Mail.Api.MAIL + '/one/' + id, method: 'get'},
+            buttons: [ {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+</script>
+</body>
+</html>

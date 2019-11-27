@@ -1,12 +1,12 @@
 package com.gioov.nimrod.mail.controller;
 
-import com.gioov.nimrod.common.Common;
+import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.mail.Mail;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
+import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYSTEM_ADMIN;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -18,18 +18,16 @@ public class MailController {
 
     /**
      * 邮件队列 页面
-     *
      * @return String
      */
-    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/MAIL/PAGE_ALL')")
-    @RequestMapping("/page_all")
-    public String pageAllQueue() {
-        return Common.trimSlash(Mail.Page.MAIL + "/page_all");
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/MAIL/LIST')")
+    @RequestMapping("/list")
+    public String list() {
+        return Common.trimSlash(Mail.Page.MAIL + "/list");
     }
 
     /**
      * 发送邮件 页面
-     *
      * @return String
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/MAIL/SEND')")
@@ -40,13 +38,20 @@ public class MailController {
 
     /**
      * 编辑重发 对话框
-     *
      * @return String
      */
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping("/edit_and_send_dialog")
-    public String editAndSendDialog() {
-        return Common.trimSlash(Mail.Page.MAIL + "/edit_and_send_dialog");
+    @RequestMapping("/send_dialog")
+    public String sendDialog() {
+        return Common.trimSlash(Mail.Page.MAIL + "/send_dialog");
     }
-
+    /**
+     * 编辑重发 对话框
+     * @return String
+     */
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping("/view_dialog")
+    public String viewDialog() {
+        return Common.trimSlash(Mail.Page.MAIL + "/view_dialog");
+    }
 }

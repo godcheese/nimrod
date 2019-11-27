@@ -1,0 +1,96 @@
+<!--<div class="easyui-layout" data-options="fit:true">-->
+<!--    <div data-options="region:'north',split:true">-->
+<div id="fileToolbar">
+
+        <div class="submit-form">
+            <p>
+                <label for="fileUpload">上传文件：</label>
+                <input id="fileUpload" class="easyui-filebox" style="width:220px" data-options="buttonText:'选择文件'">
+                <a id="uploadButton" href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload">上传</a>
+            </p>
+        </div>
+</div>
+    <!--    </div>-->
+<!--    <div data-options="region:'center'" style="padding:5px;background:#eee;">-->
+        <table id="file"></table>
+<!--    </div>-->
+<!--</div>-->
+<script type="text/javascript">
+    $(function () {
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'username', title: '上传用户'},
+            {field: 'download', title: '下载', formatter: function (value, row, index) {
+                    value = '<a target="_blank" href="' + Url.System.Api.FILE + '/download/' + row.guid + '">下载</a>';
+                    return value;
+                }},
+            {field: 'preview', title: '预览', formatter: function (value, row, index) {
+                    if(row.mimeType.indexOf('image') > -1) {
+                        value = '<img style="width:60px;height:60px" src="' + Url.System.Api.FILE + '/download/' + row.guid + '"/>';
+                        return value;
+                    }
+                }},
+            {field: 'name', title: '文件名'},
+            {field: 'prettySize', title: '文件大小'},
+            {field: 'guid', title: '唯一标识符'},
+            {field: 'mimeType', title: 'MIME 类型'},
+            {field: 'path', title: '文件路径'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#file').datagrid(expressui.grid.create, {
+            columns: [columns],
+            url: Url.System.Api.FILE + '/page_all_image_by_current_user',
+        });
+    });
+    $('#uploadButton').click(function () {
+        if(!window._ajaxing) {
+            window._ajaxing = upload();
+        } else {
+            window._ajaxing.abort();
+            window._ajaxing = undefined;
+        }
+        if(window._ajaxing) {
+            $(this).linkbutton({text: '取消', iconCls: 'fa fa-close'});
+        } else {
+            $(this).linkbutton({text: '上传', iconCls: 'fa fa-upload'});
+        }
+    });
+    function upload() {
+        var formData = new FormData();
+        var file = $('#fileUpload').filebox('files')[0];
+        formData.append('file', file);
+        return $.ajax({
+            url: Url.System.Api.FILE + '/upload_one',
+            type: 'post',
+            data: formData,
+            processData: false, // 不要对data参数进行序列化处理，默认为true
+            contentType: false, // 不要设置Content-Type请求头，因为文件数据是以 multipart/form-data 来编码
+            xhr: function () {
+                return $.ajaxSettings.xhr();
+            },
+            success: function (res, statusText, xhr) {
+                if (res && res.code) {
+                    $.messager.alert('信息', res.message, 'error');
+                } else {
+                    if (xhr.readyState === 4) {
+                        $('#fileUpload').filebox('clear');
+                        $.messager.show({title: '信息', msg: '上传成功'});
+                        $('#file').datagrid('reload');
+                    }
+                }
+                $('#uploadButton').linkbutton({text: '上传', iconCls: 'fa fa-upload'});
+                window._ajaxing= undefined;
+            },
+            error: function (xhr) {
+                if(xhr.responseJSON) {
+                    $.messager.alert('信息', xhr.responseJSON.message, 'error');
+                }
+                $('#uploadButton').linkbutton({text: '上传', iconCls: 'fa fa-upload'});
+                window._ajaxing= undefined;
+            }
+        });
+    }
+</script>

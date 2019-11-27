@@ -1,5 +1,8 @@
 package com.gioov.nimrod.quartz.listener;
 
+import com.gioov.nimrod.common.others.SpringContextUtil;
+import com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity;
+import com.gioov.nimrod.quartz.mapper.JobRuntimeLogMapper;
 import com.gioov.nimrod.quartz.service.JobRuntimeLogService;
 import com.gioov.nimrod.quartz.service.impl.JobRuntimeLogServiceImpl;
 import org.quartz.JobExecutionContext;
@@ -11,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Date;
+
 /**
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-02-02
@@ -19,6 +25,16 @@ import org.springframework.stereotype.Component;
 public class GlobalJobListener implements JobListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalJobListener.class);
+
+    private JobRuntimeLogMapper jobRuntimeLogMapper;
+
+    public GlobalJobListener() {
+        jobRuntimeLogMapper = (JobRuntimeLogMapper) SpringContextUtil.getBean("jobRuntimeLogMapper", JobRuntimeLogMapper.class);
+    }
+
+    private JobRuntimeLogEntity jobRuntimeLogEntity = new JobRuntimeLogEntity();
+
+    private long beginTime = 0;
 
     @Autowired
     @Bean
@@ -33,17 +49,24 @@ public class GlobalJobListener implements JobListener {
 
     @Override
     public void jobToBeExecuted(JobExecutionContext context) {
-        LOGGER.info("jobLogEntity={}", jobRuntimeLogService().log(context,null, "开始执行"));
+        beginTime = Instant.now().toEpochMilli();
+        jobRuntimeLogEntity.setJobClassName(context.getJobDetail().getKey().getName());
+        jobRuntimeLogEntity.setJobGroup(context.getJobDetail().getKey().getGroup());
     }
 
     @Override
     public void jobExecutionVetoed(JobExecutionContext context) {
-        LOGGER.info("context2={}", context);
     }
 
     @Override
     public void jobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
-        LOGGER.info("jobLogEntity={}", jobRuntimeLogService().log(context,jobException, "执行完毕"));
+        if(jobException != null) {
+            jobRuntimeLogEntity.setJobException(jobException.getMessage());
+        }
+        jobRuntimeLogEntity.setConsumingTime(Instant.now().toEpochMilli() - beginTime);
+        jobRuntimeLogEntity.setGmtCreated(new Date());
+        LOGGER.info("jobRuntimeLogEntity={}", jobRuntimeLogEntity);
+        jobRuntimeLogMapper.insertOne(jobRuntimeLogEntity);
     }
 
 }

@@ -1,13 +1,14 @@
 package com.gioov.nimrod.common.easyui;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-05-04
  */
-public class ComboTree {
-
+public class ComboTree implements Serializable {
+    private static final long serialVersionUID = 962965761257333089L;
     private Long id;
     private String text;
     private Long parentId;

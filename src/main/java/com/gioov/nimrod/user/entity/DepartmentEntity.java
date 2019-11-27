@@ -9,8 +9,7 @@ import java.util.Date;
  */
 public class DepartmentEntity implements Serializable {
 
-    private static final long serialVersionUID = -6737327998441046269L;
-
+    private static final long serialVersionUID = 2255810820162075332L;
     /**
      * id
      */
@@ -22,7 +21,7 @@ public class DepartmentEntity implements Serializable {
     private String name;
 
     /**
-     * 角色值
+     * 父级部门 id
      */
     private Long parentId;
 

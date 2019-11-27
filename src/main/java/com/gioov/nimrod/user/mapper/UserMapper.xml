@@ -3,12 +3,13 @@
 <mapper namespace="com.gioov.nimrod.user.mapper.UserMapper">
     <resultMap id="BaseResultMap" type="com.gioov.nimrod.user.entity.UserEntity">
         <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
-        <result column="password" property="password" jdbcType="VARCHAR"/> <!-- 用户密码 -->
         <result column="username" property="username" jdbcType="VARCHAR"/> <!-- 用户名 -->
+        <result column="password" property="password" jdbcType="VARCHAR"/> <!-- 用户密码 -->
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/> <!-- 头像 -->
         <result column="email" property="email" jdbcType="VARCHAR"/> <!-- 电子邮箱 -->
         <result column="email_is_verified" property="emailIsVerified" jdbcType="INTEGER"/> <!-- 电子邮箱是否已验证 -->
         <result column="department_id" property="departmentId" jdbcType="BIGINT"/> <!-- 部门 id -->
-        <result column="disabled" property="disabled" jdbcType="INTEGER"/> <!-- 是否禁用 -->
+        <result column="enabled" property="enabled" jdbcType="INTEGER"/> <!-- 是否启用 -->
         <result column="remark" property="remark" jdbcType="VARCHAR"/> <!-- 备注 -->
         <result column="gmt_deleted" property="gmtDeleted" jdbcType="TIMESTAMP"/> <!-- 删除时间 -->
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/> <!-- 更新时间 -->
@@ -20,118 +21,176 @@
     </sql>
 
     <sql id="BaseColumnList">
-        `id`
-        ,
-        `password`,
-        `username`,
-        `email`,
-        `email_is_verified`,
-        `department_id`,
-        `disabled`,
-        `remark`,
-        `gmt_deleted`,
-        `gmt_modified`,
-        `gmt_created`
+        `id`, `username`, `password`, `avatar`, `email`, `email_is_verified`, `department_id`, `enabled`, `remark`, `gmt_deleted`, `gmt_modified`, `gmt_created`
     </sql>
 
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.gioov.nimrod.user.entity.UserEntity">
-        INSERT INTO
+        insert into
         <include refid="TableName"/>
-        (`username`, `password`, `email`, `email_is_verified`, `department_id`, `disabled`, `remark`, `gmt_deleted`,
+        (`username`, `password`, `avatar`, `email`, `email_is_verified`, `department_id`, `enabled`, `remark`, `gmt_deleted`,
         `gmt_modified`,
         `gmt_created`)
-        VALUES (#{username}, #{password}, #{email}, #{emailIsVerified}, #{departmentId}, #{disabled}, #{remark},
+        values (#{username}, #{password}, #{avatar}, #{email}, #{emailIsVerified}, #{departmentId}, #{enabled}, #{remark},
         #{gmtDeleted}, #{gmtModified}, #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.UserEntity">
-        UPDATE
+        update
         <include refid="TableName"/>
-        SET `username` = #{username}, `password` = #{password}, `email` = #{email}, `email_is_verified` =
-        #{emailIsVerified}, `department_id` = #{departmentId}, `disabled` = #{disabled}, `remark`
-        = #{remark}, `gmt_modified` = #{gmtModified}
-        WHERE `id`= #{id}
+        set `username` = #{username}, `password` = #{password}, `avatar` = #{avatar}, `email` = #{email}, `email_is_verified` =
+        #{emailIsVerified}, `department_id` = #{departmentId}, `enabled` = #{enabled}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        where `id`= #{id}
     </update>
 
     <delete id="deleteOne" parameterType="long">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` = #{id}
+        where `id` = #{id}
     </delete>
 
     <select id="getOne" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `id` = #{id} LIMIT 1
+        where `id` = #{id} limit 1
     </select>
 
     <select id="getOneByDepartmentId" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `department_id` = #{departmentId} LIMIT 1
+        where `department_id` = #{departmentId} limit 1
     </select>
 
     <select id="listAll" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
     </select>
 
-    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-        SELECT
+    <!--    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">-->
+    <!--        select-->
+    <!--        <include refid="BaseColumnList"/>-->
+    <!--        from-->
+    <!--        <include refid="TableName"/>-->
+    <!--    </select>-->
+    <!--    <select id="countAll" resultType="int">-->
+    <!--        select count(1) from-->
+    <!--        <include refid="TableName"/>-->
+    <!--    </select>-->
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        ${pageable}
-    </select>
-    <select id="countAll" resultType="int">
-        SELECT COUNT(1) FROM
-        <include refid="TableName"/>
+        where 1 = 1
+        <if test="userEntity.username != null and userEntity.username != ''">
+            and `username` like concat('%',#{userEntity.username},'%')
+        </if>
+        <if test="userEntity.email != null and userEntity.email != ''">
+            and `email` like concat('%',#{userEntity.email},'%')
+        </if>
+        <if test="userEntity.emailIsVerified != null">
+            and `email_is_verified` = #{userEntity.emailIsVerified}
+        </if>
+        <if test="userEntity.departmentId != null">
+            and `department_id` = #{userEntity.departmentId}
+        </if>
+        <if test="userEntity.enabled != null">
+            and `enabled` = #{userEntity.enabled}
+        </if>
+        <if test="gmtDeletedStart != null and gmtDeletedStart != '' and gmtDeletedEnd != null and gmtDeletedEnd != ''">
+            <![CDATA[  and `gmt_deleted` >= #{gmtDeletedStart} and `gmt_deleted` <= #{gmtDeletedEnd} ]]>
+        </if>
+        <if test="gmtCreatedStart != null and gmtCreatedStart != '' and gmtCreatedEnd != null and gmtCreatedEnd != ''">
+            <![CDATA[  and `gmt_created` >= #{gmtCreatedStart} and `gmt_created` <= #{gmtCreatedEnd} ]]>
+        </if>
+        <!--        <if test="gmtCreatedStart != null and gmtCreatedStart != ''">-->
+        <!--            and `gmt_created` >= #{gmtCreatedEnd}-->
+        <!--        </if>-->
+        <!--        <if test=" gmtCreatedEnd != null and gmtCreatedEnd != ''">-->
+        <!--          and `gmt_created` <= #{gmtCreatedEnd}-->
+        <!--        </if>-->
     </select>
 
-    <select id="pageAllByDepartmentId" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-        SELECT
+    <!--    <select id="pageAllByPage" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">-->
+    <!--        select-->
+    <!--        <include refid="BaseColumnList"/>-->
+    <!--        from-->
+    <!--        <include refid="TableName"/>-->
+    <!--    </select>-->
+
+    <!--        <select id="countAll" resultType="int">-->
+    <!--            select count(1) from-->
+    <!--            <include refid="TableName"/>-->
+    <!--        </select>-->
+
+    <select id="pageAllByDepartmentId" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE department_id = #{departmentId} ${pageable}
-    </select>
-    <select id="countAllByDepartmentId" resultType="int">
-        SELECT COUNT(1) FROM
-        <include refid="TableName"/>
-        WHERE department_id = #{departmentId}
+        where department_id = #{departmentId}
     </select>
 
     <select id="getOneByUsername" resultMap="BaseResultMap" parameterType="string">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE username = #{username} LIMIT 1
+        where username = #{username} limit 1
+    </select>
+
+    <select id="getOneByEmail" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where email = #{email} limit 1
+    </select>
+
+    <select id="getOneByCellphone" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where cellphone = #{cellphone} limit 1
     </select>
 
     <delete id="deleteAll">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` IN
+        where `id` in
         (
         <foreach collection="list" item="item" index="index" separator=",">
             #{item}
         </foreach>
-        )
+        );
+        delete from `user_role` where `id` in
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        );
+
+        delete from `user_password_reset` where `id` in
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        );
     </delete>
 
     <update id="fakeDeleteAll">
-        UPDATE
+        update
         <include refid="TableName"/>
-        SET `gmt_deleted` = #{gmtDeleted}
-        WHERE `id` IN
+        set `gmt_deleted` = #{gmtDeleted}
+        where `id` in
         (
         <foreach collection="idList" item="item" index="index" separator=",">
             #{item}
@@ -140,10 +199,10 @@
     </update>
 
     <update id="revokeFakeDeleteAll">
-        UPDATE
+        update
         <include refid="TableName"/>
-        SET `gmt_deleted` = NULL
-        WHERE `id` IN
+        set `gmt_deleted` = null
+        where `id` in
         (
         <foreach collection="idList" item="item" index="index" separator=",">
             #{item}

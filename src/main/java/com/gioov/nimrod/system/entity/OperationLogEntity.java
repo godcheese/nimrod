@@ -1,5 +1,7 @@
 package com.gioov.nimrod.system.entity;
 
+import com.gioov.nimrod.common.others.CommonEntityAdapter;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,10 +9,8 @@ import java.util.Date;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class OperationLogEntity implements Serializable {
-
-    private static final long serialVersionUID = -7056761841242168780L;
-
+public class OperationLogEntity extends CommonEntityAdapter<OperationLogEntity> implements Serializable {
+    private static final long serialVersionUID = 723090697169069573L;
     private Long id;
 
     /**
@@ -34,9 +34,9 @@ public class OperationLogEntity implements Serializable {
     private String operation;
 
     /**
-     * 请求耗时（毫秒）
+     * 请求耗时（毫秒）consumingTime
      */
-    private Long requestTime;
+    private Long consumingTime;
 
     /**
      * 请求地址
@@ -74,6 +74,11 @@ public class OperationLogEntity implements Serializable {
     private String handler;
 
     /**
+     * 异常堆栈
+     */
+    private String stackTrace;
+
+    /**
      * Session ID
      */
     private String sessionId;
@@ -82,11 +87,6 @@ public class OperationLogEntity implements Serializable {
      * Cookie
      */
     private String cookie;
-
-    /**
-     * 响应文本类型
-     */
-    private String contentType;
 
     /**
      * 响应状态码
@@ -138,12 +138,12 @@ public class OperationLogEntity implements Serializable {
         this.operation = operation;
     }
 
-    public Long getRequestTime() {
-        return requestTime;
+    public Long getConsumingTime() {
+        return consumingTime;
     }
 
-    public void setRequestTime(Long requestTime) {
-        this.requestTime = requestTime;
+    public void setConsumingTime(Long consumingTime) {
+        this.consumingTime = consumingTime;
     }
 
     public String getRequestUrl() {
@@ -202,6 +202,14 @@ public class OperationLogEntity implements Serializable {
         this.handler = handler;
     }
 
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
+    }
+
     public String getSessionId() {
         return sessionId;
     }
@@ -216,14 +224,6 @@ public class OperationLogEntity implements Serializable {
 
     public void setCookie(String cookie) {
         this.cookie = cookie;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
     }
 
     public String getStatus() {
@@ -242,4 +242,27 @@ public class OperationLogEntity implements Serializable {
         this.gmtCreated = gmtCreated;
     }
 
+    @Override
+    public String toString() {
+        return "OperationLogEntity{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", operationType=" + operationType +
+                ", operation='" + operation + '\'' +
+                ", consumingTime=" + consumingTime +
+                ", requestUrl='" + requestUrl + '\'' +
+                ", requestMethod='" + requestMethod + '\'' +
+                ", requestParameter='" + requestParameter + '\'' +
+                ", acceptLanguage='" + acceptLanguage + '\'' +
+                ", referer='" + referer + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                ", handler='" + handler + '\'' +
+                ", stackTrace='" + stackTrace + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", cookie='" + cookie + '\'' +
+                ", status='" + status + '\'' +
+                ", gmtCreated=" + gmtCreated +
+                '}';
+    }
 }

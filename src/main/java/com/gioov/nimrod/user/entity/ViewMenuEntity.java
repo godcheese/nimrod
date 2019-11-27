@@ -1,5 +1,7 @@
 package com.gioov.nimrod.user.entity;
 
+import com.gioov.nimrod.common.others.CommonEntityAdapter;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,10 +9,8 @@ import java.util.Date;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class ViewMenuEntity implements Serializable {
-
-    private static final long serialVersionUID = 5619353235596663560L;
-
+public class ViewMenuEntity extends CommonEntityAdapter<ViewMenuEntity> implements Serializable {
+    private static final long serialVersionUID = 5133319566323006861L;
     /**
      * id
      */
@@ -34,12 +34,7 @@ public class ViewMenuEntity implements Serializable {
     /**
      * 菜单分类 id
      */
-    private Long menuCategoryId;
-
-    /**
-     * 角色 id
-     */
-    private Long roleId;
+    private Long viewMenuCategoryId;
 
     /**
      * 排序
@@ -94,20 +89,12 @@ public class ViewMenuEntity implements Serializable {
         this.url = url;
     }
 
-    public Long getMenuCategoryId() {
-        return menuCategoryId;
+    public Long getViewMenuCategoryId() {
+        return viewMenuCategoryId;
     }
 
-    public void setMenuCategoryId(Long menuCategoryId) {
-        this.menuCategoryId = menuCategoryId;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setViewMenuCategoryId(Long viewMenuCategoryId) {
+        this.viewMenuCategoryId = viewMenuCategoryId;
     }
 
     public Long getSort() {
@@ -142,4 +129,18 @@ public class ViewMenuEntity implements Serializable {
         this.gmtCreated = gmtCreated;
     }
 
+    @Override
+    public String toString() {
+        return "ViewMenuEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                ", url='" + url + '\'' +
+                ", viewMenuCategoryId=" + viewMenuCategoryId +
+                ", sort=" + sort +
+                ", remark='" + remark + '\'' +
+                ", gmtModified=" + gmtModified +
+                ", gmtCreated=" + gmtCreated +
+                '}';
+    }
 }

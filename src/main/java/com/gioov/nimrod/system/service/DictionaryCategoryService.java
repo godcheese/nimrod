@@ -1,8 +1,9 @@
 package com.gioov.nimrod.system.service;
 
-import com.gioov.common.web.exception.BaseResponseException;
+import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
+import com.gioov.tile.web.exception.BaseResponseException;
 
 import java.util.List;
 
@@ -14,24 +15,19 @@ public interface DictionaryCategoryService {
 
     /**
      * 分页获取所有父级数据字典分类
-     *
-     * @param page 页
-     * @param rows 每页显示数量
-     * @return Pagination<ApiEntity>
+     * @return List<DictionaryCategoryEntity>
      */
-    Pagination<DictionaryCategoryEntity> pageAllParent(Integer page, Integer rows);
+    List<DictionaryCategoryEntity> listAllParent();
 
     /**
-     * 指定父级数据字典分类 id ，获取所有数据字典分类
-     *
+     * 指定父级数据字典分类 id，获取所有数据字典分类
      * @param parentId 父级数据字典分类 id
-     * @return Pagination<ApiEntity>
+     * @return List<DictionaryEntity>
      */
     List<DictionaryCategoryEntity> listAllByParentId(Long parentId);
 
     /**
      * 新增数据字典分类
-     *
      * @param dictionaryCategoryEntity DictionaryCategoryEntity
      * @return DictionaryCategoryEntity
      */
@@ -39,25 +35,36 @@ public interface DictionaryCategoryService {
 
     /**
      * 保存数据字典分类
-     *
      * @param dictionaryCategoryEntity DictionaryCategoryEntity
      * @return DictionaryCategoryEntity
      */
-    DictionaryCategoryEntity updateOne(DictionaryCategoryEntity dictionaryCategoryEntity);
+    DictionaryCategoryEntity updateOne(DictionaryCategoryEntity dictionaryCategoryEntity) throws BaseResponseException;
 
     /**
-     * 指定数据字典分类 id ，批量删除数据字典分类
-     *
+     * 指定数据字典分类 id list，批量删除数据字典分类
      * @param idList 数据字典分类 id list
-     * @return 已删除数据字典分类个数
+     * @return int
+     * @throws BaseResponseException BaseResponseException
      */
     int deleteAll(List<Long> idList) throws BaseResponseException;
 
     /**
-     * 指定数据字典分类 id ，获取数据字典分类信息
-     *
+     * 指定数据字典分类 id，获取数据字典分类
      * @param id 数据字典分类 id
      * @return DictionaryCategoryEntity
      */
     DictionaryCategoryEntity getOne(Long id);
+
+    /**
+     * 获取所有数据字典分类，以 ComboTree 形式展示
+     * @return List<ComboTree>
+     */
+    List<ComboTree> listAllDictionaryCategoryComboTree();
+    /**
+     * 指定父级数据字典分类 id，DictionaryCategoryComboTree list，获取所有子级数据字典分类
+     * @param parentId 父级数据字典分类 id
+     * @param dictionaryCategoryComboTreeList DictionaryCategoryComboTree list
+     * @return List<ComboTree>
+     */
+    List<ComboTree> getDictionaryCategoryChildrenComboTree(long parentId, List<ComboTree> dictionaryCategoryComboTreeList);
 }

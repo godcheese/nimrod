@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gioov.nimrod.user.mapper.ViewPageApiMapper">
+    <resultMap id="BaseResultMap" type="com.gioov.nimrod.user.entity.ViewPageApiEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="page_id" property="viewPageId" jdbcType="BIGINT"/> <!-- 视图页面 id -->
+        <result column="api_id" property="apiId" jdbcType="BIGINT"/> <!-- API id -->
+    </resultMap>
+
+    <sql id="TableName">
+        `view_page_api`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `view_page_id`, `api_id`
+    </sql>
+
+    <insert id="insertAllByViewPageIdAndApiIdList" useGeneratedKeys="true">
+        insert into
+        <include refid="TableName"/>
+        (`view_page_id`, `api_id`)
+        values
+        <foreach collection="apiIdList" item="item" index="index" separator=",">
+            <if test="item != ''">
+                (#{viewPageId}, #{item})
+            </if>
+        </foreach>
+    </insert>
+
+    <delete id="deleteAllByViewPageIdAndApiIdList">
+        delete from
+        <include refid="TableName"/>
+        where `view_page_id` = #{viewPageId} AND `api_id` in (
+        <foreach collection="apiIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id} limit 1
+    </select>
+
+
+    <select id="listAllByViewPageId" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_id` = #{viewPageId}
+    </select>
+
+    <select id="getOneByViewPageIdAndApiId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_id` = #{viewPageId} AND `api_id` = #{apiId} limit 1
+    </select>
+
+</mapper>

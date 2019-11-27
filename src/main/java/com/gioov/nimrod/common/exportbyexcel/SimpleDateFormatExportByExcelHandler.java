@@ -1,6 +1,6 @@
 package com.gioov.nimrod.common.exportbyexcel;
 
-import com.gioov.common.util.DateUtil;
+import com.gioov.tile.util.DateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,11 @@ public class SimpleDateFormatExportByExcelHandler extends ExportByExcelHandler {
     @Override
     public Object exportHandler(Object object) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateUtil.DEFAULT_DATE_FORMAT_PATTERN);
-        return simpleDateFormat.format(object);
+        if (object != null) {
+            return simpleDateFormat.format(object);
+        } else {
+            return "";
+        }
     }
 
     @Override

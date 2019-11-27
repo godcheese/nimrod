@@ -107,7 +107,7 @@ var expressui = expressui || {};
     _expressui.util.createElement = function (selector, tag, innerHTML) {
 
         /**
-         * 生成 node ，没 selector 指定 node 就生成一个
+         * 生成 node，没 selector 指定 node 就生成一个
          * @param selector
          * @param tag
          * @returns {*}
@@ -182,57 +182,12 @@ var expressui = expressui || {};
 
     };
 
-    //
-    // _expressui.ajax = function (url, success, error) {
-    //
-    //     var options = {
-    //         async: true,
-    //         type: 'get',
-    //         dataType: 'json',
-    //         processData: true,
-    //         // success: function(XMLHttpRequest, textStatus) {
-    //         //
-    //         // },
-    //         complete: function (XMLHttpRequest, textStatus) {
-    //             if (textStatus === 'timeout') {
-    //                 var xmlHttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHttp");
-    //                 xmlHttp.abort();
-    //                 // $(".box").html("网络超时！");
-    //             }
-    //             // $("#inp").val("点击获取数据");
-    //         },
-    //         error: function (XMLHttpRequest, textStatus, errorThrown) {
-    //             // console.log(XMLHttpRequest);
-    //         }
-    //     };
-    //
-    //     if (typeof url === 'string') {
-    //         options.url = url;
-    //     }
-    //
-    //     if (typeof success === 'function') {
-    //         options.success = success;
-    //     }
-    //
-    //     if (typeof error === 'function') {
-    //         options.error = error;
-    //     }
-    //
-    //     if (typeof url === 'object') {
-    //         $.extend(options, url);
-    //     }
-    //     return $.ajax(options);
-    // };
-    //
-
     _expressui.ajax = function (url, method, data, success, error) {
         var defaults = {
             dataType:'JSON',
             success: function(XMLHttpRequest, statusText) {
-
             },
             error: function (XMLHttpRequest, statusText, errorThrown) {
-                // console.log(XMLHttpRequest);
             }
         };
 
@@ -257,19 +212,6 @@ var expressui = expressui || {};
         if(typeof error === 'function') {
             defaults.error = error;
         }
-
-        // $.ajax({
-        //     data:{
-        //         account: account,
-        //         password: password
-        //     },
-        //     type: 'post',
-        //     url: Url.User.Api.LOGIN
-        // }).done(function (data, statusText, xhr) {
-        //     console.log(xhr.status);
-        // }).fail(function(){});
-
-        console.log(defaults);
         return $.ajax(defaults);
     };
     _expressui.replaceUrlPlaceholder = function (url, object, prefix) {
@@ -555,8 +497,6 @@ var expressui = expressui || {};
                     if (grid.url) {
                         $(grid.selector).treegrid('options').url = grid.url;
                     }
-                    console.log($(grid.selector).treegrid('options'))
-                    console.log(grid);
                     $(grid.selector).treegrid('reload');
                 }
                 break;
@@ -764,7 +704,6 @@ var expressui = expressui || {};
     _expressui.form = {};
 
     _expressui.form.submit = function (selector, url, method) {
-
         var defaultOptions = {type: 'post'};
         if(typeof selector === 'object') {
             $.extend(defaultOptions, selector);
@@ -773,61 +712,65 @@ var expressui = expressui || {};
             defaultOptions.url = url || undefined;
             defaultOptions.method = method || 'post';
         }
-
-        var isValid = $(defaultOptions.selector).form('validate');
-        if (isValid) {
-            $.messager.progress({title:'请稍等', msg:'正在操作...'});
-            var serializeArray = $(defaultOptions.selector).find('form').serializeArray();
-            var paramArray = defaultOptions.data || [];
-            for (var i = 0; i < paramArray.length; i++) {
-                serializeArray.push(paramArray[i]);
+            var isValid = $(defaultOptions.selector).form('validate');
+            if (isValid) {
+                $.messager.progress({title: '请稍等', msg: '正在操作...'});
+                var serializeArray = $(defaultOptions.selector).find('form').serializeArray();
+                var paramArray = defaultOptions.data || [];
+                for (var i = 0; i < paramArray.length; i++) {
+                    serializeArray.push(paramArray[i]);
+                }
+                try {
+                    expressui.ajax({
+                        beforeSend: function () {
+                            if (typeof defaultOptions.beforeSend === 'function') {
+                                defaultOptions.beforeSend();
+                            }
+                        },
+                        complete: function() {
+                            if (typeof defaultOptions.complete === 'function') {
+                                defaultOptions.complete();
+                            }
+                        },
+                        url: defaultOptions.url || undefined,
+                        type: defaultOptions.method || 'post',
+                        data: serializeArray,
+                        success: function (res, statusText, XMLHttpRequest) {
+                            if(typeof defaultOptions.success === 'function'){
+                                defaultOptions.success(res, statusText, XMLHttpRequest);
+                            } else {
+                                if(typeof defaultOptions.reset === 'string') {
+                                    $(defaultOptions.reset).form('clear');
+                                }
+                            }
+                            if(typeof defaultOptions.success === 'string'){
+                                $.messager.show({title: '信息', msg: defaultOptions.success});
+                                if(typeof defaultOptions.reset === 'string') {
+                                    $(defaultOptions.reset).form('clear');
+                                }
+                            }
+                            $.messager.progress('close');
+                        },
+                        error: function (XMLHttpRequest, statusText, errorThrown) {
+                            if(defaultOptions.error) {
+                                if (typeof defaultOptions.error === 'function') {
+                                    defaultOptions.error(XMLHttpRequest, statusText, errorThrown);
+                                }
+                                if (typeof defaultOptions.error === 'string') {
+                                    $.messager.alert('信息', defaultOptions.error, 'error');
+                                }
+                            } else {
+                                $.messager.alert('信息', XMLHttpRequest.responseJSON.message, 'error');
+                            }
+                            $.messager.progress('close');
+                        }
+                    })
+                } catch (e) {
+                    $.messager.alert('信息', e.message, 'error');
+                } finally {
+                    $.messager.progress('close');
+                }
             }
-
-            try {
-                expressui.ajax({
-                    beforeSend: function () {},
-                    url: defaultOptions.url || undefined,
-                    type: defaultOptions.method || 'post',
-                    data: serializeArray,
-                    success: function (data, statusText, XMLHttpRequest) {
-                        if(typeof defaultOptions.success === 'function'){
-                            defaultOptions.success(data, statusText, XMLHttpRequest);
-                        } else{
-                            if(typeof defaultOptions.reset === 'string') {
-                                $(defaultOptions.reset).form('clear');
-                            }
-                        }
-
-                        if(typeof defaultOptions.success === 'string'){
-                            $.messager.show({title: '信息', msg: defaultOptions.success});
-                            if(typeof defaultOptions.reset === 'string') {
-                                $(defaultOptions.reset).form('clear');
-                            }
-                        }
-
-                        $.messager.progress('close');
-                    },
-                    error: function (XMLHttpRequest, statusText, errorThrown) {
-                        if(defaultOptions.error) {
-                            if (typeof defaultOptions.error === 'function') {
-                                defaultOptions.error(XMLHttpRequest, statusText, errorThrown);
-                            }
-                            if (typeof defaultOptions.error === 'string') {
-                                $.messager.alert('信息', defaultOptions.error, 'error');
-                            }
-                        } else {
-                            $.messager.alert('信息', XMLHttpRequest.responseJSON.message, 'error');
-                        }
-                        $.messager.progress('close');
-                    }
-                })
-            } catch (e) {
-                $.messager.alert('信息', e.message, 'error');
-            } finally {
-                $.messager.progress('close');
-            }
-
-        }
     };
 
     _expressui.form.reset = function (selector) {
@@ -838,10 +781,9 @@ var expressui = expressui || {};
     /**
      * 避免组件移除窗口外
      * @param left
-     * @param top as
+     * @param top
      */
     _expressui.onMove = function (left, top) {
-
         if (left < 1) {
             left = 1;
         }
@@ -917,7 +859,7 @@ $.extend($.fn.dialog.defaults, {
     resizable: true,
     toolbar: null,
     width: 400,
-    height: 300,
+    height: 311,
 
     // window
     closable: true,
@@ -948,7 +890,7 @@ $.extend($.fn.dialog.defaults, {
     onLoad: function () {
         var _this = this;
         var options = $(this).dialog('options');
-        $(this).wrapInner('<form></form>');
+        $(this).wrapInner('<form method="' + (options.formMethod || 'post') + '"></form>');
 
         if(options.data) {
 
@@ -965,7 +907,6 @@ $.extend($.fn.dialog.defaults, {
                 $.ajax({
                     url: options.get.url,
                     type: options.get.method,
-                    async: true,
                     dataType: 'json',
                     success: function (data) {
                         $(_this).form('load', data);
@@ -1086,13 +1027,6 @@ $.extend($.fn.dialog.methods, {
                         if (typeof options.success === 'function') {
                             options.success(data);
                         }
-
-                        // 此处bug 会出现再一次 reload
-                        // } else {
-                        //     if (typeof options.reload === 'object') {
-                        //         expressui.grid.reload(options.reload);
-                        //     }
-                        // }
 
                         if (typeof options.success === 'string') {
                             $.messager.show({title: '信息', msg: options.success});
@@ -1233,14 +1167,6 @@ $.extend($.fn.dialog.methods, {
                             if (typeof options.success === 'function') {
                                 options.success(data);
                             }
-                            // 此处 bug 会出现多次 reload
-                            // } else {
-                            //     if (typeof options.reload === 'object') {
-                            //         expressui.grid.reload(options.reload);
-                            //     }
-                            // }
-                            console.log(typeof options.reload);
-
                             if (typeof options.success === 'string') {
                                 $.messager.show({title: '信息', msg: options.success});
                                 if (typeof options.reload === 'object') {
@@ -1283,14 +1209,9 @@ $.extend($.fn.datagrid.defaults, {
     idField: 'id',
     fit: true,
     fitColumns: true,
-    // autoRowHeight: false,
-    onlyLeafCheck: true,
-    // singleSelect: false,
-    // selectOnCheck: true,
-    // checkOnSelect: true,
-    singleSelect: false,
-    selectOnCheck:false,
-    checkOnSelect:true,
+    autoRowHeight: true,
+    selectOnCheck: false, // 单独 select
+    checkOnSelect: true, // 单独 select
     checkbox: true,
     method: 'get',
     pagination: true,
@@ -1299,38 +1220,33 @@ $.extend($.fn.datagrid.defaults, {
     pageSize: 10,
     loadMsg: '正在加载，请稍等...',
     emptyMsg: '暂无记录',
-    onBeforeLoad: function(param) {
+    onLoadSuccess: function(data) {
+        $(this).datagrid('clearSelections');
+        $(this).datagrid('clearChecked');
+    },
+    onLoadError: function() {
         $(this).datagrid('clearSelections');
         $(this).datagrid('clearChecked');
     },
     loadFilter: function (data) {
-        if (!data) {
-            data = [];
-        }
-        return data;
+        return data ? data : [];
     },
-
     /**
-     * 单独选中
+     * 单独 select
      * @param row
      */
-    onBeforeSelect : function (row) {
-        $('#' + this.id).datagrid('unselectAll');
-    }
-
+    onBeforeSelect: function (index, row) {
+        $(this).datagrid('clearSelections');
+    },
 });
 
 $.extend($.fn.datagrid.methods, {
-
     // 创建一个 datagrid 实例
     create: function (jq, options) {
-
         // 初始 selector
         options.selector = expressui.util.initSelector(jq);
-
         // 追加工具栏
         expressui.grid.appendToolbar(options);
-
         return $(options.selector).datagrid(options);
     },
 
@@ -1538,8 +1454,6 @@ $.extend($.fn.datagrid.methods, {
 
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            console.log(XMLHttpRequest);
-                            console.log(textStatus);
                             if (typeof options.error === 'function') {
                                 options.error(XMLHttpRequest, textStatus, errorThrown);
                             }
@@ -1575,7 +1489,6 @@ $.extend($.fn.datagrid.methods, {
         //     $.messager.alert('信息', '请勾选要操作项', 'warning');
         //     return;
         // }
-
         var options = {url: '', method:'post', paramName: $(selector).datagrid('options').idField, paramData: [], confirmMessage: '确定要操作吗'};
         if (typeof url === 'string') {
             options.url = url;
@@ -1583,14 +1496,12 @@ $.extend($.fn.datagrid.methods, {
         if (typeof url === 'object') {
             $.extend(options, url);
         }
-
         var data = {};
         for (var i = 0; i < selections.length; i++) {
             var idField = $(selector).datagrid('options').idField;
             options.paramData.push(selections[i][idField]);
         }
         data[options.paramName] = options.paramData;
-
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
                 if(ok) {
@@ -1599,11 +1510,9 @@ $.extend($.fn.datagrid.methods, {
                         type: options.method,
                         data: options.data || data,
                         success: function (data) {
-
                             if (typeof options.success === 'function') {
                                 options.success(data);
                             }
-
                             if (typeof options.success === 'string') {
                                 $.messager.show({title:'信息', msg:options.success});
                                 if(typeof options.reload === 'object') {
@@ -1614,32 +1523,24 @@ $.extend($.fn.datagrid.methods, {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
-
                             $(selector).datagrid('clearSelections');
                             $(selector).datagrid('clearChecked');
-
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            console.log(XMLHttpRequest);
-                            console.log(textStatus);
                             if (typeof options.error === 'function') {
                                 options.error(XMLHttpRequest, textStatus, errorThrown);
                             }
-
                             if (typeof options.error === 'string') {
                                 $.messager.show({title:'信息', msg:options.error});
                             }
-
                             if(!options.error) {
                                 $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
                             }
-
                             $.messager.progress('close');
                         }
                     });
                 }
             });
-
         } catch (e) {
             $.messager.show({title: '信息', msg: '发生错误，操作失败'});
         } finally {
@@ -1657,7 +1558,6 @@ $.extend($.fn.datagrid.methods, {
             $.messager.alert('信息', '请勾选要操作项', 'warning');
             return;
         }
-
         var options = {url: '', method:'post', paramName: $(selector).datagrid('options').idField, paramData: [], confirmMessage: '确定要操作勾选项吗'};
         if (typeof url === 'string') {
             options.url = url;
@@ -1665,14 +1565,12 @@ $.extend($.fn.datagrid.methods, {
         if (typeof url === 'object') {
             $.extend(options, url);
         }
-
         var data = {};
         for (var i = 0; i < selections.length; i++) {
             var idField = $(selector).datagrid('options').idField;
             options.paramData.push(selections[i][idField]);
         }
         data[options.paramName] = options.paramData;
-
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
                 if(ok) {
@@ -1681,11 +1579,9 @@ $.extend($.fn.datagrid.methods, {
                         type: options.method,
                         data: options.data || data,
                         success: function (data) {
-
                             if (typeof options.success === 'function') {
                                 options.success(data);
                             }
-
                             if (typeof options.success === 'string') {
                                 $.messager.show({title:'信息', msg:options.success});
                                 if(typeof options.reload === 'object') {
@@ -1696,32 +1592,24 @@ $.extend($.fn.datagrid.methods, {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
-
                             $(selector).datagrid('clearSelections');
                             $(selector).datagrid('clearChecked');
-
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            console.log(XMLHttpRequest);
-                            console.log(textStatus);
                             if (typeof options.error === 'function') {
                                 options.error(XMLHttpRequest, textStatus, errorThrown);
                             }
-
                             if (typeof options.error === 'string') {
                                 $.messager.show({title:'信息', msg:options.error});
                             }
-
                             if(!options.error) {
                                 $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
                             }
-
                             $.messager.progress('close');
                         }
                     });
                 }
             });
-
         } catch (e) {
             $.messager.show({title: '信息', msg: '发生错误，操作失败'});
         } finally {
@@ -1739,13 +1627,11 @@ $.extend($.fn.datagrid.methods, {
             $.messager.alert('信息','请勾选要操作项', 'warning');
             return;
         }
-
         if (!selections || selections.length>1) {
             $.messager.progress('close');
             $.messager.alert('信息', '最多只允许勾选一项操作', 'warning');
             return;
         }
-
         var options = {url: '', method:'post', paramName: $(selector).datagrid('options').idField, paramData: []};
         if (typeof url === 'string') {
             options.url = url;
@@ -1753,7 +1639,6 @@ $.extend($.fn.datagrid.methods, {
         if (typeof url === 'object') {
             $.extend(options, url);
         }
-
         var data={};
         var idField = $(selector).datagrid('options').idField;
         var paramName = options.paramName;
@@ -1767,7 +1652,6 @@ $.extend($.fn.datagrid.methods, {
                         type: options.method,
                         data: options.data || data,
                         success: function (data) {
-
                             if (typeof options.success === 'function') {
                                 options.success(data);
                             } else {
@@ -1775,32 +1659,25 @@ $.extend($.fn.datagrid.methods, {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
-
                             if (typeof options.success === 'string') {
                                 $.messager.show({title:'信息', msg:options.success});
                                 if(typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
-
                             $(selector).datagrid('clearSelections');
                             $(selector).datagrid('clearChecked');
-
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
-
                             if (typeof options.error === 'function') {
                                 options.error(XMLHttpRequest, textStatus, errorThrown);
                             }
-
                             if (typeof options.error === 'string') {
                                 $.messager.show({title:'信息', msg:options.error});
                             }
-
                             if(!options.error) {
                                 $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
                             }
-
                             $.messager.progress('close');
                         }
                     });
@@ -1814,7 +1691,6 @@ $.extend($.fn.datagrid.methods, {
             $.messager.progress('close');
         }
     }
-
 });
 
 $.extend($.fn.treegrid.defaults, {
@@ -1822,16 +1698,12 @@ $.extend($.fn.treegrid.defaults, {
     treeField: 'name',
     fit: true,
     fitColumns: true,
-    // autoRowHeight: false,
+    autoRowHeight: true,
     onlyLeafCheck: true,
-    // singleSelect: false,
-    // selectOnCheck: true,
-    // checkOnSelect: true,
-    singleSelect: false,
-    selectOnCheck:false,
-    checkOnSelect:true,
-    // checkbox: true,
-    pagination: true,
+    selectOnCheck:false, // 单独 select
+    checkOnSelect: true, // 单独 select
+    checkbox: false,
+    pagination: false,
     scrollbarSize: 0,
     method: 'get',
     pageNumber: 1,
@@ -1839,71 +1711,39 @@ $.extend($.fn.treegrid.defaults, {
     pageSize: 10,
     loadMsg: '正在加载，请稍等...',
     emptyMsg: '暂无记录',
-    onBeforeLoad: function(param) {
+    queryParams: {},
+    onLoadSuccess: function(data) {
+        $(this).treegrid('options').url = $(this).treegrid('options')._url;
         $(this).treegrid('clearSelections');
         $(this).treegrid('clearChecked');
     },
-    loadFilter: function (data, parentId) {
-        if(!data) {
-            data = [];
-        }
-
-        if($(this).treegrid('options').expandUrl) {
-            if (data.rows) {
-                for (var i = 0; i < data.rows.length; i++) {
-                    data.rows[i].state = 'closed';
-                }
-            } else {
-                for (var i = 0; i < data.length; i++) {
-                    data[i].state = 'closed';
-                }
-            }
-        }
-
-        return data;
+    onLoadError: function() {
+        $(this).treegrid('clearSelections');
+        $(this).treegrid('clearChecked');
     },
     onBeforeExpand : function (row) {
         var options = $(this).treegrid('options');
         if(options.expandUrl) {
             options.url = expressui.replaceUrlPlaceholder(options.expandUrl, row);
         }
-        // var checked = $(this).treegrid('getSelected');
-        // if(checked){
-        //     var idField = options.idField;
-        //     console.log(row[idField] === checked[idField]);
-        //     if(row[idField] === checked[idField]) {
-        //         console.log($(this).treegrid('check', row[idField]));
-        //
-        //     }
-        // }
         return true;
     },
-    onLoadSuccess:function (row, data) {
-        $(this).treegrid('options').url = $(this).treegrid('options')._url;
-    },
-
-    // 单独选中
+    // 单独 select
     onBeforeSelect : function (row) {
-        $(this).treegrid('unselectAll');
+        $(this).treegrid('clearSelections');
     }
 });
 
 $.extend($.fn.treegrid.methods, {
-
     // 创建一个 treegrid 实例
     create: function (jq, options) {
-
         // 初始 selector
         options.selector = expressui.util.initSelector(jq);
-
         // 追加工具栏
         expressui.grid.appendToolbar(options);
-
         if(options.url) {
             options._url = options.url;
         }
-
-        console.log(options);
         return $(options.selector).treegrid(options);
     },
 
@@ -1973,7 +1813,6 @@ $.extend($.fn.treegrid.methods, {
             options.paramData.push(selections[i][idField]);
         }
         data[options.paramName] = options.paramData;
-
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
                 if(ok) {
@@ -2207,9 +2046,8 @@ $.extend($.fn.combobox.defaults, {
     textField: 'text',
     method: 'get',
     editable: false,
-    panelHeight: '100px',
+    panelHeight: '180px',
     // onBeforeLoad: function(param){
-    // console.log(param);
     //     if(param && param.q) {
     //         var value = param.q.replace('/ /g','');
     //         if(value!=='') {
@@ -2221,6 +2059,13 @@ $.extend($.fn.combobox.defaults, {
 });
 
 $.extend($.fn.combotree.defaults, {
-    panelHeight: '100px',
-})
-// $.extend($.fn.linkbutton.defaults, {plain: true});
+    panelHeight: '180px',
+    method: 'get',
+});
+
+$.extend($.fn.form.methods, {
+    submit: function (jq, selector) {
+        selector.selector = jq.selector;
+        return expressui.form.submit(selector);
+    }
+});

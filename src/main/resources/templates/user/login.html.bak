@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base(title='登录')"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/login.css}">
+    <script type="text/javascript" th:src="@{/assets/js/util.js}" charset="UTF-8"></script>
+    <script th:src="@{/assets/js/login.js}"></script>
+</head>
+<body>
+<noscript>当你看到这条信息，意味着 JavaScript 已被你的浏览器禁用，请开启 JavaScript 以使你的设备正常访问。</noscript>
+<div class="login-header">
+    <div class="header-inner">
+        <span class="logo"></span>
+        <span class="split"></span>
+        <span class="web-name" th:utext="${#servletContext.getAttribute('WEB.NAME')}">Nimrod</span>
+    </div>
+</div>
+<div class="login-body">
+    <div class="body-inner">
+        <div class="inner-wrap">
+            <div class="login-zone">
+                <div class="login-box">
+                    <div class="login-label"><p>用户登录<span style="font-size: 14px">-加QQ群547252502获取用户名密码</span></p></div>
+                    <div id="alertMessage"></div>
+                    <form method="post" th:action="@{/user/login/form}" id="loginForm">
+                        <div class="login-username input-item clearfix">
+                            <i class="fa fa-user"></i>
+                            <input type="text" value="" placeholder="用户名/电子邮箱" id="account">
+                        </div>
+                        <div class="login-password input-item clearfix">
+                            <i class="fa fa-lock"></i>
+                            <input type="password" value="" placeholder="密码" id="password">
+                        </div>
+                        <div class="verify-code clearfix">
+                            <div class="input-item">
+                                <i class="fa fa-file-image-o"></i>
+                                <input type="text" id="verifyCode" placeholder="验证码">
+                            </div>
+                            <img th:src="@{/api/system/verify_code}" id="verifyCodeImage" alt="verifyCodeImage">
+                            <!--<span class="verify-code-image">XD34F</span>-->
+                        </div>
+
+                        <div class="tips clearfix">
+                            <label><input id="rememberMe" type="checkbox">记住我一周</label>
+                            <!--<a href="javascript:" class="register">立即注册</a>-->
+                            <a href="javascript:" class="forget-password">忘记密码？</a>
+
+                        </div>
+                        <div class="enter">
+                            <a class="login-button" href="javascript:" id="loginButton">登录</a>
+                            <!--<a class="supplier" th:href="@{/user/login}">立即注册</a>-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="login-poster"></div>
+        </div>
+    </div>
+</div>
+<div class="login-footer">
+    <div class="footer-inner">
+        <div class="about-us">
+            <a href="javascript:">关于我们</a>
+            <a href="javascript:">法律声明</a>
+            <a href="javascript:">服务条款</a>
+            <a href="javascript:">联系方式</a>
+        </div>
+        <div class="address">地址：浙江省xx市xxx科技园区xx幢xxx室，邮编：320000，E-mail：godcheese#outlook.com，Copyright&nbsp;©&nbsp;2017&nbsp;-&nbsp;2019&nbsp;&nbsp;版权所有</div>
+        <div class="other-info">推荐使用 Chrome39+（下载）、Firefox 22+、IE9 及其以上版本的浏览器。推荐分辩率为1440*900或者更高。&nbsp;浙ICP备00000000号&nbsp;</div>
+    </div>
+</div>
+</body>
+</html>

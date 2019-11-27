@@ -7,9 +7,7 @@ import java.io.Serializable;
  * @date 2019-02-02
  */
 public class JobEntity implements Serializable {
-
-    private static final long serialVersionUID = 3385719702198153270L;
-
+    private static final long serialVersionUID = -5740486676385193410L;
     private String schedName;
     private String jobName;
     private String jobGroup;

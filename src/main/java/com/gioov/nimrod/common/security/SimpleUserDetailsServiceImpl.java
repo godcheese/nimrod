@@ -1,5 +1,7 @@
 package com.gioov.nimrod.common.security;
 
+import com.gioov.nimrod.common.operationlog.OperationLog;
+import com.gioov.nimrod.common.operationlog.OperationLogType;
 import com.gioov.nimrod.common.properties.AppProperties;
 import com.gioov.nimrod.system.service.DictionaryService;
 import com.gioov.nimrod.user.entity.RoleAuthorityEntity;
@@ -13,15 +15,20 @@ import com.gioov.nimrod.user.mapper.UserRoleMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -31,6 +38,16 @@ import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
 public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleUserDetailsServiceImpl.class);
+
+    /**
+     * 内置 SYSTEM_ADMIN。与数据库中的 SYSTEM_ADMIN 角色不一致，用户登录时，系统会提取 properties 中 app.system-admin-role 值与用户所赋予角色相比较，如若用户赋予角色在 app.system-admin-role 中存在，则将次内置 SYSTEM_ADMIN 赋予到此用户角色中。
+     */
+    public static final String SYSTEM_ADMIN = "BUILD_IN_SYSTEM_ADMIN_FLAG";
+
+    /**
+     * 角色前缀，Spring Security 角色会自带 ROLE_ 前缀
+     */
+    public static final String ROLE_PREFIX = "ROLE_";
 
     @Autowired
     private AppProperties appProperties;
@@ -47,52 +64,39 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private RoleAuthorityMapper roleAuthorityMapper;
 
-    public static final String ROLE_PREFIX = "ROLE_";
-
     @Autowired
     private DictionaryService dictionaryService;
 
-    /**
-     * 角色是否存在
-     *
-     * @param roleValue 角色值
-     * @return boolean
-     */
-    private boolean isExistSystemAdminRole(String roleValue) {
-        List<String> roleList = appProperties.getSystemAdminRole();
-        if (roleList != null && !roleList.isEmpty()) {
-            for (String role : roleList) {
-                LOGGER.info("roleValue={},role={}", roleValue, role);
-                if (roleValue.equals(role)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
+    @OperationLog(value = "用户名登录", type = OperationLogType.API)
     public SimpleUserDetails loadUserByUsername(String account) {
         // 从数据库中获取 user 实体
         UserEntity userEntity = userMapper.getOneByUsername(account);
         if (userEntity == null) {
             throw new UsernameNotFoundException("Account " + account + " not found");
         }
-        boolean disabled = false;
+        boolean enabled = true;
         List<SimpleGrantedAuthority> simpleGrantedAuthorityList = listAllSimpleGrantedAuthorityByUserId(userEntity.getId());
-
-        if(!userEntity.getDisabled().equals(Integer.valueOf(String.valueOf(dictionaryService.get("IS_OR_NOT", "NOT"))))) {
+        for(SimpleGrantedAuthority simpleGrantedAuthority : simpleGrantedAuthorityList) {
+            LOGGER.info("simpleGrantedAuthority.getAuthority={}", simpleGrantedAuthority.getAuthority());
+        }
+        if(userEntity.getEnabled() == null  || !userEntity.getEnabled().equals(Integer.valueOf(String.valueOf(dictionaryService.get("IS_OR_NOT", "IS"))))) {
             boolean isExistSystemAdminRole = false;
             for(SimpleGrantedAuthority simpleGrantedAuthority : simpleGrantedAuthorityList) {
                 String authority = simpleGrantedAuthority.getAuthority();
-                if(authority.indexOf(ROLE_PREFIX) == 0 && isExistSystemAdminRole(authority.substring(ROLE_PREFIX.length()))) {
+//                if(authority.indexOf(ROLE_PREFIX) == 0 && isExistSystemAdminRole(authority.substring(ROLE_PREFIX.length()))) {
+//                    isExistSystemAdminRole = true;
+//                }
+                LOGGER.info("simpleGrantedAuthority.getAuthority()={}", simpleGrantedAuthority.getAuthority());
+                LOGGER.info("simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)={}", simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN));
+                if(simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
                     isExistSystemAdminRole = true;
                 }
             }
-
             if(!isExistSystemAdminRole) {
-                disabled = true;
+                enabled = false;
             }
+
         }
 
 //        if(disabled) {
@@ -102,12 +106,28 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 //        LOGGER.info("disabled={}", disabled);
 
 //        return new SimpleUser(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword(), simpleGrantedAuthorityList);
-        return SimpleUser.builder().id(userEntity.getId()).username(userEntity.getUsername()).password(userEntity.getPassword()).authorities(simpleGrantedAuthorityList).disabled(disabled).build();
+        return SimpleUser.builder().id(userEntity.getId()).username(userEntity.getUsername()).password(userEntity.getPassword()).authorities(simpleGrantedAuthorityList).disabled(!enabled).build();
+    }
+
+    /**
+     * 角色是否存在
+     * @param roleValue 角色值
+     * @return boolean
+     */
+    private boolean isExistSystemAdminRole(String roleValue) {
+        List<String> roleList = appProperties.getSystemAdminRole();
+        if (roleList != null && !roleList.isEmpty()) {
+            for (String role : roleList) {
+                if (roleValue.equals(role)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
      * 列出用户所拥有的角色和角色权限
-     *
      * @param userId 用户 id
      * @return List<SimpleGrantedAuthority>
      */
@@ -133,7 +153,7 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
                     simpleGrantedAuthorityList1.add(new SimpleGrantedAuthority(ROLE_PREFIX + roleValue));
                     // 读取和装载角色权限
                     simpleGrantedAuthorityList2 = listAllSimpleGrantedAuthorityByRoleId(roleId);
-                    if (simpleGrantedAuthorityList2 != null && !simpleGrantedAuthorityList2.isEmpty()) {
+                    if (!simpleGrantedAuthorityList2.isEmpty()) {
                         simpleGrantedAuthorityList1.addAll(simpleGrantedAuthorityList2);
                     }
                 }
@@ -153,7 +173,6 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * 列出角色所拥有的权限
-     *
      * @param roleId 角色 id
      * @return List<SimpleGrantedAuthority>
      */
@@ -168,4 +187,47 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
         return simpleGrantedAuthorityList;
     }
 
+    public static SimpleUser getCurrentSimpleUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                return (SimpleUser) principal;
+            }
+        }
+        return null;
+    }
+
+    public static SimpleUser getCurrentSimpleUser(HttpServletRequest request) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        Authentication authentication;
+        if (securityContextImpl != null) {
+            authentication  = securityContextImpl.getAuthentication();
+        } else {
+            authentication = SecurityContextHolder.getContext().getAuthentication();
+        }
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                return (SimpleUser) principal;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 检测是否存在权限或系统管理员角色
+     * @param authorities
+     * @param authority
+     * @return
+     */
+    public static boolean isExistsAuthority(Collection<GrantedAuthority> authorities, String authority) {
+        for(GrantedAuthority grantedAuthority : authorities) {
+            LOGGER.info("grantedAuthority.getAuthority().equals(authority)={}", grantedAuthority.getAuthority().equals(authority));
+            if(grantedAuthority.getAuthority().equals(authority) || grantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

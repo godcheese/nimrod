@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div id="jobRuntimeLogToolbar">
+    <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_DELETE_ALL">
+    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="jobRuntimeLogDeleteAll();">删除</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_CLEAR_ALL">
+    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="jobRuntimeLogClearAll();">清空日志</a>
+    </nimrod:security>
+</div>
+<table id="jobRuntimeLog"></table>
+
+<script type="text/javascript">
+    $(function () {
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'jobClassName', title: '任务类名'},
+            {field: 'jobGroup', title: '任务分组'},
+            {field: 'consumingTime', title: '任务运行耗时（毫秒）'},
+            {field: 'jobException', title: '任务异常信息'},
+            {field: 'gmtCreated', title: '创建时间'}
+            ];
+        $('#jobRuntimeLog').datagrid(expressui.grid.create, {
+            title: '任务运行日志',
+            columns: [columns],
+            url: Url.Quartz.Api.JOB_RUNTIME_LOG + '/page_all',
+        });
+    });
+
+    function jobRuntimeLogDeleteAll() {
+        $('#jobRuntimeLog').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.Quartz.Api.JOB_RUNTIME_LOG + '/delete_all',
+            method: 'post',
+            success: '删除成功',
+            reload: {type: 'datagrid', selector: '#jobRuntimeLog'}
+        });
+    }
+
+    function jobRuntimeLogClearAll() {
+        $.messager.confirm('信息', '确定要操作吗', function (ok) {
+            if(ok) {
+                $.ajax({url: Url.Quartz.Api.JOB_RUNTIME_LOG + '/clear_all', type:'POST', dataType:'JSON',success:function (data) {
+                        $.messager.show({title: '信息', msg: '操作成功'});
+                        $('#jobRuntimeLog').datagrid('reload');
+                    }, error:function (xhr) {
+                        if(xhr.status !== 200) {
+                            $.messager.alert('信息', '操作失败：' + xhr.responseJSON.message, 'error');
+                        } else {
+                            $.messager.show({title: '信息', msg: '操作成功'});
+                            $('#jobRuntimeLog').datagrid('reload');
+                        }
+                    }})
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div id="fileToolbar">
+    <nimrod:security authority="/COMPONENT/FILE/PAGE_ALL/UPLOAD_ONE_DIALOG">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload" onclick="fileUploadOneDialog();">单文件上传</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/FILE/PAGE_ALL/UPLOAD_ONE_DIALOG">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload" plain="true" onclick="fileUploadAllDialog();">多文件上传</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/SYSTEM/FILE/PAGE_ALL/FILE_EDIT_DIALOG">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="fileEditDialog();">编辑</a>
+    </nimrod:security>
+    <nimrod:security authority="/COMPONENT/SYSTEM/FILE/PAGE_ALL/FILE_DELETE_ALL">
+        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="fileDeleteAll();">删除</a>
+    </nimrod:security>
+</div>
+<table id="file"></table>
+
+<script type="text/javascript">
+    $(function () {
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'username', title: '上传用户'},
+            // {field: 'file_authority', title: '访问权限'},
+            {field: 'download', title: '操作', formatter: function (value, row, index) {
+                    value = '<a target="_blank" href="' + Url.System.Api.FILE + '/download/' + row.guid + '">下载</a>';
+                    return value;
+                }},
+            {field: 'preview', title: '预览', formatter: function (value, row, index) {
+                    if(row.mimeType.indexOf('image') > -1) {
+                        value = '<img style="width:60px;height:60px" src="' + Url.System.Api.FILE + '/download/' + row.guid + '"/>';
+                        return value;
+                    }
+                }},
+            {field: 'name', title: '文件名'},
+            {field: 'prettySize', title: '文件大小'},
+            {field: 'guid', title: '唯一标识符'},
+            {field: 'mimeType', title: 'MIME 类型'},
+            {field: 'path', title: '文件路径'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#file').datagrid(expressui.grid.create, {
+            title: '文件管理',
+            columns: [columns],
+            url: Url.System.Api.FILE + '/page_all'
+        });
+    });
+
+    function fileUploadOneDialog() {
+        $('#uploadOneDialog').dialog(expressui.dialog.create, {
+            title: '单文件上传',
+            height: 200,
+            width: 410,
+            grid: {type: 'datagrid', selector: '#file'},
+            href: Url.System.Page.FILE + '/upload_one_dialog',
+            buttons: [{
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function fileUploadAllDialog() {
+        $('#uploadAllDialog').dialog(expressui.dialog.create, {
+            title: '多文件上传',
+            height: 200,
+            width: 410,
+            grid: {type: 'datagrid', selector: '#file'},
+            href: Url.System.Page.FILE + '/upload_all_dialog',
+            buttons: [{
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function fileEditDialog() {
+        var one = $('#file').datagrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (one) {
+            $('#fileEditDialog').dialog(expressui.dialog.create, {
+                title: '编辑文件',
+                width: 600,
+                height: 390,
+                grid: {type: 'datagrid', selector: '#file'},
+                selector: '#fileEditDialog',
+                href: Url.System.Page.FILE + '/edit_dialog',
+                get: {url: Url.System.Api.FILE + '/one/{id}', method: 'get'},
+                save: {url: Url.System.Api.FILE + '/save_one', method: 'post'},
+                buttons: [{
+                    text: '保存',
+                    iconCls: 'fa fa-save',
+                    handler: expressui.dialog.save,
+                    reload: [{type: 'datagrid', selector: '#file'}],
+                    success: '保存成功'
+                }, {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: expressui.dialog.close
+                }]
+            });
+        }
+    }
+
+    function fileDeleteAll() {
+        $('#file').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.System.Api.FILE + '/delete_all',
+            method: 'post',
+            success: '删除成功',
+            reload: {type: 'datagrid', selector: '#file'}
+        });
+    }
+</script>
+</body>
+</html>

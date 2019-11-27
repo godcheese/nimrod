@@ -1,19 +1,18 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.common.mybatis.Pageable;
-import com.gioov.common.web.exception.BaseResponseException;
-import com.gioov.nimrod.common.FailureMessage;
-import com.gioov.nimrod.common.easyui.Pagination;
-import com.gioov.nimrod.user.entity.RoleEntity;
-import com.gioov.nimrod.user.entity.UserRoleEntity;
-import com.gioov.nimrod.user.entity.ViewMenuCategoryEntity;
-import com.gioov.nimrod.user.entity.ViewMenuEntity;
+import com.gioov.nimrod.common.others.FailureEntity;
+import com.gioov.nimrod.common.easyui.ComboTree;
+import com.gioov.nimrod.common.easyui.EasyUI;
+import com.gioov.nimrod.system.service.DictionaryService;
+import com.gioov.nimrod.user.entity.*;
+import com.gioov.nimrod.user.mapper.RoleViewMenuCategoryMapper;
 import com.gioov.nimrod.user.mapper.UserRoleMapper;
 import com.gioov.nimrod.user.mapper.ViewMenuCategoryMapper;
 import com.gioov.nimrod.user.mapper.ViewMenuMapper;
 import com.gioov.nimrod.user.service.RoleService;
 import com.gioov.nimrod.user.service.ViewMenuCategoryService;
 import com.gioov.nimrod.user.service.ViewMenuService;
+import com.gioov.tile.web.exception.BaseResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,13 +40,68 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
 
     @Autowired
     private ViewMenuCategoryService viewMenuCategoryService;
-
     @Autowired
     private ViewMenuService viewMenuService;
+    @Autowired
+    private FailureEntity failureEntity;
+    @Autowired
+    private RoleViewMenuCategoryMapper roleViewMenuCategoryMapper;
+    @Autowired
+    private DictionaryService dictionaryService;
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public ViewMenuCategoryEntity addOne(ViewMenuCategoryEntity viewMenuCategoryEntity) {
+        Date date = new Date();
+        viewMenuCategoryEntity.setGmtModified(date);
+        viewMenuCategoryEntity.setGmtCreated(date);
+        viewMenuCategoryMapper.insertOne(viewMenuCategoryEntity);
+        return viewMenuCategoryEntity;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public ViewMenuCategoryEntity saveOne(ViewMenuCategoryEntity viewMenuCategoryEntity) {
+        ViewMenuCategoryEntity viewMenuCategoryEntity1 = viewMenuCategoryMapper.getOne(viewMenuCategoryEntity.getId());
+        Date date = new Date();
+        viewMenuCategoryEntity1.setName(viewMenuCategoryEntity.getName());
+        viewMenuCategoryEntity1.setIcon(viewMenuCategoryEntity.getIcon());
+        viewMenuCategoryEntity1.setSort(viewMenuCategoryEntity.getSort());
+        viewMenuCategoryEntity1.setRemark(viewMenuCategoryEntity.getRemark());
+        viewMenuCategoryEntity1.setGmtModified(date);
+        viewMenuCategoryMapper.updateOne(viewMenuCategoryEntity1);
+        return viewMenuCategoryEntity1;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public int deleteAll(List<Long> idList) throws BaseResponseException {
+        int result = 0;
+        for (Long id : idList) {
+            // 有子视图菜单分类报错
+            ViewMenuCategoryEntity viewMenuCategoryEntity = viewMenuCategoryMapper.getOneByParentId(id);
+            if (viewMenuCategoryEntity != null) {
+                throw new BaseResponseException(failureEntity.i18n("view_menu_category.delete_fail_has_children_category"));
+            }
+            // 有子视图菜单报错
+            ViewMenuEntity viewMenuEntity = viewMenuMapper.getOneByViewMenuCategoryId(id);
+            if (viewMenuEntity != null) {
+                throw new BaseResponseException(failureEntity.i18n("view_menu_category.delete_fail_has_view_menu"));
+            }
+            roleViewMenuCategoryMapper.deleteAllByViewMenuCategoryId(id);
+            viewMenuCategoryMapper.deleteOne(id);
+            result++;
+        }
+        return result;
+    }
+
+    @Override
+    public ViewMenuCategoryEntity getOne(Long id) {
+        return viewMenuCategoryMapper.getOne(id);
+    }
 
     /**
      * 指定 用户id，获取所有视图菜单父级分类
-     *
      * @param userId
      * @return
      */
@@ -68,8 +122,7 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
     }
 
     /**
-     * 指定用户id 、视图菜单父级分类，获取所有视图菜单子级分类
-     *
+     * 指定用户id、视图菜单父级分类，获取所有视图菜单子级分类
      * @param userId
      * @param parentId
      * @return
@@ -83,7 +136,7 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
             if ((roleEntityList = roleService.listAllByUserRoleList(userRoleEntityList)) != null) {
                 viewMenuCategoryEntityList = new ArrayList<>();
                 for (RoleEntity roleEntity : roleEntityList) {
-                    // 根据父级视图菜单分类和角色 id ，获取每个角色所拥有的视图菜单子级分类
+                    // 根据父级视图菜单分类和角色 id，获取每个角色所拥有的视图菜单子级分类
                     viewMenuCategoryEntityList.addAll(viewMenuCategoryMapper.listAllByParentIdAndRoleId(parentId, roleEntity.getId()));
                 }
             }
@@ -94,6 +147,30 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
     @Override
     public List<ViewMenuCategoryEntity> listAllByParentIdAndRoleId(Long parentId, Long roleId) {
         return viewMenuCategoryMapper.listAllByParentIdAndRoleId(parentId, roleId);
+    }
+
+    @Override
+    public List<ViewMenuCategoryEntity> listAllByParentId(Long parentId, Long roleId) {
+        List<ViewMenuCategoryEntity> viewPageCategoryEntityList = viewMenuCategoryMapper.listAllByParentId(parentId);
+        List<ViewMenuCategoryEntity> viewMenuCategoryEntityListResult = new ArrayList<>();
+        Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS"));
+        Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "NOT"));
+        if(!viewPageCategoryEntityList.isEmpty()) {
+            for (ViewMenuCategoryEntity viewMenuCategoryEntity : viewPageCategoryEntityList) {
+                if (viewMenuCategoryMapper.getOneByParentId(viewMenuCategoryEntity.getId()) != null) {
+                    viewMenuCategoryEntity.setState(EasyUI.State.CLOSED);
+                }
+                if (roleId != null) {
+                    if (roleViewMenuCategoryMapper.getOneByRoleIdAndViewMenuCategoryId(roleId, viewMenuCategoryEntity.getId()) != null) {
+                        viewMenuCategoryEntity.setIsGranted(isOrNotIs);
+                    } else {
+                        viewMenuCategoryEntity.setIsGranted(isOrNotNot);
+                    }
+                }
+                viewMenuCategoryEntityListResult.add(viewMenuCategoryEntity);
+            }
+        }
+        return viewMenuCategoryEntityListResult;
     }
 
     @Override
@@ -141,63 +218,55 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
     }
 
     @Override
-    public Pagination<ViewMenuCategoryEntity> pageAllParent(Long roleId, Integer page, Integer rows) {
-        Pagination<ViewMenuCategoryEntity> pagination = new Pagination<>();
-        List<ViewMenuCategoryEntity> viewMenuCategoryEntityList = viewMenuCategoryMapper.pageAllByParentIdIsNullAndRoleId(roleId, new Pageable(page, rows));
-        if (viewMenuCategoryEntityList != null) {
-            pagination.setRows(viewMenuCategoryEntityList);
-        }
-        pagination.setTotal(viewMenuCategoryMapper.countAllByParentIdIsNullAndRoleId(roleId));
-        return pagination;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public ViewMenuCategoryEntity insertOne(ViewMenuCategoryEntity viewMenuCategoryEntity) {
-        Date date = new Date();
-        viewMenuCategoryEntity.setGmtModified(date);
-        viewMenuCategoryEntity.setGmtCreated(date);
-        viewMenuCategoryMapper.insertOne(viewMenuCategoryEntity);
-        return viewMenuCategoryEntity;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public ViewMenuCategoryEntity updateOne(ViewMenuCategoryEntity viewMenuCategoryEntity) {
-        ViewMenuCategoryEntity viewMenuCategoryEntity1 = viewMenuCategoryMapper.getOne(viewMenuCategoryEntity.getId());
-        Date date = new Date();
-        viewMenuCategoryEntity1.setName(viewMenuCategoryEntity.getName());
-        viewMenuCategoryEntity1.setIcon(viewMenuCategoryEntity.getIcon());
-        viewMenuCategoryEntity1.setSort(viewMenuCategoryEntity.getSort());
-        viewMenuCategoryEntity1.setRemark(viewMenuCategoryEntity.getRemark());
-        viewMenuCategoryEntity1.setGmtModified(date);
-        viewMenuCategoryMapper.updateOne(viewMenuCategoryEntity1);
-        return viewMenuCategoryEntity1;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public int deleteAll(List<Long> idList, Long roleId) throws BaseResponseException {
-        int result = 0;
-        for (Long id : idList) {
-            // 有子视图菜单分类报错
-            ViewMenuCategoryEntity viewMenuCategoryEntity = viewMenuCategoryMapper.getOneByParentIdAndRoleId(id, roleId);
-            if (viewMenuCategoryEntity != null) {
-                throw new BaseResponseException(FailureMessage.DELETE_VIEW_MENU_CATEGORY_FAIL1);
+    public List<ViewMenuCategoryEntity> listAllParent(Long roleId) {
+        List<ViewMenuCategoryEntity> viewMenuCategoryEntityList = viewMenuCategoryMapper.listAllByParentIdIsNull();
+        List<ViewMenuCategoryEntity> viewMenuCategoryEntityListResult = new ArrayList<>();
+        Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT","IS"));
+        Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT","NOT"));
+        for(ViewMenuCategoryEntity viewMenuCategoryEntity : viewMenuCategoryEntityList) {
+            if(viewMenuCategoryMapper.getOneByParentId(viewMenuCategoryEntity.getId()) != null) {
+                viewMenuCategoryEntity.setState(EasyUI.State.CLOSED);
             }
-            // 有子视图菜单报错
-            ViewMenuEntity viewMenuEntity = viewMenuMapper.getOneByMenuCategoryIdAndRoleId(id, roleId);
-            if (viewMenuEntity != null) {
-                throw new BaseResponseException(FailureMessage.DELETE_VIEW_MENU_CATEGORY_FAIL2);
+            if(roleId != null) {
+                if(roleViewMenuCategoryMapper.getOneByRoleIdAndViewMenuCategoryId(roleId,viewMenuCategoryEntity.getId()) != null) {
+                    viewMenuCategoryEntity.setIsGranted(isOrNotIs);
+                } else {
+                    viewMenuCategoryEntity.setIsGranted(isOrNotNot);
+                }
             }
-            viewMenuCategoryMapper.deleteOne(id);
-            result++;
+            viewMenuCategoryEntityListResult.add(viewMenuCategoryEntity);
         }
-        return result;
+        return viewMenuCategoryEntityListResult;
     }
 
     @Override
-    public ViewMenuCategoryEntity getOne(Long id) {
-        return viewMenuCategoryMapper.getOne(id);
+    public List<ComboTree> listAllViewMenuCategoryComboTree() {
+        List<ComboTree> comboTreeList = new ArrayList<>(0);
+        List<ViewMenuCategoryEntity> viewMenuCategoryEntityList = viewMenuCategoryMapper.listAll();
+        for(ViewMenuCategoryEntity viewMenuCategoryEntity : viewMenuCategoryEntityList) {
+            ComboTree comboTree = new ComboTree();
+            comboTree.setId(viewMenuCategoryEntity.getId());
+            comboTree.setText(viewMenuCategoryEntity.getName());
+            comboTree.setParentId(viewMenuCategoryEntity.getParentId());
+            comboTreeList.add(comboTree);
+        }
+        return comboTreeList;
+    }
+    @Override
+    public List<ComboTree> getViewMenuCategoryChildrenComboTree(long parentId, List<ComboTree> viewMenuCategoryComboTreeList) {
+        List<ComboTree> children = new ArrayList<>(0);
+        for(ComboTree comboTree : viewMenuCategoryComboTreeList) {
+            if(comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
+                children.add(comboTree);
+            }
+        }
+        for(ComboTree child : children) {
+            List<ComboTree> childChildren = getViewMenuCategoryChildrenComboTree(child.getId(), viewMenuCategoryComboTreeList);
+            child.setChildren(childChildren);
+        }
+        if(children.size() == 0) {
+            return null;
+        }
+        return children;
     }
 }

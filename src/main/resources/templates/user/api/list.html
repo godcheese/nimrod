@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'west',split:true" style="width:40%">
+        <div id="apiCategoryToolbar">
+            <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_CATEGORY_ADD_DIALOG">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="apiCategoryAddDialog();">新增</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_CATEGORY_EDIT_DIALOG">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="apiCategoryEditDialog();">编辑</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_CATEGORY_DELETE_ALL">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="apiCategoryDeleteAll();">删除</a>
+            </nimrod:security>
+        </div>
+        <table id="apiCategory"></table>
+    </div>
+    <div data-options="region:'center',split:true">
+        <div id="apiToolbar">
+            <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_ADD_DIALOG">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="apiAddDialog();">新增</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_EDIT_DIALOG">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
+               onclick="apiEditDialog();">编辑</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_DELETE_ALL">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+               onclick="apiDeleteAll();">删除</a>
+            </nimrod:security>
+        </div>
+        <table id="api"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '分类名称'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#apiCategory').treegrid(expressui.grid.create, {
+            title: 'API 分类',
+            url: Url.User.Api.API_CATEGORY + '/list_all_parent',
+            expandUrl: Url.User.Api.API_CATEGORY + '/list_all_by_parent_id?parentId={id}',
+            columns: [columns],
+            onCheck: function (row) {
+                if (row) {
+                    $('#api').datagrid('reload', Url.User.Api.API + '/page_all_by_api_category_id?apiCategoryId=' + row.id);
+                }
+            },
+            onUncheck: function (index, row) {
+                $('#api').datagrid('loadData', []);
+            }
+        });
+
+        columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: 'API 名称'},
+            {field: 'url', title: '请求地址（url）'},
+            {field: 'authority', title: '权限（authority）'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#api').datagrid(expressui.grid.create, {
+            title: 'API',
+            columns: [columns]
+        });
+    });
+
+    function apiCategoryAddDialog() {
+        $('#apiCategoryAddDialog').dialog(expressui.dialog.create, {
+            title: '新增 API 分类',
+            grid: {type: 'treegrid', selector: '#apiCategory'},
+            href: Url.User.Page.API_CATEGORY + '/add_dialog',
+            get: {url: Url.User.Api.API_CATEGORY + '/one/{id}', method: 'get'},
+            save: {url: Url.User.Api.API_CATEGORY + '/add_one', method: 'post'},
+            buttons: [{
+                text: '保存',
+                iconCls: 'fa fa-save',
+                handler: expressui.dialog.add,
+                reload: [{type: 'treegrid', selector: '#apiCategory'}, {type: 'datagrid', selector: '#api', data: []}],
+                success: '新增成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function apiCategoryEditDialog() {
+        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (one) {
+            $('#apiCategoryEditDialog').dialog(expressui.dialog.create, {
+                title: '编辑 API 分类',
+                grid: {type: 'treegrid', selector: '#apiCategory'},
+                href: Url.User.Page.API_CATEGORY + '/edit_dialog',
+                get: {url: Url.User.Api.API_CATEGORY + '/one/{id}', method: 'get'},
+                save: {url: Url.User.Api.API_CATEGORY + '/save_one', method: 'post'},
+                buttons: [{
+                    text: '保存',
+                    iconCls: 'fa fa-save',
+                    handler: expressui.dialog.save,
+                    reload: [{type: 'treegrid', selector: '#apiCategory'}, {
+                        type: 'datagrid',
+                        selector: '#api',
+                        data: []
+                    }],
+                    success: '保存成功'
+                }, {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: expressui.dialog.close
+                }]
+            });
+        }
+    }
+
+    function apiCategoryDeleteAll() {
+        $('#apiCategory').treegrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.API_CATEGORY + '/delete_all',
+            method: 'post',
+            success: '删除成功',
+            error: '删除失败',
+            reload: [{type: 'treegrid', selector: '#apiCategory'}, {type: 'datagrid', selector: '#api', data: []}]
+        });
+    }
+
+    function apiAddDialog() {
+        var one = $('#apiCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (!one) {
+            return;
+        }
+
+        $('#apiAddDialog').dialog(expressui.dialog.create, {
+            title: '新增 API ',
+            grid: {type: 'treegrid', selector: '#apiCategory'},
+            href: Url.User.Page.API + '/add_dialog',
+            get: {url: Url.User.Api.API + '/one/{id}', method: 'get'},
+            save: {url: Url.User.Api.API + '/add_one', method: 'post'},
+            buttons: [{
+                text: '保存',
+                iconCls: 'fa fa-save',
+                handler: expressui.dialog.add,
+                reload: [{type: 'datagrid', selector: '#api'}],
+                success: '新增成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function apiEditDialog() {
+        var one = $('#api').datagrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (one) {
+            $('#apiEditDialog').dialog(expressui.dialog.create, {
+                title: '编辑 API',
+                grid: {type: 'datagrid', selector: '#api'},
+                href: Url.User.Page.API + '/edit_dialog',
+                get: {url: Url.User.Api.API + '/one/{id}', method: 'get'},
+                save: {url: Url.User.Api.API + '/save_one', method: 'post'},
+                buttons: [{
+                    text: '保存',
+                    iconCls: 'fa fa-save',
+                    handler: expressui.dialog.save,
+                    reload: [{type: 'datagrid', selector: '#api'}],
+                    success: '保存成功'
+                }, {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: expressui.dialog.close
+                }]
+            });
+        }
+    }
+
+    function apiDeleteAll() {
+        $('#api').datagrid(expressui.grid.postCheckedLessOneOrShowAlert, {
+            url: Url.User.Api.API + '/delete_all',
+            method: 'post',
+            success: '删除成功',
+            reload: {type: 'datagrid', selector: '#api'}
+        });
+    }
+
+    function apiCopyAddDialog() {
+        var apiCategory = $('#apiCategory').treegrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (!apiCategory) {
+            return;
+        }
+
+        var api = $('#api').datagrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (!api) {
+            return;
+        }
+
+        $('#apiCopyDialog').dialog(expressui.dialog.create, {
+            title: '复制新增 API',
+            grid: {type: 'datagrid', selector: '#api'},
+            href: Url.User.Page.API + '/add_dialog',
+            get: {url: Url.User.Api.API + '/one/{id}', method: 'get'},
+            save: {
+                url: Url.User.Api.API + '/add_one',
+                data: {apiCategoryId: apiCategory.id}, // 必传参数
+                method: 'post'
+            },
+            buttons: [{
+                text: '复制新增',
+                iconCls: 'fa fa-copy',
+                handler: expressui.dialog.add,
+                reload: [{type: 'datagrid', selector: '#api'}],
+                success: '新增成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+
+    function apiMoveToDialog() {
+        var one = $('#api').datagrid(expressui.grid.getCheckedOneOrShowAlert);
+        if (one) {
+            $('#apiEditDialog').dialog(expressui.dialog.create, {
+                title: '编辑 API',
+                grid: {type: 'datagrid', selector: '#api'},
+                selector: '#apiEditDialog',
+                href: Url.User.Page.API + '/edit_dialog',
+                get: {url: Url.User.Api.API + '/one/{id}', method: 'get'},
+                save: {url: Url.User.Api.API + '/save_one', method: 'post'},
+                buttons: [{
+                    text: '保存',
+                    iconCls: 'fa fa-save',
+                    handler: expressui.dialog.save,
+                    reload: [{type: 'datagrid', selector: '#api'}],
+                    success: '保存成功'
+                }, {
+                    text: '关闭',
+                    iconCls: 'fa fa-close',
+                    handler: expressui.dialog.close
+                }]
+            });
+        }
+    }
+</script>
+</body>
+</html>

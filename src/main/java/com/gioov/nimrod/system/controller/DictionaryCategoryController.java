@@ -1,6 +1,6 @@
 package com.gioov.nimrod.system.controller;
 
-import com.gioov.nimrod.common.Common;
+import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.system.System;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(System.Page.DICTIONARY_CATEGORY)
 public class DictionaryCategoryController {
-
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/add_dialog")
     public String addDialog() {
@@ -25,5 +24,4 @@ public class DictionaryCategoryController {
     public String editDialog() {
         return Common.trimSlash(System.Page.DICTIONARY_CATEGORY + "/edit_dialog");
     }
-
 }

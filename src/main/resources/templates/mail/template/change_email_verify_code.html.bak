@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <style type="text/css">
+        a {
+            color: #1e5494;
+            text-decoration: none
+        }
+        .page {
+            font-family: "Microsoft YaHei", "Helvetica Neue", "lucida Grande", Verdana;
+            background: #fff;
+            margin: 0 auto;
+            /*margin-bottom: 40px;*/
+            text-align: left;
+            position: relative;
+            /*border-radius: 5px;*/
+            /*-moz-border-radius: 5px;*/
+            /*-webkit-border-radius: 5px*/
+        }
+        @media screen and (min-width: 1111px) {
+            .page {
+                width: 778px
+            }
+        }
+        @media screen and (max-width: 600px) {
+            .page {
+                width: 590px
+            }
+        }
+        @media screen and (max-width: 414px) {
+            .page {
+                width: 350px
+            }
+        }
+        @media screen and (max-width: 320px) {
+            .page {
+                width: 295px
+            }
+            .page-container {
+                /*padding: 30px 11px 20px;*/
+                padding: 10px 11px 20px;
+                border: 1px solid #d4d4d4
+            }
+        }
+        @media screen and (min-width: 321px) {
+            .page-container {
+                /*padding: 30px 27px 20px;*/
+                padding: 10px 27px 20px;
+                border: 1px solid #d4d4d4
+            }
+        }
+        .page-header {
+            background: #518bcb;
+            padding: 4px 6px 0;
+            /*border-top-left-radius: 5px;*/
+            /*border-top-right-radius: 5px;*/
+            /*-moz-border-radius-topleft: 5px;*/
+            /*-moz-border-radius-topright: 5px;*/
+            /*-webkit-border-top-left-radius: 5px;*/
+            /*-webkit-border-top-right-radius: 5px*/
+        }
+        .page-header-body {
+            zoom: 1;
+            padding: 0 19px;
+            background: #518bcb;
+            border-bottom: 1px solid #467ec3;
+            overflow: hidden
+        }
+        .page-header h1 {
+            color: #fff;
+            font-size: 12px;
+            line-height: 25px;
+            font-weight: bold;
+            margin: 0 0 0 10px;
+            float: left
+        }
+        .page-container h2 {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 5px 0 20px
+        }
+        .page-container p {
+            color: #313131;
+            line-height: 20px;
+            font-size: 14px;
+            margin: 15px 0
+        }
+        .page-container img {
+            margin: 10px 0
+        }
+        .page-container h3 {
+            font-weight: bold;
+            font-size: 12px;
+            margin: 5px 0
+        }
+        .left {
+            float: left
+        }
+        .page-container-bottom-divider {
+            height: 15px;
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+        }
+        .page-container-footer {
+            font-size: 12px;
+            margin-top: 15px;
+        }
+        .page-container-footer p, .page-container-footer span{
+            margin: 0;
+            padding: 0;
+            color: #494949;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-body">
+            <p style="color:white; font-size: 20px" th:text="${webName}">Nimrod</p>
+<!--            <img class="left" style="width:105px;height:24px;margin-right:50px" src="https://rescdn.qqmail.com/bizmail/zh_CN/htmledition/images/bizmail/v3/logo_white.png">-->
+        </div>
+        <div sytle="clear:left;"></div>
+    </div>
+    <div class="page-container">
+        <div class="page-container-body">
+            <p>尊敬的用户：</p>
+            <p>&nbsp; &nbsp; &nbsp;
+                您的账号正在进行邮箱验证，本次请求的验证码为：<span style="font-weight: bold" th:text="${verifyCode}"></span>，30分钟内有效，切勿告知他人。
+            </p>
+        </div>
+<!--        <div style="font-size: 12px;color: #808080;margin-top: 20px;">-->
+<!--            <span style="display: block">管理平台：http://example.com</span>-->
+<!--            <span style="display: block">企业帮助中心：http://help.example.com</span>-->
+<!--        </div>-->
+<!--        <div style="height: 30px;border-bottom: 1px solid #ccc;width: 100%;"></div>-->
+        <div class="page-container-bottom-divider"></div>
+        <div class="page-container-footer">
+            <p th:if="${webName}"><span th:text="${webName}">Nimrod</span>：<a target="_blank" th:href="${webUrl}" th:text="${webUrl}"></a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+    <script type="text/javascript" charset="UTF-8" th:src="@{/assets/js/global.js}"></script>
+</head>
+<body>
+<div class="submit-form" id="profile" style="width: 500px;margin: 0">
+    <form>
+        <table class="submit-table">
+            <tr>
+                <td class="label">
+                    <div class="user-avatar">
+                        <img id="avatarSrc" alt="avatar" style="width:40px;height:40px">
+                    </div>
+                </td>
+                <td>
+                    <input class="easyui-textbox" data-options="cls:'display'" name="avatar" id="avatar">
+                    <a href="javascript:" class="easyui-linkbutton" onclick="changeAvatarDialog();">更换头像</a>
+                    <a href="javascript:" class="easyui-linkbutton" onclick="removeAvatar();">移除头像</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">用户名：</td>
+                <td><input name="id" type="hidden">
+                    <input name="username" class="easyui-textbox" data-options="disabled: true">
+                </td>
+            </tr>
+            <tr>
+                <td class="label">密码：</td>
+                <td>
+                    <input id="password" value="password" class="easyui-passwordbox" data-options="disabled: true,showEye: false"> <a href="javascript:" class="easyui-linkbutton" onclick="changePasswordDialog();">更换密码</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">电子邮箱：</td>
+                <td>
+                    <input name="email" id="email" class="easyui-textbox" data-options="disabled: true"> <a href="javascript:" class="easyui-linkbutton" onclick="changeEmailDialog();">更换邮箱</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">角色：</td>
+                <td>
+                    <input id="roles" class="easyui-textbox" data-options="disabled: true">
+                </td>
+            </tr>
+            <tr>
+                <td class="label">所在部门：</td>
+                <td>
+                    <input id="departments" class="easyui-textbox" data-options="disabled: true">
+                </td>
+            </tr>
+        </table>
+        <div class="submit-button">
+            <a href="javascript:expressui.form.submit({selector:'#profile', url: Url.User.Api.USER + '/save_profile', method:'post', success: '操作成功'});"
+               class="easyui-linkbutton" data-options="iconCls:'fa fa-save'">保存</a>
+        </div>
+    </form>
+</div>
+<style type="text/css">
+    .display {
+        display: none;
+    }
+    .user-avatar {
+        float: right;
+        width: 48px;
+        height: 48px;
+    }
+    .user-avatar img {
+        margin: 4px;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+    }
+</style>
+<script>
+    $(function () {
+        $('#avatarSrc').attr('src', _defaultAvatar);
+        $('#avatar').textbox({
+            onChange: function (newValue, oldValue) {
+                if(newValue === null || newValue === '') {
+                    newValue = _defaultAvatar;
+                } else {
+                    newValue = Url.System.Api.FILE + '/download/' + newValue
+                }
+                $('#avatarSrc').attr('src', newValue);
+            }
+        });
+        util.ajax({
+            url:  Url.User.Api.USER + '/get_profile_by_current_user',
+            success: function (data) {
+                $('#profile').form('load', data);
+                var roles = [];
+                for(var i in data.roles) {
+                    if(data.roles.hasOwnProperty(i)) {
+                        roles[i] = data.roles[i].name;
+                    }
+                }
+                $('#roles').textbox('setValue', roles.join("/"));
+
+                $('#role').datagrid({data: data.roles});
+                var departments = [];
+                for(i in data.departments) {
+                    if(data.departments.hasOwnProperty(i)) {
+                        departments[i] = data.departments[i].name;
+                    }
+                }
+                $('#departments').textbox('setValue', departments.join("/"));
+            },
+            error: function (xhr) {
+            }
+        });
+    });
+    function changeAvatarDialog() {
+        $('#changeAvatarDialog').dialog(expressui.dialog.create, {
+            title: '更换头像',
+            width: 600,
+            height: 400,
+            href: Url.User.Page.USER + '/change_avatar_dialog',
+            buttons: [{
+                text: '确定',
+                iconCls: 'fa fa-save',
+                handler: function() {
+                    var guid = $('#file').datagrid('getChecked')[0].guid;
+                    $('#avatar').textbox('setValue', guid);
+                    $('#changeAvatarDialog').dialog('close');
+                },
+                success: '保存成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+    function removeAvatar() {
+        $('#avatar').textbox('setValue', '');
+    }
+    function changePasswordDialog() {
+        $('#changePasswordDialog').dialog(expressui.dialog.create, {
+            title: '更换密码',
+            width: 510,
+            height: 230,
+            href: Url.User.Page.USER + '/change_password_dialog',
+            buttons: [{
+                text: '确定',
+                iconCls: 'fa fa-save',
+                handler: function() {
+                    var password2Value = $('#password2').passwordbox('getValue');
+                    var newPasswordValue = $('#newPassword').passwordbox('getValue');
+                    var confirmNewPasswordValue = $('#confirmNewPassword').passwordbox('getValue');
+                    $('#changePasswordDialog').form('submit', {
+                        beforeSend: function () {
+                            $('#password2').passwordbox({disabled: true});
+                            $('#password2').passwordbox('setValue', password2Value);
+                            $('#newPassword').passwordbox({disabled: true});
+                            $('#newPassword').passwordbox('setValue', newPasswordValue);
+                            $('#confirmNewPassword').passwordbox({disabled: true});
+                            $('#confirmNewPassword').passwordbox('setValue', confirmNewPasswordValue);
+                        },
+                        complete: function () {
+                            $('#password2').passwordbox({disabled: false});
+                            $('#password2').passwordbox('setValue', password2Value);
+                            $('#newPassword').passwordbox({disabled: false});
+                            $('#newPassword').passwordbox('setValue', newPasswordValue);
+                            $('#confirmNewPassword').passwordbox({disabled: false});
+                            $('#confirmNewPassword').passwordbox('setValue', confirmNewPasswordValue);
+
+                        },
+                        url: Url.User.Api.USER + '/change_password_by_current_user',
+                        success: function (res) {
+                            // $.messager.show({title: '信息', msg: '密码修改成功'});
+                            // $.messager.alert({title: '信息', msg: '密码修改成功'});
+                            // $('#changePasswordDialog').dialog('close');
+                            $.messager.alert({
+                                title: '信息',
+                                msg: '密码修改成功，请重新登录',
+                                icon: 'info',
+                                fn: function(){
+                                    expressui.ajax({
+                                        // dataType: 'json',
+                                        url: Url.User.Api.LOGOUT,
+                                        success: function (data) {
+                                            window.location.href = Url.User.Page.LOGIN;
+                                        },
+                                        error: function (xhr) {
+                                            alert("注销失败");
+                                        }
+                                    });
+                                }
+                            });
+                        },
+                        error: function (xhr) {
+                            if (xhr.responseJSON) {
+                                $.messager.alert('信息', xhr.responseJSON.message, 'error');
+                            }
+                        }
+                    });
+                },
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+    function changeEmailDialog() {
+        $('#changeEmailDialog').dialog(expressui.dialog.create, {
+            title: '更换邮箱',
+            width: 580,
+            height: 200,
+            href: Url.User.Page.USER + '/change_email_dialog',
+            get: {url:  Url.User.Api.USER + '/get_profile_by_current_user'},
+            buttons: [{
+                text: '下一步',
+                iconCls: 'fa fa-chevron-right',
+                handler: function() {
+                    var _this = this;
+                    if($(_this).context.innerText.trim() === '下一步') {
+                        $('#changeEmailDialog').form('submit', {
+                            url: Url.User.Api.USER + '/check_email_verify_code_by_current_user',
+                            success: function (res) {
+                                $('#newEmail').textbox({required: true});
+                                $('#newEmailVerifyCode').textbox({required: true});
+                                $('#emailTr').css('display', 'none');
+                                $('#emailVerifyCodeTr').css('display', 'none');
+                                $('#newEmailTr').css('display', 'table-row');
+                                $('#newEmailVerifyCodeTr').css('display', 'table-row');
+                                $(_this).context.innerHTML = '<span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">确定</span><span class="l-btn-icon fa fa-save">&nbsp;</span></span>';
+                            },
+                            error: function (xhr) {
+                                if (xhr.responseJSON) {
+                                    $.messager.alert('信息', xhr.responseJSON.message, 'error');
+                                }
+                            }
+                        });
+                    } else {
+                        $('#changeEmailDialog').form('submit', {
+                            url: Url.User.Api.USER + '/change_email_by_current_user',
+                            success: function (res) {
+                                $.messager.show({title: '信息', msg: '电子邮箱更换成功'});
+                                $('#email').textbox('setValue',$('#newEmail').textbox('getValue'));
+                                $('#email').textbox({disabled: true});
+                                $('#changeEmailDialog').dialog('close');
+                            },
+                            error: function (xhr) {
+                                if (xhr.responseJSON) {
+                                    $.messager.alert('信息', xhr.responseJSON.message, 'error');
+                                }
+                            }
+                        });
+                    }
+                },
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gioov.nimrod.user.mapper.ViewPageComponentMapper">
+    <resultMap id="BaseResultMap" type="com.gioov.nimrod.user.entity.ViewPageComponentEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="view_page_component_type" property="viewPageComponentType" jdbcType="BIGINT"/> <!-- 组件分类 id -->
+        <result column="name" property="name" jdbcType="VARCHAR"/> <!-- 组件名称 -->
+        <result column="authority" property="authority" jdbcType="VARCHAR"/> <!-- 权限（authority） -->
+        <result column="page_id" property="viewPageId" jdbcType="BIGINT"/> <!-- 视图页面 id -->
+        <result column="sort" property="sort" jdbcType="BIGINT"/> <!-- 排序 -->
+        <result column="remark" property="remark" jdbcType="VARCHAR"/> <!-- 备注 -->
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/> <!-- 更新时间 -->
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/> <!-- 创建时间 -->
+    </resultMap>
+
+    <sql id="TableName">
+        `view_page_component`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `view_page_component_type`, `name`, `authority`, `view_page_id`, `sort`, `remark`, `gmt_modified`, `gmt_created`
+    </sql>
+
+    <select id="pageAllByViewPageId" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_id` = #{viewPageId}
+    </select>
+
+    <select id="getOne" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id}
+    </select>
+
+    <select id="getOneByAuthority" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `authority` = #{authority} limit 1
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        <include refid="TableName"/>
+        (`view_page_component_type`, `name`, `authority`, `view_page_id`, `sort`, `remark`,`gmt_modified`, `gmt_created`)
+        values (#{viewPageComponentType}, #{name}, #{authority}, #{viewPageId}, #{sort}, #{remark}, #{gmtModified},
+        #{gmtCreated})
+    </insert>
+
+    <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.ViewPageComponentEntity">
+        update
+        <include refid="TableName"/>
+        set `view_page_component_type` = #{viewPageComponentType}, `name` = #{name}, `authority` = #{authority}, `sort` =
+        #{sort}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        where `id`= #{id}
+    </update>
+
+    <delete id="deleteAll">
+        delete from
+        <include refid="TableName"/>
+        where `id` in
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <select id="pageAllByViewPageIdList" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_id` in (
+        <foreach collection="viewPageIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+</mapper>

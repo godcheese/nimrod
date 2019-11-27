@@ -1,14 +1,16 @@
 package com.gioov.nimrod.mail.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gioov.common.mybatis.Pageable;
-import com.gioov.common.mybatis.Sort;
-import com.gioov.nimrod.common.Common;
+import com.gioov.nimrod.common.others.Common;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.mail.entity.MailEntity;
 import com.gioov.nimrod.mail.mapper.MailMapper;
 import com.gioov.nimrod.mail.service.MailService;
 import com.gioov.nimrod.system.service.DictionaryService;
+import com.gioov.tile.web.exception.BaseResponseException;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +22,14 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.jms.Destination;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -38,42 +39,24 @@ import java.util.Properties;
 public class MailServiceImpl implements MailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
-
     @Autowired
     private DictionaryService dictionaryService;
-
     @Autowired
     private MailMapper mailMapper;
-
     private JavaMailSenderImpl javaMailSender;
-
     @Autowired
     private Common common;
-
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
-
     @Autowired
     private MailService mailService;
+    @Autowired
+    private FailureEntity failureEntity;
+    @Autowired
+    private TemplateEngine templateEngine;
 
-    @JmsListener(destination = "mailQueue")
-    @Override
-    public void consume(String message) {
-        MailEntity mailEntity = null;
-        try {
-            mailEntity = common.jsonToObject(message, MailEntity.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LOGGER.info("consume={}", mailEntity);
-        mailService.send(mailEntity);
-    }
-
-    @Override
-    public void produce(String message) {
-        Destination destination = new ActiveMQQueue("mailQueue");
-        jmsMessagingTemplate.convertAndSend(destination, message);
-    }
+    private static final String MAIL_QUEUE = "mailQueue";
+    public static final String MAIL_TEMPLATE_ROOT_PATH = "/mail/template";
 
     @Override
     public void initialize() {
@@ -95,7 +78,7 @@ public class MailServiceImpl implements MailService {
             javaMailSender.setProtocol(protocol);
         }
         if (port != null) {
-            javaMailSender.setPort(Integer.valueOf(port));
+            javaMailSender.setPort(Integer.parseInt(port));
         }
         if (username != null) {
             javaMailSender.setUsername(username);
@@ -123,16 +106,38 @@ public class MailServiceImpl implements MailService {
         javaMailSender.setJavaMailProperties(properties);
     }
 
+    @JmsListener(destination = MAIL_QUEUE)
     @Override
+    public void consume(String message) {
+        MailEntity mailEntity = null;
+        try {
+            mailEntity = common.jsonToObject(message, MailEntity.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(mailEntity != null) {
+            send(mailEntity);
+        }
+    }
+
+    @Override
+    public void produce(String message) {
+        Destination destination = new ActiveMQQueue(MAIL_QUEUE);
+        jmsMessagingTemplate.convertAndSend(destination, message);
+    }
+
     @Transactional(rollbackFor = Throwable.class)
     public void send(MailEntity mailEntity) {
+        Integer smsStatusFail = Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "FAIL"));
+        Integer smsStatusSuccess = Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "SUCCESS"));
+        Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS"));
         String mailSplit = ";";
         MailEntity mailEntity1 = mailMapper.getOne(mailEntity.getId());
         if (mailEntity1 != null) {
             try {
-                mailEntity1.setStatus(Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "FAIL")));
+                mailEntity1.setStatus(smsStatusFail);
                 String to = mailEntity1.getTo();
-                if (mailEntity1.getHtml().equals(Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS")))) {
+                if (mailEntity1.getHtml().equals(isOrNotIs)) {
                     if (to.indexOf(mailSplit) > 0) {
                         sendMimeMailMessage(mailEntity1.getFrom(), to.split(mailSplit), mailEntity1.getSubject(), mailEntity1.getText(), true);
                     } else {
@@ -145,13 +150,13 @@ public class MailServiceImpl implements MailService {
                         sendSimpleMailMessage(mailEntity1.getFrom(), to, mailEntity1.getSubject(), mailEntity1.getText());
                     }
                 }
-                mailEntity1.setStatus((Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "SUCCESS"))));
+                mailEntity1.setStatus((smsStatusSuccess));
                 LOGGER.info("send success.");
-                mailEntity1.setGmtModified(new Date());
             } catch (Exception e) {
                 mailEntity1.setError(e.getMessage());
-                mailEntity1.setStatus(Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "FAIL")));
+                mailEntity1.setStatus(smsStatusFail);
             }
+            mailEntity1.setGmtModified(new Date());
             mailMapper.updateOne(mailEntity1);
         }
     }
@@ -194,19 +199,17 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public Pagination<MailEntity> pageAll(Integer page, Integer rows, Sort sort) {
+    public Pagination<MailEntity> pageAll(Integer page, Integer rows) {
         Pagination<MailEntity> pagination = new Pagination<>();
-        List<MailEntity> mailEntityList = mailMapper.pageAll(new Pageable(page, rows, sort));
-        if (mailEntityList != null) {
-            pagination.setRows(mailEntityList);
-        }
-        pagination.setTotal(mailMapper.countAll());
+        PageHelper.startPage(page, rows);
+        Page<MailEntity> mailEntityPage = mailMapper.pageAll();
+        pagination.setRows(mailEntityPage.getResult());
+        pagination.setTotal(mailEntityPage.getTotal());
         return pagination;
     }
 
     /**
      * 设置 from 为数据字典的值
-     *
      * @param mailEntity MailEntity
      */
     private void setFrom(MailEntity mailEntity) {
@@ -221,32 +224,26 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public MailEntity insertOne(MailEntity mailEntity) {
-        MailEntity mailEntity1 = null;
+    public MailEntity addOne(MailEntity mailEntity) throws BaseResponseException {
+        Integer smsStatusWait = Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "WAIT"));
+        Date date = new Date();
         try {
-            mailEntity1 = new MailEntity();
-            Date date = new Date();
             Integer status = mailEntity.getStatus();
-            status = status != null ? status : Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "WAIT"));
-            mailEntity1.setStatus(status);
-            mailEntity1.setFrom(mailEntity.getFrom());
-            setFrom(mailEntity1);
-            mailEntity1.setTo(mailEntity.getTo());
-            mailEntity1.setSubject(mailEntity.getSubject());
-            mailEntity1.setText(mailEntity.getText());
-            mailEntity1.setHtml(mailEntity.getHtml());
-            mailEntity1.setRemark(mailEntity.getRemark());
-            mailEntity1.setGmtModified(date);
-            mailEntity1.setGmtCreated(date);
-            mailMapper.insertOne(mailEntity1);
-            produce(common.objectToJson(mailEntity1));
-        } catch (JsonProcessingException e) {
+            mailEntity.setStatus(status != null ? status : smsStatusWait);
+            setFrom(mailEntity);
+            mailEntity.setGmtModified(date);
+            mailEntity.setGmtCreated(date);
+            mailMapper.insertOne(mailEntity);
+            produce(common.objectToJson(mailEntity));
+        } catch (Exception e) {
             e.printStackTrace();
+            throw new BaseResponseException(failureEntity.i18n("mail.add_fail"));
         }
-        return mailEntity1;
+        return mailEntity;
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public int deleteAll(List<Long> idList) {
         return mailMapper.deleteAll(idList);
     }
@@ -257,6 +254,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void retry(List<MailEntity> mailEntityList) {
         for(MailEntity mailEntity : mailEntityList) {
             try {
@@ -268,14 +266,24 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void retry(boolean fail) {
+        Integer smsStatusWait = Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "WAIT"));
+        Integer smsStatusFail = Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "FAIL"));
+
         List<Integer> statusList = new ArrayList<>();
-        statusList.add(Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "WAIT")));
+        statusList.add(smsStatusWait);
         if(fail) {
-            statusList.add(Integer.valueOf((String) dictionaryService.get("SMS_STATUS", "FAIL")));
+            statusList.add(smsStatusFail);
         }
         List<MailEntity> mailEntityList = mailMapper.listAllByStatus(statusList);
         retry(mailEntityList);
     }
 
+    @Override
+    public String loadHtmlTemplate(String templatePath, Map<String, Object> variables) {
+        Context context = new Context();
+        context.setVariables(variables);
+        return templateEngine.process(templatePath, context);
+    }
 }

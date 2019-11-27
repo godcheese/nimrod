@@ -1,8 +1,8 @@
 package com.gioov.nimrod.common.interceptor;
 
+import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.common.security.SimpleUser;
-import com.gioov.nimrod.system.service.OperationLogService;
-import com.gioov.nimrod.user.entity.UserEntity;
+import com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl;
 import com.gioov.nimrod.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
+import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYSTEM_ADMIN;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -25,48 +25,51 @@ public class WebInterceptor implements HandlerInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebInterceptor.class);
 
-    private static final String REQUEST_TIME = "requestTime";
+    private static final String HOST_KEY = "_host";
+
+    private static final String CONTEXT_PATH_KEY = "_contextPath";
+
+    private static final String USER_KEY = "_user";
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private OperationLogService operationLogService;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        request.setAttribute(REQUEST_TIME, System.currentTimeMillis());
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
-        final String contextPathKey = "_contextPath";
-        final String userKey = "_user";
-        final String systemAdmin = SYSTEM_ADMIN;
         if (modelAndView != null) {
-            modelAndView.addObject(systemAdmin, systemAdmin);
-            String contextPath = request.getContextPath();
-            modelAndView.addObject(contextPathKey, (contextPath != null && !"".equals(contextPath)) ? contextPath : "/");
-            SimpleUser simpleUser = userService.getCurrentSimpleUser(request);
+            modelAndView.addObject("SYSTEM_ADMIN", SYSTEM_ADMIN);
+            String contextPath = Common.Host.contextPath;
+            modelAndView.addObject(CONTEXT_PATH_KEY, (contextPath != null && !"".equals(contextPath)) ? contextPath : "/");
+            SimpleUser simpleUser = SimpleUserDetailsServiceImpl.getCurrentSimpleUser(request);
             Map<String, Object> userMap = new HashMap<>(2);
             userMap.put("id", null);
             userMap.put("username", null);
             if (simpleUser != null) {
-                UserEntity userEntity = userService.getOneByIdNoPassword(simpleUser.getId());
-                if (userEntity != null) {
-                    userMap.put("id", userEntity.getId());
-                    userMap.put("username", userEntity.getUsername());
-                }
+                    userMap.put("id", simpleUser.getId());
+                    userMap.put("username", simpleUser.getUsername());
+                    userMap.put("avatar", userService.getOne(simpleUser.getId()).getAvatar());
             }
-            modelAndView.addObject(userKey, userMap);
+            modelAndView.addObject(USER_KEY, userMap);
+            String scheme = Common.Host.scheme;
+            String port = Common.Host.port;
+            String ip = Common.Host.ip;
+            String local = scheme + "://localhost" + ":" + port + contextPath + "/";
+            String network = scheme + "://" + ip + ":" + port + contextPath + "/";
+            String host = network;
+            if(ip == null) {
+                host = local;
+            }
+            modelAndView.addObject(HOST_KEY, host);
         }
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        operationLogService.log(request, response, handler, System.currentTimeMillis() - (Long) request.getAttribute(REQUEST_TIME));
     }
 
 }

@@ -1,13 +1,14 @@
 package com.gioov.nimrod.common.easyui;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-05-04
  */
-public class TreeGrid {
-
+public class TreeGrid implements Serializable {
+    private static final long serialVersionUID = -1416104562832619797L;
     private Long id;
     private String name;
     private Long parentId;

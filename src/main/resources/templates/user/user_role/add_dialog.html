@@ -2,13 +2,13 @@
     <table class="submit-table">
         <tr>
             <td class="label">角色：</td>
-            <td><input name="roleId" class="easyui-textbox" data-options="required:true"></td>
+            <td><input name="roleId" id="roleId" class="easyui-textbox" data-options="required:true"></td>
         </tr>
     </table>
 </div>
 
 <script type="text/javascript">
-    $('input[name="roleId"]').combobox({
+    $('#roleId').combobox({
         url: Url.User.Api.ROLE + '/list_all',
         method: 'GET',
         valueField: 'id',

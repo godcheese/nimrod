@@ -1,7 +1,7 @@
 package com.gioov.nimrod.common.security;
 
-import com.gioov.common.web.http.SuccessEntity;
-import com.gioov.nimrod.common.Common;
+import com.gioov.nimrod.common.others.Common;
+import com.gioov.tile.web.http.SuccessEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

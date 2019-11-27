@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <style type="text/css">
+        a {
+            color: #0058af;
+            /*color: #1e5494;*/
+            text-decoration: none
+        }
+        .page {
+            font-family: "Microsoft YaHei", "Helvetica Neue", "lucida Grande", Verdana;
+            background: #fff;
+            margin: 0 auto;
+            /*margin-bottom: 40px;*/
+            text-align: left;
+            position: relative;
+            /*padding: 40px;*/
+            border: 1px solid #c8cfda;
+        }
+        @media screen and (min-width: 1111px) {
+            .page {
+                width: 778px
+            }
+        }
+        @media screen and (max-width: 600px) {
+            .page {
+                width: 590px
+            }
+        }
+        @media screen and (max-width: 414px) {
+            .page {
+                width: 350px
+            }
+        }
+        @media screen and (max-width: 320px) {
+            .page {
+                width: 295px
+            }
+            .page-container {
+                padding: 10px 11px 20px;
+                border: 1px solid #d4d4d4
+            }
+        }
+        @media screen and (min-width: 321px) {
+            .page-container {
+                padding: 10px 27px 20px;
+                border: 1px solid #d4d4d4
+            }
+        }
+        .page-header {
+            /*background: #518bcb;*/
+            background: #0058af;
+            padding: 4px 6px 0;
+        }
+        .page-header-body {
+            zoom: 1;
+            padding: 0 20px;
+            background: #0058af;
+            border-bottom: 1px solid #0058af;
+            /*border-bottom: 1px solid #467ec3;*/
+            overflow: hidden
+        }
+        .page-container {
+            padding: 0 20px;
+        }
+        .page-container-body {
+            padding: 10px 0;
+        }
+        .page-header h1 {
+            color: #fff;
+            font-size: 12px;
+            line-height: 25px;
+            font-weight: bold;
+            margin: 0 0 0 10px;
+            float: left
+        }
+        .page-container h2 {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 5px 0 20px
+        }
+        .page-container p {
+            color: #313131;
+            line-height: 20px;
+            font-size: 14px;
+            margin: 15px 0
+        }
+        .page-container img {
+            margin: 10px 0
+        }
+        .page-container h3 {
+            font-weight: bold;
+            font-size: 12px;
+            margin: 5px 0
+        }
+        .left {
+            float: left
+        }
+        .page-container-bottom-divider {
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+        }
+        .page-container-footer {
+            font-size: 12px;
+            /*margin-top: 15px;*/
+            padding: 10px 0;
+            color: #494949;
+        }
+        .page-container-footer p, .page-container-footer span{
+            margin: 0;
+            padding: 0;
+            color: #494949;;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="page-header">
+        <div class="page-header-body">
+            <p style="color:white; font-size: 18px" th:text="${webName}">Nimrod</p>
+        </div>
+        <div sytle="clear:left;"></div>
+    </div>
+    <div class="page-container">
+        <div class="page-container-body">
+            <p>验证码：<span style="font-weight: bold" th:text="${verifyCode}"></span>，该验证码10分钟内有效。为了保障您的账户安全，请勿向他人泄漏验证码信息。
+            </p>
+        </div>
+        <div class="page-container-bottom-divider"></div>
+        <div class="page-container-footer">
+            <p th:if="${webName}"><span th:text="${webName}">Nimrod</span>：<a target="_blank" th:href="${webUrl}" th:text="${webUrl}"></a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

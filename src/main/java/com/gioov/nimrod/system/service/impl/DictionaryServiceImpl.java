@@ -1,14 +1,16 @@
 package com.gioov.nimrod.system.service.impl;
 
-import com.gioov.common.mybatis.Pageable;
-import com.gioov.common.office.ExcelUtil;
-import com.gioov.common.util.DateUtil;
-import com.gioov.common.web.exception.BaseResponseException;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.exportbyexcel.ExportByExcelUtil;
 import com.gioov.nimrod.system.entity.DictionaryEntity;
 import com.gioov.nimrod.system.mapper.DictionaryMapper;
 import com.gioov.nimrod.system.service.DictionaryService;
+import com.gioov.tile.office.ExcelUtil;
+import com.gioov.tile.util.DateUtil;
+import com.gioov.tile.web.exception.BaseResponseException;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -39,17 +41,18 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Autowired
     private DictionaryMapper dictionaryMapper;
-
     @Autowired
     private WebApplicationContext webApplicationContext;
+    @Autowired
+    private FailureEntity failureEntity;
 
     @Override
     public void addDictionaryToServletContext() {
         /**
          * 是否有效（0=否，1=是，默认=0）
          */
-        final int ENABLE_IS = 1;
-        final int ENABLE_IS_NOT = 0;
+        final int isOrNotIs = 1;
+        final int isOrNotNot = 0;
 
         ServletContext servletContext = webApplicationContext.getServletContext();
         if (servletContext != null) {
@@ -58,7 +61,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
                 // 添加到内存供 servletContext.getAttribute 获取，如：servletContext.getAttribute('WEB.NAME')、${#servletContext.getAttribute('WEB.NAME')}
                 for (DictionaryEntity dictionaryEntity : dictionaryEntityList) {
-                    if(ENABLE_IS == dictionaryEntity.getEnable()) {
+                    if(isOrNotIs == dictionaryEntity.getEnabled()) {
                         servletContext.setAttribute(dictionaryEntity.getKey().toUpperCase() + "." + dictionaryEntity.getValueSlug().toUpperCase(), dictionaryEntity.getValue());
                     }
                 }
@@ -66,7 +69,7 @@ public class DictionaryServiceImpl implements DictionaryService {
                 // 添加到内存供字典键直接获取，如：WEB
                 Map<String, List<DictionaryEntity>> dictionaryEntityMap = new HashMap<>(6);
                 for (DictionaryEntity dictionaryEntity : dictionaryEntityList) {
-                    if (ENABLE_IS == dictionaryEntity.getEnable()) {
+                    if (isOrNotIs == dictionaryEntity.getEnabled()) {
                         String key = dictionaryEntity.getKey().toUpperCase();
                         if (dictionaryEntityMap.containsKey(key)) {
                             List<DictionaryEntity> dictionaryEntityList1 = dictionaryEntityMap.get(key);
@@ -84,13 +87,6 @@ public class DictionaryServiceImpl implements DictionaryService {
                 for (Map.Entry entry : dictionaryEntityMap.entrySet()) {
                     servletContext.setAttribute((String) entry.getKey(), entry.getValue());
                 }
-
-//                Enumeration<String> enumeration = servletContext.getAttributeNames();
-//                while (enumeration.hasMoreElements()) {
-//                    String key = enumeration.nextElement();
-//                    LOGGER.info("{}={}", key,servletContext.getAttribute(key));
-//                }
-
             }
         }
     }
@@ -114,10 +110,10 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     /**
-     * 从内存获取
+     * 从内存中获取字典
      * @param key       数据字典键
      * @param valueSlug 数据字典值别名
-     * @return
+     * @return Object
      */
     @Override
     public Object get(String key, String valueSlug) {
@@ -125,7 +121,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     /**
-     * 从内存获取
+     * 从内存中获取
      * @param key          数据字典键
      * @param valueSlug    数据字典值别名
      * @param defaultValue 数据字典默认值
@@ -176,17 +172,22 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public Pagination<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows) {
         Pagination<DictionaryEntity> pagination = new Pagination<>();
-        List<DictionaryEntity> dictionaryEntityList = dictionaryMapper.pageAllByDictionaryCategoryId(dictionaryCategoryId, new Pageable(page, rows));
-        if (dictionaryEntityList != null) {
-            pagination.setRows(dictionaryEntityList);
-        }
-        pagination.setTotal(dictionaryMapper.countAllByDictionaryCategoryId(dictionaryCategoryId));
+//        if(sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
+//            sorterField = StringUtil.camelToUnderline(sorterField);
+//            String orderBy = sorterField + " " + sorterOrder;
+//            PageHelper.startPage(page, rows, orderBy);
+//        } else {
+        PageHelper.startPage(page, rows);
+//        }
+        Page<DictionaryEntity> dictionaryEntityPage = dictionaryMapper.pageAllByDictionaryCategoryId(dictionaryCategoryId);
+        pagination.setRows(dictionaryEntityPage.getResult());
+        pagination.setTotal(dictionaryEntityPage.getTotal());
         return pagination;
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public DictionaryEntity insertOne(DictionaryEntity dictionaryEntity) {
+    public DictionaryEntity addOne(DictionaryEntity dictionaryEntity) {
         Date date = new Date();
         dictionaryEntity.setKey(dictionaryEntity.getKey().toUpperCase());
         dictionaryEntity.setValueSlug(dictionaryEntity.getValueSlug().toUpperCase());
@@ -198,12 +199,21 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public DictionaryEntity updateOne(DictionaryEntity dictionaryEntity) {
-        dictionaryEntity.setKey(dictionaryEntity.getKey().toUpperCase());
-        dictionaryEntity.setValueSlug(dictionaryEntity.getValueSlug().toUpperCase());
-        dictionaryEntity.setGmtModified(new Date());
-        dictionaryMapper.updateOne(dictionaryEntity);
-        return dictionaryEntity;
+    public DictionaryEntity saveOne(DictionaryEntity dictionaryEntity) {
+        DictionaryEntity dictionaryEntity1 = dictionaryMapper.getOne(dictionaryEntity.getId());
+        dictionaryEntity1.setKeyName(dictionaryEntity.getKeyName());
+        dictionaryEntity1.setKey(dictionaryEntity.getKey());
+        dictionaryEntity1.setKey(dictionaryEntity.getKey().toUpperCase());
+        dictionaryEntity1.setValueName(dictionaryEntity.getValueName());
+        dictionaryEntity1.setValueSlug(dictionaryEntity.getValueSlug().toUpperCase());
+        dictionaryEntity1.setValue(dictionaryEntity.getValue());
+        dictionaryEntity1.setDictionaryCategoryId(dictionaryEntity.getDictionaryCategoryId());
+        dictionaryEntity1.setEnabled(dictionaryEntity.getEnabled());
+        dictionaryEntity1.setSort(dictionaryEntity.getSort());
+        dictionaryEntity1.setRemark(dictionaryEntity.getRemark());
+        dictionaryEntity1.setGmtModified(new Date());
+        dictionaryMapper.updateOne(dictionaryEntity1);
+        return dictionaryEntity1;
     }
 
     @Override
@@ -224,7 +234,7 @@ public class DictionaryServiceImpl implements DictionaryService {
             dictionaryEntityList.addAll(dictionaryMapper.listAllByDictionaryCategoryId(id));
         }
         String filename = "数据字典_" + DateUtil.getNow("yyyyMMddHHmmss") + ".xls";
-       ExportByExcelUtil.exportEntity(httpServletRequest, httpServletResponse, dictionaryEntityList, DictionaryEntity.class, filename);
+        ExportByExcelUtil.exportEntity(httpServletRequest, httpServletResponse, dictionaryEntityList, DictionaryEntity.class, filename);
     }
 
     @Override
@@ -232,20 +242,22 @@ public class DictionaryServiceImpl implements DictionaryService {
     public void importAllByDictionaryCategoryId(MultipartFile multipartFile, Long categoryId) throws BaseResponseException {
         try {
             List<Map<Integer, Cell>> list = uploadAndReadExcel(multipartFile);
-            list.remove(0);
-            for (Map<Integer, Cell> map : list) {
-                DictionaryEntity dictionaryEntity = new DictionaryEntity();
-                dictionaryEntity.setDictionaryCategoryId(categoryId);
-                DictionaryEntity dictionaryEntity1 = ExportByExcelUtil.importEntity(dictionaryEntity, map);
-                int effectRows = dictionaryMapper.insertOne(dictionaryEntity1);
-                if (effectRows <= 0) {
-                    throw new BaseResponseException("导入失败");
+            if(list != null && !list.isEmpty()) {
+                list.remove(0);
+                for (Map<Integer, Cell> map : list) {
+                    DictionaryEntity dictionaryEntity = new DictionaryEntity();
+                    dictionaryEntity.setDictionaryCategoryId(categoryId);
+                    DictionaryEntity dictionaryEntity1 = ExportByExcelUtil.importEntity(dictionaryEntity, map);
+                    int effectRows = dictionaryMapper.insertOne(dictionaryEntity1);
+                    if (effectRows <= 0) {
+                        throw new BaseResponseException(failureEntity.i18n("dictionary.import_fail"));
+                    }
                 }
             }
 
         } catch (IOException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
-            throw new BaseResponseException("导入失败");
+            throw new BaseResponseException(failureEntity.i18n("dictionary.import_fail"));
         }
 
     }

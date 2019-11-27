@@ -1,48 +1,43 @@
 package com.gioov.nimrod.system.entity;
 
+import com.gioov.nimrod.common.easyui.TreeGrid;
+import com.gioov.nimrod.common.easyui.TreeGridAdapter;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class DictionaryCategoryEntity implements Serializable {
-
-    private static final long serialVersionUID = -5867777461580679038L;
-
+public class DictionaryCategoryEntity extends TreeGridAdapter<DictionaryCategoryEntity> implements Serializable {
+    private static final long serialVersionUID = -7781485490574400936L;
     private Long id;
-
     /**
      * 分类名称
      */
     private String name;
-
     /**
      * 父级分类 id
      */
     private Long parentId;
-
     /**
      * 排序
      */
     private Long sort;
-
     /**
      * 备注
      */
     private String remark;
-
     /**
      * 更新时间
      */
     private Date gmtModified;
-
     /**
      * 创建时间
      */
     private Date gmtCreated;
-
 
     public Long getId() {
         return id;

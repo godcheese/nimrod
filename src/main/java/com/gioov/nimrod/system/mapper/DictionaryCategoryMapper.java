@@ -1,8 +1,8 @@
 package com.gioov.nimrod.system.mapper;
 
-import com.gioov.common.mybatis.CrudMapper;
-import com.gioov.common.mybatis.Pageable;
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
+import com.gioov.tile.mybatis.CrudMapper;
+import com.gioov.tile.mybatis.Pageable;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -19,31 +19,20 @@ public interface DictionaryCategoryMapper extends CrudMapper<DictionaryCategoryE
 
     /**
      * 分页获取所有父级 id 为 null 的数据字典分类
-     *
-     * @param pageable Pageable
      * @return List<DictionaryCategoryEntity>
      */
-    List<DictionaryCategoryEntity> pageAllByParentIdIsNull(@Param("pageable") Pageable pageable);
+    List<DictionaryCategoryEntity> listAllByParentIdIsNull();
 
     /**
-     * 统计所有父级 id 为 null 的数据字典分类分类个数
-     *
-     * @return int
-     */
-    int countAllByParentIdIsNull();
-
-    /**
-     * 指定父级数据字典分类 id ，获取所有数据字典分类
-     *
-     * @param parentId 数据字典分类父级 id
+     * 指定父级数据字典分类 id，获取所有数据字典分类
+     * @param parentId 父级数据字典分类 id
      * @return List<DictionaryCategoryEntity>
      */
     List<DictionaryCategoryEntity> listAllByParentId(@Param("parentId") Long parentId);
 
     /**
      * 指定父级 id 为 null 的数据字典分类，获取数据字典分类
-     *
-     * @param parentId 数据字典分类父级 id
+     * @param parentId 父级数据字典分类 id
      * @return DictionaryCategoryEntity
      */
     DictionaryCategoryEntity getOneByParentId(@Param("parentId") Long parentId);

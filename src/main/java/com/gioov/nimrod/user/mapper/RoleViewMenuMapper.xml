@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gioov.nimrod.user.mapper.RoleViewMenuMapper">
+    <resultMap id="BaseResultMap" type="com.gioov.nimrod.user.entity.RoleViewMenuEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/> <!-- 角色 id -->
+        <result column="view_menu_id" property="viewMenuId" jdbcType="VARCHAR"/> <!-- 视图菜单 id -->
+    </resultMap>
+
+    <sql id="TableName">
+        `role_view_menu`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `role_id`, `view_menu_id`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.gioov.nimrod.user.entity.RoleViewMenuEntity">
+        insert into
+        <include refid="TableName"/>
+        (`id`, `role_id`, `view_menu_id`)
+        values (#{id}, #{roleId}, #{viewMenuId})
+    </insert>
+
+    <insert id="insertAll" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        <include refid="TableName"/>
+        (`role_id`, `view_menu_category_id`)
+        values (#{roleId}, #{viewMenuCategoryId})
+    </insert>
+
+    <insert id="insertAllByRoleIdAndViewMenuIdList" useGeneratedKeys="true">
+        insert into
+        <include refid="TableName"/>
+        (`role_id`, `view_menu_id`)
+        values
+        <foreach collection="viewMenuIdList" item="item" index="index" separator=",">
+            <if test="item != ''">
+                (#{roleId}, #{item})
+            </if>
+        </foreach>
+    </insert>
+
+    <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.RoleViewMenuEntity">
+        update
+        <include refid="TableName"/>
+        set `role_id` = #{roleId}, `view_menu_id` = #{viewMenuId}
+        where `id`= #{id}
+    </update>
+
+    <delete id="deleteOne" parameterType="long">
+        delete from
+        <include refid="TableName"/>
+        where `id` = #{id}
+    </delete>
+
+    <delete id="deleteAllByRoleIdAndViewMenuIdList">
+        delete from
+        <include refid="TableName"/>
+        where `role_id` = #{roleId} and `view_menu_id` in (
+        <foreach collection="viewMenuIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteAllByViewMenuIdList">
+        delete from
+        <include refid="TableName"/>
+        where `view_menu_id` in (
+        <foreach collection="viewMenuIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteAllByRoleId">
+        delete from
+        <include refid="TableName"/>
+        where `role_id` = #{roleId}
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id} limit 1
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+    </select>
+
+    <select id="listAllByRoleId" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `role_id` = #{roleId}
+    </select>
+
+    <select id="getOneByRoleIdAndViewMenuId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `role_id` = #{roleId} and `view_menu_id` = #{viewMenuId} limit 1
+    </select>
+
+</mapper>

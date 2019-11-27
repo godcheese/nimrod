@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
+import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYSTEM_ADMIN;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -30,89 +30,81 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、API 权限（authority），批量授权
-     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
      * @return ResponseEntity<List < String>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/GRANT_ALL_BY_ROLE_ID_AND_API_AUTHORITY_LIST')")
     @PostMapping(value = "/grant_all_by_role_id_and_api_authority_list")
-    public ResponseEntity<List<String>> grantAllByRoleIdAndApiAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
+    public ResponseEntity<Integer> grantAllByRoleIdAndApiAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
         return new ResponseEntity<>(roleAuthorityService.grantAllByRoleIdAndApiAuthorityList(roleId, authorityList), HttpStatus.OK);
     }
 
     /**
      * 指定角色 id、API 权限（authority），批量撤销授权
-     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
-     * @return ResponseEntity<List                               <                               String>>
+     * @return ResponseEntity<Integer>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/REVOKE_ALL_BY_ROLE_ID_AND_API_AUTHORITY_LIST')")
     @PostMapping(value = "/revoke_all_by_role_id_and_api_authority_list")
-    public ResponseEntity<List<String>> revokeAllByRoleIdAndApiAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
+    public ResponseEntity<Integer> revokeAllByRoleIdAndApiAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
         return new ResponseEntity<>(roleAuthorityService.revokeAllByRoleIdAndApiAuthorityList(roleId, authorityList), HttpStatus.OK);
     }
 
     /**
      * 指定角色 id、视图页面权限（authority），批量授权
-     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
-     * @return ResponseEntity<List                               <                               String>>
+     * @return ResponseEntity<Integer>
      */
-    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/GRANT_ALL_BY_ROLE_ID_AND_PAGE_AUTHORITY_LIST')")
-    @PostMapping(value = "/grant_all_by_role_id_and_page_authority_list")
-    public ResponseEntity<Object> grantAllByRoleIdAndPageAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
-        return new ResponseEntity<>(roleAuthorityService.grantAllByRoleIdAndPageAuthorityList(roleId, authorityList), HttpStatus.OK);
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/GRANT_ALL_BY_ROLE_ID_AND_VIEW_PAGE_AUTHORITY_LIST')")
+    @PostMapping(value = "/grant_all_by_role_id_and_view_page_authority_list")
+    public ResponseEntity<Object> grantAllByRoleIdAndViewPageAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
+        return new ResponseEntity<>(roleAuthorityService.grantAllByRoleIdAndViewPageAuthorityList(roleId, authorityList), HttpStatus.OK);
     }
 
     /**
      * 指定角色 id、视图页面权限（authority），批量撤销授权
-     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
-     * @return ResponseEntity<List                               <                               String>>
+     * @return ResponseEntity<Integer>
      */
-    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/REVOKE_ALL_BY_ROLE_ID_AND_PAGE_AUTHORITY_LIST')")
-    @PostMapping(value = "/revoke_all_by_role_id_and_page_authority_list")
-    public ResponseEntity<List<String>> revokeAllByRoleIdAndPageAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
-        return new ResponseEntity<>(roleAuthorityService.revokeAllByRoleIdAndPageAuthorityList(roleId, authorityList), HttpStatus.OK);
-
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/REVOKE_ALL_BY_ROLE_ID_AND_VIEW_PAGE_AUTHORITY_LIST')")
+    @PostMapping(value = "/revoke_all_by_role_id_and_view_page_authority_list")
+    public ResponseEntity<Integer> revokeAllByRoleIdAndViewPageAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
+        return new ResponseEntity<>(roleAuthorityService.revokeAllByRoleIdAndViewPageAuthorityList(roleId, authorityList), HttpStatus.OK);
     }
 
     /**
      * 指定角色 id、视图页面组件权限（authority），批量授权
-     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
-     * @return ResponseEntity<List                               <                               String>>
+     * @return ResponseEntity<Integer>
      */
-    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/GRANT_ALL_BY_ROLE_ID_AND_PAGE_COMPONENT_AUTHORITY_LIST')")
-    @PostMapping(value = "/grant_all_by_role_id_and_page_component_authority_list")
-    public ResponseEntity<List<String>> grantAllByRoleIdAndPageComponentAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
-        return new ResponseEntity<>(roleAuthorityService.grantAllByRoleIdAndPageComponentAuthorityList(roleId, authorityList), HttpStatus.OK);
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/GRANT_ALL_BY_ROLE_ID_AND_VIEW_PAGE_COMPONENT_AUTHORITY_LIST')")
+    @PostMapping(value = "/grant_all_by_role_id_and_view_page_component_authority_list")
+    public ResponseEntity<Integer> grantAllByRoleIdAndViewPageComponentAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
+        return new ResponseEntity<>(roleAuthorityService.grantAllByRoleIdAndViewPageComponentAuthorityList(roleId, authorityList), HttpStatus.OK);
     }
 
     /**
      * 指定角色 id、视图页面组件权限（authority），批量撤销授权
-     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
-     * @return ResponseEntity<List                               <                               String>>
+     * @return ResponseEntity<Integer>
      */
-    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/REVOKE_ALL_BY_ROLE_ID_AND_PAGE_COMPONENT_AUTHORITY_LIST')")
-    @PostMapping(value = "/revoke_all_by_role_id_and_page_component_authority_list")
-    public ResponseEntity<List<String>> revokeAllByRoleIdAndPageComponentAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
-        return new ResponseEntity<>(roleAuthorityService.revokeAllByRoleIdAndPageComponentAuthorityList(roleId, authorityList), HttpStatus.OK);
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/REVOKE_ALL_BY_ROLE_ID_AND_VIEW_PAGE_COMPONENT_AUTHORITY_LIST')")
+    @PostMapping(value = "/revoke_all_by_role_id_and_view_page_component_authority_list")
+    public ResponseEntity<Integer> revokeAllByRoleIdAndViewPageComponentAuthorityList(@RequestParam Long roleId, @RequestParam("authorityList[]") List<String> authorityList) {
+        return new ResponseEntity<>(roleAuthorityService.revokeAllByRoleIdAndViewPageComponentAuthorityList(roleId, authorityList), HttpStatus.OK);
     }
 
     /**
      * 指定角色 id、权限（authority）判断是否已授权
-     *
      * @param roleId    角色 id
      * @param authority 权限（authority） list
-     * @return ResponseEntity<Map                               <                               String                               ,                                                               Object>>
+     * @return ResponseEntity<Map<String, Object>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/IS_GRANTED_BY_ROLE_ID_AND_AUTHORITY')")
     @GetMapping(value = "/is_granted_by_role_id_and_authority")
@@ -121,8 +113,7 @@ public class RoleAuthorityRestController {
     }
 
     /**
-     * 指定角色权限 id ，获取角色权限信息
-     *
+     * 指定角色权限 id，获取角色权限信息
      * @param id 角色权限 id
      * @return ResponseEntity<RoleAuthorityEntity>
      */

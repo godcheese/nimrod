@@ -10,7 +10,9 @@ addons:
   apt:
     sources:
       - mysql-5.7-trusty
-install:
-  - ./scripts/travis.build.sh
-  - ./mvnw -e clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dspring-boot.run.profiles=dev
-  - ./mvnw -e clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dspring-boot:run.prifiles=prod
+    packages:
+      - mysql-server
+      - mysql-client
+script:
+  - chmod +x ./scripts/travisci.build.sh
+  - ./scripts/travisci.build.sh

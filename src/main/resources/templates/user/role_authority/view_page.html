@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'west',split:true" style="width:30%">
+        <table id="roleAuthorityViewPageCategory"></table>
+    </div>
+    <div data-options="region:'center',split:true">
+        <div id="roleAuthorityViewPageToolbar">
+            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_GRANT_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
+                   onclick="roleAuthorityViewPageGrantAll();">授权</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_REVOKE_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+                   onclick="roleAuthorityViewPageRevokeAll();">撤销授权</a>
+            </nimrod:security>
+        </div>
+        <table id="roleAuthorityViewPage"></table>
+    </div>
+    <div data-options="region:'east',split:true" style="width:30%">
+        <div id="roleAuthorityViewPageComponentToolbar">
+            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_COMPONENT_GRANT_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
+                   onclick="roleAuthorityViewPageComponentGrantAll();">授权</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_COMPONENT_REVOKE_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+                   onclick="roleAuthorityViewPageComponentRevokeAll();">撤销授权</a>
+            </nimrod:security>
+        </div>
+        <table id="roleAuthorityViewPageComponent"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var roleId;
+    $(function () {
+        var checkedRole = $('#role').datagrid('getChecked')[0];
+        if (checkedRole) {
+            roleId = checkedRole.id;
+        }
+
+        var IS_OR_NOT = [];
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '分类名称'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#roleAuthorityViewPageCategory').treegrid(expressui.grid.create, {
+            title: '视图页面分类',
+            url: Url.User.Api.VIEW_PAGE_CATEGORY + '/list_all_parent',
+            expandUrl: Url.User.Api.VIEW_PAGE_CATEGORY + '/list_all_by_parent_id?parentId={id}',
+            columns: [columns],
+            onBeforeLoad: function (param) {
+                util.ajax({
+                    url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+                    success: function (data) {
+                        if (data) {
+                            IS_OR_NOT = data;
+                        }
+                    }
+                });
+            },
+            onCheck: function (row) {
+                if (row) {
+                    $('#roleAuthorityViewPage').datagrid('reload', Url.User.Api.VIEW_PAGE + '/page_all_by_view_page_category_id?viewPageCategoryId=' + row.id + "&roleId=" + roleId);
+                    $('#roleAuthorityViewPageComponent').datagrid('loadData', []);
+                }
+            },
+            onUncheck: function (index, row) {
+                $('#roleAuthorityViewPage').datagrid('loadData', []);
+                $('#roleAuthorityViewPageComponent').datagrid('loadData', []);
+            }
+
+        });
+
+        columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+                    return expressui.grid.formatter(value, IS_OR_NOT);
+                }
+            },
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '页面名称'},
+            {field: 'url', title: '请求地址（url）'},
+            {field: 'authority', title: '权限（authority）'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#roleAuthorityViewPage').datagrid(expressui.grid.create, {
+            title: '视图页面',
+            columns: [columns],
+            onCheck: function (index, row) {
+                if (row) {
+                    $('#roleAuthorityViewPageComponent').datagrid('reload', Url.User.Api.VIEW_PAGE_COMPONENT + '/page_all_by_view_page_id?viewPageId=' + row.id + "&roleId=" + roleId);
+                }
+            },
+            onUncheck: function (index, row) {
+                $('#roleAuthorityViewPageComponent').datagrid('loadData', []);
+            }
+        });
+
+        columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+                    return expressui.grid.formatter(value, IS_OR_NOT);
+                }
+            },
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '页面名称'},
+            {field: 'url', title: '请求地址（url）'},
+            {field: 'authority', title: '权限（authority）'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtCreated', title: '创建时间'},
+            {field: 'gmtModified', title: '更新时间'}
+        ];
+        $('#roleAuthorityViewPageComponent').datagrid(expressui.grid.create, {
+            title: '视图页面组件',
+            columns: [columns]
+        });
+    });
+
+    function roleAuthorityViewPageGrantAll() {
+        var checkedAll = $('#roleAuthorityViewPage').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var authorityList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                authorityList[i] = checkedAll[i].authority;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_AUTHORITY + '/grant_all_by_role_id_and_view_page_authority_list',
+                data: {roleId: roleId, authorityList: authorityList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '授权成功'});
+                    $('#roleAuthorityViewPage').datagrid('reload');
+                    $('#roleAuthorityViewPage').datagrid('clearSelections');
+                    $('#roleAuthorityViewPage').datagrid('clearChecked');
+
+                    $('#roleAuthorityViewPageComponent').datagrid('reload');
+                    $('#roleAuthorityViewPageComponent').datagrid('clearSelections');
+                    $('#roleAuthorityViewPageComponent').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function roleAuthorityViewPageRevokeAll() {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
+        //         $('#role').datagrid('reload');
+        //     } });
+
+        var checkedAll = $('#roleAuthorityViewPage').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var authorityList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                authorityList[i] = checkedAll[i].authority;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_view_page_authority_list',
+                data: {roleId: roleId, authorityList: authorityList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '撤销授权成功'});
+                    $('#roleAuthorityViewPage').datagrid('reload');
+                    $('#roleAuthorityViewPage').datagrid('clearSelections');
+                    $('#roleAuthorityViewPage').datagrid('clearChecked');
+
+                    $('#roleAuthorityViewPageComponent').datagrid('reload');
+                    $('#roleAuthorityViewPageComponent').datagrid('clearSelections');
+                    $('#roleAuthorityViewPageComponent').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function roleAuthorityViewPageComponentGrantAll() {
+        var checkedAll = $('#roleAuthorityViewPageComponent').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var authorityList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                authorityList[i] = checkedAll[i].authority;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_AUTHORITY + '/grant_all_by_role_id_and_view_page_component_authority_list',
+                data: {roleId: roleId, authorityList: authorityList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '授权成功'});
+                    $('#roleAuthorityViewPageComponent').datagrid('reload');
+                    // $('#roleAuthorityViewPageComponent').datagrid('clearSelections');
+                    // $('#roleAuthorityViewPageComponent').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function roleAuthorityViewPageComponentRevokeAll() {
+        // $('#role').datagrid( expressui.grid.postCheckedLessOneOrShowAlert,  {url: Url.User.Api.ROLE + '/delete_all', method:'post', success: function () {
+        //         $('#role').datagrid('reload');
+        //     } });
+
+        var checkedAll = $('#roleAuthorityViewPageComponent').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var authorityList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                authorityList[i] = checkedAll[i].authority;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_view_page_component_authority_list',
+                data: {roleId: roleId, authorityList: authorityList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '撤销授权成功'});
+                    $('#roleAuthorityViewPageComponent').datagrid('reload');
+                    // $('#roleAuthorityViewPageComponent').datagrid('clearSelections');
+                    // $('#roleAuthorityViewPageComponent').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>

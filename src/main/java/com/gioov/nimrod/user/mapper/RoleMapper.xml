@@ -15,40 +15,34 @@
     </sql>
 
     <sql id="BaseColumnList">
-        `id`
-        ,
-        `name`,
-        `value`,
-        `remark`,
-        `gmt_modified`,
-        `gmt_created`
+        `id`, `name`, `value`, `remark`, `gmt_modified`, `gmt_created`
     </sql>
 
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.gioov.nimrod.user.entity.RoleEntity">
-        INSERT INTO
+        insert into
         <include refid="TableName"/>
         (<include refid="BaseColumnList"/>)
-        VALUES (#{id}, #{name}, #{value}, #{remark}, #{gmtModified}, #{gmtCreated})
+        values (#{id}, #{name}, #{value}, #{remark}, #{gmtModified}, #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.RoleEntity">
-        UPDATE
+        update
         <include refid="TableName"/>
-        SET `name` = #{name}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
-        WHERE `id`= #{id}
+        set `name` = #{name}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        where `id`= #{id}
     </update>
 
     <delete id="deleteOne" parameterType="long">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` = #{id}
+        where `id` = #{id}
     </delete>
 
     <delete id="deleteAll">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` IN
+        where `id` in
         (
         <foreach collection="list" item="item" index="index" separator=",">
             #{item}
@@ -57,38 +51,37 @@
     </delete>
 
     <select id="getOne" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `id` = #{id} LIMIT 1
+        where `id` = #{id} limit 1
     </select>
 
     <select id="listAll" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
     </select>
 
-    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-        SELECT
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
         <include refid="BaseColumnList"/>
-        FROM
-        <include refid="TableName"/>
-        ${pageable}
-    </select>
-    <select id="countAll" resultType="int">
-        SELECT COUNT(1) FROM
+        from
         <include refid="TableName"/>
     </select>
+    <!--    <select id="countAll" resultType="int">-->
+    <!--        select count(1) from-->
+    <!--        <include refid="TableName"/>-->
+    <!--    </select>-->
 
     <select id="getOneByValue" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `value` = #{value} LIMIT 1
+        where `value` = #{value} limit 1
     </select>
 
 </mapper>

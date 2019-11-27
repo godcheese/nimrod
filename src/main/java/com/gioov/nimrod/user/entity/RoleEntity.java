@@ -9,8 +9,8 @@ import java.util.Date;
  */
 public class RoleEntity implements Serializable {
 
-    private static final long serialVersionUID = -4329027958748356142L;
 
+    private static final long serialVersionUID = -5287519220646696022L;
     /**
      * id
      */

@@ -113,11 +113,27 @@ var util = util || {};
                 dataType: 'json',
                 processData: true,
                 error: function (xhr, textStatus, errorThrown) {
-                    console.log(xhr);
                 }
             };
 
             $.extend(defaults, options);
+            return $.ajax(defaults);
+        };
+        _util.ajax = function (url, method, data, success, error) {
+            var defaults = {
+                dataType:'JSON',
+                success: function(XMLHttpRequest, statusText) {},
+                error: function (XMLHttpRequest, statusText, errorThrown) {}
+            };
+            if(typeof url === 'object') {
+                $.extend(defaults, url);
+            } else{
+                defaults.url = url;
+            }
+            defaults.method = typeof method === 'string' ? method : defaults.method;
+            defaults.data = typeof data === 'object' ? data : defaults.data;
+            defaults.success = typeof success === 'function' ? success : defaults.success;
+            defaults.error = typeof error === 'function' ? error : defaults.error;
             return $.ajax(defaults);
         };
 

@@ -1,7 +1,7 @@
 package com.gioov.nimrod.common.security;
 
-import com.gioov.common.util.ImageUtil;
 import com.gioov.nimrod.user.User;
+import com.gioov.tile.util.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

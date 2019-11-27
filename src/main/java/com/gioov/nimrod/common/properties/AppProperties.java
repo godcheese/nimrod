@@ -4,6 +4,7 @@ package com.gioov.nimrod.common.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,12 +17,10 @@ import java.util.List;
 public class AppProperties {
 
     private String name;
-    private String secret;
     private String version;
-    private String url;
-    private List<String> systemAdminRole = Collections.singletonList("SYSTEM_ADMIN");
-    private String attachmentUploadPath = "/upload";
+    private List<String> systemAdminRole = new ArrayList<>(Collections.singletonList("SYSTEM_ADMIN"));
     private String[] permitUrl;
+    private String i18n = "zh_cn";
 
     public String getName() {
         return name;
@@ -29,14 +28,6 @@ public class AppProperties {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
     }
 
     public String getVersion() {
@@ -47,14 +38,6 @@ public class AppProperties {
         this.version = version;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public List<String> getSystemAdminRole() {
         return systemAdminRole;
     }
@@ -63,19 +46,19 @@ public class AppProperties {
         this.systemAdminRole = systemAdminRole;
     }
 
-    public String getAttachmentUploadPath() {
-        return attachmentUploadPath;
-    }
-
-    public void setAttachmentUploadPath(String attachmentUploadPath) {
-        this.attachmentUploadPath = attachmentUploadPath;
-    }
-
     public String[] getPermitUrl() {
         return permitUrl;
     }
 
     public void setPermitUrl(String[] permitUrl) {
         this.permitUrl = permitUrl;
+    }
+
+    public String getI18n() {
+        return i18n != null ? i18n : "zh_cn";
+    }
+
+    public void setI18n(String i18n) {
+        this.i18n = i18n;
     }
 }

@@ -1,5 +1,7 @@
 package com.gioov.nimrod.user.entity;
 
+import com.gioov.nimrod.common.easyui.TreeGridAdapter;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,10 +9,8 @@ import java.util.Date;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class ViewMenuCategoryEntity implements Serializable {
-
-    private static final long serialVersionUID = 648664538716672686L;
-
+public class ViewMenuCategoryEntity extends TreeGridAdapter<ViewMenuCategoryEntity> implements Serializable {
+    private static final long serialVersionUID = -1331974479094679699L;
     /**
      * id
      */
@@ -30,11 +30,6 @@ public class ViewMenuCategoryEntity implements Serializable {
      * 父级分类 id
      */
     private Long parentId;
-
-    /**
-     * 角色 id
-     */
-    private Long roleId;
 
     /**
      * 排序
@@ -87,14 +82,6 @@ public class ViewMenuCategoryEntity implements Serializable {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
     }
 
     public Long getSort() {

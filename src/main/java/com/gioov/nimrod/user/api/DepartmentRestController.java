@@ -1,6 +1,5 @@
 package com.gioov.nimrod.user.api;
 
-import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.easyui.TreeGrid;
@@ -9,6 +8,7 @@ import com.gioov.nimrod.common.operationlog.OperationLogType;
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.entity.DepartmentEntity;
 import com.gioov.nimrod.user.service.DepartmentService;
+import com.gioov.tile.web.exception.BaseResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.gioov.nimrod.user.service.UserService.SYSTEM_ADMIN;
+import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYSTEM_ADMIN;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -40,25 +40,10 @@ public class DepartmentRestController {
     private DepartmentService departmentService;
 
     /**
-     * 分页获取所有父级部门
-     *
-     * @param page 页
-     * @param rows 每页显示数量
-     * @return Pagination<DepartmentEntity>
-     */
-    @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
-    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/PAGE_ALL_PARENT')")
-    @GetMapping(value = "/page_all_parent")
-    public ResponseEntity<Pagination<DepartmentEntity>> pageAllParent(@RequestParam Integer page, @RequestParam Integer rows) {
-        return new ResponseEntity<>(departmentService.pageAllParent(page, rows), HttpStatus.OK);
-    }
-
-    /**
-     * 分页获取所有父级部门
-     *
+     * 获取所有父级部门
      * @return List<DepartmentEntity>
      */
-    @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
+    @OperationLog(value = "获取所有父级部门", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/LIST_ALL_PARENT')")
     @GetMapping(value = "/list_all_parent")
     public ResponseEntity<List<DepartmentEntity>> listAllParent() {
@@ -66,8 +51,7 @@ public class DepartmentRestController {
     }
 
     /**
-     * 指定父级部门 id ，获取所有子级部门
-     *
+     * 指定父级部门 id，获取所有子级部门
      * @param parentId API 分类父级 id
      * @return ResponseEntity<List < DepartmentEntity>>
      */
@@ -80,12 +64,12 @@ public class DepartmentRestController {
 
     /**
      * 新增部门
-     *
-     * @param name   部门名称
+     * @param name 部门名称
+     * @param parentId 父级部门 id
      * @param remark 备注
-     * @return ResponseEntity<ApiEntity>
+     * @return ResponseEntity<DepartmentEntity>
      */
-    @OperationLog("新增部门")
+    @OperationLog(value = "新增部门", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/ADD_ONE')")
     @PostMapping(value = "/add_one")
     public ResponseEntity<DepartmentEntity> addOne(@RequestParam String name, @RequestParam Long parentId, @RequestParam String remark) {
@@ -93,19 +77,19 @@ public class DepartmentRestController {
         departmentEntity.setName(name);
         departmentEntity.setParentId(parentId);
         departmentEntity.setRemark(remark);
-        DepartmentEntity departmentEntity1 = departmentService.insertOne(departmentEntity);
+        DepartmentEntity departmentEntity1 = departmentService.addOne(departmentEntity);
         return new ResponseEntity<>(departmentEntity1, HttpStatus.OK);
     }
 
     /**
      * 保存部门
-     *
-     * @param id     部门 id
-     * @param name   部门名称
+     * @param id 部门 id
+     * @param name 部门名称
+     * @param parentId 父级部门 id
      * @param remark 备注
      * @return ResponseEntity<DepartmentEntity>
      */
-    @OperationLog("保存部门")
+    @OperationLog(value = "保存部门", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/SAVE_ONE')")
     @PostMapping(value = "/save_one")
     public ResponseEntity<DepartmentEntity> saveOne(@RequestParam Long id, @RequestParam String name, @RequestParam Long parentId, @RequestParam String remark) {
@@ -114,17 +98,16 @@ public class DepartmentRestController {
         departmentEntity.setName(name);
         departmentEntity.setParentId(parentId);
         departmentEntity.setRemark(remark);
-        DepartmentEntity departmentEntity1 = departmentService.updateOne(departmentEntity);
+        DepartmentEntity departmentEntity1 = departmentService.saveOne(departmentEntity);
         return new ResponseEntity<>(departmentEntity1, HttpStatus.OK);
     }
 
     /**
-     * 指定部门 id list ，批量删除部门
-     *
+     * 指定部门 id list，批量删除部门
      * @param idList 部门 id list
      * @return ResponseEntity<Integer>
      */
-    @OperationLog("批量删除部门")
+    @OperationLog(value = "指定部门 id list，批量删除部门", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/DELETE_ALL')")
     @PostMapping(value = "/delete_all")
     public ResponseEntity<Integer> deleteAll(@RequestParam("id[]") List<Long> idList) throws BaseResponseException {
@@ -132,12 +115,11 @@ public class DepartmentRestController {
     }
 
     /**
-     * 指定部门 id ， 获取部门信息
-     *
+     * 指定部门 id，获取部门
      * @param id 部门 id
      * @return ResponseEntity<DepartmentEntity>
      */
-    @OperationLog("获取部门信息")
+    @OperationLog(value = "指定部门 id，获取部门", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DEPARTMENT + "/ONE')")
     @GetMapping(value = "/one/{id}")
     public ResponseEntity<DepartmentEntity> getOne(@PathVariable Long id) {
@@ -170,8 +152,7 @@ public class DepartmentRestController {
     }
 
     /**
-     * 获取所有部门，以 Antd TreeNode 形式展示
-     *
+     * 获取所有部门，以 EasyUI Combo Tree 形式展示
      * @return Pagination<DepartmentEntity>
      */
     @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
@@ -189,7 +170,7 @@ public class DepartmentRestController {
         }
 
         for(ComboTree comboTree : comboTreeResultList) {
-            comboTree.setChildren(departmentService.getComboTreeChildren(comboTree.getId(), departmentComboTreeList));
+            comboTree.setChildren(departmentService.getDepartmentChildrenComboTree(comboTree.getId(), departmentComboTreeList));
         }
 
         return new ResponseEntity<>(comboTreeResultList, HttpStatus.OK);
@@ -197,7 +178,6 @@ public class DepartmentRestController {
 
     /**
      * 获取所有部门，以 EasyUI TreeGrid 形式展示
-     *
      * @return Pagination<DepartmentEntity>
      */
     @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
@@ -215,7 +195,7 @@ public class DepartmentRestController {
         }
 
         for(TreeGrid treeGrid : treeGridResultList) {
-            treeGrid.setChildren(departmentService.getTreeGridChildren(treeGrid.getId(), departmentTreeGridList));
+            treeGrid.setChildren(departmentService.getDepartmentChildrenTreeGrid(treeGrid.getId(), departmentTreeGridList));
         }
 
         return new ResponseEntity<>(treeGridResultList, HttpStatus.OK);

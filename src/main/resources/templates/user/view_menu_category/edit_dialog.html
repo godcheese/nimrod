@@ -7,47 +7,28 @@
             </td>
         </tr>
         <tr>
+            <td class="label">父级分类：</td>
+            <td><input name="parentId" id="parentId" class="easyui-combotree"></td>
+        </tr>
+        <tr>
             <td class="label">图标（icon）：</td>
-            <td><input name="icon" class="easyui-textbox" data-options="required:false"></td>
+            <td><input name="icon" class="easyui-textbox"></td>
         </tr>
         <tr>
             <td class="label">排序：</td>
-            <td><input name="sort" class="easyui-numberbox" data-options="required:false"></td>
+            <td><input name="sort" class="easyui-numberbox"></td>
         </tr>
         <tr>
             <td class="label">备注：</td>
             <td><input name="remark" class="easyui-textbox" style="height:50px;"
-                       data-options="required:false,multiline:true"></td>
+                       data-options="multiline:true"></td>
         </tr>
     </table>
 </div>
-
 <script type="text/javascript">
     $(function () {
-        $('#name').combobox({
-            prompt: '输入关键字搜索',
-            required: true,
-            editable: true,
-            hasDownArrow: false,
-            mode: 'remote',
-            valueField: 'name',
-            url: Url.User.Api.VIEW_MENU_CATEGORY + '/search_all_by_name',
-            onBeforeLoad: function (param) {
-                if (param && param.q) {
-                    var value = param.q.replace('/ /g', '');
-                    if (value !== '') {
-                        return true;
-                    }
-                }
-                return false;
-            },
-            onSelect: function (row) {
-                if (row) {
-                    $('#icon').textbox('setValue', row.icon);
-                    $('#sort').numberbox('setValue', row.sort);
-                    $('#remark').textbox('setValue', row.remark);
-                }
-            }
+        $('#parentId').combotree({
+            url: Url.User.Api.VIEW_PAGE_CATEGORY + '/list_all_as_combo_tree'
         });
     });
 </script>

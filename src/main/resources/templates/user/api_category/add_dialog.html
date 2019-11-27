@@ -1,0 +1,28 @@
+<div class="submit-form">
+    <table class="submit-table">
+        <tr>
+            <td class="label">分类名称：</td>
+            <td><input name="name" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">父级分类：</td>
+            <td><input name="parentId" id="parentId" class="easyui-combotree"></td>
+        </tr>
+        <tr>
+            <td class="label">排序：</td>
+            <td><input name="sort" value="0" class="easyui-numberbox"></td>
+        </tr>
+        <tr>
+            <td class="label">备注：</td>
+            <td><input name="remark" class="easyui-textbox" style="height:50px;"
+                       data-options="multiline:true"></td>
+        </tr>
+    </table>
+</div>
+<script>
+    $(function () {
+        $('#parentId').combotree({
+            url: Url.User.Api.API_CATEGORY + '/list_all_as_combo_tree'
+        });
+    })
+</script>

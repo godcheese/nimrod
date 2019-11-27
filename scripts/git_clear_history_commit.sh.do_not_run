@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# Linux platform bash file
 echo "author godcheese"
-CURRENT_DIR=`pwd`
-SCRIPTS_DIR=$(cd `dirname $0`; pwd)
-cd $SCRIPTS_DIR
+CURRENT_DIR=$(pwd)
+SCRIPTS_DIR=$(cd "$(dirname $0)" || exit; pwd)
+cd "${SCRIPTS_DIR}" || exit
 cd ..
 echo "Chceckout new branch..."
 git checkout --orphan new_branch
@@ -22,4 +21,4 @@ git branch -m master
 echo "Force submit code..."
 git push -f origin master
 echo "Submit complete,close..."
-cd $CURRENT_DIR
+cd "${CURRENT_DIR}" || exit

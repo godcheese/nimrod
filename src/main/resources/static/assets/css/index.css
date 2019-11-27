@@ -5,7 +5,11 @@
     left: 0;
     right: 0;
     z-index: 2;
-    background-color: #0089d0;
+    /*background-color: #0058af; !* #0089d0 *!*/
+    background-color: rgb(19, 84, 151); /* nav background */
+    /*background: #11467d;*/ /* nav :hover */
+
+    /*color: rgb(25, 74, 139);*/ /* 字体颜色 */
     min-width: 1370px;
     position: relative;
 }
@@ -33,7 +37,7 @@
     position: relative;
     float: right;
     margin-right: 20px;
-    padding: 0 10px;
+    padding: 0 14px 0 10px;
     height: 70px;
     line-height: 70px;
     cursor: pointer;
@@ -80,7 +84,8 @@
     width: 26px;
     height: 23px;
     border-radius: 3px 3px 0 0;
-    background: #00679c;
+    /*background: #00679c;*/
+    background: #11467d;  /* nav :hover */
     color: #fff;
     text-decoration: none;
     text-align: center;
@@ -129,7 +134,8 @@
 }
 
 .header .header-user:hover {
-    background: #00679c;
+    /*background: #00679c;*/
+    background: #11467d;  /* nav :hover */
 }
 
 .header .header-nav .nav-wrap {
@@ -144,8 +150,9 @@
 }
 
 .header .header-nav .nav-item.selected, .header .header-nav .nav-item:hover  {
-    background: #00679c;
-    border-bottom: #ff9d09 solid 4px;
+    /*background: #00679c;*/
+    background: #11467d; /* nav :hover */
+    /*border-top: #fff solid 4px;*/
 }
 
 .header .header-nav .nav-item {

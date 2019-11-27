@@ -1,30 +1,36 @@
 package com.gioov.nimrod.user.entity;
 
+import com.gioov.nimrod.common.others.CommonEntityAdapter;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class UserEntity implements Serializable, Cloneable {
-
-    private static final long serialVersionUID = 2410416481682685038L;
-
+public class UserEntity extends CommonEntityAdapter<UserEntity> implements Serializable, Cloneable {
+    private static final long serialVersionUID = -4809374154449809L;
     /**
      * id
      */
     private Long id;
-
-    /**
-     * 用户密码
-     */
-    private String password;
-
+    
     /**
      * 用户名
      */
     private String username;
+    
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 头像
+     */
+    private String avatar;
 
     /**
      * 电子邮箱
@@ -37,19 +43,28 @@ public class UserEntity implements Serializable, Cloneable {
     private Integer emailIsVerified;
 
     /**
-     * 部门 id
+     * 所在部门 id
      */
     private Long departmentId;
 
     /**
-     * 是否禁用（0=否，1=是，默认=0）
+     * 所在部门
      */
-    private Integer disabled;
+    private List<DepartmentEntity> department;
+
+    /**
+     * 是否启用（0=否，1=是，默认=0）
+     */
+    private Integer enabled;
 
     /**
      * 备注
      */
     private String remark;
+
+    private Date gmtPasswordLastModified;
+
+    private Date gmtLastLogin;
 
     /**
      * 删除时间
@@ -90,6 +105,14 @@ public class UserEntity implements Serializable, Cloneable {
         this.username = username;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -114,12 +137,20 @@ public class UserEntity implements Serializable, Cloneable {
         this.departmentId = departmentId;
     }
 
-    public Integer getDisabled() {
-        return disabled;
+    public List<DepartmentEntity> getDepartment() {
+        return department;
     }
 
-    public void setDisabled(Integer disabled) {
-        this.disabled = disabled;
+    public void setDepartment(List<DepartmentEntity> department) {
+        this.department = department;
+    }
+
+    public Integer getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
     }
 
     public String getRemark() {
@@ -128,6 +159,22 @@ public class UserEntity implements Serializable, Cloneable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Date getGmtPasswordLastModified() {
+        return gmtPasswordLastModified;
+    }
+
+    public void setGmtPasswordLastModified(Date gmtPasswordLastModified) {
+        this.gmtPasswordLastModified = gmtPasswordLastModified;
+    }
+
+    public Date getGmtLastLogin() {
+        return gmtLastLogin;
+    }
+
+    public void setGmtLastLogin(Date gmtLastLogin) {
+        this.gmtLastLogin = gmtLastLogin;
     }
 
     public Date getGmtDeleted() {
@@ -158,21 +205,20 @@ public class UserEntity implements Serializable, Cloneable {
     public String toString() {
         return "UserEntity{" +
                 "id=" + id +
-                ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", email='" + email + '\'' +
                 ", emailIsVerified=" + emailIsVerified +
                 ", departmentId=" + departmentId +
-                ", disabled=" + disabled +
+                ", department=" + department +
+                ", enabled=" + enabled +
                 ", remark='" + remark + '\'' +
+                ", gmtPasswordLastModified=" + gmtPasswordLastModified +
+                ", gmtLastLogin=" + gmtLastLogin +
                 ", gmtDeleted=" + gmtDeleted +
                 ", gmtModified=" + gmtModified +
                 ", gmtCreated=" + gmtCreated +
                 '}';
-    }
-
-    @Override
-    protected UserEntity clone() throws CloneNotSupportedException {
-        return (UserEntity) super.clone();
     }
 }

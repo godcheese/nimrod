@@ -2,34 +2,32 @@
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
-<meta name="description" content=""/>
-<meta name="keywords" content=""/>
 <title th:utext="${title}">Title</title>
 <link rel="shortcut icon" th:href="@{/favicon.ico}"/>
 <!--<link rel="icon" type="image/jpeg" href="@{/assets/img/logo.png}"/>-->
 <link rel="bookmark" th:href="@{/favicon.ico}"/>
 <!--<link rel="bookmark" type="image/jpeg" th:href="@{/assets/img/logo.png}"/>-->
 
-<link rel="stylesheet" type="text/css" th:href="@{/assets/css/global.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/font-awesome-4.7.0/css/font-awesome.css}">
 
-<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.8.0/themes/icon.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.8.0/themes/color.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.8.0/themes/default/easyui.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.8.8/themes/icon.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.8.8/themes/color.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/jquery-easyui-1.8.8/themes/default/easyui.css}">
 
 <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/expressui-1.0.0/css/expressui.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/expressui-1.0.0/themes/default/easyui.css}">
 
 <div th:replace="./widget/basejs"></div>
 
-<script type="text/javascript" th:src="@{/assets/vendor/jquery/jquery-1.11.3.js}" charset="UTF-8"></script>
-<script type="text/javascript" th:src="@{/assets/vendor/jquery-easyui-1.8.0/jquery.easyui.min.js}" charset="UTF-8"></script>
-<script type="text/javascript" th:src="@{/assets/vendor/jquery-easyui-1.8.0/locale/easyui-lang-zh_CN.js}"
-        charset="UTF-8"></script>
+<script type="text/javascript" charset="UTF-8" th:src="@{/assets/vendor/jquery/jquery-1.11.3.js}"></script>
+<script type="text/javascript" charset="UTF-8" th:src="@{/assets/vendor/jquery-easyui-1.8.8/jquery.easyui.min.js}"></script>
+<script type="text/javascript" charset="UTF-8" th:src="@{/assets/vendor/jquery-easyui-1.8.8/locale/easyui-lang-zh_CN.js}"></script>
 
 <script type="text/javascript" th:src="@{/assets/js/url.js}" charset="UTF-8"></script>
 <script type="text/javascript" th:src="@{/assets/js/util.js}" charset="UTF-8"></script>
 <script type="text/javascript" th:src="@{/assets/vendor/expressui-1.0.0/js/jquery.expressui.js}" charset="UTF-8"></script>
+<!--<script type="text/javascript" th:src="@{/assets/vendor/jquery-easyui-extend-1.0.0/js/jquery.easyui.extend.js}" charset="UTF-8"></script>-->
 <!--[if lt IE 9]>
-<script th:src="@{/assets/vendor/html5shiv-3.7.3.min.js}"></script>
+<script type="text/javascript" th:src="@{/assets/vendor/html5shiv-3.7.3.min.js}" charset="UTF-8"></script>
 <![endif]-->

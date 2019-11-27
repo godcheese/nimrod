@@ -1,5 +1,6 @@
 package com.gioov.nimrod.common.easyui;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,8 @@ import java.util.Map;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class Tree {
-
+public class Tree implements Serializable {
+    private static final long serialVersionUID = -7372612079113611533L;
     /**
      * node id, which is important to load remote data
      */
@@ -44,8 +45,7 @@ public class Tree {
      * an array nodes defines some children nodes.
      */
     private List<Tree> children = Collections.emptyList();
-
-
+    
     public long getId() {
         return id;
     }

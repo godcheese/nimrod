@@ -15,7 +15,6 @@ public @interface ExportByExcel {
 
     /**
      * 导出显示名
-     *
      * @return String
      */
     @AliasFor("name")
@@ -23,7 +22,6 @@ public @interface ExportByExcel {
 
     /**
      * 导出显示名
-     *
      * @return String
      */
     @AliasFor("value")
@@ -31,7 +29,6 @@ public @interface ExportByExcel {
 
     /**
      * 导入时忽略此字段
-     *
      * @return boolean
      */
     boolean importIgnore() default false;

@@ -1,21 +1,18 @@
 package com.gioov.nimrod.quartz.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-02-12
  */
-public class JobRuntimeLogEntity {
-
+public class JobRuntimeLogEntity implements Serializable {
+    private static final long serialVersionUID = 7788756745999894643L;
     private Long id;
     private String jobClassName;
     private String jobGroup;
-    private String description;
-    private Date fireTime;
-    private Date nextFireTime;
-    private Long jobRunTime;
-    private String log;
+    private Long consumingTime;
     private String jobException;
     private Date gmtCreated;
 
@@ -43,44 +40,12 @@ public class JobRuntimeLogEntity {
         this.jobGroup = jobGroup;
     }
 
-    public String getDescription() {
-        return description;
+    public Long getConsumingTime() {
+        return consumingTime;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getFireTime() {
-        return fireTime;
-    }
-
-    public void setFireTime(Date fireTime) {
-        this.fireTime = fireTime;
-    }
-
-    public Date getNextFireTime() {
-        return nextFireTime;
-    }
-
-    public void setNextFireTime(Date nextFireTime) {
-        this.nextFireTime = nextFireTime;
-    }
-
-    public Long getJobRunTime() {
-        return jobRunTime;
-    }
-
-    public void setJobRunTime(Long jobRunTime) {
-        this.jobRunTime = jobRunTime;
-    }
-
-    public String getLog() {
-        return log;
-    }
-
-    public void setLog(String log) {
-        this.log = log;
+    public void setConsumingTime(Long consumingTime) {
+        this.consumingTime = consumingTime;
     }
 
     public String getJobException() {
@@ -99,18 +64,4 @@ public class JobRuntimeLogEntity {
         this.gmtCreated = gmtCreated;
     }
 
-    @Override
-    public String toString() {
-        return "JobLogEntity{" +
-                "jobClassName='" + jobClassName + '\'' +
-                ", jobGroup='" + jobGroup + '\'' +
-                ", description='" + description + '\'' +
-                ", fireTime=" + fireTime +
-                ", nextFireTime=" + nextFireTime +
-                ", jobRunTime=" + jobRunTime +
-                ", log='" + log + '\'' +
-                ", jobException='" + jobException + '\'' +
-                ", gmtCreated=" + gmtCreated +
-                '}';
-    }
 }

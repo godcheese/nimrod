@@ -1,12 +1,14 @@
 package com.gioov.nimrod.quartz.service.impl;
 
-import com.gioov.common.mybatis.Pageable;
-import com.gioov.common.web.exception.BaseResponseException;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.quartz.entity.JobEntity;
 import com.gioov.nimrod.quartz.job.BaseJob;
 import com.gioov.nimrod.quartz.mapper.JobMapper;
 import com.gioov.nimrod.quartz.service.JobService;
+import com.gioov.tile.web.exception.BaseResponseException;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +27,12 @@ import java.util.List;
 public class JobServiceImpl implements JobService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JobServiceImpl.class);
-
     @Autowired
     private Scheduler scheduler;
-
     @Autowired
     private JobMapper jobMapper;
+    @Autowired
+    private FailureEntity failureEntity;
 
     @Transactional(rollbackFor = Throwable.class)
     @Override
@@ -45,7 +47,7 @@ public class JobServiceImpl implements JobService {
             return scheduler.scheduleJob(jobDetail, cronTrigger);
         } catch (IllegalAccessException | InstantiationException | SchedulerException | ClassNotFoundException e) {
             e.printStackTrace();
-            throw new BaseResponseException("任务新增失败");
+            throw new BaseResponseException(failureEntity.i18n("quartz_job.add_fail"));
         }
     }
 
@@ -69,7 +71,7 @@ public class JobServiceImpl implements JobService {
             }
         } catch (SchedulerException e) {
             e.printStackTrace();
-            throw new BaseResponseException("任务删除失败");
+            throw new BaseResponseException(failureEntity.i18n("quartz_job.delete_fail"));
         }
         return index;
     }
@@ -88,22 +90,73 @@ public class JobServiceImpl implements JobService {
             scheduler.rescheduleJob(triggerKey, cronTrigger);
             return new Date();
         } catch (SchedulerException e) {
-            throw new BaseResponseException("任务更新失败");
+            throw new BaseResponseException(failureEntity.i18n("quartz_job.update_fail"));
         }
     }
 
     @Override
     public Pagination<JobEntity> pageAll(Integer page, Integer rows) {
         Pagination<JobEntity> pagination = new Pagination<>();
-        List<JobEntity> jobEntityList = jobMapper.pageAll(new Pageable(page, rows));
-        if(jobEntityList != null) {
-            pagination.setRows(jobEntityList);
-        }
-        pagination.setTotal(jobMapper.countAll());
+        PageHelper.startPage(page, rows);
+        Page<JobEntity> jobEntityPage = jobMapper.pageAll();
+        pagination.setRows(jobEntityPage.getResult());
+        pagination.setTotal(jobEntityPage.getTotal());
         return pagination;
     }
 
-    public static BaseJob getClass(String classname) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    @Override
+    public int pauseAll(List<String> jobClassNameList, List<String> jobGroupList) throws BaseResponseException {
+        int index = 0;
+        try {
+            if(jobClassNameList != null && jobGroupList != null) {
+                for (String jobClassName : jobClassNameList) {
+                    scheduler.pauseJob(JobKey.jobKey(jobClassName, jobGroupList.get(index)));
+                    index++;
+                }
+            }
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            throw new BaseResponseException(failureEntity.i18n("quartz_job.pause_fail"));
+        }
+        return index;
+    }
+
+    @Override
+    public int resumeAll(List<String> jobClassNameList, List<String> jobGroupList) throws BaseResponseException {
+        int index = 0;
+        try {
+            if(jobClassNameList != null && jobGroupList != null) {
+                for (String jobClassName : jobClassNameList) {
+                    scheduler.resumeJob(JobKey.jobKey(jobClassName, jobGroupList.get(index)));
+                    index++;
+                }
+            }
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            throw new BaseResponseException(failureEntity.i18n("quartz_job.resume_fail"));
+        }
+        return index;
+    }
+
+    @Override
+    public int resetTriggerFromErrorState(List<String> jobClassNameList, List<String> jobGroupList) throws BaseResponseException {
+        int index = 0;
+        try {
+            if(jobClassNameList != null && jobGroupList != null) {
+                for (String jobClassName : jobClassNameList) {
+                    LOGGER.info("jobClassName={}={}", jobClassName, jobGroupList.get(index));
+                    scheduler.resetTriggerFromErrorState(TriggerKey.triggerKey(jobClassName, jobGroupList.get(index)));
+                    index++;
+                }
+            }
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            throw new BaseResponseException(failureEntity.i18n("quartz_job.resume_fail"));
+        }
+        return index;
+    }
+
+    private static BaseJob getClass(String classname) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         Class<?> class1 = Class.forName(classname);
         return (BaseJob) class1.newInstance();
     }

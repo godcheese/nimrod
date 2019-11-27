@@ -27,19 +27,33 @@ public class User extends Url {
 
         public static final String ROLE = USER + "/role";
         public static final String ROLE_AUTHORITY = USER + "/role_authority";
+        public static final String ROLE_VIEW_MENU = USER + "/role_view_menu";
+        public static final String ROLE_VIEW_MENU_CATEGORY = USER + "/role_view_menu_category";
 
         public static final String USER_ROLE = USER + "/user_role";
+
+        public static final String DEPARTMENT = USER + "/department";
+
+        public static final String API = USER + "/api";
+        public static final String API_CATEGORY = USER + "/api_category";
+
+        public static final String VIEW_PAGE = USER + "/view_page";
+        public static final String VIEW_PAGE_CATEGORY = USER + "/view_page_category";
+
+        public static final String VIEW_PAGE_API = USER + "/view_page_api";
+
+        public static final String VIEW_PAGE_COMPONENT = USER + "/view_page_component";
+        public static final String VIEW_PAGE_COMPONENT_API = USER + "/view_page_component_api";
 
         public static final String VIEW_MENU = USER + "/view_menu";
         public static final String VIEW_MENU_CATEGORY = USER + "/view_menu_category";
 
-        public static final String DEPARTMENT = USER + "/department";
 
     }
 
     public static class Api {
 
-        public static final String USER = API + Page.USER;
+        public static final String USER = Url.API + Page.USER;
 
         public static final String LOGIN = USER + "/login";
         public static final String REGISTER = USER + "/register";
@@ -52,12 +66,24 @@ public class User extends Url {
 
         public static final String ROLE = USER + "/role";
         public static final String ROLE_AUTHORITY = USER + "/role_authority";
+        public static final String ROLE_VIEW_MENU = USER + "/role_view_menu";
+        public static final String ROLE_VIEW_MENU_CATEGORY = USER + "/role_view_menu_category";
         public static final String USER_ROLE = USER + "/user_role";
+
+        public static final String DEPARTMENT = USER + "/department";
+
+        public static final String API = USER + "/api";
+        public static final String API_CATEGORY = USER + "/api_category";
 
         public static final String VIEW_MENU = USER + "/view_menu";
         public static final String VIEW_MENU_CATEGORY = USER + "/view_menu_category";
 
-        public static final String DEPARTMENT = USER + "/department";
+        public static final String VIEW_PAGE = USER + "/view_page";
+        public static final String VIEW_PAGE_CATEGORY = USER + "/view_page_category";
+        public static final String VIEW_PAGE_API = USER + "/view_page_api";
+
+        public static final String VIEW_PAGE_COMPONENT = USER + "/view_page_component";
+        public static final String VIEW_PAGE_COMPONENT_API = USER + "/view_page_component_api";
 
     }
 

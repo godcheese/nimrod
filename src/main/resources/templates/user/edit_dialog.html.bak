@@ -1,0 +1,117 @@
+<div class="submit-form">
+    <table class="submit-table">
+        <tr>
+            <td class="label">
+                <div class="user-avatar">
+                    <img id="avatarSrc" alt="avatar" style="width:40px;height:40px">
+                </div>
+            </td>
+            <td>
+                <input type="hidden" class="easyui-textbox" name="avatar" id="avatar"/>
+                <a href="javascript:" class="easyui-linkbutton" onclick="changeAvatarDialog();">更换头像</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">用户名：</td>
+            <td><input name="id" type="hidden">
+                <input name="username" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">密码：</td>
+            <td><input name="password" class="easyui-textbox"></td>
+        </tr>
+        <tr>
+            <td class="label">电子邮箱：</td>
+            <td><input name="email" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">电子邮箱是否验证：</td>
+            <td><input name="emailIsVerified" id="emailIsVerified"></td>
+        </tr>
+        <tr>
+            <td class="label">所在部门：</td>
+            <td><input name="departmentId" id="departmentId"></td>
+        </tr>
+        <tr>
+            <td class="label">是否启用：</td>
+            <td><input name="enabled" id="enabled"></td>
+        </tr>
+        <tr>
+            <td class="label">备注：</td>
+            <td><input name="remark" class="easyui-textbox" style="height:50px;" data-options="multiline:true"></td>
+        </tr>
+    </table>
+</div>
+<style>
+    .user-avatar {
+        float: right;
+        width: 48px;
+        height: 48px;
+    }
+    .user-avatar img {
+        margin: 4px;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#avatarSrc').attr('src', _contextPath + '/assets/img/avatar.png');
+        $('#avatar').textbox({
+            onChange: function (newValue, oldValue) {
+                    if(newValue === null || newValue === '') {
+                        newValue = _contextPath + '/assets/img/avatar.png';
+                    } else {
+                        newValue = Url.System.Api.FILE + '/download/' + newValue
+                    }
+                    $('#avatarSrc').attr('src', newValue);
+            }
+        });
+        $('#emailIsVerified').combobox({
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            method: 'get',
+            valueField: 'value',
+            textField: 'valueName',
+            required: true
+        });
+        $('#departmentId').combotree({
+            required: true,
+            method: 'get',
+            valueField: 'id',
+            textField: 'text',
+            url: Url.User.Api.DEPARTMENT + '/list_all_as_combo_tree',
+        });
+        $('#enabled').combobox({
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+            method: 'get',
+            valueField: 'value',
+            textField: 'valueName',
+            required: true
+        });
+    });
+    function changeAvatarDialog() {
+        $('#changeAvatarDialog').dialog(expressui.dialog.create, {
+            title: '更换头像',
+            width: 600,
+            height: 400,
+            grid: {type: 'datagrid', selector: '#user'},
+            href: Url.User.Page.USER + '/change_avatar_dialog',
+            buttons: [{
+                text: '确定',
+                iconCls: 'fa fa-save',
+                handler: function() {
+                    var guid = $('#file').datagrid('getChecked')[0].guid;
+                    $('#avatar').textbox('setValue', guid);
+                    $('#changeAvatarDialog').dialog('close');
+                },
+                reload: [{type: 'datagrid', selector: '#user'}],
+                success: '新增成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+</script>

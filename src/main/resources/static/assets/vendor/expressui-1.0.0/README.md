@@ -1,5 +1,5 @@
 # ExpressUI
-> 基于 EasyUI 的 Javascript 框架，可快速简单的搭建企业级应用的 UI ，已兼容更新 EasyUI 至最新版（v1.6.3）
+> 基于 EasyUI 的 Javascript 框架，可快速简单的搭建企业级应用的 UI，已兼容更新 EasyUI 至最新版（v1.6.3）
 
 ## 更新日志
 [CHANGELOG.md](/CHANGELOG.md)

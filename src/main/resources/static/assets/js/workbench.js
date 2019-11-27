@@ -205,7 +205,7 @@ $(document).ready(function(){
         $(".todo-panel").hide();
     });
 
-    // 附件下载 tab 事件处理
+    // 文件下载 tab 事件处理
     $('.right-box-tab').find('a').click(function () {
         $(this).closest(".right-box-tab").find("a").removeClass("current");
         $(this).addClass("current");

@@ -1,7 +1,8 @@
 package com.gioov.nimrod.quartz.api;
 
-import com.gioov.common.web.exception.BaseResponseException;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.operationlog.OperationLog;
+import com.gioov.nimrod.common.operationlog.OperationLogType;
 import com.gioov.nimrod.quartz.Quartz;
 import com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity;
 import com.gioov.nimrod.quartz.service.JobRuntimeLogService;
@@ -10,9 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYSTEM_ADMIN;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -24,30 +28,52 @@ public class JobRuntimeLogRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JobRuntimeLogRestController.class);
 
+    private static final String JOB_RUNTIME_LOG = "/API/QUARTZ/JOB_RUNTIME_LOG";
+
     @Autowired
     private JobRuntimeLogService jobRuntimeLogService;
 
-//    @RequestMapping("/one")
-//    public ResponseEntity<JobEntity> getOne(@RequestParam String jobClassName, @RequestParam String jobGroup) {
-//        return new ResponseEntity<>(jobRuntimeLogService.getOne(jobClassName, jobGroup), HttpStatus.OK);
-//    }
+    /**
+     * 指定任务运行日志 id，获取任务运行日志
+     * @param id 任务运行日志 id
+     * @return ResponseEntity<JobRuntimeLogEntity>
+     */
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB_RUNTIME_LOG + "/ONE')")
+    @GetMapping(value = "/one/{id}")
+    public ResponseEntity<JobRuntimeLogEntity> getOne(@PathVariable Long id) {
+        return new ResponseEntity<>(jobRuntimeLogService.getOne(id), HttpStatus.OK);
+    }
 
-    @RequestMapping("/page_all")
+    /**
+     * 分页获取所有任务运行日志
+     * @param page 页
+     * @param rows 每页显示数量
+     * @return ResponseEntity<Pagination<JobRuntimeLogEntity>>
+     */
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB_RUNTIME_LOG + "/PAGE_ALL')")
+    @GetMapping(value = "/page_all")
     public ResponseEntity<Pagination<JobRuntimeLogEntity>> pageAll(@RequestParam Integer page, @RequestParam Integer rows) {
         return new ResponseEntity<>(jobRuntimeLogService.pageAll(page, rows), HttpStatus.OK);
     }
 
     /**
-     * 删除所有任务
-     * @param jobClassNameList
-     * @param jobGroupList
-     * @return
-     * @throws BaseResponseException
+     * 清空所有任务运行日志
+     * @return ResponseEntity<HttpStatus>
      */
-    @RequestMapping("/truncate")
-    public ResponseEntity<HttpStatus> truncate() {
-        jobRuntimeLogService.truncate();
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB_RUNTIME_LOG + "/CLEAR_ALL')")
+    @PostMapping(value = "/clear_all")
+    public ResponseEntity<HttpStatus> clearAll() {
+        jobRuntimeLogService.clearAll();
         return new ResponseEntity<>(HttpStatus.OK, HttpStatus.OK);
     }
 
+    /**
+     * 指定任务运行日志 id，批量删除任务运行日志
+     * @return ResponseEntity<Integer>
+     */
+    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB_RUNTIME_LOG + "/DELETE_ALL')")
+    @PostMapping(value = "/delete_all")
+    public ResponseEntity<Integer> deleteAll(@RequestParam("id[]") List<Long> idList) {
+        return new ResponseEntity<>(jobRuntimeLogService.deleteAll(idList), HttpStatus.OK);
+    }
 }

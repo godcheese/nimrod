@@ -20,47 +20,36 @@
     </sql>
 
     <sql id="BaseColumnList">
-        `id`
-        ,
-        `status`,
-        `from`,
-        `to`,
-        `subject`,
-        `text`,
-        `html`,
-        `error`,
-        `remark`,
-        `gmt_modified`,
-        `gmt_created`
+        `id`, `status`, `from`, `to`, `subject`, `text`, `html`, `error`, `remark`, `gmt_modified`, `gmt_created`
     </sql>
 
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.gioov.nimrod.mail.entity.MailEntity">
-        INSERT INTO
+        insert into
         <include refid="TableName"/>
         (`id`, `status`, `from`, `to`, `subject`, `text`, `html`, `error`, `remark`, `gmt_modified`, `gmt_created`)
-        VALUES (#{id}, #{status}, #{from}, #{to}, #{subject}, #{text}, #{html}, #{error}, #{remark}, #{gmtModified},
+        values (#{id}, #{status}, #{from}, #{to}, #{subject}, #{text}, #{html}, #{error}, #{remark}, #{gmtModified},
         #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.mail.entity.MailEntity">
-        UPDATE
+        update
         <include refid="TableName"/>
-        SET `status` = #{status}, `from` = #{from}, `to` = #{to}, `subject` = #{subject}, `text` = #{text}, `html` =
+        set `status` = #{status}, `from` = #{from}, `to` = #{to}, `subject` = #{subject}, `text` = #{text}, `html` =
         #{html}, `error` = #{error}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
-        WHERE `id`= #{id}
+        where `id`= #{id}
     </update>
 
     <delete id="deleteOne" parameterType="long">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` = #{id}
+        where `id` = #{id}
     </delete>
 
     <delete id="deleteAll">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` IN
+        where `id` in
         (
         <foreach collection="list" item="item" index="index" separator=",">
             #{item}
@@ -69,31 +58,25 @@
     </delete>
 
     <select id="getOne" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `id` = #{id} LIMIT 1
+        where `id` = #{id} limit 1
     </select>
 
-    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-        SELECT
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
         <include refid="BaseColumnList"/>
-        FROM
-        <include refid="TableName"/>
-        ${pageable}
-    </select>
-
-    <select id="countAll" resultType="int">
-        SELECT COUNT(1) FROM
+        from
         <include refid="TableName"/>
     </select>
 
     <select id="listAllByStatus" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
-        <include refid="TableName"/> WHERE `status`  IN
+        from
+        <include refid="TableName"/> where `status` in
         (
         <foreach collection="statusList" item="item" index="index" separator=",">
             #{item}

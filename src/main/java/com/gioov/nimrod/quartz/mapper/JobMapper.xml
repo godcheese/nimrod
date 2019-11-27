@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gioov.nimrod.quartz.mapper.JobMapper">
     <resultMap id="BaseResultMap" type="com.gioov.nimrod.quartz.entity.JobEntity">
-        <!--<id column="id" property="id" jdbcType="BIGINT"/> &lt;!&ndash; id &ndash;&gt;-->
         <result column="sched_name" property="schedName" jdbcType="VARCHAR"/> <!-- api 名称 -->
         <result column="job_name" property="jobName" jdbcType="VARCHAR"/> <!--请求地址（url）-->
         <result column="job_group" property="jobGroup" jdbcType="VARCHAR"/> <!-- 权限（authority） -->
@@ -28,43 +27,30 @@
     </resultMap>
 
     <sql id="TableName">
-        ``
+
     </sql>
 
     <sql id="BaseColumnList">
-        `id`
-        ,
-        `name`,
-        `url`,
-        `authority`,
-        `api_category_id`,
-        `sort`,
-        `remark`,
-        `gmt_modified`,
-        `gmt_created`
+
     </sql>
 
-    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-       SELECT
-       `qjd`.*, `qt`.*, `qct`.*
-        FROM `QRTZ_JOB_DETAILS` `qjd` LEFT JOIN `QRTZ_TRIGGERS` `qt` ON (`qjd`.`job_name` = `qt`.`job_name`) LEFT JOIN `QRTZ_CRON_TRIGGERS` `qct` ON (`qt`.`trigger_name` = `qct`.`trigger_name`) ${pageable}
-    </select>
-
-    <select id="countAll" resultType="int">
-        SELECT COUNT(1) FROM `QRTZ_JOB_DETAILS`
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+            `qjd`.*, `qt`.*, `qct`.*
+        from `QRTZ_JOB_DETAILS` `qjd` left join `QRTZ_TRIGGERS` `qt` on (`qjd`.`job_name` = `qt`.`job_name`) left join `QRTZ_CRON_TRIGGERS` `qct` on (`qt`.`trigger_name` = `qct`.`trigger_name`)
     </select>
 
     <select id="getOneByJobClassNameAndJobGroup" resultMap="BaseResultMap">
-        SELECT
-       `qjd`.*, `qt`.*, `qct`.*
-        FROM `QRTZ_JOB_DETAILS` `qjd` LEFT JOIN `QRTZ_TRIGGERS` `qt` ON (`qjd`.`job_name` = `qt`.`job_name`) LEFT JOIN `QRTZ_CRON_TRIGGERS` `qct` ON (`qt`.`trigger_name` = `qct`.`trigger_name`) WHERE `qjd`.`job_class_name` = #{jobClassName} AND `qjd`.`job_group` = #{jobGroup} LIMIT 1
+        select
+            `qjd`.*, `qt`.*, `qct`.*
+        from `QRTZ_JOB_DETAILS` `qjd` left join `QRTZ_TRIGGERS` `qt` on (`qjd`.`job_name` = `qt`.`job_name`) left join `QRTZ_CRON_TRIGGERS` `qct` on (`qt`.`trigger_name` = `qct`.`trigger_name`) where `qjd`.`job_class_name` = #{jobClassName} and `qjd`.`job_group` = #{jobGroup} limit 1
     </select>
 
     <update id="updateJobDetailsDescriptionByJobClassNameAndJobGroup">
-        UPDATE
-        `QRTZ_JOB_DETAILS`
-        SET `description` = #{description}
-        WHERE `job_class_name` = #{jobClassName} AND `job_group` = #{jobGroup}
+        update
+            `QRTZ_JOB_DETAILS`
+        set `description` = #{description}
+        where `job_class_name` = #{jobClassName} and `job_group` = #{jobGroup}
     </update>
 
 </mapper>

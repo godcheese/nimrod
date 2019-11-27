@@ -1,6 +1,6 @@
 package com.gioov.nimrod.common.exportbyexcel;
 
-import com.gioov.nimrod.common.util.SpringContextUtil;
+import com.gioov.nimrod.common.others.SpringContextUtil;
 import com.gioov.nimrod.system.entity.DictionaryEntity;
 import com.gioov.nimrod.system.service.DictionaryService;
 import com.gioov.nimrod.system.service.impl.DictionaryServiceImpl;

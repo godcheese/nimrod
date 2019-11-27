@@ -51,7 +51,6 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
     /**
      * Construct the <code>SimpleUser</code> with the details required by
      * {@link org.springframework.security.authentication.dao.DaoAuthenticationProvider}.
-     *
      * @param username the username presented to the
      * <code>DaoAuthenticationProvider</code>
      * @param password the password that should be presented to the
@@ -63,7 +62,6 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
      * @param accountNonLocked set to <code>true</code> if the account is not locked
      * @param authorities the authorities that should be granted to the caller if they
      * presented the correct username and password and the user is enabled. Not null.
-     *
      * @throws IllegalArgumentException if a <code>null</code> value was passed either as
      * a parameter or as an element in the <code>GrantedAuthority</code> collection
      */
@@ -236,7 +234,6 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
 
     /**
      * Creates a SimpleUserBuilder with a specified user name
-     *
      * @param username the username to use
      * @return the SimpleUserBuilder
      */
@@ -246,7 +243,6 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
 
     /**
      * Creates a SimpleUserBuilder
-     *
      * @return the SimpleUserBuilder
      */
     public static SimpleUser.SimpleUserBuilder builder() {
@@ -262,7 +258,6 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
      * Creates a user and automatically encodes the provided password using
      * {@code PasswordEncoderFactories.createDelegatingPasswordEncoder()}. For example:
      * </p>
-     *
      * <pre>
      * <code>
      * UserDetails user = SimpleUser.withDefaultPasswordEncoder()

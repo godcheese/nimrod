@@ -1,34 +1,76 @@
 <div class="submit-form">
     <table class="submit-table">
         <tr>
+            <td class="label">
+                <div class="user-avatar">
+                    <img id="avatarSrc" alt="avatar" style="width:40px;height:40px">
+                </div>
+            </td>
+            <td>
+                <input class="easyui-textbox" data-options="cls:'display'" name="avatar" id="avatar">
+                <a href="javascript:" class="easyui-linkbutton" onclick="changeAvatarDialog();">更换头像</a>
+                <a href="javascript:" class="easyui-linkbutton" onclick="removeAvatar();">移除头像</a>
+            </td>
+        </tr>
+        <tr>
             <td class="label">用户名：</td>
             <td><input name="username" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
             <td class="label">密码：</td>
-            <td><input name="password" class="easyui-textbox" data-options="required:true"></td>
+            <td><input name="password" class="easyui-textbox"></td>
         </tr>
         <tr>
             <td class="label">电子邮箱：</td>
-            <td><input name="email" class="easyui-textbox" data-options="required:true"></td>
-            <td class="label">电子邮箱是否验证通过：</td>
-            <td><input name="emailIsVerified" id="emailIsVerified"></td>
+            <td colspan="3"><input name="email" class="easyui-textbox" data-options="required:true"></td>
+        </tr>
+        <tr>
+            <td class="label">电子邮箱是否验证：</td>
+            <td colspan="3"><input name="emailIsVerified" id="emailIsVerified"></td>
         </tr>
         <tr>
             <td class="label">所在部门：</td>
             <td colspan="3"><input name="departmentId" id="departmentId"></td>
         </tr>
         <tr>
-            <td class="label">是否禁用：</td>
-            <td colspan="3"><input name="disabled" id="disabled"></td>
+            <td class="label">是否启用：</td>
+            <td colspan="3"><input name="enabled" id="enabled"></td>
         </tr>
         <tr>
             <td class="label">备注：</td>
-            <td colspan="3"><input name="remark" class="easyui-textbox" style="height:50px;" data-options="required:false,multiline:true"></td>
+            <td colspan="3"><input name="remark" class="easyui-textbox" style="height:50px;" data-options="multiline:true"></td>
         </tr>
     </table>
 </div>
-
+<style>
+    .display {
+        display: none;
+    }
+    .user-avatar {
+        float: right;
+        width: 48px;
+        height: 48px;
+    }
+    .user-avatar img {
+        margin: 4px;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+    }
+</style>
 <script>
     $(function () {
+        $('#avatarSrc').attr('src', _defaultAvatar);
+        $('#avatar').textbox({
+            onChange: function (newValue, oldValue) {
+                if(newValue === null || newValue === '') {
+                    newValue = _defaultAvatar;
+                } else {
+                    newValue = Url.System.Api.FILE + '/download/' + newValue
+                }
+                $('#avatarSrc').attr('src', newValue);
+            }
+        });
         $('#emailIsVerified').combobox({
             url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             method: 'get',
@@ -38,18 +80,44 @@
         });
         $('#departmentId').combotree({
             required: true,
-            editable: false,
             method: 'get',
             valueField: 'id',
             textField: 'text',
             url: Url.User.Api.DEPARTMENT + '/list_all_as_combo_tree',
         });
-        $('#disabled').combobox({
-            url: Url.System.Api.DICTIONARY + '/list_all_by_key/ IS_OR_NOT',
+        $('#enabled').combobox({
+            url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             method: 'get',
             valueField: 'value',
             textField: 'valueName',
             required: true
         });
     });
+    function changeAvatarDialog() {
+        $('#changeAvatarDialog').dialog(expressui.dialog.create, {
+            title: '更换头像',
+            width: 600,
+            height: 400,
+            grid: {type: 'datagrid', selector: '#user'},
+            href: Url.User.Page.USER + '/change_avatar_dialog',
+            buttons: [{
+                text: '确定',
+                iconCls: 'fa fa-save',
+                handler: function() {
+                    var guid = $('#file').datagrid('getChecked')[0].guid;
+                    $('#avatar').textbox('setValue', guid);
+                    $('#changeAvatarDialog').dialog('close');
+                },
+                reload: [{type: 'datagrid', selector: '#user'}],
+                success: '新增成功'
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-close',
+                handler: expressui.dialog.close
+            }]
+        });
+    }
+    function removeAvatar() {
+        $('#avatar').textbox('setValue', '');
+    }
 </script>

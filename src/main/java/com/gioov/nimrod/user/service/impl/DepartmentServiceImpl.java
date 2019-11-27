@@ -1,6 +1,6 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.common.web.exception.BaseResponseException;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.easyui.TreeGrid;
@@ -9,6 +9,7 @@ import com.gioov.nimrod.user.entity.UserEntity;
 import com.gioov.nimrod.user.mapper.DepartmentMapper;
 import com.gioov.nimrod.user.mapper.UserMapper;
 import com.gioov.nimrod.user.service.DepartmentService;
+import com.gioov.tile.web.exception.BaseResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -30,19 +32,51 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentMapper departmentMapper;
-
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FailureEntity failureEntity;
 
     @Override
-    public Pagination<DepartmentEntity> pageAllParent(Integer page, Integer rows) {
-        Pagination<DepartmentEntity> pagination = new Pagination<>();
-        List<DepartmentEntity> departmentEntityList = departmentMapper.pageAllParentIdIsNull(new com.gioov.common.mybatis.Pageable(page, rows));
-        if (departmentEntityList != null) {
-            pagination.setRows(departmentEntityList);
+    @Transactional(rollbackFor = Throwable.class)
+    public DepartmentEntity addOne(DepartmentEntity departmentEntity) {
+        Date date = new Date();
+        departmentEntity.setGmtModified(date);
+        departmentEntity.setGmtCreated(date);
+        departmentMapper.insertOne(departmentEntity);
+        return departmentEntity;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public DepartmentEntity saveOne(DepartmentEntity departmentEntity) {
+        departmentEntity.setGmtModified(new Date());
+        departmentMapper.updateOne(departmentEntity);
+        return departmentEntity;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public int deleteAll(List<Long> idList) throws BaseResponseException {
+        int result = 0;
+        for (Long id : idList) {
+            UserEntity userEntity = userMapper.getOneByDepartmentId(id);
+            if (userEntity != null) {
+                throw new BaseResponseException(failureEntity.i18n("department.delete_fail_has_user"));
+            }
+            DepartmentEntity departmentEntity = departmentMapper.getOneByParentId(id);
+            if (departmentEntity != null) {
+                throw new BaseResponseException(failureEntity.i18n("department.delete_fail_has_children_department"));
+            }
+            departmentMapper.deleteOne(id);
+            result++;
         }
-        pagination.setTotal(departmentMapper.countAllParentIdIsNull());
-        return pagination;
+        return result;
+    }
+
+    @Override
+    public DepartmentEntity getOne(Long id) {
+        return departmentMapper.getOne(id);
     }
 
     @Override
@@ -97,46 +131,30 @@ public class DepartmentServiceImpl implements DepartmentService {
 //        return roleEntityList;
 //    }
 
+    /**
+     * 根据子级部门 id 获取所有父级部门
+     * @param id
+     * @return
+     */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public DepartmentEntity insertOne(DepartmentEntity departmentEntity) {
-        Date date = new Date();
-        departmentEntity.setGmtModified(date);
-        departmentEntity.setGmtCreated(date);
-        departmentMapper.insertOne(departmentEntity);
-        return departmentEntity;
+    public List<DepartmentEntity> listAllByDepartmentId(Long id) {
+        List<DepartmentEntity> departmentEntityResultList = new ArrayList<>(0);
+        List<DepartmentEntity> departmentEntityList = listAll();
+        DepartmentEntity departmentEntity = getOne(id);
+        departmentEntityResultList.add(departmentEntity);
+        forEachDepartmentParent(departmentEntity, departmentEntityList, departmentEntityResultList);
+        Collections.reverse(departmentEntityResultList);
+        return departmentEntityResultList;
     }
-
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public DepartmentEntity updateOne(DepartmentEntity departmentEntity) {
-        departmentEntity.setGmtModified(new Date());
-        departmentMapper.updateOne(departmentEntity);
-        return departmentEntity;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public int deleteAll(List<Long> idList) throws BaseResponseException {
-        int result = 0;
-        for (Long id : idList) {
-            UserEntity userEntity = userMapper.getOneByDepartmentId(id);
-            if (userEntity != null) {
-                throw new BaseResponseException("无法删除该部门，该部门下存在用户");
+    public void forEachDepartmentParent(DepartmentEntity departmentEntity, List<DepartmentEntity> departmentEntityList, List<DepartmentEntity> departmentEntityResultList) {
+        for(DepartmentEntity entity : departmentEntityList) {
+            if(departmentEntity.getParentId() != null) {
+                if(departmentEntity.getParentId().equals(entity.getId())){
+                    departmentEntityResultList.add(entity);
+                    forEachDepartmentParent(entity, departmentEntityList, departmentEntityResultList);
+                }
             }
-            DepartmentEntity departmentEntity = departmentMapper.getOneByParentId(id);
-            if (departmentEntity != null) {
-                throw new BaseResponseException("无法删除该部门，该部门下存在子部门");
-            }
-            departmentMapper.deleteOne(id);
-            result++;
         }
-        return result;
-    }
-
-    @Override
-    public DepartmentEntity getOne(Long id) {
-        return departmentMapper.getOne(id);
     }
 
     @Override
@@ -152,9 +170,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return comboTreeList;
     }
-
     @Override
-    public List<ComboTree> getComboTreeChildren(long parentId, List<ComboTree> departmentComboTreeList) {
+    public List<ComboTree> getDepartmentChildrenComboTree(long parentId, List<ComboTree> departmentComboTreeList) {
 
         List<ComboTree> children = new ArrayList<>(0);
 
@@ -166,7 +183,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         for(ComboTree child : children) {
 
-            List<ComboTree> childChildren = getComboTreeChildren(child.getId(), departmentComboTreeList);
+            List<ComboTree> childChildren = getDepartmentChildrenComboTree(child.getId(), departmentComboTreeList);
             if(childChildren == null) {
                 childChildren = new ArrayList<>(0);
             }
@@ -189,9 +206,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return treeGridList;
     }
-
     @Override
-    public List<TreeGrid> getTreeGridChildren(long parentId, List<TreeGrid> departmentTreeGridList) {
+    public List<TreeGrid> getDepartmentChildrenTreeGrid(long parentId, List<TreeGrid> departmentTreeGridList) {
 
         List<TreeGrid> children = new ArrayList<>(0);
 
@@ -205,7 +221,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         for(TreeGrid child : children) {
 
-            List<TreeGrid> childChildren = getTreeGridChildren(child.getId(), departmentTreeGridList);
+            List<TreeGrid> childChildren = getDepartmentChildrenTreeGrid(child.getId(), departmentTreeGridList);
             if(childChildren == null) {
                 childChildren = new ArrayList<>(0);
             }

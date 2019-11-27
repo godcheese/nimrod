@@ -1,6 +1,6 @@
 package com.gioov.nimrod.user.controller;
 
-import com.gioov.nimrod.common.Common;
+import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.user.User;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(User.Page.VIEW_MENU_CATEGORY)
 public class ViewMenuCategoryController {
-
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/add_dialog")
     public String addDialog() {
@@ -25,5 +24,4 @@ public class ViewMenuCategoryController {
     public String editDialog() {
         return Common.trimSlash(User.Page.VIEW_MENU_CATEGORY + "/edit_dialog");
     }
-
 }

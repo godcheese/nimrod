@@ -2,7 +2,6 @@ package com.gioov.nimrod.common;
 
 import com.gioov.nimrod.system.System;
 
-import static com.gioov.nimrod.system.System.Page.SYSTEM;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -32,7 +31,7 @@ public class Url {
 
         public static final String INDEX = "/index";
 
-        public static final String[] INDEX_ARRAY = {PATH_SEPARATOR, INDEX, SYSTEM, System.Page.INDEX};
+        public static final String[] INDEX_ARRAY = {PATH_SEPARATOR, INDEX, System.Page.SYSTEM, System.Page.INDEX};
 
     }
 }

@@ -1,29 +1,19 @@
 package com.gioov.nimrod.system.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gioov.common.mybatis.Pageable;
-import com.gioov.common.mybatis.Sort;
-import com.gioov.common.util.ClientUtil;
-import com.gioov.nimrod.common.Common;
+import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.common.easyui.Pagination;
-import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.system.entity.OperationLogEntity;
-import com.gioov.nimrod.system.entity.OperationLogEntity2;
 import com.gioov.nimrod.system.mapper.OperationLogMapper;
-import com.gioov.nimrod.system.mapper.OperationLogMapper2;
 import com.gioov.nimrod.system.service.OperationLogService;
 import com.gioov.nimrod.user.entity.UserEntity;
 import com.gioov.nimrod.user.service.UserService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.method.HandlerMethod;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -43,42 +33,38 @@ public class OperationLogServiceImpl implements OperationLogService {
     @Autowired
     private Common common;
 
-    @Autowired
-    private OperationLogMapper2 operationLogMapper2;
-
     @Override
-    public Pagination<OperationLogEntity2> pageAll(int page, int rows, Sort sort) {
-        Pagination<OperationLogEntity2> pagination = new Pagination<>();
-        List<OperationLogEntity2> operationLogEntity2List = operationLogMapper2.pageAll(new Pageable(page, rows, sort));
-        if (operationLogEntity2List != null) {
-            pagination.setRows(operationLogEntity2List);
+    public Pagination<OperationLogEntity> pageAll(Integer page, Integer rows) {
+        Pagination<OperationLogEntity> pagination = new Pagination<>();
+
+//        if(sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
+//            sorterField = StringUtil.camelToUnderline(sorterField);
+//            String orderBy = sorterField + " " + sorterOrder;
+//            PageHelper.startPage(page, rows, orderBy);
+//        } else {
+        PageHelper.startPage(page, rows);
+//        }
+        Page<OperationLogEntity> operationLogEntityPage = operationLogMapper.pageAll();
+        List<OperationLogEntity> operationLogEntityList = operationLogEntityPage.getResult();
+        List<OperationLogEntity> operationLogEntityListResult = new ArrayList<>(1);
+        for(OperationLogEntity operationLogEntity : operationLogEntityPage) {
+            UserEntity userEntity = userService.getOne(operationLogEntity.getUserId());
+            if(userEntity != null) {
+                operationLogEntity.setUsername(userEntity.getUsername());
+            }
+            operationLogEntityListResult.add(operationLogEntity);
         }
-        pagination.setTotal(operationLogMapper.countAll());
+
+        pagination.setRows(operationLogEntityListResult);
+        pagination.setTotal(operationLogEntityPage.getTotal());
         return pagination;
     }
 
     @Override
-    public OperationLogEntity insertOne(OperationLogEntity operationLogEntity) {
-        OperationLogEntity operationLogEntity1 = new OperationLogEntity();
-        operationLogEntity1.setUserId(operationLogEntity.getUserId());
-        operationLogEntity1.setIpAddress(operationLogEntity.getIpAddress());
-        operationLogEntity1.setOperationType(operationLogEntity.getOperationType());
-        operationLogEntity1.setOperation(operationLogEntity.getOperation());
-        operationLogEntity1.setRequestTime(operationLogEntity.getRequestTime());
-        operationLogEntity1.setRequestUrl(operationLogEntity.getRequestUrl());
-        operationLogEntity1.setRequestMethod(operationLogEntity.getRequestMethod());
-        operationLogEntity1.setRequestParameter(operationLogEntity.getRequestParameter());
-        operationLogEntity1.setAcceptLanguage(operationLogEntity.getAcceptLanguage());
-        operationLogEntity1.setReferer(operationLogEntity.getReferer());
-        operationLogEntity1.setUserAgent(operationLogEntity.getUserAgent());
-        operationLogEntity1.setHandler(operationLogEntity.getHandler());
-        operationLogEntity1.setSessionId(operationLogEntity.getSessionId());
-        operationLogEntity1.setCookie(operationLogEntity.getCookie());
-        operationLogEntity1.setContentType(operationLogEntity.getContentType());
-        operationLogEntity1.setStatus(operationLogEntity.getStatus());
-        operationLogEntity1.setGmtCreated(new Date());
-        operationLogMapper.insertOne(operationLogEntity1);
-        return operationLogEntity1;
+    public OperationLogEntity addOne(OperationLogEntity operationLogEntity) {
+        operationLogEntity.setGmtCreated(new Date());
+        operationLogMapper.insertOne(operationLogEntity);
+        return operationLogEntity;
     }
 
     @Override
@@ -87,68 +73,74 @@ public class OperationLogServiceImpl implements OperationLogService {
     }
 
     @Override
-    public OperationLogEntity2 getOne(Long id) {
-        return operationLogMapper2.getOne(id);
+    public OperationLogEntity getOne(Long id) {
+        OperationLogEntity operationLogEntity = operationLogMapper.getOne(id);
+        UserEntity userEntity = userService.getOne(operationLogEntity.getUserId());
+        if(userEntity != null) {
+            operationLogEntity.setUsername(userEntity.getUsername());
+        }
+        return operationLogEntity;
     }
 
+//    @Override
+//    public void log(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler, long requestTime) throws JsonProcessingException {
+//        LOGGER.info("{},{}", httpServletRequest, httpServletResponse);
+//        if (httpServletRequest != null && httpServletResponse != null) {
+//            OperationLogEntity operationLogEntity = new OperationLogEntity();
+//            UserEntity userEntity = userService.getCurrentUser();
+//            if (userEntity != null) {
+//                operationLogEntity.setUserId(userEntity.getId());
+//            }
+//            operationLogEntity.setIpAddress(ClientUtil.getClientIp(httpServletRequest));
+//            String operation = "";
+//            if (handler instanceof HandlerMethod) {
+//                OperationLog operationLog = ((HandlerMethod) handler).getMethod().getAnnotation(OperationLog.class);
+//                if (operationLog != null) {
+//                    operationLogEntity.setOperationType(operationLog.type().value());
+//                    operation = operationLog.value();
+//                    if ("".equals(operation)) {
+//                        operation = operationLog.operation();
+//                    }
+//                }
+//            }
+//            operationLogEntity.setOperation(operation);
+//            operationLogEntity.setConsumingTime(requestTime);
+//            StringBuffer requestUrl = httpServletRequest.getRequestURL();
+//            if(requestUrl != null) {
+//                operationLogEntity.setRequestUrl(requestUrl.toString());
+//            }
+//            operationLogEntity.setRequestMethod(httpServletRequest.getMethod());
+//            Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
+//            Map<String, Object> map = new HashMap<>(0);
+//            while (parameterNames.hasMoreElements()) {
+//                String name = parameterNames.nextElement();
+//                Object parameter = httpServletRequest.getParameter(name);
+//                map.put(name, parameter);
+//            }
+//            operationLogEntity.setRequestParameter(common.objectToJson(map));
+//            operationLogEntity.setAcceptLanguage(httpServletRequest.getHeader("Accept-Language"));
+//            operationLogEntity.setReferer(httpServletRequest.getHeader("Referer"));
+//            operationLogEntity.setUserAgent(httpServletRequest.getHeader("User-Agent"));
+//            operationLogEntity.setHandler(handler.toString());
+//            HttpSession httpSession = httpServletRequest.getSession();
+//            if (httpSession != null) {
+//                operationLogEntity.setSessionId(httpSession.getId());
+//            }
+//            Cookie[] cookies = httpServletRequest.getCookies();
+//            map = new HashMap<>(0);
+//            if (cookies != null) {
+//                for (Cookie cookie : cookies) {
+//                    map.put(cookie.getName(), cookie.getValue());
+//                }
+//            }
+//            operationLogEntity.setCookie(common.objectToJson(map));
+//            operationLogEntity.setStatus(String.valueOf(httpServletResponse.getStatus()));
+//            operationLogEntity.setGmtCreated(new Date());
+//        }
+//    }
+
     @Override
-    public OperationLogEntity log(HttpServletRequest request, HttpServletResponse response, Object handler, long requestTime) throws JsonProcessingException {
-        OperationLogEntity operationLogEntity = new OperationLogEntity();
-
-        UserEntity userEntity = userService.getCurrentUser();
-        if (userEntity != null) {
-            operationLogEntity.setUserId(userEntity.getId());
-        }
-        operationLogEntity.setIpAddress(ClientUtil.getClientIp(request));
-        String operation = "";
-        if (handler instanceof HandlerMethod) {
-            OperationLog operationLog = ((HandlerMethod) handler).getMethod().getAnnotation(OperationLog.class);
-            if (operationLog != null) {
-                operationLogEntity.setOperationType(operationLog.type().value());
-                operation = operationLog.value();
-                if ("".equals(operation)) {
-                    operation = operationLog.operation();
-                }
-            }
-        }
-        operationLogEntity.setOperation(operation);
-        operationLogEntity.setRequestTime(requestTime);
-        operationLogEntity.setRequestUrl(request.getRequestURL().toString());
-        operationLogEntity.setRequestMethod(request.getMethod());
-
-        Enumeration<String> parameterNames = request.getParameterNames();
-        Map<String, Object> map = new HashMap<>(2);
-        while (parameterNames.hasMoreElements()) {
-            String name = parameterNames.nextElement();
-            Object parameter = request.getParameter(name);
-            map.put(name, parameter);
-        }
-        operationLogEntity.setRequestParameter(common.objectToJson(map));
-
-        operationLogEntity.setAcceptLanguage(request.getHeader("Accept-Language"));
-        operationLogEntity.setReferer(request.getHeader("Referer"));
-        operationLogEntity.setUserAgent(request.getHeader("User-Agent"));
-        operationLogEntity.setHandler(handler.toString());
-        HttpSession httpSession = request.getSession();
-        if(httpSession!= null) {
-            operationLogEntity.setSessionId(httpSession.getId());
-        }
-        Cookie[] cookies = request.getCookies();
-        map = new HashMap<>(2);
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                map.put(cookie.getName(), cookie.getValue());
-            }
-        }
-        operationLogEntity.setCookie(common.objectToJson(map));
-        operationLogEntity.setContentType(response.getContentType());
-        operationLogEntity.setStatus(String.valueOf(response.getStatus()));
-        operationLogEntity.setGmtCreated(new Date());
-        return insertOne(operationLogEntity);
-    }
-
-    @Override
-    public void truncate() {
+    public void clearAll() {
         operationLogMapper.truncate();
     }
 

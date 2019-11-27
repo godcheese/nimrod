@@ -10,7 +10,7 @@ CREATE TABLE `dictionary` (
   `value_name` varchar(255) NOT NULL COMMENT '字典值名',
   `value_slug` varchar(255) NOT NULL COMMENT '字典值别名',
   `value` text COMMENT '字典值',
-  `enable` tinyint(1) unsigned NOT NULL COMMENT '是否有效（0=否，1=是，默认=0）',
+  `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用（0=否，1=是，默认=0）',
   `dictionary_category_id` bigint(20) unsigned NOT NULL COMMENT '字典分类 id',
   `sort` bigint(20) unsigned DEFAULT 0 COMMENT '排序',
   `remark` varchar(255) DEFAULT '' COMMENT '备注',

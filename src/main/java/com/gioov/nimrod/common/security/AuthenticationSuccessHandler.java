@@ -1,7 +1,7 @@
 package com.gioov.nimrod.common.security;
 
-import com.gioov.common.web.http.SuccessEntity;
-import com.gioov.nimrod.common.Common;
+import com.gioov.nimrod.common.others.Common;
+import com.gioov.tile.web.http.SuccessEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

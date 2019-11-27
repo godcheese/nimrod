@@ -1,6 +1,6 @@
 package com.gioov.nimrod.quartz.job;
 
-import com.gioov.common.util.DateUtil;
+import com.gioov.tile.util.DateUtil;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

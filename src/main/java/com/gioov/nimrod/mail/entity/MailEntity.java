@@ -8,56 +8,44 @@ import java.util.Date;
  * @date 2018-02-22
  */
 public class MailEntity implements Serializable {
-
-    private static final long serialVersionUID = 4624616171129869820L;
-
+    private static final long serialVersionUID = -9011780467794520270L;
     private Long id;
-
     /**
      * 发信状态
      */
     private Integer status;
-
     /**
      * 发件人
      */
     private String from;
-
     /**
      * 收件人
      */
     private String to;
-
     /**
      * 主题
      */
     private String subject;
-
     /**
      * 内容
      */
     private String text;
-
     /**
      * 是否为 HTML
      */
     private Integer html;
-
     /**
      * 发信报错信息
      */
     private String error;
-
     /**
      * 备注
      */
     private String remark;
-
     /**
      * 更新时间
      */
     private Date gmtModified;
-
     /**
      * 创建时间
      */
@@ -167,5 +155,4 @@ public class MailEntity implements Serializable {
                 ", gmtCreated=" + gmtCreated +
                 '}';
     }
-
 }

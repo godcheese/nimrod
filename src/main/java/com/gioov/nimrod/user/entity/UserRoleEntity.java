@@ -8,8 +8,8 @@ import java.io.Serializable;
  */
 public class UserRoleEntity implements Serializable {
 
-    private static final long serialVersionUID = 1220108645281958623L;
 
+    private static final long serialVersionUID = 6510813723513038865L;
     /**
      * id
      */

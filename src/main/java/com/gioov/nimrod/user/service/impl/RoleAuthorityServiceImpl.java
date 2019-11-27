@@ -1,9 +1,7 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.nimrod.system.entity.*;
-import com.gioov.nimrod.system.mapper.*;
-import com.gioov.nimrod.user.entity.RoleAuthorityEntity;
-import com.gioov.nimrod.user.mapper.RoleAuthorityMapper;
+import com.gioov.nimrod.user.entity.*;
+import com.gioov.nimrod.user.mapper.*;
 import com.gioov.nimrod.user.service.RoleAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,20 +38,22 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
     private ViewPageComponentApiMapper viewPageComponentApiMapper;
 
     @Override
+    public RoleAuthorityEntity getOne(Long id) {
+        return roleAuthorityMapper.getOne(id);
+    }
+
+    @Override
     @Transactional(rollbackFor = Throwable.class)
-    public List<String> grantAllByRoleIdAndApiAuthorityList(Long roleId, List<String> authorityList) {
+    public int grantAllByRoleIdAndApiAuthorityList(Long roleId, List<String> authorityList) {
         // API authority
         List<String> apiAuthorityList = new ArrayList<>();
-
         // 最终被添加的 authority
         List<String> authorityList3 = new ArrayList<>();
-
         for (String authority : authorityList) {
             if (!"".equals(authority.trim())) {
                 apiAuthorityList.add(authority);
             }
         }
-
         RoleAuthorityEntity roleAuthorityEntity;
         for (String a : apiAuthorityList) {
             roleAuthorityEntity = roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, a);
@@ -61,18 +61,17 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
                 authorityList3.add(a);
             }
         }
-
         // authority 全部写入数据库
         if (!authorityList3.isEmpty()) {
             roleAuthorityMapper.insertAllByRoleIdAndAuthorityList(roleId, authorityList3);
         }
-        return authorityList3;
+        return authorityList3.size();
 
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public List<String> revokeAllByRoleIdAndApiAuthorityList(Long roleId, List<String> authorityList) {
+    public int revokeAllByRoleIdAndApiAuthorityList(Long roleId, List<String> authorityList) {
         // API authority
         List<String> apiAuthorityList = new ArrayList<>();
         // 最终被添加的 authority
@@ -93,25 +92,25 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
         if (!authorityList3.isEmpty()) {
             roleAuthorityMapper.deleteAllByRoleIdAndAuthorityList(roleId, authorityList3);
         }
-        return authorityList3;
+        return authorityList3.size();
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public List<String> grantAllByRoleIdAndPageAuthorityList(Long roleId, List<String> authorityList) {
+    public int grantAllByRoleIdAndViewPageAuthorityList(Long roleId, List<String> authorityList) {
         // 视图页面 authority
-        List<String> pageAuthorityList = new ArrayList<>();
+        List<String> viewPageAuthorityList = new ArrayList<>();
         // 视图页面组件关联的 API authority
         List<String> apiAuthorityList = new ArrayList<>();
         // 最终被添加的 authority
         List<String> authorityList3 = new ArrayList<>();
         for (String authority : authorityList) {
             if (!"".equals(authority.trim())) {
-                pageAuthorityList.add(authority);
+                viewPageAuthorityList.add(authority);
 
                 ViewPageEntity viewPageEntity = viewPageMapper.getOneByAuthority(authority);
                 if (viewPageEntity != null) {
-                    List<ViewPageApiEntity> viewPageApiEntityList = viewPageApiMapper.listAllByPageId(viewPageEntity.getId());
+                    List<ViewPageApiEntity> viewPageApiEntityList = viewPageApiMapper.listAllByViewPageId(viewPageEntity.getId());
                     if (viewPageApiEntityList != null && !viewPageApiEntityList.isEmpty()) {
 
                         for (ViewPageApiEntity viewPageApiEntity : viewPageApiEntityList) {
@@ -124,10 +123,10 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
                 }
             }
         }
-        // 视图页面关联的 API authority 全部放入 pageAuthorityList
-        pageAuthorityList.addAll(apiAuthorityList);
+        // 视图页面关联的 API authority 全部放入 viewPageAuthorityList
+        viewPageAuthorityList.addAll(apiAuthorityList);
         RoleAuthorityEntity roleAuthorityEntity;
-        for (String a : pageAuthorityList) {
+        for (String a : viewPageAuthorityList) {
             roleAuthorityEntity = roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, a);
             if (roleAuthorityEntity == null) {
                 authorityList3.add(a);
@@ -137,24 +136,24 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
         if (!authorityList3.isEmpty()) {
             roleAuthorityMapper.insertAllByRoleIdAndAuthorityList(roleId, authorityList3);
         }
-        return authorityList3;
+        return authorityList3.size();
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public List<String> revokeAllByRoleIdAndPageAuthorityList(Long roleId, List<String> authorityList) {
+    public int revokeAllByRoleIdAndViewPageAuthorityList(Long roleId, List<String> authorityList) {
         // 视图页面 authority
-        List<String> pageAuthorityList = new ArrayList<>();
+        List<String> viewPageAuthorityList = new ArrayList<>();
         // 视图页面组件关联的 API authority
         List<String> apiAuthorityList = new ArrayList<>();
         // 最终被添加的 authority
         List<String> authorityList3 = new ArrayList<>();
         for (String authority : authorityList) {
             if (!"".equals(authority.trim())) {
-                pageAuthorityList.add(authority);
+                viewPageAuthorityList.add(authority);
                 ViewPageEntity viewPageEntity = viewPageMapper.getOneByAuthority(authority);
                 if (viewPageEntity != null) {
-                    List<ViewPageApiEntity> viewPageApiEntityList = viewPageApiMapper.listAllByPageId(viewPageEntity.getId());
+                    List<ViewPageApiEntity> viewPageApiEntityList = viewPageApiMapper.listAllByViewPageId(viewPageEntity.getId());
                     if (viewPageApiEntityList != null && !viewPageApiEntityList.isEmpty()) {
                         for (ViewPageApiEntity viewPageApiEntity : viewPageApiEntityList) {
                             ApiEntity apiEntity = apiMapper.getOne(viewPageApiEntity.getApiId());
@@ -166,10 +165,10 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
                 }
             }
         }
-        // 视图页面组件关联的 API authority 全部放入 pageAuthorityList
-        pageAuthorityList.addAll(apiAuthorityList);
+        // 视图页面组件关联的 API authority 全部放入 viewPageAuthorityList
+        viewPageAuthorityList.addAll(apiAuthorityList);
         RoleAuthorityEntity roleAuthorityEntity = null;
-        for (String a : pageAuthorityList) {
+        for (String a : viewPageAuthorityList) {
             roleAuthorityEntity = roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, a);
             if (roleAuthorityEntity != null) {
                 authorityList3.add(a);
@@ -179,12 +178,12 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
         if (!authorityList3.isEmpty()) {
             roleAuthorityMapper.deleteAllByRoleIdAndAuthorityList(roleId, authorityList3);
         }
-        return authorityList3;
+        return authorityList3.size();
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public List<String> grantAllByRoleIdAndPageComponentAuthorityList(Long roleId, List<String> authorityList) {
+    public int grantAllByRoleIdAndViewPageComponentAuthorityList(Long roleId, List<String> authorityList) {
         // 视图页面组件 authority
         List<String> pageComponentAuthorityList = new ArrayList<>();
         // 视图页面组件关联的 API authority
@@ -196,7 +195,7 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
                 pageComponentAuthorityList.add(authority);
                 ViewPageComponentEntity viewPageComponentEntity = viewPageComponentMapper.getOneByAuthority(authority);
                 if (viewPageComponentEntity != null) {
-                    List<ViewPageComponentApiEntity> viewPageComponentApiEntityList = viewPageComponentApiMapper.listAllByPageComponentId(viewPageComponentEntity.getId());
+                    List<ViewPageComponentApiEntity> viewPageComponentApiEntityList = viewPageComponentApiMapper.listAllByViewPageComponentId(viewPageComponentEntity.getId());
                     if (viewPageComponentApiEntityList != null && !viewPageComponentApiEntityList.isEmpty()) {
                         for (ViewPageComponentApiEntity viewPageApiEntity : viewPageComponentApiEntityList) {
                             ApiEntity apiEntity = apiMapper.getOne(viewPageApiEntity.getApiId());
@@ -221,12 +220,12 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
         if (!authorityList3.isEmpty()) {
             roleAuthorityMapper.insertAllByRoleIdAndAuthorityList(roleId, authorityList3);
         }
-        return authorityList3;
+        return authorityList3.size();
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public List<String> revokeAllByRoleIdAndPageComponentAuthorityList(Long roleId, List<String> authorityList) {
+    public int revokeAllByRoleIdAndViewPageComponentAuthorityList(Long roleId, List<String> authorityList) {
         // 视图页面组件 authority
         List<String> pageComponentAuthorityList = new ArrayList<>();
         // 视图页面组件关联的 API authority
@@ -239,7 +238,7 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
 
                 ViewPageComponentEntity viewPageComponentEntity = viewPageComponentMapper.getOneByAuthority(authority);
                 if (viewPageComponentEntity != null) {
-                    List<ViewPageComponentApiEntity> viewPageComponentApiEntityList = viewPageComponentApiMapper.listAllByPageComponentId(viewPageComponentEntity.getId());
+                    List<ViewPageComponentApiEntity> viewPageComponentApiEntityList = viewPageComponentApiMapper.listAllByViewPageComponentId(viewPageComponentEntity.getId());
                     if (viewPageComponentApiEntityList != null && !viewPageComponentApiEntityList.isEmpty()) {
 
                         for (ViewPageComponentApiEntity viewPageApiEntity : viewPageComponentApiEntityList) {
@@ -266,7 +265,7 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
         if (!authorityList3.isEmpty()) {
             roleAuthorityMapper.deleteAllByRoleIdAndAuthorityList(roleId, authorityList3);
         }
-        return authorityList3;
+        return authorityList3.size();
     }
 
     @Override
@@ -280,8 +279,4 @@ public class RoleAuthorityServiceImpl implements RoleAuthorityService {
         return data;
     }
 
-    @Override
-    public RoleAuthorityEntity getOne(Long id) {
-        return roleAuthorityMapper.getOne(id);
-    }
 }

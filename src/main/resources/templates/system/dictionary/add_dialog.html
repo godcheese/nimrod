@@ -19,29 +19,36 @@
         <tr>
             <td class="label">字典值：</td>
             <td><input name="value" class="easyui-textbox" style="height: 50px;"
-                       data-options="required:false,multiline:true">
+                       data-options="multiline:true">
             </td>
         </tr>
         <tr>
-            <td class="label">是否有效：</td>
-            <td><input name="enable" id="enable">
+            <td class="label">字典分类：</td>
+            <td><input name="dictionaryCategoryId" id="dictionaryCategoryId" class="easyui-combotree"></td>
+        </tr>
+        <tr>
+            <td class="label">是否启用：</td>
+            <td><input name="enabled" id="enabled">
             </td>
         </tr>
         <tr>
             <td class="label">排序：</td>
-            <td><input name="sort" value="0" class="easyui-numberbox" data-options="required:false"></td>
+            <td><input name="sort" value="0" class="easyui-numberbox"></td>
         </tr>
         <tr>
             <td class="label">备注：</td>
             <td><input name="remark" class="easyui-textbox" style="height:50px;"
-                       data-options="required:false,multiline:true"></td>
+                       data-options="multiline:true"></td>
         </tr>
     </table>
 </div>
 
-<script>
+<script type="text/javascript">
     $(function () {
-        $('#enable').combobox({
+        $('#dictionaryCategoryId').combotree({
+            url: Url.System.Api.DICTIONARY_CATEGORY + '/list_all_as_combo_tree'
+        });
+        $('#enabled').combobox({
             url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
             valueField: 'value',
             textField: 'valueName',

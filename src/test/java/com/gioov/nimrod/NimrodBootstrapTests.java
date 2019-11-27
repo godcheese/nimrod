@@ -1,6 +1,6 @@
 package com.gioov.nimrod;
 
-import com.gioov.common.util.DateUtil;
+import com.gioov.tile.util.DateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

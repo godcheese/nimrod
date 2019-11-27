@@ -1,6 +1,6 @@
 package com.gioov.nimrod.common.controller;
 
-import com.gioov.common.web.http.FailureEntity;
+import com.gioov.nimrod.common.others.FailureEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +43,6 @@ public class CustomBasicErrorController extends AbstractErrorController {
 
     /**
      * html
-     *
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @return ModelAndView
@@ -53,18 +52,8 @@ public class CustomBasicErrorController extends AbstractErrorController {
         HttpStatus httpStatus = getStatus(request);
         int code = httpStatus.value();
         Map<String, Object> errorAttributes = getErrorAttributes(request, true);
-        LOGGER.error("status={},exception={}", code, errorAttributes);
-        switch (code) {
-            case 403:
-                break;
-            case 404:
-                break;
-            case 500:
-                break;
-            default:
-                code = 500;
-                break;
-        }
+        LOGGER.info("status={},exception={}", code, errorAttributes);
+        code = RestControllerAdviceHandler.codeSwitch(code);
         httpStatus = HttpStatus.valueOf(code);
         Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(
                 request, true));
@@ -74,10 +63,9 @@ public class CustomBasicErrorController extends AbstractErrorController {
 
     /**
      * json
-     *
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
-     * @return ResponseEntity<?>
+     * @return ResponseEntity<FailureEntity>
      */
     @RequestMapping
     @ResponseBody
@@ -85,22 +73,9 @@ public class CustomBasicErrorController extends AbstractErrorController {
         HttpStatus httpStatus = getStatus(request);
         int code = httpStatus.value();
         Map<String, Object> errorAttributes = getErrorAttributes(request, true);
-        LOGGER.error("status={},errorAttributes={}", code, errorAttributes);
-        switch (code) {
-            case 400:
-                break;
-            case 403:
-                break;
-            case 404:
-                break;
-            case 500:
-                break;
-            default:
-                code = 500;
-                break;
-        }
+        LOGGER.info("status={},exception={}", code, errorAttributes);
+        code = RestControllerAdviceHandler.codeSwitch(code);
         httpStatus = HttpStatus.valueOf(code);
-        return new ResponseEntity<>(new FailureEntity(httpStatus.getReasonPhrase(), httpStatus.value()), httpStatus);
+        return new ResponseEntity<>(new FailureEntity((String) errorAttributes.get("message"), httpStatus.value()), httpStatus);
     }
-
 }

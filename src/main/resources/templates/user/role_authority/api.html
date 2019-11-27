@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'west',split:true" style="width:40%">
+        <table id="roleAuthorityApiCategory"></table>
+    </div>
+    <div data-options="region:'center',split:true">
+        <div id="roleAuthorityApiToolbar">
+            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/API/PAGE_ALL/ROLE_AUTHORITY_API_GRANT_ALL">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
+               onclick="roleAuthorityApiGrantAll();">授权</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/API/PAGE_ALL/ROLE_AUTHORITY_API_REVOKE_ALL">
+            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+               onclick="roleAuthorityApiRevokeAll();">撤销授权</a>
+            </nimrod:security>
+        </div>
+        <table id="roleAuthorityApi"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var roleId;
+    $(function () {
+        var checkedRole = $('#role').datagrid('getChecked')[0];
+        if (checkedRole) {
+            roleId = checkedRole.id;
+        }
+
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '分类名称'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#roleAuthorityApiCategory').treegrid(expressui.grid.create, {
+            title: 'API 分类',
+            url: Url.User.Api.API_CATEGORY + '/list_all_parent',
+            expandUrl: Url.User.Api.API_CATEGORY + '/list_all_by_parent_id?parentId={id}',
+            columns: [columns],
+            onCheck: function (row) {
+                if (row) {
+                    $('#roleAuthorityApi').datagrid('reload', Url.User.Api.API + '/page_all_by_api_category_id?apiCategoryId=' + row.id + '&roleId=' + roleId);
+                }
+            },
+            onUncheck: function (index, row) {
+                $('#roleAuthorityApi').datagrid('loadData', []);
+            }
+        });
+
+        var IS_OR_NOT = [];
+        columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+                    return expressui.grid.formatter(value, IS_OR_NOT);
+                }
+            },
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: 'API 名称'},
+            {field: 'url', title: '请求地址（url）'},
+            {field: 'authority', title: '权限（authority）'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#roleAuthorityApi').datagrid(expressui.grid.create, {
+            title: 'API',
+            columns: [columns],
+            onBeforeLoad: function (param) {
+                util.ajax({
+                    url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+                    success: function (data) {
+                        if (data) {
+                            IS_OR_NOT = data;
+                        }
+                    }
+                });
+            },
+        });
+    });
+
+    function roleAuthorityApiGrantAll() {
+        var checkedAll = $('#roleAuthorityApi').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var authorityList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                authorityList[i] = checkedAll[i].authority;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_AUTHORITY + '/grant_all_by_role_id_and_api_authority_list',
+                data: {roleId: roleId, authorityList: authorityList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '授权成功'});
+                    $('#roleAuthorityApi').datagrid('reload');
+                    $('#roleAuthorityApi').datagrid('clearSelections');
+                    $('#roleAuthorityApi').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function roleAuthorityApiRevokeAll() {
+        var checkedAll = $('#roleAuthorityApi').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var authorityList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                authorityList[i] = checkedAll[i].authority;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_AUTHORITY + '/revoke_all_by_role_id_and_api_authority_list',
+                data: {roleId: roleId, authorityList: authorityList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '撤销授权成功'});
+                    $('#roleAuthorityApi').datagrid('reload');
+                    $('#roleAuthorityApi').datagrid('clearSelections');
+                    $('#roleAuthorityApi').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+</script>
+</body>
+</html>

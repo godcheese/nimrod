@@ -13,7 +13,7 @@ CREATE TABLE `user` (
   `email` varchar(255) DEFAULT '' COMMENT '电子邮箱',
   `email_is_verified` tinyint(1) unsigned COMMENT '电子邮箱是否验证通过（0=未验证，1=已验证）',
   `department_id` bigint(20) unsigned NOT NULL COMMENT '部门 id',
-  `disabled` tinyint(20) unsigned NULL COMMENT '是否禁用（0=否，1=是，默认=0）',
+  `enabled` tinyint(20) unsigned NULL COMMENT '是否启用（0=否，1=是，默认=0）',
   `remark` varchar(255) DEFAULT '' COMMENT '备注',
   `gmt_deleted` datetime DEFAULT NULL COMMENT '删除时间',
   `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',

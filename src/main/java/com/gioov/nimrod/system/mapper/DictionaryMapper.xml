@@ -8,8 +8,8 @@
         <result column="value_name" property="valueName" jdbcType="VARCHAR"/> <!-- 字典值名 -->
         <result column="value_slug" property="valueSlug" jdbcType="VARCHAR"/> <!-- 字典值别名 -->
         <result column="value" property="value" jdbcType="LONGVARCHAR"/> <!-- 字典值 -->
-        <result column="enable" property="enable" jdbcType="TINYINT"/> <!-- 是否有效（0=否，1=是，默认=0） -->
         <result column="dictionary_category_id" property="dictionaryCategoryId" jdbcType="BIGINT"/> <!-- 字典分类 id -->
+        <result column="enabled" property="enabled" jdbcType="TINYINT"/> <!-- 是否启用（0=否，1=是，默认=0） -->
         <result column="sort" property="sort" jdbcType="BIGINT"/> <!-- 排序 -->
         <result column="remark" property="remark" jdbcType="VARCHAR"/> <!-- 备注 -->
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/> <!-- 更新时间 -->
@@ -21,106 +21,88 @@
     </sql>
 
     <sql id="BaseColumnList">
-        `id`,
-        `key_name`,
-        `key`,
-        `value_name`,
-        `value_slug`,
-        `value`,
-        `enable`,
-        `dictionary_category_id`,
-        `sort`,
-        `remark`,
-        `gmt_modified`,
-        `gmt_created`
+        `id`, `key_name`, `key`, `value_name`, `value_slug`, `value`, `enabled`, `dictionary_category_id`, `sort`, `remark`, `gmt_modified`, `gmt_created`
     </sql>
 
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.gioov.nimrod.system.entity.DictionaryEntity">
-        INSERT INTO
+        insert into
         <include refid="TableName"/>
-        (`id`, `key_name`, `key`, `value_name`, `value_slug`, `value`, `enable`,`dictionary_category_id`,
-        `sort`, `remark`, `gmt_modified`, `gmt_created`)
-        VALUES (#{id}, #{keyName}, #{key}, #{valueName}, #{valueSlug}, #{value}, #{enable},
-        #{dictionaryCategoryId}, #{sort}, #{remark}, #{gmtModified}, #{gmtCreated})
+        (`id`, `key_name`, `key`, `value_name`, `value_slug`, `value`,`dictionary_category_id`, `enabled`, `sort`, `remark`, `gmt_modified`, `gmt_created`)
+        values (#{id}, #{keyName}, #{key}, #{valueName}, #{valueSlug}, #{value}, #{dictionaryCategoryId}, #{enabled}, #{sort}, #{remark}, #{gmtModified}, #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.system.entity.DictionaryEntity">
-        UPDATE
+        update
         <include refid="TableName"/>
-        SET `key_name` = #{keyName}, `key` = #{key}, `value_name` = #{valueName}, `value_slug` = #{valueSlug}, `value` =
-        #{value}, `enable` = #{enable}, `dictionary_category_id` = #{dictionaryCategoryId}, `sort` = #{sort}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
-        WHERE `id`= #{id}
+        set `key_name` = #{keyName}, `key` = #{key}, `value_name` = #{valueName}, `value_slug` = #{valueSlug}, `value` =
+        #{value}, `dictionary_category_id` = #{dictionaryCategoryId}, `enabled` = #{enabled}, `sort` = #{sort}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        where `id`= #{id}
     </update>
 
     <delete id="deleteOne" parameterType="long">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` = #{id}
+        where `id` = #{id}
     </delete>
 
     <select id="getOne" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `id` = #{id} LIMIT 1
+        where `id` = #{id} limit 1
     </select>
 
     <select id="listAll" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
     </select>
 
-    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.gioov.common.mybatis.Pageable">
-        SELECT
-        <include refid="BaseColumnList"/>
-        FROM
-        <include refid="TableName"/>
-        ${pageable}
-    </select>
+    <!--    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">-->
+    <!--        select-->
+    <!--        <include refid="BaseColumnList"/>-->
+    <!--        from-->
+    <!--        <include refid="TableName"/>-->
+    <!--    </select>-->
 
     <select id="getOneByDictionaryCategoryId" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `dictionary_category_id` = #{dictionaryCategoryId} LIMIT 1
+        where `dictionary_category_id` = #{dictionaryCategoryId} limit 1
     </select>
 
     <select id="pageAllByDictionaryCategoryId" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `dictionary_category_id` = #{dictionaryCategoryId} ${pageable}
+        where `dictionary_category_id` = #{dictionaryCategoryId}
     </select>
-    <select id="countAllByDictionaryCategoryId" resultType="int">
-        SELECT COUNT(1) FROM
-        <include refid="TableName"/>
-        WHERE `dictionary_category_id` = #{dictionaryCategoryId}
-    </select>
+
     <select id="getOneByKeyAndValueSlug" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `key` = #{key} AND `value_slug` = #{valueSlug} LIMIT 1
+        where `key` = #{key} AND `value_slug` = #{valueSlug} limit 1
     </select>
     <select id="listAllByKey" resultMap="BaseResultMap" parameterType="string">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `key` = #{key}
+        where `key` = #{key}
     </select>
 
     <delete id="deleteAll">
-        DELETE FROM
+        delete from
         <include refid="TableName"/>
-        WHERE `id` IN
+        where `id` in
         (
         <foreach collection="list" item="item" index="index" separator=",">
             #{item}
@@ -129,11 +111,23 @@
     </delete>
 
     <select id="listAllByDictionaryCategoryId" resultMap="BaseResultMap">
-        SELECT
+        select
         <include refid="BaseColumnList"/>
-        FROM
+        from
         <include refid="TableName"/>
-        WHERE `dictionary_category_id` = #{dictionaryCategoryId}
+        where `dictionary_category_id` = #{dictionaryCategoryId}
+    </select>
+
+    <select id="pageAllByDictionaryCategoryIdList" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `dictionary_category_id` in (
+        <foreach collection="dictionaryCategoryIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
     </select>
 
 </mapper>

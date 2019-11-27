@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="./widget/base"></div>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'west',split:true" style="width:40%">
+        <div id="viewMenuCategoryToolbar">
+            <nimrod:security authority="/COMPONENT/USER/ROLE_VIEW_MENU/ROLE_VIEW_MENU_CATEGORY_GRANT_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
+                   onclick="roleViewMenuCategoryGrantAll();">授权</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_DELETE_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+                   onclick="roleViewMenuCategoryRevokeAll();">撤销授权</a>
+            </nimrod:security>
+        </div>
+        <table id="viewMenuCategory"></table>
+    </div>
+    <div data-options="region:'center',split:true">
+        <div id="viewMenuToolbar">
+            <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_ADD_DIALOG">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
+                   onclick="roleViewMenuGrantAll();">授权</a>
+            </nimrod:security>
+            <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_DELETE_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
+                   onclick="roleViewMenuRevokeAll();">撤销授权</a>
+            </nimrod:security>
+        </div>
+        <table id="viewMenu"></table>
+    </div>
+</div>
+<script type="text/javascript">
+    var roleId;
+    $(function () {
+        var checkedRole = $('#role').datagrid('getChecked')[0];
+        if (checkedRole) {
+            roleId = checkedRole.id;
+        }
+
+        var IS_OR_NOT = [];
+        var columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+                    return expressui.grid.formatter(value, IS_OR_NOT);
+                }
+            },
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '分类名称'},
+            {field: 'icon', title: '图标（icon）'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#viewMenuCategory').treegrid(expressui.grid.create, {
+            title: '视图菜单分类',
+            url: Url.User.Api.VIEW_MENU_CATEGORY + '/list_all_parent?roleId=' + roleId,
+            expandUrl: Url.User.Api.VIEW_MENU_CATEGORY + '/list_all_by_parent_id?parentId={id}&roleId=' + roleId,
+            columns: [columns],
+            onBeforeLoad: function (param) {
+                util.ajax({
+                    url: Url.System.Api.DICTIONARY + '/list_all_by_key/IS_OR_NOT',
+                    success: function (data) {
+                        if (data) {
+                            IS_OR_NOT = data;
+                        }
+                    }
+                });
+            },
+            onCheck: function (row) {
+                if (row) {
+                    $('#viewMenu').datagrid('reload', Url.User.Api.VIEW_MENU + '/page_all_by_view_menu_category_id?viewMenuCategoryId=' + row.id + "&roleId=" + roleId);
+                }
+            },
+            onUncheck: function (index, row) {
+                $('#viewMenu').datagrid('loadData', []);
+            }
+        });
+        columns = [
+            {field: 'checkbox', checkbox: true},
+            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+                    return expressui.grid.formatter(value, IS_OR_NOT);
+                }
+            },
+            {field: 'id', title: 'ID'},
+            {field: 'name', title: '菜单名称'},
+            {field: 'icon', title: '图标（icon）'},
+            {field: 'url', title: '请求地址（url）'},
+            {field: 'sort', title: '排序'},
+            {field: 'remark', title: '备注'},
+            {field: 'gmtModified', title: '更新时间'},
+            {field: 'gmtCreated', title: '创建时间'}
+        ];
+        $('#viewMenu').datagrid(expressui.grid.create, {
+            title: '视图菜单',
+            columns: [columns]
+        });
+    });
+
+    function roleViewMenuCategoryGrantAll() {
+        var checkedAll = $('#viewMenu').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var viewMenuIdList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                viewMenuIdList[i] = checkedAll[i].id;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_VIEW_MENU + '/grant_all_by_role_id_and_view_menu_id_list',
+                data: {roleId: roleId, viewMenuIdList: viewMenuIdList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '授权成功'});
+                    $('#viewMenu').datagrid('reload');
+                    $('#viewMenu').datagrid('clearSelections');
+                    $('#viewMenu').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function roleViewMenuCategoryRevokeAll() {
+        var checkedAll = $('#viewMenu').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var viewMenuIdList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                viewMenuIdList[i] = checkedAll[i].id;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_VIEW_MENU + '/revoke_all_by_role_id_and_view_menu_id_list',
+                data: {roleId: roleId, viewMenuIdList: viewMenuIdList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '撤销授权成功'});
+                    $('#viewMenu').datagrid('reload');
+                    $('#viewMenu').datagrid('clearSelections');
+                    $('#viewMenu').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function roleViewMenuGrantAll() {
+        var checkedAll = $('#viewMenu').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var viewMenuIdList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                viewMenuIdList[i] = checkedAll[i].id;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_VIEW_MENU + '/grant_all_by_role_id_and_view_menu_id_list',
+                data: {roleId: roleId, viewMenuIdList: viewMenuIdList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '授权成功'});
+                    $('#viewMenu').datagrid('reload');
+                    $('#viewMenu').datagrid('clearSelections');
+                    $('#viewMenu').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+
+    function roleViewMenuRevokeAll() {
+        var checkedAll = $('#viewMenu').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
+        var viewMenuIdList = [];
+        if (checkedAll) {
+            for (var i = 0; i < checkedAll.length; i++) {
+                viewMenuIdList[i] = checkedAll[i].id;
+            }
+            util.ajax({
+                url: Url.User.Api.ROLE_VIEW_MENU + '/revoke_all_by_role_id_and_view_menu_id_list',
+                data: {roleId: roleId, viewMenuIdList: viewMenuIdList},
+                type: 'post',
+                success: function (data) {
+                    $.messager.show({title: '信息', msg: '撤销授权成功'});
+                    $('#viewMenu').datagrid('reload');
+                    $('#viewMenu').datagrid('clearSelections');
+                    $('#viewMenu').datagrid('clearChecked');
+                },
+                error: function (XMLHttpRequest) {
+                    $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>
