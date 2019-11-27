@@ -503,7 +503,7 @@ INSERT INTO `dictionary` VALUES (4, 'MAIL', '电子邮箱发信配置', '协议'
 INSERT INTO `dictionary` VALUES (5, 'MAIL', '电子邮箱发信配置', '端口号', 'PORT', '25', 4, 1, 0, '', '2018-07-08 15:29:33', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (6, 'MAIL', '电子邮箱发信配置', '用户名', 'USERNAME', 'no-reply@example.com', 4, 1, 0, '', '2019-02-28 08:34:20', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (7, 'MAIL', '电子邮箱发信配置', '密码', 'PASSWORD', '123456', 4, 1, 0, '', '2019-11-07 02:16:18', '2018-07-08 15:29:33');
-INSERT INTO `dictionary` VALUES (8, 'MAIL', '电子邮箱发信配置', '显示邮箱', 'FROM', 'no-reply@gioov.net', 4, 1, 0, '', '2019-02-28 08:34:27', '2018-07-08 15:29:33');
+INSERT INTO `dictionary` VALUES (8, 'MAIL', '电子邮箱发信配置', '显示邮箱', 'FROM', 'no-reply@example.net', 4, 1, 0, '', '2019-02-28 08:34:27', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (9, 'MAIL', '电子邮箱发信配置', '默认编码', 'DEFAULT_ENCODING', 'UTF-8', 4, 1, 0, '', '2018-07-08 15:29:33', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (10, 'MAIL', '电子邮箱发信配置', '测试连接', 'TEST_CONNECTION', 'false', 4, 1, 0, '', '2018-07-08 15:29:33', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (11, 'VIEW_PAGE_COMPONENT_TYPE', '视图页面组件类型', '按钮', 'BUTTON', '1', 5, 1, 0, '', '2018-07-08 15:29:33', '2018-07-08 15:29:33');
