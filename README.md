@@ -33,8 +33,8 @@ Nimrod 是一款基于 Spring Boot 封装的 Java Web 平台快速开发脚手�
 
 - [码云 Gitee](https://gitee.com/godcheese/nimrod)
 - Nimrod 开发交流群（微信群）：
-<img width="200" src="https://github.com/godcheese/nimrod/blob/master/WechatGroup.png?raw=true">
--  Nimrod 开发交流群（QQ 群）：[547252502](https://jq.qq.com/?_wv=1027&k=5yxyg73)
+  - <img width="200" src="https://github.com/godcheese/nimrod/blob/master/WechatGroup.png?raw=true">
+- Nimrod 开发交流群（QQ 群）：[547252502](https://jq.qq.com/?_wv=1027&k=5yxyg73)
 
 |环境  |版本|
 |:-----|---|
