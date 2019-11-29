@@ -31,7 +31,7 @@
 
 Nimrod 是一款基于 Spring Boot 封装的 Java Web 平台快速开发脚手架，所采用的技术栈包括 Spring Boot、Spring、Spring MVC、MyBatis、Thymeleaf 等，遵守[阿里巴巴 Java 开发规约](https://github.com/alibaba/p3c)，帮助养成良好的编码习惯。整体采用 RBAC （ Role-Based Access Control ，基于角色的访问控制），具有严格的权限控制模块，支持系统与模块分离开发。最后希望这个项目能够对你有所帮助。
 
-- Nimrod 开发交流群（微信群）：<img width="200" src="https://github.com/godcheese/nimrod/blob/master/WechatGroup.png?raw=true">
+- Nimrod 开发交流群（微信群）：<img width="200" height="300" src="https://github.com/godcheese/nimrod/blob/master/WechatGroup.png?raw=true">
 - Nimrod 开发交流群（QQ 群）：[547252502](https://jq.qq.com/?_wv=1027&k=5yxyg73)
 - [码云 Gitee](https://gitee.com/godcheese/nimrod)
 
