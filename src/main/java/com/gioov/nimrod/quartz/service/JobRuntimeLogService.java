@@ -2,8 +2,6 @@ package com.gioov.nimrod.quartz.service;
 
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 
 import java.util.List;
 

@@ -1,12 +1,7 @@
 package com.gioov.nimrod.user.service;
 
-import com.gioov.nimrod.common.easyui.Pagination;
-import com.gioov.nimrod.user.entity.UserRoleEntity;
 import com.gioov.nimrod.user.entity.UserVerifyCodeEntity;
 import com.gioov.tile.web.exception.BaseResponseException;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]

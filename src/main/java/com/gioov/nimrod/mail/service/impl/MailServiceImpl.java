@@ -1,9 +1,9 @@
 package com.gioov.nimrod.mail.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.common.others.FailureEntity;
-import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.mail.entity.MailEntity;
 import com.gioov.nimrod.mail.mapper.MailMapper;
 import com.gioov.nimrod.mail.service.MailService;

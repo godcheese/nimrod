@@ -1,7 +1,7 @@
 package com.gioov.example.mapper;
 
-import com.gioov.tile.mybatis.CrudMapper;
 import com.gioov.example.entity.ExampleEntity;
+import com.gioov.tile.mybatis.CrudMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 

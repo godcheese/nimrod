@@ -1,10 +1,13 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.EasyUI;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.system.service.DictionaryService;
-import com.gioov.nimrod.user.entity.*;
+import com.gioov.nimrod.user.entity.RoleEntity;
+import com.gioov.nimrod.user.entity.UserRoleEntity;
+import com.gioov.nimrod.user.entity.ViewMenuCategoryEntity;
+import com.gioov.nimrod.user.entity.ViewMenuEntity;
 import com.gioov.nimrod.user.mapper.RoleViewMenuCategoryMapper;
 import com.gioov.nimrod.user.mapper.UserRoleMapper;
 import com.gioov.nimrod.user.mapper.ViewMenuCategoryMapper;

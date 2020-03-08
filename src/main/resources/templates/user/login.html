@@ -29,20 +29,18 @@
                 <form th:action="@{/user/login/form}">
                     <div class="account">
 <!--                        <img th:src="@{/assets/img/login/username.png}" alt="">-->
-                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <i class="iconfont icon-user"></i>
                         <input id="account" name="account" type="text" placeholder="请输入用户名">
                     </div>
                     <div class="password">
-<!--                        <img th:src="@{/assets/img/login/password.png}" alt="">-->
-                        <i class="fa fa-lock" aria-hidden="true"></i>
+                        <i class="iconfont icon-lock"></i>
                         <input id="password" name="password" type="password" placeholder="请输入密码">
                     </div>
                     <div class="verify-code">
                         <div class="verify-code-image">
-                            <!--                           <img th:src="@{/assets/img/login/verify_code_image.png}"/>-->
                             <img id="verifyCodeImage" th:src="@{/api/system/verify_code}"/>
                         </div>
-                        <i class="fa fa-image" aria-hidden="true"></i>
+                        <i class="iconfont icon-image"></i>
                         <input id="verifyCode" name="verifyCode" type="text" placeholder="请输入验证码">
                     </div>
                     <div class="remember-me">
@@ -54,7 +52,7 @@
             </div>
         </div>
         <div class="login-footer">
-            <p>&copy; 2019 godcheese.com</p>
+            <p>&copy; 2020 godcheese.com</p>
             <p>建议浏览器：Google Chrome、Firefox、Internet Explorer 9 及以上等</p>
         </div>
     </div>

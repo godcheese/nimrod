@@ -1,7 +1,7 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.system.service.DictionaryService;
 import com.gioov.nimrod.user.entity.ViewPageEntity;
 import com.gioov.nimrod.user.mapper.RoleAuthorityMapper;

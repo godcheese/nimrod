@@ -19,5 +19,4 @@ public interface JobRuntimeLogMapper extends CrudMapper<JobRuntimeLogEntity, Lon
      * @return Page<JobRuntimeLogEntity>
      */
     Page<JobRuntimeLogEntity> pageAll();
-
 }

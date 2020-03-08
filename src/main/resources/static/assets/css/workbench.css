@@ -1,5 +1,5 @@
 body{min-width:1220px;position:relative}
-body .todo-panel{position:absolute;height:515px;border:1px solid #cbcbcb;background-color:#fff;box-shadow:0 2px 0 0 #cbcbcb;border-bottom-left-radius:3px;border-bottom-right-radius:3px;display:none}
+body .todo-panel{position:absolute;height:515px;border:1px solid #cbcbcb;background-color:#ffffff;box-shadow:0 2px 0 0 #cbcbcb;border-bottom-left-radius:3px;border-bottom-right-radius:3px;display:none}
 body .todo-panel .todo-title{position:relative;height:111px}
 body .todo-panel .todo-title i{position:absolute;font-size:60px;left: 14px;top:29px;color:#0089d0}
 body .todo-panel .todo-title span.num{position:absolute;left:80px;top:30px;font-size:32px;color:#f45438}
@@ -14,16 +14,16 @@ body .todo-panel .todo-items ul li a>span{color:#f45438}
 body .todo-panel .todo-items ul li label{float:right;color:#b8b8b8}
 #body .body-content{position:relative;padding-right:300px}
 #body .body-content .right-zone{position:absolute;right:0;top:0;bottom:0;width:300px}
-#body .item-box{width:297px;border:1px solid #bfbfbf;margin-bottom:12px}
+#body .item-box{width:286px;border:1px solid #bfbfbf;margin-bottom:12px}
 #body .item-box.right-box-one{height:231px}
 #body .item-box.right-box-two{height:272px}
 #body .item-box.right-box-three{height:272px;}
 #body .item-box.right-box-three .right-box-header{border-bottom:0;}
 #body .item-box.right-box-three .right-box-tab{height:31px;border-top:2px solid #0089d0;margin-bottom:5px;border-left:1px solid #bfbfbf}
-#body .item-box.right-box-three .right-box-tab a{display:inline-block;width:147px;height:31px;float:left;border:0;color:#000;text-align:center;line-height:31px;text-decoration:none;background-color:#f1f1f1}
-#body .item-box.right-box-three .right-box-tab a.current{background-color:#fff;border-bottom:1px solid #bfbfbf;}
+#body .item-box.right-box-three .right-box-tab a{display:inline-block;width:141px;height:31px;float:left;border:0;color:#000;text-align:center;line-height:31px;text-decoration:none;background-color:#f1f1f1}
+#body .item-box.right-box-three .right-box-tab a.current{background-color:#ffffff;border-bottom:1px solid #bfbfbf;}
 #body .item-box.right-box-three ul.hide{display:none}
-#body .item-box.right-box-three ul li a{width:260px}
+/*#body .item-box.right-box-three ul li a{width:260px}*/
 #body .item-box .right-box-header{padding:0 10px;height:35px;line-height:35px;background-color:#e3e3e3;border-left:1px solid #bfbfbf;}
 #body .item-box .right-box-header label{color:#000;font-weight:bold}
 #body .item-box .right-box-header a{text-decoration:none;float:right;color:#000}
@@ -41,7 +41,7 @@ body .todo-panel .todo-items ul li label{float:right;color:#b8b8b8}
 #body .center-part .center-items.todo .work-items{height:233px}
 #body .center-part .center-items.todo .work-items li{float:left;width:33.333333%;cursor:pointer}
 #body .center-part .center-items.todo .work-items li .work-inner{padding-right:10px}
-#body .center-part .center-items.todo .work-items li .work-inner .work-item{position:relative;height:111px;color:#fff}
+#body .center-part .center-items.todo .work-items li .work-inner .work-item{position:relative;height:111px;color:#ffffff}
 #body .center-part .center-items.todo .work-items li .work-inner .work-item i{position:absolute;font-size:60px;left:11px;top:22px}
 #body .center-part .center-items.todo .work-items li .work-inner .work-item span.num{position:absolute;left:80px;top:30px;font-size:32px}
 #body .center-part .center-items.todo .work-items li .work-inner .work-item span.num span{font-size:14px}

@@ -31,7 +31,6 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
 @RestController
 @RequestMapping(value = System.Api.FILE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class FileRestController {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(FileRestController.class);
 
     private static final String FILE = "/API/SYSTEM/FILE";

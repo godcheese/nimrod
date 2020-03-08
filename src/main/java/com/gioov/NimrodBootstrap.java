@@ -69,7 +69,6 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
         String port = Common.Host.port;
         String contextPath = Common.Host.contextPath;
         String ip = Common.Host.ip;
-        LOGGER.info("ip={}", ip);
         String local = scheme + "://localhost" + ":" + port + contextPath + "/";
         String network = scheme + "://" + ip + ":" + port + contextPath + "/";
         if(ip == null) {

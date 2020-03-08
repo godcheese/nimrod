@@ -5,11 +5,11 @@
 
     <groupId>com.gioov</groupId>
     <artifactId>nimrod</artifactId>
-    <version>0.6.5</version>
+    <version>0.7.0</version>
     <!-- jar 打包引用此属性值 -->
-     <packaging>jar</packaging>
+<!--     <packaging>jar</packaging>-->
     <!-- war 打包引用此属性值 -->
-    <!-- <packaging>war</packaging> -->
+     <packaging>war</packaging>
     <name>${project.artifactId}</name>
     <description>Demo project for Spring Boot</description>
     <url>http://www.godcheese.com/</url>
@@ -202,9 +202,9 @@
             <resource>
                 <directory>${project.basedir}/lib</directory>
                 <!-- jar 打包引用此属性值 -->
-                 <targetPath>BOOT-INF/lib</targetPath>
+                <!-- <targetPath>BOOT-INF/lib</targetPath> -->
                 <!-- war 打包引用此属性值 -->
-                <!-- <targetPath>${project.basedir}/target/${project.build.finalName}/WEB-INF/lib</targetPath> -->
+                <targetPath>${project.basedir}/target/${project.build.finalName}/WEB-INF/lib</targetPath>
                 <includes>
                     <include>**/*.jar</include>
                 </includes>

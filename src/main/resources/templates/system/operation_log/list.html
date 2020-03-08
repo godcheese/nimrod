@@ -6,10 +6,10 @@
 <body>
 <div id="operationLogToolbar">
     <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_DELETE_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="operationLogDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="operationLogDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_CLEAR_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="operationLogClearAll();">清空日志</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="operationLogClearAll();">清空日志</a>
     </nimrod:security>
 </div>
 <table id="operationLog"></table>
@@ -72,7 +72,7 @@
             get: {url: Url.System.Api.OPERATION_LOG + '/one/' + id, method: 'get'},
             buttons: [ {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });

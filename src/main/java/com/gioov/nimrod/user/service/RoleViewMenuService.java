@@ -1,10 +1,6 @@
 package com.gioov.nimrod.user.service;
 
-import com.gioov.nimrod.user.entity.RoleAuthorityEntity;
-import com.gioov.nimrod.user.entity.RoleViewMenuEntity;
-
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author godcheese [godcheese@outlook.com]

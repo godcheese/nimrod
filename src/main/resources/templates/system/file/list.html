@@ -2,20 +2,21 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="./widget/base"></div>
+    <script type="text/javascript" charset="UTF-8" th:src="@{/assets/vendor/jquery.form.min.js}"></script>
 </head>
 <body>
 <div id="fileToolbar">
     <nimrod:security authority="/COMPONENT/FILE/PAGE_ALL/UPLOAD_ONE_DIALOG">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload" onclick="fileUploadOneDialog();">单文件上传</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-upload" onclick="fileUploadOneDialog();">单文件上传</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/FILE/PAGE_ALL/UPLOAD_ONE_DIALOG">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload" plain="true" onclick="fileUploadAllDialog();">多文件上传</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-upload" onclick="fileUploadAllDialog();">多文件上传</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/SYSTEM/FILE/PAGE_ALL/FILE_EDIT_DIALOG">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="fileEditDialog();">编辑</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="fileEditDialog();">编辑</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/SYSTEM/FILE/PAGE_ALL/FILE_DELETE_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="fileDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="fileDeleteAll();">删除</a>
     </nimrod:security>
 </div>
 <table id="file"></table>
@@ -62,7 +63,7 @@
             href: Url.System.Page.FILE + '/upload_one_dialog',
             buttons: [{
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -77,7 +78,7 @@
             href: Url.System.Page.FILE + '/upload_all_dialog',
             buttons: [{
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -97,13 +98,13 @@
                 save: {url: Url.System.Api.FILE + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'datagrid', selector: '#file'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });

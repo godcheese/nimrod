@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
     <script type="text/javascript" th:src="@{/assets/js/index.js}"></script>
 </head>
-<body>
+<body id="index">
 <noscript>当你看到这条信息，意味着 JavaScript 已被你的浏览器禁用，请开启 JavaScript 以使你的设备正常访问。</noscript>
 <!--<div class="loading-wrap" id="loading" style="display: none;">-->
 <!--<div class="loading-content">-->
@@ -30,7 +30,6 @@
 <![endif]-->
 <!--<div style="clear: both"></div>-->
 <div class="header">
-
     <div class="header-logo">
         <!--<img src="/assets/img/header_logo.png" alt="logo">-->
         <span style="color:#ffffff;font-size:30px" th:utext="${#servletContext.getAttribute('WEB.NAME')}">Nimrod</span>
@@ -38,57 +37,51 @@
     <div class="header-nav">
         <div class="nav-wrap">
             <ul class="nav-wrap-ul" id="parentViewMenuCategory">
-                <!--<li class="nav-item parentViewMenuCategory" th:attr="data-menu-category=|${menuCategory.id}|">-->
+                <!-- <li class="nav-item parentViewMenuCategory" th:attr="data-menu-category=|${menuCategory.id}|">-->
                 <!--<a href="javascript:;">-->
                 <!--<i th:class="${menuCategory.icon}"></i>-->
                 <!--<span class="nav-item-title" th:text="${menuCategory.name}">菜单1</span>-->
                 <!--</a>-->
-                <!--</li>-->
+                <!--</li> -->
             </ul>
         </div>
-        <a href="javascript:" class="nav-prev disabled" style="display: none"><i class="fa fa-chevron-up"></i></a>
-        <a href="javascript:" class="nav-next" style="display: none"><i class="fa fa-chevron-down"></i></a>
+        <a href="javascript:" class="nav-prev disabled" style="display: none"><i class="iconfont icon-chevron-up"></i></a>
+        <a href="javascript:" class="nav-next" style="display: none"><i class="iconfont icon-chevron-down"></i></a>
     </div>
     <div class="header-user">
-        <!--        <div class="user-avatar"><img th:src="@{${_user.avatar} || '/assets/img/avatar.png'}" alt="avatar"></div>-->
-        <div class="user-avatar"><img style="width:40px;height:40px" id="avatarSrc" alt="avatar"></div>
+        <!-- <div class="user-avatar"><img th:src="@{${_user.avatar} || '/assets/img/avatar.png'}" alt="avatar"></div> -->
+        <div class="user-avatar"><img id="avatarSrc" alt="avatar"></div>
         <h4 class="user-name ellipsis" th:text="${_user.username}">Username</h4>
-        <i class="fa fa-caret-down"></i>
+        <i class="iconfont caret-down"></i>
         <ul class="user-dropdown-menu">
-            <li id="userInfoButton"><a href="javascript:" onclick="addTab('#tabs', '个人信息', '/user/profile');"><i class="fa fa-user"></i>个人信息</a></li>
-            <li id="logoutButton"><a href="javascript:"><i class="fa fa-sign-out"></i>注销登录</a></li>
+            <li id="userInfoButton"><a href="javascript:" onclick="addTab('#tabs', '个人信息', '/user/profile');"><i class="iconfont icon-user"></i> 个人信息</a></li>
+            <li id="logoutButton"><a href="javascript:"><i class="iconfont icon-sign-out"></i> 注销登录</a></li>
         </ul>
     </div>
 </div>
 <div class="container">
     <div id="tabsContextMenu" class="easyui-menu" style="width: 140px;display: none">
-        <div id="tabRefresh" iconCls="fa fa-refresh">重新加载</div>
+        <div id="tabRefresh" iconCls="iconfont icon-refresh">重新加载</div>
         <div class="menu-sep"></div>
-        <div id="tabCloseCurrent" iconCls="fa fa-close">关闭标签页</div>
+        <div id="tabCloseCurrent" iconCls="iconfont icon-close">关闭标签页</div>
         <div id="tabCloseAll">关闭所有标签页</div>
         <div id="tabCloseOther">关闭其他标签页</div>
         <div class="menu-sep"></div>
         <div id="tabCloseRight">关闭右侧标签页</div>
         <div id="tabCloseLeft">关闭左侧标签页</div>
     </div>
-    <div id="layout" class="easyui-layout" data-options="fit:true">
-        <!--<div data-options="region:'east',title:'East',split:true" style="width:100px;"></div>-->
-        <div title="Menu" id="left"
-             data-options="region:'west',split:false,border:true,noheader:false,hideCollapsedContent:false">
+    <div class="easyui-layout" data-options="fit:true">
+        <div id="left" data-options="region:'west',split:true,border:false,noheader:true,hideCollapsedContent:true">
             <div class="easyui-accordion slide-menu" data-options="fit:true,border:false"></div>
         </div>
         <div title="Tab" id="center" data-options="region:'center',split:false,border:false,noheader:true">
             <div id="tabs" class="easyui-tabs"
-                 data-options="split:false,border:false,fit:false,tools:'#tabsTools',onContextMenu:onContextMenu"
-                 style="width:100%;height:100%;">
+                 data-options="split:false,border:false,fit:false,tools:'#tabsTools',onContextMenu:onContextMenu" style="width:100%;height:100%;">
             </div>
             <div id="tabsTools">
-                <a href="javascript:" class="easyui-linkbutton" plain="true" iconCls="fa fa-dashboard"
-                   onclick="tabsTo('#tabs',0)"></a>
-                <a href="javascript:" class="easyui-linkbutton" plain="true" iconCls="fa fa-refresh"
-                   onclick="refreshTabIframe('#tabs')"></a>
-                <a href="javascript:" class="easyui-linkbutton" plain="true" iconCls="fa fa-close"
-                   onclick="closeSelectedTab('#tabs')"></a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-home" onclick="tabsTo('#tabs',0)"></a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-refresh" onclick="refreshTabIframe('#tabs')"></a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="closeSelectedTab('#tabs')"></a>
             </div>
         </div>
         <div title="Footer" id="bottom" data-options="region:'south',split:false,border:true,noheader:true">

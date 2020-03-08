@@ -7,12 +7,10 @@
 
 <div id="userRoleToolbar">
     <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_ADD_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-       onclick="userRoleAddDialog();">授权用户角色</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="userRoleAddDialog();">授权用户角色</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_DELETE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-       onclick="userRoleDeleteAll();">撤销授权用户角色</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="userRoleDeleteAll();">撤销授权用户角色</a>
     </nimrod:security>
 </div>
 <table id="userRole"></table>
@@ -47,13 +45,13 @@
             },
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'datagrid', selector: '#userRole'}],
                 success: '授权成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });

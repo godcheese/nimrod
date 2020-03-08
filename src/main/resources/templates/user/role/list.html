@@ -6,28 +6,22 @@
 <body>
 <div id="roleToolbar">
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_ADD_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-       onclick="roleAddDialog();">新增</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="roleAddDialog();">新增</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_EDIT_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-       onclick="roleEditDialog();">编辑</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleEditDialog();">编辑</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_DELETE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-       onclick="roleDeleteAll();">删除</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/VIEW_MENU_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-       onclick="viewMenuDialog();">视图菜单管理</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewMenuDialog();">视图菜单管理</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-       onclick="roleAuthorityViewPageDialog();">视图页面权限管理</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleAuthorityViewPageDialog();">视图页面权限管理</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_AUTHORITY_API_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-       onclick="roleAuthorityApiDialog();">API 权限管理</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleAuthorityApiDialog();">API 权限管理</a>
     </nimrod:security>
 </div>
 <table id="role"></table>
@@ -61,13 +55,13 @@
             },
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'datagrid', selector: '#role'}],
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -84,13 +78,13 @@
                 save: {url: Url.User.Api.ROLE + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'datagrid', selector: '#role'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });
@@ -120,7 +114,7 @@
             height: 450,
             buttons: [{
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -140,7 +134,7 @@
             height: 450,
             buttons: [{
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -160,7 +154,7 @@
             height: 450,
             buttons: [{
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });

@@ -2,7 +2,6 @@ package com.gioov.nimrod.user.mapper;
 
 import com.gioov.nimrod.user.entity.ViewMenuCategoryEntity;
 import com.gioov.tile.mybatis.CrudMapper;
-import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

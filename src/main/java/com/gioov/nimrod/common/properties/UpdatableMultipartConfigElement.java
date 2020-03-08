@@ -1,11 +1,5 @@
 package com.gioov.nimrod.common.properties;
 
-import org.springframework.boot.autoconfigure.web.servlet.MultipartProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-
 import javax.servlet.MultipartConfigElement;
 
 /**

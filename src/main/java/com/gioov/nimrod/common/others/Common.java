@@ -18,7 +18,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.management.*;
 import java.io.IOException;
-import java.util.*;
+import java.util.Properties;
+import java.util.TimeZone;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -88,11 +89,6 @@ public class Common {
             e.printStackTrace();
         }
         Host.contextPath = webApplicationContext.getServletContext().getContextPath();
-        LOGGER.info("ip={}", Host.ip);
-        LOGGER.info("serverInfo={}", Host.serverInfo);
-        LOGGER.info("scheme={}", Host.scheme);
-        LOGGER.info("port={}", Host.port);
-        LOGGER.info("contextPath={}", Host.contextPath);
     }
 
     /**

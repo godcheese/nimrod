@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.1.5
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 50724
- Source Host           : 192.168.1.5:3306
+ Source Host           : localhost:3306
  Source Schema         : nimrod
 
  Target Server Type    : MySQL
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 27/11/2019 17:07:36
+ Date: 07/03/2020 18:30:16
 */
 
 SET NAMES utf8mb4;
@@ -477,7 +477,7 @@ CREATE TABLE `dictionary`  (
 -- Records of dictionary
 -- ----------------------------
 INSERT INTO `dictionary` VALUES (1, 'WEB', '网站配置', '网站名', 'NAME', 'Nimrod', 3, 1, 0, '', '2019-09-24 03:24:39', '2018-07-08 15:29:33');
-INSERT INTO `dictionary` VALUES (2, 'WEB', '网站配置', '页脚版权', 'FOOTER', 'Copyright &copy; 2019 Nimrod.All rights reserved.', 3, 1, 0, '', '2019-01-04 08:34:31', '2018-07-08 15:29:33');
+INSERT INTO `dictionary` VALUES (2, 'WEB', '网站配置', '页脚版权', 'FOOTER', 'Copyright &copy; 2020 Nimrod.All rights reserved.', 3, 1, 0, '', '2020-03-07 03:41:46', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (3, 'MAIL', '电子邮箱发信配置', '主机', 'HOST', 'smtp.mail.example.com', 4, 1, 0, '企业邮箱：https://mail.example.com/', '2018-07-08 15:29:33', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (4, 'MAIL', '电子邮箱发信配置', '协议', 'PROTOCOL', 'smtp', 4, 1, 0, '', '2018-07-08 15:29:33', '2018-07-08 15:29:33');
 INSERT INTO `dictionary` VALUES (5, 'MAIL', '电子邮箱发信配置', '端口号', 'PORT', '25', 4, 1, 0, '', '2018-07-08 15:29:33', '2018-07-08 15:29:33');
@@ -632,7 +632,7 @@ CREATE TABLE `operation_log`  (
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '响应状态码',
   `gmt_created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7498 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 481 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for role
@@ -744,7 +744,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 INSERT INTO `user` VALUES (1, 'normal_user', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'normal_user@outlook.com', 1, 1, 0, '测试备注', NULL, '2019-10-31 13:54:41', '2018-06-27 21:22:40');
 INSERT INTO `user` VALUES (2, 'admin', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'admin@outlook.com', 1, 1, 1, '测试备注', NULL, '2019-11-05 02:29:23', '2018-06-27 21:22:40');
-INSERT INTO `user` VALUES (999, 'system_admin', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'system_admin@outlook.com', 1, 1, 1, '测试备注', NULL, '2019-11-26 06:41:33', '2018-06-27 21:22:40');
+INSERT INTO `user` VALUES (999, 'system_admin', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'system_admin@outlook.com', 1, 1, 1, '测试备注', NULL, '2020-03-06 10:52:51', '2018-06-27 21:22:40');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -830,15 +830,22 @@ CREATE TABLE `view_menu_category`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `gmt_created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '视图菜单分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '视图菜单分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of view_menu_category
 -- ----------------------------
-INSERT INTO `view_menu_category` VALUES (1, '系统管理', 'fa fa-cog', NULL, 0, '', '2019-06-06 02:51:28', '2018-07-01 21:28:04');
-INSERT INTO `view_menu_category` VALUES (2, '系统配置', 'fa fa-cog', 1, 0, '', '2019-06-13 04:16:55', '2018-07-01 21:28:04');
-INSERT INTO `view_menu_category` VALUES (3, '用户配置', 'fa fa-user', 1, 0, '', '2019-06-13 07:22:32', '2018-07-01 21:28:04');
-INSERT INTO `view_menu_category` VALUES (4, 'Quartz 任务', 'fa fa-bars', 2, 0, '', NULL, NULL);
+INSERT INTO `view_menu_category` VALUES (1, '系统管理', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:27', '2018-07-01 21:28:04');
+INSERT INTO `view_menu_category` VALUES (2, '系统配置', 'iconfont icon-cog', 1, 0, '', '2019-06-13 04:16:55', '2018-07-01 21:28:04');
+INSERT INTO `view_menu_category` VALUES (3, '用户配置', 'iconfont icon-user', 1, 0, '', '2019-06-13 07:22:32', '2018-07-01 21:28:04');
+INSERT INTO `view_menu_category` VALUES (4, 'Quartz 任务', 'iconfont icon-cog', 2, 0, '', NULL, NULL);
+INSERT INTO `view_menu_category` VALUES (5, '测试菜单', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:41', '2019-12-17 10:38:53');
+INSERT INTO `view_menu_category` VALUES (6, '系统管理系统管', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:46', '2019-12-17 10:51:36');
+INSERT INTO `view_menu_category` VALUES (7, '系统管理系统管2', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:52', '2019-12-17 10:55:09');
+INSERT INTO `view_menu_category` VALUES (8, '系统管理系统管3', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:56', '2019-12-17 10:55:19');
+INSERT INTO `view_menu_category` VALUES (9, '系统管理系统管4', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:12:00', '2019-12-17 10:56:24');
+INSERT INTO `view_menu_category` VALUES (10, '系统管理系统管5', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:12:03', '2019-12-17 10:56:30');
+INSERT INTO `view_menu_category` VALUES (11, '系统管理系统管6', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:12:07', '2019-12-17 10:56:36');
 
 -- ----------------------------
 -- Table structure for view_page

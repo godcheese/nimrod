@@ -1,8 +1,8 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.EasyUI;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.user.entity.ViewPageCategoryEntity;
 import com.gioov.nimrod.user.entity.ViewPageEntity;
 import com.gioov.nimrod.user.mapper.RoleAuthorityMapper;

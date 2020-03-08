@@ -1,12 +1,8 @@
 package com.gioov.nimrod.user.service;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.gioov.nimrod.common.easyui.Pagination;
-import com.gioov.nimrod.common.security.SimpleUser;
-import com.gioov.nimrod.mail.entity.MailEntity;
 import com.gioov.nimrod.user.entity.UserEntity;
 import com.gioov.tile.web.exception.BaseResponseException;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

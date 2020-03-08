@@ -2,7 +2,6 @@ package com.gioov.nimrod.user.api;
 
 import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.user.service.RoleViewMenuCategoryService;
-import com.gioov.nimrod.user.service.RoleViewMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

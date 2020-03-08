@@ -2,9 +2,8 @@ package com.gioov.nimrod.common.security;
 
 import com.gioov.nimrod.common.Url;
 import com.gioov.nimrod.common.druid.DruidConfiguration;
-import com.gioov.nimrod.common.properties.AppProperties;
-import com.gioov.nimrod.user.User;
 import com.gioov.nimrod.system.System;
+import com.gioov.nimrod.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

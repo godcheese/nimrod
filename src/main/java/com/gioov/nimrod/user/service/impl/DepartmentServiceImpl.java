@@ -1,9 +1,9 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.ComboTree;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.easyui.TreeGrid;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.user.entity.DepartmentEntity;
 import com.gioov.nimrod.user.entity.UserEntity;
 import com.gioov.nimrod.user.mapper.DepartmentMapper;
@@ -210,10 +210,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<TreeGrid> getDepartmentChildrenTreeGrid(long parentId, List<TreeGrid> departmentTreeGridList) {
 
         List<TreeGrid> children = new ArrayList<>(0);
-
-        LOGGER.info("departmentTreeGridList={}", departmentTreeGridList);
         for(TreeGrid treeGrid : departmentTreeGridList) {
-
             if(treeGrid.getParentId() != null && treeGrid.getParentId().equals(parentId)) {
                 children.add(treeGrid);
             }

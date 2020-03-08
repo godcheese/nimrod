@@ -87,8 +87,6 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 //                if(authority.indexOf(ROLE_PREFIX) == 0 && isExistSystemAdminRole(authority.substring(ROLE_PREFIX.length()))) {
 //                    isExistSystemAdminRole = true;
 //                }
-                LOGGER.info("simpleGrantedAuthority.getAuthority()={}", simpleGrantedAuthority.getAuthority());
-                LOGGER.info("simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)={}", simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN));
                 if(simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
                     isExistSystemAdminRole = true;
                 }
@@ -223,7 +221,6 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
      */
     public static boolean isExistsAuthority(Collection<GrantedAuthority> authorities, String authority) {
         for(GrantedAuthority grantedAuthority : authorities) {
-            LOGGER.info("grantedAuthority.getAuthority().equals(authority)={}", grantedAuthority.getAuthority().equals(authority));
             if(grantedAuthority.getAuthority().equals(authority) || grantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
                 return true;
             }

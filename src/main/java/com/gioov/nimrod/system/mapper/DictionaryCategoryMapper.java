@@ -2,7 +2,6 @@ package com.gioov.nimrod.system.mapper;
 
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
 import com.gioov.tile.mybatis.CrudMapper;
-import com.gioov.tile.mybatis.Pageable;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

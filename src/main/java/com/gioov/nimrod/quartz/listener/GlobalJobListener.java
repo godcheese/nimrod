@@ -1,5 +1,4 @@
 package com.gioov.nimrod.quartz.listener;
-
 import com.gioov.nimrod.common.others.SpringContextUtil;
 import com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity;
 import com.gioov.nimrod.quartz.mapper.JobRuntimeLogMapper;
@@ -30,6 +29,7 @@ public class GlobalJobListener implements JobListener {
 
     public GlobalJobListener() {
         jobRuntimeLogMapper = (JobRuntimeLogMapper) SpringContextUtil.getBean("jobRuntimeLogMapper", JobRuntimeLogMapper.class);
+        LOGGER.info("jobRuntimeLogMapper={}", jobRuntimeLogMapper);
     }
 
     private JobRuntimeLogEntity jobRuntimeLogEntity = new JobRuntimeLogEntity();

@@ -8,12 +8,10 @@
     <div data-options="region:'west',split:true" style="width:40%">
         <div id="viewMenuCategoryToolbar">
             <nimrod:security authority="/COMPONENT/USER/ROLE_VIEW_MENU/ROLE_VIEW_MENU_CATEGORY_GRANT_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-                   onclick="roleViewMenuCategoryGrantAll();">授权</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="roleViewMenuCategoryGrantAll();">授权</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_DELETE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-                   onclick="roleViewMenuCategoryRevokeAll();">撤销授权</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleViewMenuCategoryRevokeAll();">撤销授权</a>
             </nimrod:security>
         </div>
         <table id="viewMenuCategory"></table>
@@ -21,12 +19,10 @@
     <div data-options="region:'center',split:true">
         <div id="viewMenuToolbar">
             <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_ADD_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-                   onclick="roleViewMenuGrantAll();">授权</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="roleViewMenuGrantAll();">授权</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/USER_ROLE/PAGE_ALL/USER_ROLE_DELETE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-                   onclick="roleViewMenuRevokeAll();">撤销授权</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleViewMenuRevokeAll();">撤销授权</a>
             </nimrod:security>
         </div>
         <table id="viewMenu"></table>

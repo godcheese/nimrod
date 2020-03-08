@@ -45,7 +45,6 @@ public class AuthenticationFailureHandler implements org.springframework.securit
         } else if(e instanceof BadCredentialsException) {
             printWriter.write(common.objectToJson(failureEntity.i18n("user.login_fail_account_or_password_error")));
         } else if(e instanceof DisabledException) {
-            LOGGER.info("e.getClass={}", e.getClass());
             LOGGER.info("e.getMessage={}", e.getMessage());
             printWriter.write(common.objectToJson(failureEntity.i18n("user.login_fail_account_or_password_error")));
         }

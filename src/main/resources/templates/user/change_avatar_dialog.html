@@ -6,7 +6,7 @@
             <p>
                 <label for="fileUpload">上传文件：</label>
                 <input id="fileUpload" class="easyui-filebox" style="width:220px" data-options="buttonText:'选择文件'">
-                <a id="uploadButton" href="javascript:" class="easyui-linkbutton" iconCls="fa fa-upload">上传</a>
+                <a id="uploadButton" href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-upload">上传</a>
             </p>
         </div>
 </div>
@@ -53,9 +53,9 @@
             window._ajaxing = undefined;
         }
         if(window._ajaxing) {
-            $(this).linkbutton({text: '取消', iconCls: 'fa fa-close'});
+            $(this).linkbutton({text: '取消', iconCls: 'iconfont icon-close'});
         } else {
-            $(this).linkbutton({text: '上传', iconCls: 'fa fa-upload'});
+            $(this).linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
         }
     });
     function upload() {
@@ -81,14 +81,14 @@
                         $('#file').datagrid('reload');
                     }
                 }
-                $('#uploadButton').linkbutton({text: '上传', iconCls: 'fa fa-upload'});
+                $('#uploadButton').linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
                 window._ajaxing= undefined;
             },
             error: function (xhr) {
                 if(xhr.responseJSON) {
                     $.messager.alert('信息', xhr.responseJSON.message, 'error');
                 }
-                $('#uploadButton').linkbutton({text: '上传', iconCls: 'fa fa-upload'});
+                $('#uploadButton').linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
                 window._ajaxing= undefined;
             }
         });

@@ -5,14 +5,11 @@ package com.gioov.nimrod.common.easyui;
  * @date 2019-09-26
  */
 public class EasyUI {
-
     /**
      * Tree TreeGrid state: The node state, 'open' or 'closed'.
      */
     public static class State {
         public static final String CLOSED = "closed";
         public static final String OPEN = "open";
-
     }
-
 }

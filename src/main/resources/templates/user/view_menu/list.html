@@ -8,16 +8,13 @@
     <div data-options="region:'west',split:true" style="width:40%">
         <div id="viewMenuCategoryToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_CATEGORY_ADD_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-               onclick="viewMenuCategoryAddDialog();">新增</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="viewMenuCategoryAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_CATEGORY_EDIT_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-               onclick="viewMenuCategoryEditDialog();">编辑</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewMenuCategoryEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_CATEGORY_DELETE_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-               onclick="viewMenuCategoryDeleteAll();">删除</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="viewMenuCategoryDeleteAll();">删除</a>
             </nimrod:security>
         </div>
         <table id="viewMenuCategory"></table>
@@ -25,16 +22,13 @@
     <div data-options="region:'center',split:true">
         <div id="viewMenuToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_ADD_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-               onclick="viewMenuAddDialog();">新增</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="viewMenuAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_EDIT_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-               onclick="viewMenuEditDialog();">编辑</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewMenuEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_DELETE_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-               onclick="viewMenuDeleteAll();">删除</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="viewMenuDeleteAll();">删除</a>
             </nimrod:security>
         </div>
         <table id="viewMenu"></table>
@@ -92,13 +86,13 @@
         }
         $('#viewMenuCategoryAddDialog').dialog(expressui.dialog.create, {
             title: '新增视图菜单分类',
-            grid: {type: 'datagrid', selector: '#viewMenuCategory'},
+            grid: {type: 'treegrid', selector: '#viewMenuCategory'},
             href: Url.User.Page.VIEW_MENU_CATEGORY + '/add_dialog',
             get: {url: Url.User.Api.VIEW_MENU_CATEGORY + '/one/{id}', method: 'get'},
             save: {url: Url.User.Api.VIEW_MENU_CATEGORY + '/add_one', method: 'post'},
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'treegrid', selector: '#viewMenuCategory'}, {
                     type: 'datagrid',
@@ -108,7 +102,7 @@
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -125,7 +119,7 @@
                 save: {url: Url.User.Api.VIEW_MENU_CATEGORY + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'treegrid', selector: '#viewMenuCategory'}, {
                         type: 'datagrid',
@@ -135,7 +129,7 @@
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });
@@ -169,13 +163,13 @@
             save: {url: Url.User.Api.VIEW_MENU + '/add_one', method: 'post'},
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'datagrid', selector: '#viewMenu'}],
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -192,13 +186,13 @@
                 save: {url: Url.User.Api.VIEW_MENU + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'datagrid', selector: '#viewMenu'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });

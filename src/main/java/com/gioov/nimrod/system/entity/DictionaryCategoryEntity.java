@@ -1,11 +1,9 @@
 package com.gioov.nimrod.system.entity;
 
-import com.gioov.nimrod.common.easyui.TreeGrid;
 import com.gioov.nimrod.common.easyui.TreeGridAdapter;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]

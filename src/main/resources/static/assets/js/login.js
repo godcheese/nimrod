@@ -21,22 +21,26 @@ $(function () {
     }
 
     $('#loginButton').click(function () {
-        var account = $('#account').val();
-        var password = $('#password').val();
-        var rememberMe = $('#rememberMe').is(':checked');
-        var verifyCode = $('#verifyCode').val();
+        var account = $('#account');
+        var password = $('#password');
+        var rememberMe = $('#rememberMe');
+        var verifyCode = $('#verifyCode');
         if (account === '' || password === '') {
             alert('请先输入账号和密码');
             return;
         }
 
+        account.attr('disabled', 'disabled');
+        password.attr('disabled', 'disabled');
+        verifyCode.attr('disabled', 'disabled');
+        rememberMe.attr('disabled', 'disabled');
         $.ajax({
             url: Url.User.Api.LOGIN,
             data: {
-                account: account,
-                password: password,
-                rememberMe: rememberMe,
-                verifyCode: verifyCode
+                account: account.val(),
+                password: password.val(),
+                rememberMe: rememberMe.is(':checked'),
+                verifyCode: verifyCode.val()
             },
             type: 'post',
             success: function (XMLHttpRequest, statusText) {

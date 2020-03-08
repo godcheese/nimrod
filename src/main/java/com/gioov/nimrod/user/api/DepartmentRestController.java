@@ -1,7 +1,6 @@
 package com.gioov.nimrod.user.api;
 
 import com.gioov.nimrod.common.easyui.ComboTree;
-import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.easyui.TreeGrid;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;

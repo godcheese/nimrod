@@ -108,7 +108,6 @@ public class OperationLogAspect {
     @AfterReturning(pointcut = "operationLogAspect()", returning = "returning")
     public void afterReturning(Object returning) {
         LOGGER.info("returning={}", returning);
-        LOGGER.info("returning={}", operationLogEntity);
         applicationContext.publishEvent(new OperationLogEvent(operationLogEntity));
     }
 
@@ -119,9 +118,6 @@ public class OperationLogAspect {
             throwing.printStackTrace(printWriter);
         }
         operationLogEntity.setStackTrace(stringWriter.toString());
-        LOGGER.info("throwing={}", throwing);
-        LOGGER.info("throwing={}", operationLogEntity);
         applicationContext.publishEvent(new OperationLogEvent(operationLogEntity));
     }
-
 }

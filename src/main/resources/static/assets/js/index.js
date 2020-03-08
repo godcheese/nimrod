@@ -4,14 +4,13 @@ $(window).load(function () {
 
 $(function () {
     parentViewMenuCategory();
-    addTab('#tabs', '工作台', '/system/workbench', 'fa fa-dashboard', false, -1);
+    addTab('#tabs', '工作台', '/system/workbench', 'iconfont icon-home', false, -1);
     $('#logoutButton').click(function () {
         if (window.confirm('确定要注销登录吗？')) {
             expressui.ajax({
                 // dataType: 'json',
                 url: Url.User.Api.LOGOUT,
                 success: function (data) {
-                    // window.location.href = Url.User.Page.LOGIN + '?state=logout';
                     window.location.href = Url.User.Page.LOGIN;
                 },
                 error: function (xhr) {
@@ -24,7 +23,7 @@ $(function () {
 });
 
 function pageTurning() {
-    var page = 0, pages = ($('.nav-wrap-ul').height() / 70) - 1;
+    var page = 0, navItemHeight = 50, pages = ($('.nav-wrap-ul').height() / navItemHeight) - 1;
     if (page < pages) {
         $('.nav-prev,.nav-next').show();
     }
@@ -33,7 +32,7 @@ function pageTurning() {
         if ($(this).hasClass('disabled')) return;
         if ($(this).hasClass('nav-next')) {
             page++;
-            $('.nav-wrap-ul').stop().animate({'margin-top': -70 * page}, 200);
+            $('.nav-wrap-ul').stop().animate({'margin-top': - navItemHeight * page}, 200);
             if (page === pages) {
                 $(this).addClass('disabled');
                 $('.nav-prev').removeClass('disabled');
@@ -43,7 +42,7 @@ function pageTurning() {
 
         } else {
             page--;
-            $('.nav-wrap-ul').stop().animate({'margin-top': -70 * page}, 200);
+            $('.nav-wrap-ul').stop().animate({'margin-top': - navItemHeight * page}, 200);
             if (page === 0) {
                 $(this).addClass('disabled');
                 $('.nav-next').removeClass('disabled');
@@ -56,7 +55,6 @@ function pageTurning() {
 
 function removeSelf() {
     var parent = document.getElementsByTagName('body')[0];
-
     var getElementsByClassName = function (searchClass, node, tag) {
         if (document.getElementsByClassName) {
             var nodes = (node || document).getElementsByClassName(searchClass), result = [];
@@ -127,7 +125,7 @@ function parentViewMenuCategory() {
                     childViewMenuCategory(this, viewMenuCategoryId);
 
                     var viewMenuCategoryName = $(this).find('span').html();
-                    $($('#layout').layout('panel', 'west')).panel({title: viewMenuCategoryName});
+                    // $($('#layout').layout('panel', 'west')).panel({title: viewMenuCategoryName});
 
                 });
 
@@ -207,7 +205,7 @@ function childViewMenuCategoryAndViewMenu(selector, parentId) {
                         return childViewMenuCategoryAndViewMenu;
                     },
                     data: childViewMenuCategoryAndViewMenu,
-                    lines: true,
+                    lines: false,
                     animate: true,
                     onBeforeExpand: function (node, param) {
                         // 列出四级子菜单，直接可点击的菜单
@@ -282,10 +280,10 @@ function addTab(tabsSelector, title, url, iconCls, closable, index) {
                 index: index,
                 selected: true,
                 closable: (closable === undefined) || (closable === null) || (closable === true),
-                content: '<iframe src="' + Url.PAGE + url + '" scrolling="auto" frameborder="0" style="border:0;width:100%;height:100%;overflow:hidden;"></iframe>', // iframe框架内加载
+                content: '<iframe src="' + Url.PAGE + url + '" scrolling="auto" frameborder="0" class="tab-iframe"></iframe>', // iframe框架内加载
                 // href:url, // 可能会出现元素重复加载的情况，js、css等都会出现问题
-                // iconCls:'fa fa-file',
-                iconCls: (iconCls === undefined) ? 'fa fa-file' : iconCls,
+                // iconCls:'iconfont icon-file',
+                iconCls: (iconCls === undefined) ? 'iconfont icon-file' : iconCls,
                 fit: true,
                 border: false,
                 cache: false

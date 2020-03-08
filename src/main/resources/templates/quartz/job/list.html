@@ -6,22 +6,22 @@
 <body>
 <div id="jobToolbar">
     <nimrod:security authority="/COMPONENT/SYSTEM/API/PAGE_ALL/API_CATEGORY_ADD_DIALOG">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="jobAddDialog();">新增</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="jobAddDialog();">新增</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/SYSTEM/API/PAGE_ALL/API_CATEGORY_EDIT_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="jobEditDialog();">编辑</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="jobEditDialog();">编辑</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_PAUSE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-pause" plain="true" onclick="jobPauseAll();">暂停</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-pause" onclick="jobPauseAll();">暂停</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_RESUME_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-play" plain="true" onclick="jobResumeAll();">运行</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-play" onclick="jobResumeAll();">运行</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_DELETE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="jobDeleteAll();">删除</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="jobDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_RESET_STATE">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-repeat" plain="true" onclick="jobResetState();">重置状态</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-repeat" onclick="jobResetState();">重置状态</a>
     </nimrod:security>
 </div>
 <table id="job"></table>
@@ -62,7 +62,7 @@
     function jobAddDialog() {
         $('#jobAddDialog').dialog(expressui.dialog.create, {
             title: '新增任务',
-            width: 420,
+            width: 448,
             grid: {type: 'datagrid', selector: '#job'},
             href: Url.Quartz.Page.JOB + '/add_dialog',
             get: {url: Url.Quartz.Api.JOB + '/one?jobClassName={jobClassName}&jobGroup={jobGroup}', method: 'get'},
@@ -72,13 +72,13 @@
             },
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'datagrid', selector: '#job'}],
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -89,19 +89,20 @@
         if (checked) {
             $('#jobEditDialog').dialog(expressui.dialog.create, {
                 title: '编辑任务',
+                width: 448,
                 grid: {type: 'datagrid', selector: '#job'},
                 href: Url.Quartz.Page.JOB + '/edit_dialog',
                 get: {url: Url.Quartz.Api.JOB + '/one?jobClassName={jobClassName}&jobGroup={jobGroup}', method: 'get'},
                 save: {url: Url.Quartz.Api.JOB + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'datagrid', selector: '#job'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });

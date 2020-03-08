@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.service.impl;
 
-import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.system.entity.FileEntity;
 import com.gioov.nimrod.system.mapper.FileMapper;
 import com.gioov.nimrod.system.service.DictionaryService;
@@ -16,7 +16,6 @@ import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,12 +72,6 @@ public class FileServiceImpl implements FileService {
      * @throws IOException
      */
     private FileEntity upload(MultipartFile file) throws BaseResponseException, IOException {
-        LOGGER.info("getSize={}", file.getSize());
-        LOGGER.info("getContentType={}", file.getContentType());
-        LOGGER.info("getInputStream={}", file.getInputStream());
-        LOGGER.info("getName={}", file.getName());
-        LOGGER.info("getResource={}", file.getResource());
-        LOGGER.info("getOriginalFilename={}", file.getOriginalFilename());
         FileEntity fileEntity;
         Date date = new Date();
         fileEntity = new FileEntity();
@@ -94,15 +87,15 @@ public class FileServiceImpl implements FileService {
         String year = String.valueOf(calendar.get(Calendar.YEAR));
         String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
         String guid = (String.valueOf(calendar.toInstant().toEpochMilli()) + UUID.randomUUID() + "." + FileUtil.getSuffix(file.getOriginalFilename())).replaceAll("-", "");
-        String datePathGuid = File.separator + year + File.separator + month + File.separator + guid;
-        String absolutePath = FileUtil.getCurrentRootPath() + dictionaryService.get("FILE","UPLOAD_PATH") + datePathGuid;
+        String datePath = File.separator + year + File.separator + month;
+        String absolutePath = FileUtil.getCurrentRootPath() + dictionaryService.get("FILE","UPLOAD_PATH") + datePath;
         if (!FileUtil.createDirectory(absolutePath)) {
             throw new BaseResponseException(failureEntity.i18n("file.upload_fail"));
         }
         fileEntity.setGuid(guid);
-        fileEntity.setPath(datePathGuid);
-        absolutePath = File.separator + FileUtil.filterFileSeparator(absolutePath);
-        file.transferTo(new File(absolutePath));
+        fileEntity.setPath(datePath + File.separator + guid);
+        String absolutePathGuid = File.separator + FileUtil.filterFileSeparator(absolutePath + File.separator + guid);
+        file.transferTo(new File(absolutePathGuid));
         fileMapper.insertOne(fileEntity);
         return fileEntity;
     }
@@ -110,7 +103,6 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public FileEntity uploadOne(MultipartFile file) throws BaseResponseException {
-        LOGGER.info("userService.getCurrentUserNoPassword={}", userService.getCurrentUserNoPassword());
         FileEntity fileEntity;
         try {
             fileEntity = upload(file);

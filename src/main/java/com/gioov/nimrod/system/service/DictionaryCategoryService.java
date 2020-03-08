@@ -1,7 +1,6 @@
 package com.gioov.nimrod.system.service;
 
 import com.gioov.nimrod.common.easyui.ComboTree;
-import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
 import com.gioov.tile.web.exception.BaseResponseException;
 

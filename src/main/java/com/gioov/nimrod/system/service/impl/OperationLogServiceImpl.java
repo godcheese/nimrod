@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.service.impl;
 
-import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.system.entity.OperationLogEntity;
 import com.gioov.nimrod.system.mapper.OperationLogMapper;
 import com.gioov.nimrod.system.service.OperationLogService;
@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -54,7 +56,6 @@ public class OperationLogServiceImpl implements OperationLogService {
             }
             operationLogEntityListResult.add(operationLogEntity);
         }
-
         pagination.setRows(operationLogEntityListResult);
         pagination.setTotal(operationLogEntityPage.getTotal());
         return pagination;
@@ -82,66 +83,8 @@ public class OperationLogServiceImpl implements OperationLogService {
         return operationLogEntity;
     }
 
-//    @Override
-//    public void log(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler, long requestTime) throws JsonProcessingException {
-//        LOGGER.info("{},{}", httpServletRequest, httpServletResponse);
-//        if (httpServletRequest != null && httpServletResponse != null) {
-//            OperationLogEntity operationLogEntity = new OperationLogEntity();
-//            UserEntity userEntity = userService.getCurrentUser();
-//            if (userEntity != null) {
-//                operationLogEntity.setUserId(userEntity.getId());
-//            }
-//            operationLogEntity.setIpAddress(ClientUtil.getClientIp(httpServletRequest));
-//            String operation = "";
-//            if (handler instanceof HandlerMethod) {
-//                OperationLog operationLog = ((HandlerMethod) handler).getMethod().getAnnotation(OperationLog.class);
-//                if (operationLog != null) {
-//                    operationLogEntity.setOperationType(operationLog.type().value());
-//                    operation = operationLog.value();
-//                    if ("".equals(operation)) {
-//                        operation = operationLog.operation();
-//                    }
-//                }
-//            }
-//            operationLogEntity.setOperation(operation);
-//            operationLogEntity.setConsumingTime(requestTime);
-//            StringBuffer requestUrl = httpServletRequest.getRequestURL();
-//            if(requestUrl != null) {
-//                operationLogEntity.setRequestUrl(requestUrl.toString());
-//            }
-//            operationLogEntity.setRequestMethod(httpServletRequest.getMethod());
-//            Enumeration<String> parameterNames = httpServletRequest.getParameterNames();
-//            Map<String, Object> map = new HashMap<>(0);
-//            while (parameterNames.hasMoreElements()) {
-//                String name = parameterNames.nextElement();
-//                Object parameter = httpServletRequest.getParameter(name);
-//                map.put(name, parameter);
-//            }
-//            operationLogEntity.setRequestParameter(common.objectToJson(map));
-//            operationLogEntity.setAcceptLanguage(httpServletRequest.getHeader("Accept-Language"));
-//            operationLogEntity.setReferer(httpServletRequest.getHeader("Referer"));
-//            operationLogEntity.setUserAgent(httpServletRequest.getHeader("User-Agent"));
-//            operationLogEntity.setHandler(handler.toString());
-//            HttpSession httpSession = httpServletRequest.getSession();
-//            if (httpSession != null) {
-//                operationLogEntity.setSessionId(httpSession.getId());
-//            }
-//            Cookie[] cookies = httpServletRequest.getCookies();
-//            map = new HashMap<>(0);
-//            if (cookies != null) {
-//                for (Cookie cookie : cookies) {
-//                    map.put(cookie.getName(), cookie.getValue());
-//                }
-//            }
-//            operationLogEntity.setCookie(common.objectToJson(map));
-//            operationLogEntity.setStatus(String.valueOf(httpServletResponse.getStatus()));
-//            operationLogEntity.setGmtCreated(new Date());
-//        }
-//    }
-
     @Override
     public void clearAll() {
         operationLogMapper.truncate();
     }
-
 }

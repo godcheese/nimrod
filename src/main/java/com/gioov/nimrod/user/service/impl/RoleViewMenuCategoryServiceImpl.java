@@ -1,13 +1,9 @@
 package com.gioov.nimrod.user.service.impl;
 
 import com.gioov.nimrod.user.entity.ViewMenuCategoryEntity;
-import com.gioov.nimrod.user.entity.ViewMenuEntity;
 import com.gioov.nimrod.user.mapper.RoleViewMenuCategoryMapper;
-import com.gioov.nimrod.user.mapper.RoleViewMenuMapper;
 import com.gioov.nimrod.user.mapper.ViewMenuCategoryMapper;
-import com.gioov.nimrod.user.mapper.ViewMenuMapper;
 import com.gioov.nimrod.user.service.RoleViewMenuCategoryService;
-import com.gioov.nimrod.user.service.RoleViewMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

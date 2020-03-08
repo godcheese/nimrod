@@ -6,16 +6,13 @@
 <body>
 <div id="departmentToolbar">
     <nimrod:security authority="/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_ADD_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true"
-       onclick="departmentAddDialog();">新增</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="departmentAddDialog();">新增</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_EDIT_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-       onclick="departmentEditDialog();">编辑</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="departmentEditDialog();">编辑</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/DEPARTMENT/PAGE_ALL/DEPARTMENT_DELETE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-       onclick="departmentDeleteAll();">删除</a>
+    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="departmentDeleteAll();">删除</a>
     </nimrod:security>
 </div>
 <table id="department"></table>
@@ -60,13 +57,13 @@
             },
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'treegrid', selector: '#department'}],
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -83,13 +80,13 @@
                 save: {url: Url.User.Api.DEPARTMENT + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'treegrid', selector: '#department'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });

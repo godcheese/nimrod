@@ -1,7 +1,7 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.easyui.Pagination;
+import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.common.security.SimpleUser;
 import com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl;
 import com.gioov.nimrod.mail.entity.MailEntity;

@@ -1,9 +1,9 @@
 package com.gioov.nimrod.system.api;
 
-import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.common.easyui.Pagination;
 import com.gioov.nimrod.common.operationlog.OperationLog;
 import com.gioov.nimrod.common.operationlog.OperationLogType;
+import com.gioov.nimrod.common.others.Common;
 import com.gioov.nimrod.system.System;
 import com.gioov.nimrod.system.entity.DictionaryEntity;
 import com.gioov.nimrod.system.service.DictionaryService;

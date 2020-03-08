@@ -8,13 +8,13 @@
     <div data-options="region:'west',split:true" style="width:40%">
         <div id="apiCategoryToolbar">
             <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_CATEGORY_ADD_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="apiCategoryAddDialog();">新增</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="apiCategoryAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_CATEGORY_EDIT_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true" onclick="apiCategoryEditDialog();">编辑</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="apiCategoryEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_CATEGORY_DELETE_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true" onclick="apiCategoryDeleteAll();">删除</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="apiCategoryDeleteAll();">删除</a>
             </nimrod:security>
         </div>
         <table id="apiCategory"></table>
@@ -22,15 +22,13 @@
     <div data-options="region:'center',split:true">
         <div id="apiToolbar">
             <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_ADD_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="apiAddDialog();">新增</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="apiAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_EDIT_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-edit" plain="true"
-               onclick="apiEditDialog();">编辑</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="apiEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/API/PAGE_ALL/API_DELETE_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-               onclick="apiDeleteAll();">删除</a>
+            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="apiDeleteAll();">删除</a>
             </nimrod:security>
         </div>
         <table id="api"></table>
@@ -90,13 +88,13 @@
             save: {url: Url.User.Api.API_CATEGORY + '/add_one', method: 'post'},
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'treegrid', selector: '#apiCategory'}, {type: 'datagrid', selector: '#api', data: []}],
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -113,7 +111,7 @@
                 save: {url: Url.User.Api.API_CATEGORY + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'treegrid', selector: '#apiCategory'}, {
                         type: 'datagrid',
@@ -123,7 +121,7 @@
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });
@@ -154,13 +152,13 @@
             save: {url: Url.User.Api.API + '/add_one', method: 'post'},
             buttons: [{
                 text: '保存',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
                 reload: [{type: 'datagrid', selector: '#api'}],
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -177,13 +175,13 @@
                 save: {url: Url.User.Api.API + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'datagrid', selector: '#api'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });
@@ -222,13 +220,13 @@
             },
             buttons: [{
                 text: '复制新增',
-                iconCls: 'fa fa-copy',
+                iconCls: 'iconfont icon-copy',
                 handler: expressui.dialog.add,
                 reload: [{type: 'datagrid', selector: '#api'}],
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -246,13 +244,13 @@
                 save: {url: Url.User.Api.API + '/save_one', method: 'post'},
                 buttons: [{
                     text: '保存',
-                    iconCls: 'fa fa-save',
+                    iconCls: 'iconfont icon-save',
                     handler: expressui.dialog.save,
                     reload: [{type: 'datagrid', selector: '#api'}],
                     success: '保存成功'
                 }, {
                     text: '关闭',
-                    iconCls: 'fa fa-close',
+                    iconCls: 'iconfont icon-close',
                     handler: expressui.dialog.close
                 }]
             });

@@ -1,17 +1,15 @@
 package com.gioov.nimrod.user.service.impl;
 
-import com.gioov.nimrod.user.entity.*;
-import com.gioov.nimrod.user.mapper.*;
-import com.gioov.nimrod.user.service.RoleAuthorityService;
+import com.gioov.nimrod.user.entity.ViewMenuEntity;
+import com.gioov.nimrod.user.mapper.RoleViewMenuMapper;
+import com.gioov.nimrod.user.mapper.ViewMenuMapper;
 import com.gioov.nimrod.user.service.RoleViewMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author godcheese [godcheese@outlook.com]

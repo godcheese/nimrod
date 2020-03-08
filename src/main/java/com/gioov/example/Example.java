@@ -7,11 +7,11 @@ package com.gioov.example;
  */
 public class Example {
 
-    public class Page {
+    public static class Page {
         public static final String EXAMPLE = "/example";
     }
 
-    public class Api {
+    public static class Api {
         public static final String EXAMPLE = com.gioov.nimrod.common.Url.API + Example.Page.EXAMPLE;
     }
 

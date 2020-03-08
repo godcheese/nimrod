@@ -1,8 +1,6 @@
 package com.gioov.nimrod.quartz.api;
 
 import com.gioov.nimrod.common.easyui.Pagination;
-import com.gioov.nimrod.common.operationlog.OperationLog;
-import com.gioov.nimrod.common.operationlog.OperationLogType;
 import com.gioov.nimrod.quartz.Quartz;
 import com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity;
 import com.gioov.nimrod.quartz.service.JobRuntimeLogService;

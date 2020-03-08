@@ -6,14 +6,13 @@
 <body>
 <div id="mailToolbar">
     <nimrod:security authority="/COMPONENT/MAIL/SEND_DIALOG">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-plus" plain="true" onclick="mailSendDialog();">新建发送</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="mailSendDialog();">新建发送</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/MAIL/MAIL_DELETE_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-close" plain="true"
-           onclick="mailDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="mailDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/MAIL/MAIL_RELOAD">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="fa fa-refresh" plain="true" onclick="mailReload();">刷新</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-refresh" onclick="mailReload();">刷新</a>
     </nimrod:security>
 </div>
 <table id="mail"></table>
@@ -79,19 +78,20 @@
     function mailSendDialog() {
         $('#mailSendDialog').dialog(expressui.dialog.create, {
             title: '新建发送',
+            width: 450,
             grid: {type: 'datagrid', selector: '#mail'},
             href: Url.Mail.Page.MAIL + '/send_dialog',
             get: {url: Url.Mail.Api.MAIL + '/one/{id}', method: 'get'},
             save: {url: Url.Mail.Api.MAIL + '/add_one', method: 'post'},
             buttons: [{
                 text: '发送',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.save,
                 reload: [{type: 'datagrid', selector: '#mail'}],
                 success: '操作成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });
@@ -119,7 +119,7 @@
             get: {url: Url.Mail.Api.MAIL + '/one/' + id, method: 'get'},
             buttons: [ {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });

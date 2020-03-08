@@ -102,7 +102,7 @@
             href: Url.User.Page.USER + '/change_avatar_dialog',
             buttons: [{
                 text: '确定',
-                iconCls: 'fa fa-save',
+                iconCls: 'iconfont icon-save',
                 handler: function() {
                     var guid = $('#file').datagrid('getChecked')[0].guid;
                     $('#avatar').textbox('setValue', guid);
@@ -112,7 +112,7 @@
                 success: '新增成功'
             }, {
                 text: '关闭',
-                iconCls: 'fa fa-close',
+                iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
             }]
         });

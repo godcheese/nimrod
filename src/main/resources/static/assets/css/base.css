@@ -365,7 +365,9 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 html {
-    line-height: 1
+    line-height: 1;
+    background: #f0f0f0;
+
 }
 
 ol, ul {
@@ -436,10 +438,11 @@ body, button, input, select, textarea {
     overflow: hidden
 }
 
-/*a background:#036*/
-/*a:hover#114f8e*/
+/*b {*/
+/*    a background: #036;*/
+/*    a: hover #114f8e;*/
 
-/*background: #026890*/
+/*background: #026890;*/
 
 /*a:hover:background-color: rgba(255,255,255,.1);*/
 /*.nav-bar li.a, .nav-bar li:hover {*/
@@ -447,8 +450,8 @@ body, button, input, select, textarea {
 /*}*/
 
 /*黑、青色*/
-/*background:#373d41*/
-/*a:hover:#30c5c3*/
+/*background:#373d41;*/
+/*a:hover:#30c5c3;*/
 
 /*黑色、绿色*/
 /*background: #333;*/
@@ -477,4 +480,5 @@ body, button, input, select, textarea {
 /*left: 0!Important;*/
 /*height: 74px;*/
 /*line-height: 74px;*/
+/*}*/
 
