@@ -1,8 +1,6 @@
 package com.gioov;
 
 import com.gioov.nimrod.common.others.Common;
-import com.gioov.nimrod.common.others.SpringContextUtil;
-import com.gioov.nimrod.common.properties.NimrodProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,9 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootApplication
 public class NimrodBootstrap extends SpringBootServletInitializer {
 
+    private static final String NIMROD_VERSION = "0.7.1";
+    private static final String NIMROD_URL = "https://github.com/godcheese/nimrod";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(NimrodBootstrap.class);
 
     public static void main(String[] args) {
@@ -45,24 +46,20 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
     }
 
     private static void bootstrap(WebApplicationContext webApplicationContext) {
-        NimrodProperties nimrodProperties = (NimrodProperties) SpringContextUtil.getBean("nimrodProperties", NimrodProperties.class);
-        String nimrodVersion = nimrodProperties.getVersion();
-        String nimrodUrl = nimrodProperties.getUrl();
-
         // @formatter:off
         String banner =
                 "  .__   __.  __  .___  ___. .______        ______    _______  \n" +
-                "  |  \\ |  | |  | |   \\/   | |   _  \\      /  __  \\  |       \\ \n" +
-                "  |   \\|  | |  | |  \\  /  | |  |_)  |    |  |  |  | |  .--.  |\n" +
-                "  |  . `  | |  | |  |\\/|  | |      /     |  |  |  | |  |  |  |\n" +
-                "  |  |\\   | |  | |  |  |  | |  |\\  \\----.|  `--'  | |  '--'  |\n" +
-                "  |__| \\__| |__| |__|  |__| | _| `._____| \\______/  |_______/ ";
+                        "  |  \\ |  | |  | |   \\/   | |   _  \\      /  __  \\  |       \\ \n" +
+                        "  |   \\|  | |  | |  \\  /  | |  |_)  |    |  |  |  | |  .--.  |\n" +
+                        "  |  . `  | |  | |  |\\/|  | |      /     |  |  |  | |  |  |  |\n" +
+                        "  |  |\\   | |  | |  |  |  | |  |\\  \\----.|  `--'  | |  '--'  |\n" +
+                        "  |__| \\__| |__| |__|  |__| | _| `._____| \\______/  |_______/ ";
 
         String nimrod =
                 "\n  -------------------------------------------------"  +
-                "\n  | Nimrod version: " + nimrodVersion + "                         |" +
-                "\n  | Homepage: " + nimrodUrl +" |" +
-                "\n  -------------------------------------------------";
+                        "\n  | Nimrod version: " + NIMROD_VERSION + "                         |" +
+                        "\n  | Homepage: " + NIMROD_URL +" |" +
+                        "\n  -------------------------------------------------";
 
         Common.getHost(webApplicationContext);
         String scheme = Common.Host.scheme;
@@ -76,11 +73,10 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
         }
         String appRunningAt =
                 "\n  App running at:" +
-                "\n  - Server:  " + Common.Host.serverInfo +
-                "\n  - Local:   " + local +
-                "\n  - Network: " + network;
-          // @formatter:on
-
+                        "\n  - Server:  " + Common.Host.serverInfo +
+                        "\n  - Local:   " + local +
+                        "\n  - Network: " + network;
+        // @formatter:on
         LOGGER.info("\n\n" + banner + "\n" + nimrod + "\n" + appRunningAt + "\n");
     }
 

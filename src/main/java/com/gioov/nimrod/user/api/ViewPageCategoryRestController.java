@@ -24,7 +24,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = User.Api.VIEW_PAGE_CATEGORY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = User.Api.VIEW_PAGE_CATEGORY, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ViewPageCategoryRestController {
 
     private static final String VIEW_PAGE_CATEGORY = "/API/SYSTEM/VIEW_PAGE_CATEGORY";

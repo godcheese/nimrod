@@ -21,7 +21,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.ROLE_VIEW_MENU, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value =  User.Api.ROLE_VIEW_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoleViewMenuRestController {
 
     private static final String ROLE_VIEW_MENU = "/API/USER/ROLE_VIEW_MENU";

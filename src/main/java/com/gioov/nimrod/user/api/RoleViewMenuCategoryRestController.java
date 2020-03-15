@@ -21,7 +21,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.ROLE_VIEW_MENU_CATEGORY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value =  User.Api.ROLE_VIEW_MENU_CATEGORY, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoleViewMenuCategoryRestController {
 
     private static final String ROLE_VIEW_MENU_CATEGORY = "/API/USER/ROLE_VIEW_MENU_CATEGORY";

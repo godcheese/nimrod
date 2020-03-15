@@ -36,7 +36,7 @@ public class AuthenticationFailureHandler implements org.springframework.securit
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         PrintWriter printWriter = httpServletResponse.getWriter();
 
         // 检查 e 是否为验证码错误类

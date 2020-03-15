@@ -28,7 +28,7 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         SimpleUser simpleUser = (SimpleUser) authentication.getPrincipal();
         httpServletResponse.setStatus(HttpStatus.OK.value());
-        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         PrintWriter printWriter = httpServletResponse.getWriter();
         printWriter.write(common.objectToJson(new SuccessEntity(simpleUser)));
         printWriter.flush();

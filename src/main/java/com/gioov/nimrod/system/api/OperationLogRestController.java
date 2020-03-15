@@ -23,7 +23,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = System.Api.OPERATION_LOG, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = System.Api.OPERATION_LOG, produces = MediaType.APPLICATION_JSON_VALUE)
 public class OperationLogRestController {
 
     private static final String OPERATION_LOG = "/API/SYSTEM/OPERATION_LOG";

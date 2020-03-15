@@ -13,6 +13,9 @@ import com.gioov.tile.web.exception.BaseResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -51,6 +53,8 @@ public class SystemRestController {
     private static final String SYSTEM = "/API/SYSTEM";
 
     public static final String VERIFY_CODE_NAME = "verifyCode";
+
+    private static ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     @Autowired
     private DictionaryService dictionaryService;
@@ -83,16 +87,23 @@ public class SystemRestController {
         fontColor = fontColor.length() == 7 ? fontColor : "#FFFFFF";
         ImageUtil.VerifyCodeImage verifyCodeImage;
         try {
-            URL url =  ResourceUtil.getResource(fontPath);
-            LOGGER.info("{}", url.getPath());
-            LOGGER.info("{}",url.getFile());
-            File fontFile = new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8.name()));
-            InputStream fontInputStream = new FileInputStream(fontFile);
-            LOGGER.info("fontFile.exists()={}", fontFile.exists());
-            if(!fontFile.exists()) {
-                throw new BaseResponseException(failureEntity.i18n("system.verify_code_create_fail_font_not_exists"));
+
+            if(fontPath.toLowerCase().contains(ResourceLoader.CLASSPATH_URL_PREFIX)) {
+                Resource fontResource = resourceLoader.getResource(fontPath);
+                if(!fontResource.getFile().exists()) {
+                    throw new BaseResponseException(failureEntity.i18n("system.verify_code_create_fail_font_not_exists"));
+                }
+                InputStream fontInputStream = fontResource.getInputStream();
+                verifyCodeImage = ImageUtil.createVerifyCodeImage(114, 40, ColorUtil.getRGBColorByHexString(hexBackgroundColor), RandomUtil.randomString(stringLength, RandomUtil.NUMBER_LETTER),  ColorUtil.getRGBColorByHexString(fontColor), fontInputStream, yawp, interLine, expiration);
+
+            } else {
+                URL url =  ResourceUtil.getResource(fontPath);
+                File fontFile = new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8.name()));
+                if(!fontFile.exists()) {
+                    throw new BaseResponseException(failureEntity.i18n("system.verify_code_create_fail_font_not_exists"));
+                }
+                verifyCodeImage = ImageUtil.createVerifyCodeImage(114, 40, ColorUtil.getRGBColorByHexString(hexBackgroundColor), RandomUtil.randomString(stringLength, RandomUtil.NUMBER_LETTER),  ColorUtil.getRGBColorByHexString(fontColor), fontFile, yawp, interLine, expiration);
             }
-            verifyCodeImage = ImageUtil.createVerifyCodeImage(114, 40, ColorUtil.getRGBColorByHexString(hexBackgroundColor), RandomUtil.randomString(stringLength, RandomUtil.NUMBER_LETTER),  ColorUtil.getRGBColorByHexString(fontColor), fontInputStream, yawp, interLine, expiration);
 
             httpServletResponse.addHeader("Pragma", "no-cache");
             httpServletResponse.addHeader("Cache-Control", "no-cache");

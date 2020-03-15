@@ -23,7 +23,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = User.Api.VIEW_PAGE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = User.Api.VIEW_PAGE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ViewPageRestController {
 
     private static final String VIEW_PAGE = "/API/SYSTEM/VIEW_PAGE";

@@ -22,7 +22,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.USER_ROLE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value =  User.Api.USER_ROLE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRoleRestController {
 
     private static final String USER_ROLE = "/API/USER/USER_ROLE";

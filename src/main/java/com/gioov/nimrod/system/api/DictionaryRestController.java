@@ -28,7 +28,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value = System.Api.DICTIONARY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = System.Api.DICTIONARY, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DictionaryRestController {
 
     private static final String DICTIONARY = "/API/SYSTEM/DICTIONARY";

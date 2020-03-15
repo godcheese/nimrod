@@ -5,11 +5,8 @@
 
     <groupId>com.gioov</groupId>
     <artifactId>nimrod</artifactId>
-    <version>0.7.0</version>
-    <!-- jar 打包引用此属性值 -->
-<!--     <packaging>jar</packaging>-->
-    <!-- war 打包引用此属性值 -->
-     <packaging>war</packaging>
+    <version>0.7.1</version>
+    <packaging>war</packaging>
     <name>${project.artifactId}</name>
     <description>Demo project for Spring Boot</description>
     <url>http://www.godcheese.com/</url>
@@ -43,7 +40,7 @@
 
     <repositories>
         <repository>
-            <id>godcheese</id>
+            <id>godcheese-github-maven-repository</id>
             <url>https://raw.githubusercontent.com/godcheese/maven-repository/master/repository</url>
         </repository>
     </repositories>
@@ -52,7 +49,7 @@
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.9.RELEASE</version>
+        <version>2.2.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -83,20 +80,14 @@
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.1</version>
+            <version>2.1.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.12</version>
+            <version>1.2.13</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-devtools</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -129,13 +120,13 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>4.1.1</version>
+            <version>4.1.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.1.1</version>
+            <version>4.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -154,7 +145,6 @@
             <version>1.0.0</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>${finalName}</finalName>
         <plugins>
@@ -162,9 +152,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <!-- 如果没有该项配置，devtools 不会起作用，即应用不会 restart -->
-                    <fork>true</fork>
                     <addResources>true</addResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -197,16 +194,6 @@
                 <includes>
                     <include>*.md</include>
                     <include>LICENSE</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/lib</directory>
-                <!-- jar 打包引用此属性值 -->
-                <!-- <targetPath>BOOT-INF/lib</targetPath> -->
-                <!-- war 打包引用此属性值 -->
-                <targetPath>${project.basedir}/target/${project.build.finalName}/WEB-INF/lib</targetPath>
-                <includes>
-                    <include>**/*.jar</include>
                 </includes>
             </resource>
         </resources>
