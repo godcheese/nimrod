@@ -1,7 +1,9 @@
 
 ## Changelog
+- v0.7.2 2020.03.17
+  - 修复运行 jar 报 org.springframework.beans.factory.UnsatisfiedDependencyException 异常的问题(20200316)
 - v0.7.1 2020.03.15
-  - 修复 jar 包运行登录界面验证码图片生成失败问题
+  - 修复 jar 包运行登录界面验证码图片生成失败问题(20200315)
 - v0.7.0 2020.03.08
   - 新的界面(20200307)
 - v0.6.5 2019.11.26

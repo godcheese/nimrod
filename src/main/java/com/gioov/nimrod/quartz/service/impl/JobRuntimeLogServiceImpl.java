@@ -25,7 +25,7 @@ public class JobRuntimeLogServiceImpl implements JobRuntimeLogService {
     private JobRuntimeLogMapper jobRuntimeLogMapper;
 
     public JobRuntimeLogServiceImpl() {
-        jobRuntimeLogMapper = (JobRuntimeLogMapper) SpringContextUtil.getBean("jobRuntimeLogMapper", JobRuntimeLogMapper.class);
+        jobRuntimeLogMapper = (JobRuntimeLogMapper) SpringContextUtil.getBean(JobRuntimeLogMapper.class);
     }
 
     @Override

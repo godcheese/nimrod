@@ -28,8 +28,7 @@ public class GlobalJobListener implements JobListener {
     private JobRuntimeLogMapper jobRuntimeLogMapper;
 
     public GlobalJobListener() {
-        jobRuntimeLogMapper = (JobRuntimeLogMapper) SpringContextUtil.getBean("jobRuntimeLogMapper", JobRuntimeLogMapper.class);
-        LOGGER.info("jobRuntimeLogMapper={}", jobRuntimeLogMapper);
+        jobRuntimeLogMapper = (JobRuntimeLogMapper) SpringContextUtil.getBean(JobRuntimeLogMapper.class);
     }
 
     private JobRuntimeLogEntity jobRuntimeLogEntity = new JobRuntimeLogEntity();

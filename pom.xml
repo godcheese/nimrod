@@ -5,8 +5,8 @@
 
     <groupId>com.gioov</groupId>
     <artifactId>nimrod</artifactId>
-    <version>0.7.1</version>
-    <packaging>war</packaging>
+    <version>0.7.2</version>
+    <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>Demo project for Spring Boot</description>
     <url>http://www.godcheese.com/</url>

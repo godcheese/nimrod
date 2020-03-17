@@ -25,7 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootApplication
 public class NimrodBootstrap extends SpringBootServletInitializer {
 
-    private static final String NIMROD_VERSION = "0.7.1";
+    private static final String NIMROD_VERSION = "0.7.2";
     private static final String NIMROD_URL = "https://github.com/godcheese/nimrod";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NimrodBootstrap.class);

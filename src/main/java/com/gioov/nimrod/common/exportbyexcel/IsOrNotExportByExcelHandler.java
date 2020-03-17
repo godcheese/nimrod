@@ -16,7 +16,7 @@ public class IsOrNotExportByExcelHandler extends ExportByExcelHandler {
     private List<DictionaryEntity> dictionaryEntityList;
 
     public IsOrNotExportByExcelHandler() {
-       DictionaryService dictionaryService = (DictionaryService) SpringContextUtil.getBean("dictionaryServiceImpl", DictionaryServiceImpl.class);
+       DictionaryService dictionaryService = (DictionaryService) SpringContextUtil.getBean(DictionaryServiceImpl.class);
         dictionaryEntityList = dictionaryService.get("IS_OR_NOT");
     }
 
