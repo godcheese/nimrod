@@ -1,8 +1,6 @@
 stages:
 - install
 install:
-  stage: install
-  image: maven:3.5-jdk-8
   script:
   - chmod +x ./scripts/gitlabci.build.sh
   - ./scripts/gitlabci.build.sh
