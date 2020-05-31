@@ -13,6 +13,7 @@ import java.util.List;
 public interface ApiCategoryService {
     /**
      * 新增 API 分类
+     *
      * @param apiCategoryEntity ApiCategoryEntity
      * @return ApiCategoryEntity
      */
@@ -20,6 +21,7 @@ public interface ApiCategoryService {
 
     /**
      * 保存 API 分类
+     *
      * @param apiCategoryEntity ApiCategoryEntity
      * @return ApiCategoryEntity
      */
@@ -27,6 +29,7 @@ public interface ApiCategoryService {
 
     /**
      * 指定 API 分类 id list，批量删除 API 分类
+     *
      * @param idList API 分类 id list
      * @return 已删除 API 分类个数
      * @throws BaseResponseException BaseResponseException
@@ -35,6 +38,7 @@ public interface ApiCategoryService {
 
     /**
      * 指定 API 分类 id，获取所有 API 分类
+     *
      * @param id API 分类 id
      * @return ApiCategoryEntity
      */
@@ -42,12 +46,14 @@ public interface ApiCategoryService {
 
     /**
      * 获取所有父级 API 分类
+     *
      * @return Pagination<ApiCategoryEntity>
      */
     List<ApiCategoryEntity> listAllParent();
 
     /**
      * 指定父级 API 分类 id，获取所有 API 分类
+     *
      * @param parentId API 分类父级 id
      * @return List<ApiCategoryEntity>
      */
@@ -55,12 +61,15 @@ public interface ApiCategoryService {
 
     /**
      * 获取所有 API 分类，以 ComboTree 形式展示
+     *
      * @return List<ComboTree>
      */
     List<ComboTree> listAllApiCategoryComboTree();
+
     /**
      * 指定父级 API 分类 id，ApiCategoryComboTree list，获取所有子级 API 分类
-     * @param parentId 父级 API 分类 id
+     *
+     * @param parentId                 父级 API 分类 id
      * @param apiCategoryComboTreeList ApiCategoryComboTree list
      * @return List<ComboTree>
      */

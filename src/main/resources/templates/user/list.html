@@ -12,16 +12,20 @@
         <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="userEditDialog();">编辑</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/PAGE_ALL/USER_FAKE_DELETE_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="userFakeDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+           onclick="userFakeDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/PAGE_ALL/USER_REVOKE_FAKE_DELETE_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-undo" onclick="userRevokeFakeDeleteAll();">撤销删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-undo"
+           onclick="userRevokeFakeDeleteAll();">撤销删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/PAGE_ALL/USER_DELETE_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="userDeleteAll();">永久删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+           onclick="userDeleteAll();">永久删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/PAGE_ALL/USER_ROLE_DIALOG">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="userRoleDialog();">角色管理</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+           onclick="userRoleDialog();">角色管理</a>
     </nimrod:security>
 </div>
 <table id="user"></table>
@@ -32,14 +36,16 @@
         var columns = [
             {field: 'checkbox', checkbox: true},
             {field: 'id', title: 'ID'},
-            {field: 'avatar', title: '头像', formatter: function (value, row, index) {
-                    if(value) {
+            {
+                field: 'avatar', title: '头像', formatter: function (value, row, index) {
+                    if (value) {
                         value = '<img style="width:40px;height:40px;margin: 4px;border-radius: 20px;-webkit-border-radius: 20px;-moz-border-radius: 20px;" src="' + Url.System.Api.FILE + '/download/' + value + '"/>';
                     } else {
-                        value = '<img style="width:40px;height:40px;margin: 4px;border-radius: 20px;-webkit-border-radius: 20px;-moz-border-radius: 20px;" src="'+ _defaultAvatar +'"/>';
+                        value = '<img style="width:40px;height:40px;margin: 4px;border-radius: 20px;-webkit-border-radius: 20px;-moz-border-radius: 20px;" src="' + _defaultAvatar + '"/>';
                     }
                     return value;
-                }},
+                }
+            },
             {field: 'username', title: '用户名'},
             {field: 'email', title: '电子邮箱'},
             {
@@ -54,7 +60,7 @@
                         url: Url.User.Api.DEPARTMENT + '/list_all_by_department_id/' + value,
                         async: false,
                         success: function (data) {
-                            for(var i=0; i< data.length; i++) {
+                            for (var i = 0; i < data.length; i++) {
                                 departmentName.push(data[i].name);
                             }
                         }
@@ -123,7 +129,7 @@
             title: '编辑用户',
             width: 500,
             grid: {type: 'datagrid', selector: '#user'},
-            href: Url.User.Page.USER  + '/edit_dialog',
+            href: Url.User.Page.USER + '/edit_dialog',
             get: {url: Url.User.Api.USER + '/one/{id}', method: 'get'},
             save: {url: Url.User.Api.USER + '/save_one', method: 'post'},
             buttons: [{

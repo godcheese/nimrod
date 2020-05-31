@@ -15,6 +15,7 @@ public interface UserService {
 
     /**
      * 新增用户
+     *
      * @param userEntity UserEntity
      * @return UserEntity
      * @throws BaseResponseException BaseResponseException
@@ -23,6 +24,7 @@ public interface UserService {
 
     /**
      * 保存角色
+     *
      * @param userEntity UserEntity
      * @return UserEntity
      * @throws BaseResponseException BaseResponseException
@@ -31,6 +33,7 @@ public interface UserService {
 
     /**
      * 指定用户 id list，批量永久删除用户
+     *
      * @param idList 用户 id list
      * @return int 已删除角色个数
      */
@@ -38,6 +41,7 @@ public interface UserService {
 
     /**
      * 指定用户 id，获取用户
+     *
      * @param id 用户 id
      * @return UserEntity
      */
@@ -45,18 +49,21 @@ public interface UserService {
 
     /**
      * 获取当前用户，可能会 null
+     *
      * @return UserEntity
      */
     UserEntity getCurrentUser();
 
     /**
      * 获取当前用户，可能会 null
+     *
      * @return UserEntity
      */
     UserEntity getCurrentUserNoPassword();
 
     /**
      * 获取当前用户，更可靠的获取，但需指定 HttpServletRequest
+     *
      * @param request HttpServletRequest
      * @return UserEntity
      */
@@ -77,6 +84,7 @@ public interface UserService {
 
     /**
      * 指定用户 id、密码，获取用户
+     *
      * @param id       用户 id
      * @param password 用户密码
      * @return UserEntity
@@ -85,6 +93,7 @@ public interface UserService {
 
     /**
      * 指定用户名、密码，获取用户
+     *
      * @param username 用户名
      * @param password 用户密码
      * @return UserEntity
@@ -93,6 +102,7 @@ public interface UserService {
 
     /**
      * 指定电子邮箱、密码，获取用户
+     *
      * @param email    电子邮箱
      * @param password 密码
      * @return UserEntity
@@ -101,6 +111,7 @@ public interface UserService {
 
     /**
      * 指定手机号码、密码，获取用户
+     *
      * @param cellphone 手机号
      * @param password  密码
      * @return UserEntity
@@ -109,6 +120,7 @@ public interface UserService {
 
     /**
      * 校验密码是否正确
+     *
      * @param plainPassword  明文密码
      * @param cipherPassword 密文密码
      * @return boolean
@@ -117,6 +129,7 @@ public interface UserService {
 
     /**
      * 加密明文密码
+     *
      * @param plainPassword 明文密码
      * @return String
      */
@@ -124,6 +137,7 @@ public interface UserService {
 
     /**
      * 指定用户 id，获取用户（去掉密码）
+     *
      * @param id 用户 id
      * @return UserEntity
      */
@@ -131,6 +145,7 @@ public interface UserService {
 
     /**
      * 指定用户 id list，批量删除用户
+     *
      * @param idList 用户 id list
      * @return int
      */
@@ -138,6 +153,7 @@ public interface UserService {
 
     /**
      * 指定用户 id list，批量撤销删除用户
+     *
      * @param idList 用户 id list
      * @return int
      */
@@ -152,6 +168,7 @@ public interface UserService {
 
     /**
      * 分页获取所有用户
+     *
      * @param page            页
      * @param rows            每页显示数量
      * @param sorterField     sorterField
@@ -167,6 +184,7 @@ public interface UserService {
 
     /**
      * 指定部门 id，分页获取所有用户
+     *
      * @param departmentId 部门 id
      * @param page         页
      * @param rows         每页显示数量

@@ -1,4 +1,5 @@
 package com.gioov.nimrod.quartz.listener;
+
 import com.gioov.nimrod.common.others.SpringContextUtil;
 import com.gioov.nimrod.quartz.entity.JobRuntimeLogEntity;
 import com.gioov.nimrod.quartz.mapper.JobRuntimeLogMapper;
@@ -59,7 +60,7 @@ public class GlobalJobListener implements JobListener {
 
     @Override
     public void jobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
-        if(jobException != null) {
+        if (jobException != null) {
             jobRuntimeLogEntity.setJobException(jobException.getMessage());
         }
         jobRuntimeLogEntity.setConsumingTime(Instant.now().toEpochMilli() - beginTime);

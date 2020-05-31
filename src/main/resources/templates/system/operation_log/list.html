@@ -6,7 +6,8 @@
 <body>
 <div id="operationLogToolbar">
     <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_DELETE_ALL">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="operationLogDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+           onclick="operationLogDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_CLEAR_ALL">
         <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="operationLogClearAll();">清空日志</a>
@@ -20,8 +21,9 @@
         var columns = [
             {field: 'checkbox', checkbox: true},
             {field: 'id', title: 'ID'},
-            {field: 'view', title: '操作', formatter: function (value, row, index) {
-                return '<a href="javascript:" onclick="operationLogViewDialog(' + row.id + ')">查看</a>';
+            {
+                field: 'view', title: '操作', formatter: function (value, row, index) {
+                    return '<a href="javascript:" onclick="operationLogViewDialog(' + row.id + ')">查看</a>';
                 }
             },
             {field: 'username', title: '访问用户'},
@@ -68,9 +70,9 @@
             title: '查看',
             width: 600,
             height: 430,
-            href: Url.System.Page.OPERATION_LOG  + '/view_dialog',
+            href: Url.System.Page.OPERATION_LOG + '/view_dialog',
             get: {url: Url.System.Api.OPERATION_LOG + '/one/' + id, method: 'get'},
-            buttons: [ {
+            buttons: [{
                 text: '关闭',
                 iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close
@@ -89,18 +91,24 @@
 
     function operationLogClearAll() {
         $.messager.confirm('信息', '确定要操作吗', function (ok) {
-            if(ok) {
-                $.ajax({url: Url.System.Api.OPERATION_LOG + '/clear_all', type:'POST', dataType:'JSON',success:function (data) {
+            if (ok) {
+                $.ajax({
+                    url: Url.System.Api.OPERATION_LOG + '/clear_all',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function (data) {
                         $.messager.show({title: '信息', msg: '操作成功'});
                         $('#operationLog').datagrid('reload');
-                    }, error:function (xhr) {
-                        if(xhr.status !== 200) {
+                    },
+                    error: function (xhr) {
+                        if (xhr.status !== 200) {
                             $.messager.alert('信息', '操作失败：' + xhr.responseJSON.message, 'error');
                         } else {
                             $.messager.show({title: '信息', msg: '操作成功'});
                             $('#operationLog').datagrid('reload');
                         }
-                    }})
+                    }
+                })
             }
         });
 

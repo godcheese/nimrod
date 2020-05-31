@@ -45,7 +45,8 @@
                 <!--</li> -->
             </ul>
         </div>
-        <a href="javascript:" class="nav-prev disabled" style="display: none"><i class="iconfont icon-chevron-up"></i></a>
+        <a href="javascript:" class="nav-prev disabled" style="display: none"><i
+                class="iconfont icon-chevron-up"></i></a>
         <a href="javascript:" class="nav-next" style="display: none"><i class="iconfont icon-chevron-down"></i></a>
     </div>
     <div class="header-user">
@@ -54,7 +55,8 @@
         <h4 class="user-name ellipsis" th:text="${_user.username}">Username</h4>
         <i class="iconfont caret-down"></i>
         <ul class="user-dropdown-menu">
-            <li id="userInfoButton"><a href="javascript:" onclick="addTab('#tabs', '个人信息', '/user/profile');"><i class="iconfont icon-user"></i> 个人信息</a></li>
+            <li id="userInfoButton"><a href="javascript:" onclick="addTab('#tabs', '个人信息', '/user/profile');"><i
+                    class="iconfont icon-user"></i> 个人信息</a></li>
             <li id="logoutButton"><a href="javascript:"><i class="iconfont icon-sign-out"></i> 注销登录</a></li>
         </ul>
     </div>
@@ -76,23 +78,28 @@
         </div>
         <div title="Tab" id="center" data-options="region:'center',split:false,border:false,noheader:true">
             <div id="tabs" class="easyui-tabs"
-                 data-options="split:false,border:false,fit:false,tools:'#tabsTools',onContextMenu:onContextMenu" style="width:100%;height:100%;">
+                 data-options="split:false,border:false,fit:false,tools:'#tabsTools',onContextMenu:onContextMenu"
+                 style="width:100%;height:100%;">
             </div>
             <div id="tabsTools">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-home" onclick="tabsTo('#tabs',0)"></a>
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-refresh" onclick="refreshTabIframe('#tabs')"></a>
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="closeSelectedTab('#tabs')"></a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-home"
+                   onclick="tabsTo('#tabs',0)"></a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-refresh"
+                   onclick="refreshTabIframe('#tabs')"></a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="closeSelectedTab('#tabs')"></a>
             </div>
         </div>
         <div title="Footer" id="bottom" data-options="region:'south',split:false,border:true,noheader:true">
-            <div class="footer" th:utext="${#servletContext.getAttribute('WEB.FOOTER')}">Copyright &copy; 2018 nimrod.All rights reserved.
+            <div class="footer" th:utext="${#servletContext.getAttribute('WEB.FOOTER')}">Copyright &copy; 2018
+                nimrod.All rights reserved.
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     var avatar = _defaultAvatar;
-    if(_user.avatar !== '' && _user.avatar !== null) {
+    if (_user.avatar !== '' && _user.avatar !== null) {
         avatar = Url.System.Api.FILE + '/download/' + _user.avatar;
     }
     $('#avatarSrc').attr('src', avatar);

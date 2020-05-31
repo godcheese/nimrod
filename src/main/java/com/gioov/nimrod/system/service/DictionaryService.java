@@ -23,7 +23,8 @@ public interface DictionaryService {
 
     /**
      * 从数据库获取数据字典值
-     * @param key 数据字典键
+     *
+     * @param key       数据字典键
      * @param valueSlug 数据字典值别名
      * @return Object
      */
@@ -31,7 +32,8 @@ public interface DictionaryService {
 
     /**
      * 从内存获取数据字典值
-     * @param key 数据字典键
+     *
+     * @param key       数据字典键
      * @param valueSlug 数据字典值别名
      * @return Object 数据字典值
      */
@@ -39,8 +41,9 @@ public interface DictionaryService {
 
     /**
      * 从内存获取数据字典值
-     * @param key 数据字典键
-     * @param valueSlug 数据字典值别名
+     *
+     * @param key          数据字典键
+     * @param valueSlug    数据字典值别名
      * @param defaultValue 数据字典默认值
      * @return 数据字典值
      */
@@ -48,6 +51,7 @@ public interface DictionaryService {
 
     /**
      * 指定数据字典键，从内存获取所有数据字典
+     *
      * @param key 数据字典键
      * @return List<DictionaryEntity>
      */
@@ -55,12 +59,14 @@ public interface DictionaryService {
 
     /**
      * 将数据字典包装成 map
-     * @return Map<String, Map<String, Object>>
+     *
+     * @return Map<String, Map < String, Object>>
      */
     Map<String, Map<String, Object>> keyValueMap();
 
     /**
      * 新增数据字典
+     *
      * @param dictionaryEntity DictionaryEntity
      * @return DictionaryEntity
      */
@@ -68,6 +74,7 @@ public interface DictionaryService {
 
     /**
      * 保存数据字典
+     *
      * @param dictionaryEntity DictionaryEntity
      * @return DictionaryEntity
      */
@@ -75,6 +82,7 @@ public interface DictionaryService {
 
     /**
      * 指定数据字典 id，批量删除数据字典
+     *
      * @param idList 数据字典 id list
      * @return int 已删除数据字典个数
      */
@@ -82,6 +90,7 @@ public interface DictionaryService {
 
     /**
      * 指定数据字典 id，获取数据字典
+     *
      * @param id 数据字典 id
      * @return DictionaryEntity
      */
@@ -89,8 +98,9 @@ public interface DictionaryService {
 
     /**
      * 指定数据字典分类 id list，导出所有数据字典
-     * @param httpServletRequest HttpServletRequest
-     * @param httpServletResponse HttpServletResponse
+     *
+     * @param httpServletRequest       HttpServletRequest
+     * @param httpServletResponse      HttpServletResponse
      * @param dictionaryCategoryIdList 数据字典分类 id list
      * @throws BaseResponseException BaseResponseException
      */
@@ -98,7 +108,8 @@ public interface DictionaryService {
 
     /**
      * 指定数据字典分类 id，导入数据字典
-     * @param multipartFile 要导入的数据字典 Excel 表文件
+     *
+     * @param multipartFile        要导入的数据字典 Excel 表文件
      * @param dictionaryCategoryId 数据字典分类 id
      * @throws BaseResponseException BaseResponseException
      */
@@ -106,9 +117,10 @@ public interface DictionaryService {
 
     /**
      * 指定父级数据字典分类 id，分页获取所有数据字典
+     *
      * @param dictionaryCategoryId 数据字典分类 id
-     * @param page 页
-     * @param rows 每页显示数量
+     * @param page                 页
+     * @param rows                 每页显示数量
      * @return Pagination<DictionaryEntity>
      */
     Pagination<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows);

@@ -33,12 +33,13 @@ public class ViewPageComponentRestController {
 
     /**
      * 新增视图页面组件
+     *
      * @param viewPageComponentType 视图页面组件类型
-     * @param name 视图页面组件名称
-     * @param authority 权限（authority）
-     * @param viewPageId 视图页面 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param name                  视图页面组件名称
+     * @param authority             权限（authority）
+     * @param viewPageId            视图页面 id
+     * @param sort                  排序
+     * @param remark                备注
      * @return ResponseEntity<ViewPageComponentEntity>
      * @throws BaseResponseException BaseResponseException
      */
@@ -59,12 +60,13 @@ public class ViewPageComponentRestController {
 
     /**
      * 保存视图页面组件
-     * @param id 视图页面组件 id
+     *
+     * @param id                    视图页面组件 id
      * @param viewPageComponentType 视图页面组件类型
-     * @param name 视图页面组件名称
-     * @param authority 权限（authority）
-     * @param sort 排序
-     * @param remark 备注
+     * @param name                  视图页面组件名称
+     * @param authority             权限（authority）
+     * @param sort                  排序
+     * @param remark                备注
      * @return ResponseEntity<ViewPageComponentEntity>
      * @throws BaseResponseException BaseResponseException
      */
@@ -85,6 +87,7 @@ public class ViewPageComponentRestController {
 
     /**
      * 指定视图页面组件 id，批量删除视图页面组件
+     *
      * @param idList 视图页面组件 id list
      * @return ResponseEntity<Integer>
      */
@@ -97,6 +100,7 @@ public class ViewPageComponentRestController {
 
     /**
      * 指定视图组件 id，获取视图组件
+     *
      * @param id 视图页面组件 id
      * @return ResponseEntity<ViewPageComponentEntity>
      */
@@ -109,10 +113,11 @@ public class ViewPageComponentRestController {
 
     /**
      * 指定视图页面 id，分页获取所有视图页面组件
+     *
      * @param viewPageId 视图页面 id
-     * @param page 页
-     * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<ViewPageComponentEntity>>
+     * @param page       页
+     * @param rows       每页显示数量
+     * @return ResponseEntity<Pagination < ViewPageComponentEntity>>
      */
     @OperationLog(value = "指定视图页面 id，分页获取所有视图页面组件", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE_COMPONENT + "/PAGE_ALL_BY_VIEW_PAGE_ID')")

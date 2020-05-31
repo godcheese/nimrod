@@ -16,6 +16,7 @@ public interface JobRuntimeLogMapper extends CrudMapper<JobRuntimeLogEntity, Lon
 
     /**
      * 分页获取所有任务运行日志
+     *
      * @return Page<JobRuntimeLogEntity>
      */
     Page<JobRuntimeLogEntity> pageAll();

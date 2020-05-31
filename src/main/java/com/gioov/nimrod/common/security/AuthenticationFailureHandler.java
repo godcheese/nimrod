@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -37,14 +38,15 @@ public class AuthenticationFailureHandler implements org.springframework.securit
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setStatus(HttpStatus.NOT_FOUND.value());
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
         PrintWriter printWriter = httpServletResponse.getWriter();
 
         // 检查 e 是否为验证码错误类
         if (e instanceof VerifyCodeFilter.VerifyCodeCheckException) {
             printWriter.write(common.objectToJson(new FailureEntity(e.getMessage(), 0)));
-        } else if(e instanceof BadCredentialsException) {
+        } else if (e instanceof BadCredentialsException) {
             printWriter.write(common.objectToJson(failureEntity.i18n("user.login_fail_account_or_password_error")));
-        } else if(e instanceof DisabledException) {
+        } else if (e instanceof DisabledException) {
             LOGGER.info("e.getMessage={}", e.getMessage());
             printWriter.write(common.objectToJson(failureEntity.i18n("user.login_fail_account_or_password_error")));
         }
@@ -52,5 +54,4 @@ public class AuthenticationFailureHandler implements org.springframework.securit
         printWriter.flush();
         printWriter.close();
     }
-
 }

@@ -15,6 +15,7 @@ import java.util.List;
 public interface DepartmentService {
     /**
      * 新增部门
+     *
      * @param departmentEntity DepartmentEntity
      * @return DepartmentEntity
      */
@@ -22,6 +23,7 @@ public interface DepartmentService {
 
     /**
      * 保存部门
+     *
      * @param departmentEntity DepartmentEntity
      * @return DepartmentEntity
      */
@@ -29,6 +31,7 @@ public interface DepartmentService {
 
     /**
      * 指定部门 id list，批量删除部门
+     *
      * @param idList 角色 id list
      * @return int 已删除角色个数
      * @throws BaseResponseException BaseResponseException
@@ -37,6 +40,7 @@ public interface DepartmentService {
 
     /**
      * 指定部门 id，获取部门
+     *
      * @param id 部门 id
      * @return DepartmentEntity
      */
@@ -44,12 +48,14 @@ public interface DepartmentService {
 
     /**
      * 指定父级 API 分类 id，获取所有 API 分类
+     *
      * @return List<ApiCategoryEntity>
      */
     List<DepartmentEntity> listAllParent();
 
     /**
      * 指定父级部门 id，获取所有部门
+     *
      * @param parentId 父级部门 id
      * @return List<DepartmentEntity>
      */
@@ -65,6 +71,7 @@ public interface DepartmentService {
 
     /**
      * 指定 API 分类 id，分页获取所有 API
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<DepartmentEntity>
@@ -73,6 +80,7 @@ public interface DepartmentService {
 
     /**
      * 获取所有部门
+     *
      * @return List<DepartmentEntity>
      */
     List<DepartmentEntity> listAll();
@@ -87,6 +95,7 @@ public interface DepartmentService {
 
     /**
      * 指定部门 id，获取所有部门
+     *
      * @param id 部门 id
      * @return List<DepartmentEntity>
      */
@@ -94,12 +103,15 @@ public interface DepartmentService {
 
     /**
      * 获取所有部门，以 EasyUI ComboTree 形式展示
+     *
      * @return List<ComboTree>
      */
     List<ComboTree> listAllDepartmentComboTree();
+
     /**
      * 指定父级部门 id，DepartmentComboTree list，以 EasyUI ComboTree 形式展示
-     * @param parentId 父级部门 id
+     *
+     * @param parentId                父级部门 id
      * @param departmentComboTreeList DepartmentComboTree list
      * @return List<ComboTree>
      */
@@ -107,12 +119,15 @@ public interface DepartmentService {
 
     /**
      * 获取所有部门，以 EasyUI TreeGrid 形式展示
+     *
      * @return List<TreeGrid>
      */
     List<TreeGrid> listAllDepartmentTreeGrid();
+
     /**
      * 指定父级部门 id，DepartmentTreeGrid list，获取所有子级部门，以 EasyUI TreeGrid 形式展示
-     * @param parentId 父级部门 id
+     *
+     * @param parentId               父级部门 id
      * @param departmentTreeGridList DepartmentTreeGrid list
      * @return List<TreeGrid>
      */

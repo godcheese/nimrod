@@ -35,9 +35,11 @@
         insert into
         <include refid="TableName"/>
         (`user_id`, `ip_address`, `operation_type`, `operation`, `consuming_time`, `request_url`, `request_method`,
-        `request_parameter`, `accept_language`, `referer`, `user_agent`, `handler`, `stack_trace`, `session_id`, `cookie`, `status`, `gmt_created`)
+        `request_parameter`, `accept_language`, `referer`, `user_agent`, `handler`, `stack_trace`, `session_id`,
+        `cookie`, `status`, `gmt_created`)
         values (#{userId}, #{ipAddress}, #{operationType}, #{operation}, #{consumingTime}, #{requestUrl},
-        #{requestMethod}, #{requestParameter}, #{acceptLanguage}, #{referer}, #{userAgent}, #{handler}, #{stackTrace}, #{sessionId},
+        #{requestMethod}, #{requestParameter}, #{acceptLanguage}, #{referer}, #{userAgent}, #{handler}, #{stackTrace},
+        #{sessionId},
         #{cookie}, #{status}, #{gmtCreated})
     </insert>
 

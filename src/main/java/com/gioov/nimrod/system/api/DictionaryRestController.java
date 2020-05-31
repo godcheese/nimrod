@@ -41,15 +41,16 @@ public class DictionaryRestController {
 
     /**
      * 新增数据字典
-     * @param keyName 数据字典键名
-     * @param key 数据字典键
-     * @param valueName 数据字典值名
-     * @param valueSlug 数据字典值别名
-     * @param value 数据字典值
+     *
+     * @param keyName              数据字典键名
+     * @param key                  数据字典键
+     * @param valueName            数据字典值名
+     * @param valueSlug            数据字典值别名
+     * @param value                数据字典值
      * @param dictionaryCategoryId 数据字典分类 id
-     * @param enabled 是否启用
-     * @param sort 排序
-     * @param remark 备注
+     * @param enabled              是否启用
+     * @param sort                 排序
+     * @param remark               备注
      * @return ResponseEntity<DictionaryEntity>
      */
     @OperationLog(value = "新增数据字典", type = OperationLogType.API)
@@ -72,16 +73,17 @@ public class DictionaryRestController {
 
     /**
      * 保存数据字典
-     * @param id 数据字典 id
-     * @param keyName 数据字典键名
-     * @param key 数据字典键
-     * @param valueName 数据字典值名
-     * @param valueSlug 数据字典值别名
-     * @param value 数据字典值
+     *
+     * @param id                   数据字典 id
+     * @param keyName              数据字典键名
+     * @param key                  数据字典键
+     * @param valueName            数据字典值名
+     * @param valueSlug            数据字典值别名
+     * @param value                数据字典值
      * @param dictionaryCategoryId 数据字典分类 id
-     * @param enabled 是否启用
-     * @param sort 排序
-     * @param remark 备注
+     * @param enabled              是否启用
+     * @param sort                 排序
+     * @param remark               备注
      * @return ResponseEntity<DictionaryEntity>
      */
     @OperationLog(value = "保存数据字典", type = OperationLogType.API)
@@ -104,6 +106,7 @@ public class DictionaryRestController {
 
     /**
      * 指定数据字典 id，批量删除数据字典
+     *
      * @param idList 数据字典 id list
      * @return ResponseEntity<Integer>
      */
@@ -116,6 +119,7 @@ public class DictionaryRestController {
 
     /**
      * 指定数据字典 id，获取数据字典
+     *
      * @param id 数据字典 id
      * @return ResponseEntity<DictionaryEntity>
      */
@@ -141,7 +145,8 @@ public class DictionaryRestController {
 
     /**
      * 获取所有数据字典
-     * @return ResponseEntity<Map<String, Map<String, Object>>>
+     *
+     * @return ResponseEntity<Map < String, Map < String, Object>>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/LIST_ALL')")
     @RequestMapping("/list_all")
@@ -151,8 +156,9 @@ public class DictionaryRestController {
 
     /**
      * 指定数据字典键，从内存中获取所有数据字典
+     *
      * @param key 数据字典键
-     * @return ResponseEntity<List<DictionaryEntity>>
+     * @return ResponseEntity<List < DictionaryEntity>>
      */
     @OperationLog(value = "指定数据字典键，从内存中获取所有数据字典", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/LIST_ALL_BY_KEY')")
@@ -163,6 +169,7 @@ public class DictionaryRestController {
 
     /**
      * 同步数据字典到内存
+     *
      * @return ResponseEntity<HttpStatus>
      */
     @OperationLog(value = "同步数据字典到内存", type = OperationLogType.API)
@@ -175,8 +182,9 @@ public class DictionaryRestController {
 
     /**
      * 指定数据字典分类 id list，导出数据字典
-     * @param httpServletRequest HttpServletRequest
-     * @param httpServletResponse HttpServletResponse
+     *
+     * @param httpServletRequest       HttpServletRequest
+     * @param httpServletResponse      HttpServletResponse
      * @param dictionaryCategoryIdList 数据字典分类 id list
      * @throws BaseResponseException BaseResponseException
      */
@@ -189,23 +197,25 @@ public class DictionaryRestController {
 
     /**
      * 指定数据字典分类 id，导入数据字典
-     * @param file 导入文件
+     *
+     * @param file                 导入文件
      * @param dictionaryCategoryId 数据字典分类 id
      * @throws BaseResponseException BaseResponseException
      */
     @OperationLog(value = "指定数据字典分类 id，导入数据字典", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/IMPORT_ALL_BY_DICTIONARY_CATEGORY_ID')")
     @PostMapping(value = "/import_all_by_dictionary_category_id")
-    public void importAllByDictionaryCategoryId(@RequestParam MultipartFile file, @RequestParam Long  dictionaryCategoryId) throws BaseResponseException {
+    public void importAllByDictionaryCategoryId(@RequestParam MultipartFile file, @RequestParam Long dictionaryCategoryId) throws BaseResponseException {
         dictionaryService.importAllByDictionaryCategoryId(file, dictionaryCategoryId);
     }
 
     /**
      * 指定数据字典分类 id，分页获取数据字典
-     * @param page 页
-     * @param rows 每页显示数量
+     *
+     * @param page                 页
+     * @param rows                 每页显示数量
      * @param dictionaryCategoryId 数据字典分类 id
-     * @return ResponseEntity<Pagination<DictionaryEntity>>
+     * @return ResponseEntity<Pagination < DictionaryEntity>>
      */
     @OperationLog(value = "指定数据字典分类 id，分页获取数据字典", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY + "/PAGE_ALL_BY_DICTIONARY_CATEGORY')")

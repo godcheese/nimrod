@@ -67,6 +67,9 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private DictionaryService dictionaryService;
 
+    private static final String IS_OR_NOT = "IS_OR_NOT";
+    private static final String IS = "IS";
+
     @Override
     @OperationLog(value = "用户名登录", type = OperationLogType.API)
     public SimpleUserDetails loadUserByUsername(String account) {
@@ -77,24 +80,19 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
         }
         boolean enabled = true;
         List<SimpleGrantedAuthority> simpleGrantedAuthorityList = listAllSimpleGrantedAuthorityByUserId(userEntity.getId());
-        for(SimpleGrantedAuthority simpleGrantedAuthority : simpleGrantedAuthorityList) {
+        for (SimpleGrantedAuthority simpleGrantedAuthority : simpleGrantedAuthorityList) {
             LOGGER.info("simpleGrantedAuthority.getAuthority={}", simpleGrantedAuthority.getAuthority());
         }
-        if(userEntity.getEnabled() == null  || !userEntity.getEnabled().equals(Integer.valueOf(String.valueOf(dictionaryService.get("IS_OR_NOT", "IS"))))) {
+        if (userEntity.getEnabled() == null || !userEntity.getEnabled().equals(Integer.valueOf(String.valueOf(dictionaryService.get(IS_OR_NOT, IS))))) {
             boolean isExistSystemAdminRole = false;
-            for(SimpleGrantedAuthority simpleGrantedAuthority : simpleGrantedAuthorityList) {
-                String authority = simpleGrantedAuthority.getAuthority();
-//                if(authority.indexOf(ROLE_PREFIX) == 0 && isExistSystemAdminRole(authority.substring(ROLE_PREFIX.length()))) {
-//                    isExistSystemAdminRole = true;
-//                }
-                if(simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
+            for (SimpleGrantedAuthority simpleGrantedAuthority : simpleGrantedAuthorityList) {
+                if (simpleGrantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
                     isExistSystemAdminRole = true;
                 }
             }
-            if(!isExistSystemAdminRole) {
+            if (!isExistSystemAdminRole) {
                 enabled = false;
             }
-
         }
 
 //        if(disabled) {
@@ -109,6 +107,7 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * 角色是否存在
+     *
      * @param roleValue 角色值
      * @return boolean
      */
@@ -126,6 +125,7 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * 列出用户所拥有的角色和角色权限
+     *
      * @param userId 用户 id
      * @return List<SimpleGrantedAuthority>
      */
@@ -171,6 +171,7 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * 列出角色所拥有的权限
+     *
      * @param roleId 角色 id
      * @return List<SimpleGrantedAuthority>
      */
@@ -187,7 +188,7 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 
     public static SimpleUser getCurrentSimpleUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
+        if (authentication != null) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof UserDetails) {
                 return (SimpleUser) principal;
@@ -200,7 +201,7 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
         Authentication authentication;
         if (securityContextImpl != null) {
-            authentication  = securityContextImpl.getAuthentication();
+            authentication = securityContextImpl.getAuthentication();
         } else {
             authentication = SecurityContextHolder.getContext().getAuthentication();
         }
@@ -215,13 +216,14 @@ public class SimpleUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * 检测是否存在权限或系统管理员角色
+     *
      * @param authorities
      * @param authority
      * @return
      */
     public static boolean isExistsAuthority(Collection<GrantedAuthority> authorities, String authority) {
-        for(GrantedAuthority grantedAuthority : authorities) {
-            if(grantedAuthority.getAuthority().equals(authority) || grantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (grantedAuthority.getAuthority().equals(authority) || grantedAuthority.getAuthority().equals(ROLE_PREFIX + SYSTEM_ADMIN)) {
                 return true;
             }
         }

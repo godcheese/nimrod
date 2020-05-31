@@ -38,20 +38,13 @@ public class OperationLogServiceImpl implements OperationLogService {
     @Override
     public Pagination<OperationLogEntity> pageAll(Integer page, Integer rows) {
         Pagination<OperationLogEntity> pagination = new Pagination<>();
-
-//        if(sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
-//            sorterField = StringUtil.camelToUnderline(sorterField);
-//            String orderBy = sorterField + " " + sorterOrder;
-//            PageHelper.startPage(page, rows, orderBy);
-//        } else {
         PageHelper.startPage(page, rows);
-//        }
         Page<OperationLogEntity> operationLogEntityPage = operationLogMapper.pageAll();
         List<OperationLogEntity> operationLogEntityList = operationLogEntityPage.getResult();
         List<OperationLogEntity> operationLogEntityListResult = new ArrayList<>(1);
-        for(OperationLogEntity operationLogEntity : operationLogEntityPage) {
+        for (OperationLogEntity operationLogEntity : operationLogEntityPage) {
             UserEntity userEntity = userService.getOne(operationLogEntity.getUserId());
-            if(userEntity != null) {
+            if (userEntity != null) {
                 operationLogEntity.setUsername(userEntity.getUsername());
             }
             operationLogEntityListResult.add(operationLogEntity);
@@ -77,7 +70,7 @@ public class OperationLogServiceImpl implements OperationLogService {
     public OperationLogEntity getOne(Long id) {
         OperationLogEntity operationLogEntity = operationLogMapper.getOne(id);
         UserEntity userEntity = userService.getOne(operationLogEntity.getUserId());
-        if(userEntity != null) {
+        if (userEntity != null) {
             operationLogEntity.setUsername(userEntity.getUsername());
         }
         return operationLogEntity;

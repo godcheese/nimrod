@@ -21,7 +21,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.ROLE_VIEW_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = User.Api.ROLE_VIEW_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoleViewMenuRestController {
 
     private static final String ROLE_VIEW_MENU = "/API/USER/ROLE_VIEW_MENU";
@@ -31,7 +31,8 @@ public class RoleViewMenuRestController {
 
     /**
      * 指定角色 id、视图菜单 id list，批量授权
-     * @param roleId        角色 id
+     *
+     * @param roleId         角色 id
      * @param viewMenuIdList 视图菜单 id list
      * @return ResponseEntity<List < String>>
      */
@@ -43,7 +44,8 @@ public class RoleViewMenuRestController {
 
     /**
      * 指定角色 id、视图菜单 id list，批量撤销授权
-     * @param roleId        角色 id
+     *
+     * @param roleId         角色 id
      * @param viewMenuIdList 视图菜单 id list
      * @return ResponseEntity<Integer>
      */

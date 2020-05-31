@@ -21,7 +21,7 @@ public class SimpleJob2 implements BaseJob {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        LOGGER.info( "{} SimpleJob2 被执行", DateUtil.getNowDateTime());
+        LOGGER.info("{} SimpleJob2 被执行", DateUtil.getNowDateTime());
     }
 
 }

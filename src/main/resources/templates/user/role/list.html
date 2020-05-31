@@ -6,22 +6,25 @@
 <body>
 <div id="roleToolbar">
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_ADD_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="roleAddDialog();">新增</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="roleAddDialog();">新增</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_EDIT_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleEditDialog();">编辑</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleEditDialog();">编辑</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_DELETE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/VIEW_MENU_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewMenuDialog();">视图菜单管理</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+           onclick="viewMenuDialog();">视图菜单管理</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleAuthorityViewPageDialog();">视图页面权限管理</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+           onclick="roleAuthorityViewPageDialog();">视图页面权限管理</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/USER/ROLE/PAGE_ALL/ROLE_AUTHORITY_API_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleAuthorityApiDialog();">API 权限管理</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+           onclick="roleAuthorityApiDialog();">API 权限管理</a>
     </nimrod:security>
 </div>
 <table id="role"></table>

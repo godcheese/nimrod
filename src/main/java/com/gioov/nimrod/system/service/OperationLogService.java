@@ -13,6 +13,7 @@ public interface OperationLogService {
 
     /**
      * 分页获取所有操作日志
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<OperationLogEntity>
@@ -21,6 +22,7 @@ public interface OperationLogService {
 
     /**
      * 新增操作日志
+     *
      * @param operationLogEntity OperationLogEntity
      * @return OperationLogEntity
      */
@@ -28,6 +30,7 @@ public interface OperationLogService {
 
     /**
      * 指定操作日志 id，批量删除操作日志
+     *
      * @param idList 操作日志 id list
      * @return 已删除操作日志个数
      */
@@ -35,6 +38,7 @@ public interface OperationLogService {
 
     /**
      * 指定操作日志 id，获取操作日志
+     *
      * @param id 操作日志 id
      * @return OperationLogEntity
      */

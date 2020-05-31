@@ -6,7 +6,8 @@
 <body>
 <div id="mailToolbar">
     <nimrod:security authority="/COMPONENT/MAIL/SEND_DIALOG">
-        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="mailSendDialog();">新建发送</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+           onclick="mailSendDialog();">新建发送</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/MAIL/MAIL_DELETE_ALL">
         <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="mailDeleteAll();">删除</a>
@@ -25,9 +26,11 @@
         var columns = [
             {field: 'checkbox', checkbox: true},
             {field: 'id', title: 'ID'},
-            {field: 'operation', title: '操作', formatter: function (value, row, index) {
+            {
+                field: 'operation', title: '操作', formatter: function (value, row, index) {
                     return '<a href="javascript:" onclick="viewDialog(' + row.id + ')">查看</a>'
-                }},
+                }
+            },
             {
                 field: 'status', title: '状态', formatter: function (value, row, index) {
                     return expressui.grid.formatter(value, SMS_STATUS);
@@ -36,7 +39,8 @@
             {field: 'from', title: '发件人'},
             {field: 'to', title: '收件人'},
             {field: 'subject', title: '主题'},
-            {field: 'text', title: '内容', formatter: function (value, row, index) {
+            {
+                field: 'text', title: '内容', formatter: function (value, row, index) {
                     return '<a href="javascript:" onclick="viewDialog(' + row.id + ')">查看</a>'
                 }
             },
@@ -115,9 +119,9 @@
             title: '查看',
             width: 600,
             height: 430,
-            href: Url.Mail.Page.MAIL  + '/view_dialog',
+            href: Url.Mail.Page.MAIL + '/view_dialog',
             get: {url: Url.Mail.Api.MAIL + '/one/' + id, method: 'get'},
-            buttons: [ {
+            buttons: [{
                 text: '关闭',
                 iconCls: 'iconfont icon-close',
                 handler: expressui.dialog.close

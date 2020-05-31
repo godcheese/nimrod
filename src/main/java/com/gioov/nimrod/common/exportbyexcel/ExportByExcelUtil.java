@@ -37,11 +37,12 @@ public class ExportByExcelUtil {
 
     /**
      * 实体导出数据成 Excel 表
-     * @param httpServletRequest httpServletRequest
+     *
+     * @param httpServletRequest  httpServletRequest
      * @param httpServletResponse httpServletResponse
-     * @param objectList objectList
-     * @param clazz clazz
-     * @param exportFilename exportFilename
+     * @param objectList          objectList
+     * @param clazz               clazz
+     * @param exportFilename      exportFilename
      * @throws BaseResponseException
      */
     public static void exportEntity(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, List<? extends Object> objectList, Class<?> clazz, String exportFilename) throws BaseResponseException {
@@ -54,7 +55,7 @@ public class ExportByExcelUtil {
             for (Field field : fields) {
                 ExportByExcel annotation = field.getAnnotation(ExportByExcel.class);
                 if (annotation != null) {
-                    if(!annotation.exportIgnore()) {
+                    if (!annotation.exportIgnore()) {
                         String name = annotation.name();
                         if ("".equals(name)) {
                             name = annotation.value();
@@ -82,12 +83,12 @@ public class ExportByExcelUtil {
     }
 
     /**
-     * @param row Row
+     * @param row    Row
      * @param entity Object
-     * @throws IllegalAccessException IllegalAccessException
-     * @throws NoSuchMethodException NoSuchMethodException
+     * @throws IllegalAccessException    IllegalAccessException
+     * @throws NoSuchMethodException     NoSuchMethodException
      * @throws InvocationTargetException InvocationTargetException
-     * @throws InstantiationException InstantiationException
+     * @throws InstantiationException    InstantiationException
      */
     private static void exportFieldValue(Row row, Object entity) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException {
         Object value;
@@ -116,13 +117,14 @@ public class ExportByExcelUtil {
 
     /**
      * 将实例化的实体遍历赋值
+     *
      * @param entity T
-     * @param map Map<Integer, Cell>
-     * @param <T> <T>
+     * @param map    Map<Integer, Cell>
+     * @param <T>    <T>
      * @return T T
-     * @throws NoSuchMethodException NoSuchMethodException
-     * @throws InstantiationException InstantiationException
-     * @throws IllegalAccessException IllegalAccessException
+     * @throws NoSuchMethodException     NoSuchMethodException
+     * @throws InstantiationException    InstantiationException
+     * @throws IllegalAccessException    IllegalAccessException
      * @throws InvocationTargetException InvocationTargetException
      */
     public static <T> T importEntity(T entity, Map<Integer, Cell> map) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
@@ -132,7 +134,7 @@ public class ExportByExcelUtil {
             field.setAccessible(true);
             ExportByExcel exportByExcel;
             if ((exportByExcel = field.getAnnotation(ExportByExcel.class)) != null) {
-                if(!exportByExcel.importIgnore()) {
+                if (!exportByExcel.importIgnore()) {
                     Cell cell = map.get(index);
                     String cellValue = cell.getStringCellValue();
                     // 导入所有值时自动调用 handler

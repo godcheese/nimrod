@@ -23,7 +23,7 @@ public class MultipartProperties {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigElement multipartConfigElement = multipartProperties.createMultipartConfig();
-        return new UpdatableMultipartConfigElement(multipartConfigElement.getLocation(), multipartConfigElement.getMaxFileSize(),
-                multipartConfigElement.getMaxRequestSize(), multipartConfigElement.getFileSizeThreshold());
+//        return new MultipartConfigElement(multipartConfigElement.getLocation(), multipartConfigElement.getMaxFileSize(), multipartConfigElement.getMaxRequestSize(), multipartConfigElement.getFileSizeThreshold());
+        return new UpdatableMultipartConfigElement(multipartConfigElement.getLocation(), multipartConfigElement.getMaxFileSize(), multipartConfigElement.getMaxRequestSize(), multipartConfigElement.getFileSizeThreshold());
     }
 }

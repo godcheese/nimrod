@@ -46,7 +46,7 @@ table {
 }
 
 body {
-    font-family:  Microsoft YaHei, Arial, "\5b8b\4f53";
+    font-family: Microsoft YaHei, Arial, "\5b8b\4f53";
     /*background:#0064C8;*/
 }
 
@@ -69,6 +69,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal; /*不加粗*/
     font-size: 100%;
 }
+
 .login-page {
     content: '';
     width: 100%;
@@ -83,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*login 开始*/
-.login-box{
+.login-box {
     width: 1000px;
     height: 500px;
     position: absolute;
@@ -91,25 +92,29 @@ h1, h2, h3, h4, h5, h6 {
     top: 50%;
     margin-left: -510px; /* 500px */
     margin-top: -250px; /* -250px */
-	/*background:#0064C8;*/
+    /*background:#0064C8;*/
 }
-.login-box>.login-header{
+
+.login-box > .login-header {
     height: 80px;
     text-align: center;
 }
-.login-box>.login-header>p{
-    color:#fff;
+
+.login-box > .login-header > p {
+    color: #fff;
     font-size: 40px;
     font-weight: 600;
     margin-top: -40px;
     letter-spacing: 5px
 }
-.login-box>.login-body{
+
+.login-box > .login-body {
     width: 1000px;
     height: 370px; /* 320px */
-	margin-top:20px; /* 20px */
+    margin-top: 20px; /* 20px */
 }
-.login-box>.login-body>.login-body-left{
+
+.login-box > .login-body > .login-body-left {
     height: 370px; /* 320px */
     width: 650px;
     float: left;
@@ -119,8 +124,9 @@ h1, h2, h3, h4, h5, h6 {
     background: url("../img/login/login_body_left.jpg") no-repeat;
     background-size: cover;
 }
-.login-box>.login-body>.login-body-right{
-    height: 370px;  /* 320px */
+
+.login-box > .login-body > .login-body-right {
+    height: 370px; /* 320px */
     width: 350px;
     float: right;
     background-color: #e9eef2;
@@ -132,8 +138,9 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-border-bottom-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
-.login-box>.login-body>.login-body-right>.right-title{
-    color:#251E5F;
+
+.login-box > .login-body > .login-body-right > .right-title {
+    color: #251E5F;
     font-size: 20px;
     font-weight: 700;
     text-align: center;
@@ -141,15 +148,17 @@ h1, h2, h3, h4, h5, h6 {
     background: url("../img/login/horizontal_divider.png") repeat;
     margin-bottom: 25px;
 }
-.login-box>.login-body>.login-body-right>form>div{
+
+.login-box > .login-body > .login-body-right > form > div {
     position: relative;
 }
+
 /*.login-box>.login-body>.login-body-right>form>div>img{*/
 /*    position: absolute;*/
 /*    left: 62px;*/
 /*    top:7px;*/
 /*}*/
-.login-box>.login-body>.login-body-right>form>div>i{
+.login-box > .login-body > .login-body-right > form > div > i {
     position: absolute;
     /*left: 62px;*/
     /*top:7px;*/
@@ -158,7 +167,8 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 20px;
     color: #C3C2C2;
 }
-.login-box>.login-body>.login-body-right>form input{
+
+.login-box > .login-body > .login-body-right > form input {
     height: 35px;
     width: 250px;
     border: 1px solid #d3d8dc;
@@ -168,37 +178,44 @@ h1, h2, h3, h4, h5, h6 {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    color:#333;
+    color: #333;
     padding-left: 40px;
     line-height: 40px; /* 解决 ie8 下 input 输入框文字顶格的问题 */
-    line-height:normal
+    line-height: normal
 }
-.login-box>.login-body>.login-body-right>form>.verify-code>input{
+
+.login-box > .login-body > .login-body-right > form > .verify-code > input {
     width: 150px;
 }
-.login-box>.login-body>.login-body-right>form>.verify-code>.verify-code-image{
+
+.login-box > .login-body > .login-body-right > form > .verify-code > .verify-code-image {
     float: right;
     margin-right: 50px;
     cursor: pointer;
 }
-.login-box>.login-body>.login-body-right>form>.verify-code>.verify-code-image>img {
+
+.login-box > .login-body > .login-body-right > form > .verify-code > .verify-code-image > img {
     width: 90px;
     height: 30px;
 }
-.login-box>.login-body>.login-body-right>form>.remember-me>input{
+
+.login-box > .login-body > .login-body-right > form > .remember-me > input {
     width: 20px;
     margin-top: -12px;
     margin-bottom: 5px;
 }
-.login-box>.login-body>.login-body-right>form>.remember-me>div{
+
+.login-box > .login-body > .login-body-right > form > .remember-me > div {
     float: right;
     margin-right: 240px;
     cursor: pointer;
 }
-.login-box>.login-body>.login-body-right>form input:focus{
+
+.login-box > .login-body > .login-body-right > form input:focus {
     border: 1px solid #999;
 }
-.login-box>.login-body>.login-body-right>form>.login-button>a{
+
+.login-box > .login-body > .login-body-right > form > .login-button > a {
     display: block;
     width: 250px;
     height: 35px;
@@ -208,20 +225,43 @@ h1, h2, h3, h4, h5, h6 {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    color:#fff;
+    color: #fff;
     text-decoration: none;
     margin-left: 50px;
 }
-.login-box>.login-body>.login-body-right>form>.login-button>a:hover{
+
+.login-box > .login-body > .login-body-right > form > .login-button > a:hover {
     background-color: #0058af;
 }
-.login-box>.login-footer{
+
+
+.login-box > .login-body > .login-body-right > form > .login-button > button {
+    display: block;
+    width: 250px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    background-color: #0064c8; /* */
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 50px;
+}
+
+.login-box > .login-body > .login-body-right > form > .login-button > button:hover {
+    background-color: #0058af;
+}
+
+.login-box > .login-footer {
     text-align: center;
     padding-top: 20px;
 }
-.login-box>.login-footer>p{
+
+.login-box > .login-footer > p {
     font-size: 14px;
-    color:#eee;
+    color: #eee;
     line-height: 30px;
 }
 

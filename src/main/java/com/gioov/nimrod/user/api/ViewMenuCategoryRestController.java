@@ -35,7 +35,8 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 获取所有父级视图菜单分类
-     * @return ResponseEntity<List<ViewMenuCategoryEntity>>
+     *
+     * @return ResponseEntity<List < ViewMenuCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/LIST_ALL_PARENT')")
     @GetMapping(value = "/list_all_parent")
@@ -45,8 +46,9 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定父级视图菜单分类 id，获取所有视图菜单分类
+     *
      * @param parentId 父级视图菜单分类 id
-     * @return ResponseEntity<List<ViewMenuCategoryEntity>>
+     * @return ResponseEntity<List < ViewMenuCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/LIST_ALL_BY_PARENT_ID')")
     @GetMapping(value = "/list_all_by_parent_id")
@@ -56,11 +58,12 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 新增视图菜单分类
-     * @param name 视图菜单分类名称
-     * @param icon 图标（icon）
+     *
+     * @param name     视图菜单分类名称
+     * @param icon     图标（icon）
      * @param parentId 父级视图菜单分类 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort     排序
+     * @param remark   备注
      * @return <ViewMenuCategoryEntity>
      */
     @OperationLog(value = "新增视图菜单分类", type = OperationLogType.API)
@@ -79,10 +82,11 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 保存视图菜单分类
-     * @param id 视图菜单分类 id
-     * @param name 视图菜单分类名称
-     * @param icon 图标（icon）
-     * @param sort 排序
+     *
+     * @param id     视图菜单分类 id
+     * @param name   视图菜单分类名称
+     * @param icon   图标（icon）
+     * @param sort   排序
      * @param remark 备注
      * @return ResponseEntity<ViewMenuCategoryEntity>
      */
@@ -102,6 +106,7 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定视图菜单分类 id，批量删除视图菜单分类
+     *
      * @param idList 视图菜单分类 id list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
@@ -115,6 +120,7 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定视图菜单分类 id，获取视图菜单分类
+     *
      * @param id 视图菜单分类 id
      * @return ResponseEntity<ViewMenuCategoryEntity>
      */
@@ -128,8 +134,9 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定角色 id，获取所有父级视图菜单分类
+     *
      * @param roleId 角色 id
-     * @return ResponseEntity<List<ViewMenuCategoryEntity>>
+     * @return ResponseEntity<List < ViewMenuCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/LIST_ALL_PARENT_BY_ROLE_ID')")
     @GetMapping(value = "/list_all_parent_by_role_id/{roleId}")
@@ -139,8 +146,9 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定用户 id，获取所有父级视图菜单分类
+     *
      * @param userId 用户 id
-     * @return ResponseEntity<List<ViewMenuCategoryEntity>>
+     * @return ResponseEntity<List < ViewMenuCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/LIST_ALL_PARENT_BY_USER_ID')")
     @GetMapping(value = "/list_all_parent_by_user_id/{userId}")
@@ -150,6 +158,7 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定用户 id、父级视图菜单分类 id，获取所有子级视图菜单分类
+     *
      * @param userId   用户 id
      * @param parentId 视图菜单分类父级 id
      * @return ResponseEntity<? extends Object>
@@ -162,18 +171,20 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定用户 id、父级视图菜单分类 id，获取所有子级视图菜单分类和视图菜单
+     *
      * @param userId   用户 id
      * @param parentId 视图菜单分类父级 id
-     * @return ResponseEntity< List<Map<String, Object>> >
+     * @return ResponseEntity<List < Map < String, Object>> >
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/LIST_ALL_CHILD_VIEW_MENU_CATEGORY_AND_VIEW_MENU_BY_PARENT_ID_AND_USER_ID')")
     @GetMapping(value = "/list_all_child_view_menu_category_and_view_menu_by_parent_id_and_user_id")
-    public ResponseEntity<List<Map<String, Object>> > listAllChildViewMenuCategoryAndViewMenuByParentIdAndUserId(@RequestParam Long parentId, @RequestParam Long userId) {
+    public ResponseEntity<List<Map<String, Object>>> listAllChildViewMenuCategoryAndViewMenuByParentIdAndUserId(@RequestParam Long parentId, @RequestParam Long userId) {
         return new ResponseEntity<>(viewMenuCategoryService.listAllChildViewMenuCategoryAndViewMenuByParentIdAndUserId(parentId, userId), HttpStatus.OK);
     }
 
     /**
      * 获取所有菜单分类
+     *
      * @return ResponseEntity<? extends Object>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/LIST_ALL')")
@@ -184,7 +195,8 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 指定菜单分类名，模糊搜索获取所有菜单分类
-     * @return ResponseEntity<? extends  Object>
+     *
+     * @return ResponseEntity<? extends Object>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/SEARCH_ALL_BY_NAME')")
     @GetMapping(value = "/search_all_by_name")
@@ -194,7 +206,8 @@ public class ViewMenuCategoryRestController {
 
     /**
      * 获取所有视图菜单分类，以 ComboTree 形式展示
-     * @return ResponseEntity<List<ComboTree>>
+     *
+     * @return ResponseEntity<List < ComboTree>>
      */
     @OperationLog(value = "获取所有视图菜单分类，以 ComboTree 形式展示", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU_CATEGORY + "/LIST_ALL_AS_COMBO_TREE')")
@@ -202,12 +215,12 @@ public class ViewMenuCategoryRestController {
     public ResponseEntity<List<ComboTree>> listAllAsComboTree() {
         List<ComboTree> comboTreeResultList = new ArrayList<>();
         List<ComboTree> viewMenuCategoryComboTreeList = viewMenuCategoryService.listAllViewMenuCategoryComboTree();
-        for(ComboTree comboTree : viewMenuCategoryComboTreeList) {
-            if(comboTree.getParentId() == null) {
+        for (ComboTree comboTree : viewMenuCategoryComboTreeList) {
+            if (comboTree.getParentId() == null) {
                 comboTreeResultList.add(comboTree);
             }
         }
-        for(ComboTree comboTree : comboTreeResultList) {
+        for (ComboTree comboTree : comboTreeResultList) {
             comboTree.setChildren(viewMenuCategoryService.getViewMenuCategoryChildrenComboTree(comboTree.getId(), viewMenuCategoryComboTreeList));
         }
         return new ResponseEntity<>(comboTreeResultList, HttpStatus.OK);

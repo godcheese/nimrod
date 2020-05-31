@@ -81,6 +81,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(Url.STATIC).permitAll()
                 // 登录页，无需登录认证权限直接访问
                 .antMatchers(User.Page.LOGIN).permitAll()
+                .antMatchers("/api/system/dictionary/list_all_by_key/IS_OR_NOT").permitAll()
                 // 其它请求均需要权限认证
                 .anyRequest().authenticated();
 

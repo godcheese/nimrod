@@ -50,8 +50,8 @@ public class FileServiceImpl implements FileService {
         Page<FileEntity> fileEntityPage = fileMapper.pageAll();
         List<FileEntity> fileEntityList = fileEntityPage.getResult();
         List<FileEntity> fileEntityListResult = new ArrayList<>();
-        for(FileEntity fileEntity : fileEntityList) {
-            if(fileEntity.getUserId() != null) {
+        for (FileEntity fileEntity : fileEntityList) {
+            if (fileEntity.getUserId() != null) {
                 UserEntity userEntity = userService.getOneByIdNoPassword(fileEntity.getUserId());
                 if (userEntity != null) {
                     fileEntity.setUsername(userEntity.getUsername());
@@ -66,6 +66,7 @@ public class FileServiceImpl implements FileService {
 
     /**
      * 文件上传
+     *
      * @param file
      * @return
      * @throws BaseResponseException
@@ -88,7 +89,7 @@ public class FileServiceImpl implements FileService {
         String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
         String guid = (String.valueOf(calendar.toInstant().toEpochMilli()) + UUID.randomUUID() + "." + FileUtil.getSuffix(file.getOriginalFilename())).replaceAll("-", "");
         String datePath = File.separator + year + File.separator + month;
-        String absolutePath = FileUtil.getCurrentRootPath() + dictionaryService.get("FILE","UPLOAD_PATH") + datePath;
+        String absolutePath = FileUtil.getCurrentRootPath() + dictionaryService.get("FILE", "UPLOAD_PATH") + datePath;
         if (!FileUtil.createDirectory(absolutePath)) {
             throw new BaseResponseException(failureEntity.i18n("file.upload_fail"));
         }
@@ -149,8 +150,7 @@ public class FileServiceImpl implements FileService {
         for (Long id : idList) {
             FileEntity fileEntity = fileMapper.getOne(id);
             if (fileEntity != null) {
-//                String uploadPath = appProperties.getFileUploadPath();
-                String uploadPath = (String) dictionaryService.get("ATTACHMENT","UPLOAD_PATH");
+                String uploadPath = (String) dictionaryService.get("ATTACHMENT", "UPLOAD_PATH");
                 String filename = File.separator + FileUtil.filterFileSeparator(FileUtil.getCurrentRootPath() + uploadPath + fileEntity.getPath() + fileEntity.getGuid());
                 FileUtil.delete(new File(filename));
                 fileMapper.deleteOne(id);
@@ -163,8 +163,8 @@ public class FileServiceImpl implements FileService {
     @Override
     public FileEntity getOne(Long id) {
         FileEntity fileEntity = fileMapper.getOne(id);
-        if(fileEntity != null) {
-            if(fileEntity.getUserId() != null) {
+        if (fileEntity != null) {
+            if (fileEntity.getUserId() != null) {
                 UserEntity userEntity = userService.getOneByIdNoPassword(fileEntity.getUserId());
                 if (userEntity != null) {
                     fileEntity.setUsername(userEntity.getUsername());
@@ -178,10 +178,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public void download(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, String guid) throws BaseResponseException {
         FileEntity fileEntity = fileMapper.getOneByGuid(guid);
-        if(fileEntity == null) {
+        if (fileEntity == null) {
             throw new BaseResponseException(failureEntity.i18n("file.download_fail_file_not_exists"));
         }
-        String absolutePath = File.separator + FileUtil.filterFileSeparator(FileUtil.getCurrentRootPath() + dictionaryService.get("FILE","UPLOAD_PATH") + fileEntity.getPath());
+        String absolutePath = File.separator + FileUtil.filterFileSeparator(FileUtil.getCurrentRootPath() + dictionaryService.get("FILE", "UPLOAD_PATH") + fileEntity.getPath());
         try {
             FileUtil.download(httpServletRequest, httpServletResponse, fileEntity.getMimeType(), fileEntity.getName(), new File(absolutePath));
         } catch (IOException e) {
@@ -195,15 +195,15 @@ public class FileServiceImpl implements FileService {
         Pagination<FileEntity> pagination = new Pagination<>();
         PageHelper.startPage(page, rows);
         Page<FileEntity> fileEntityPage;
-        if(userId != null) {
+        if (userId != null) {
             fileEntityPage = fileMapper.pageAllImageByUserId(userId);
         } else {
-           fileEntityPage = fileMapper.pageAllImage();
+            fileEntityPage = fileMapper.pageAllImage();
         }
         List<FileEntity> fileEntityList = fileEntityPage.getResult();
         List<FileEntity> fileEntityListResult = new ArrayList<>();
-        for(FileEntity fileEntity : fileEntityList) {
-            if(fileEntity.getUserId() != null) {
+        for (FileEntity fileEntity : fileEntityList) {
+            if (fileEntity.getUserId() != null) {
                 UserEntity userEntity = userService.getOneByIdNoPassword(fileEntity.getUserId());
                 if (userEntity != null) {
                     fileEntity.setUsername(userEntity.getUsername());

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface UserVerifyCodeMapper extends CrudMapper<UserVerifyCodeEntity, Long> {
     UserVerifyCodeEntity getOneByUserIdAndVerifyFrom(@Param("userId") Long userId, @Param("verifyFrom") String verifyFrom);
+
     int updateOneByUserIdAndVerifyFrom(UserVerifyCodeEntity userVerifyCodeEntity);
 
     int deleteAllByEmail(String email);

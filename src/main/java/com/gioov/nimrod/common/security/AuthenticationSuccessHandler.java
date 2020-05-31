@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -29,6 +30,7 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
         SimpleUser simpleUser = (SimpleUser) authentication.getPrincipal();
         httpServletResponse.setStatus(HttpStatus.OK.value());
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
         PrintWriter printWriter = httpServletResponse.getWriter();
         printWriter.write(common.objectToJson(new SuccessEntity(simpleUser)));
         printWriter.flush();

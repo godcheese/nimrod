@@ -16,6 +16,7 @@ $(function () {
     $('#verifyCodeImage').click(function () {
         refreshVerifyCode($(this), verifyCodeImageSrc);
     });
+
     function refreshVerifyCode(_this, verifyCodeImageSrc) {
         _this.attr('src', verifyCodeImageSrc + '?_=' + Math.random());
     }
@@ -25,11 +26,18 @@ $(function () {
         var password = $('#password');
         var rememberMe = $('#rememberMe');
         var verifyCode = $('#verifyCode');
-        if (account === '' || password === '') {
+
+        if (account.val() === '' || password.val() === '') {
             alert('请先输入账号和密码');
             return;
         }
 
+        if (verifyCode.val() === '') {
+            alert('请输入验证码');
+            return;
+        }
+
+        $(this).attr('disabled', 'disabled');
         account.attr('disabled', 'disabled');
         password.attr('disabled', 'disabled');
         verifyCode.attr('disabled', 'disabled');
@@ -50,6 +58,11 @@ $(function () {
             error: function (XMLHttpRequest, statusText, errorThrown) {
                 alert(XMLHttpRequest.responseJSON.message);
                 $('#verifyCodeImage').click();
+                account.removeAttr('disabled');
+                password.removeAttr('disabled');
+                verifyCode.removeAttr('disabled');
+                rememberMe.removeAttr('disabled');
+                $(this).removeAttr('disabled');
             }
         });
     });

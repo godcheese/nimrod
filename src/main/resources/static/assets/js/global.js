@@ -1,6 +1,5 @@
-
-if($) {
-    if($.fn.validatebox) {
+if ($) {
+    if ($.fn.validatebox) {
         $.extend($.fn.validatebox.defaults.rules, {
             confirmPassword: {
                 validator: function (value, param) {

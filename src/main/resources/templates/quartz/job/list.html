@@ -9,19 +9,20 @@
         <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="jobAddDialog();">新增</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/SYSTEM/API/PAGE_ALL/API_CATEGORY_EDIT_DIALOG">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="jobEditDialog();">编辑</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="jobEditDialog();">编辑</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_PAUSE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-pause" onclick="jobPauseAll();">暂停</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-pause" onclick="jobPauseAll();">暂停</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_RESUME_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-play" onclick="jobResumeAll();">运行</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-play" onclick="jobResumeAll();">运行</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_DELETE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="jobDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="jobDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/QUARTZ/JOB_RESET_STATE">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-repeat" onclick="jobResetState();">重置状态</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-repeat"
+           onclick="jobResetState();">重置状态</a>
     </nimrod:security>
 </div>
 <table id="job"></table>
@@ -34,7 +35,8 @@
             {field: 'checkbox', checkbox: true},
             {field: 'jobClassName', title: '任务类名'},
             {field: 'jobGroup', title: '任务分组'},
-            {field: 'triggerState', title: '任务状态', formatter: function (value, row, index) {
+            {
+                field: 'triggerState', title: '任务状态', formatter: function (value, row, index) {
                     return expressui.grid.formatter(value, QUARTZ_TRIGGER_STATE);
                 }
             },
@@ -111,12 +113,12 @@
 
     function jobPauseAll() {
         var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
-        if(!checked) {
+        if (!checked) {
             return;
         }
         var jobClassNameList = [];
         var jobGroupList = [];
-        for(var i=0; i<checked.length; i++) {
+        for (var i = 0; i < checked.length; i++) {
             jobClassNameList.push(checked[i].jobClassName);
             jobGroupList.push(checked[i].jobGroup);
         }
@@ -131,12 +133,12 @@
 
     function jobResumeAll() {
         var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
-        if(!checked) {
+        if (!checked) {
             return;
         }
         var jobClassNameList = [];
         var jobGroupList = [];
-        for(var i=0; i<checked.length; i++) {
+        for (var i = 0; i < checked.length; i++) {
             jobClassNameList.push(checked[i].jobClassName);
             jobGroupList.push(checked[i].jobGroup);
         }
@@ -151,12 +153,12 @@
 
     function jobDeleteAll() {
         var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
-        if(!checked) {
+        if (!checked) {
             return;
         }
         var jobClassName = [];
         var jobGroup = [];
-        for(var i=0; i<checked.length; i++) {
+        for (var i = 0; i < checked.length; i++) {
             jobClassName.push(checked[i].jobClassName);
             jobGroup.push(checked[i].jobGroup);
         }
@@ -171,12 +173,12 @@
 
     function jobResetState() {
         var checked = $('#job').datagrid(expressui.grid.getCheckedLessOneOrShowAlert);
-        if(!checked) {
+        if (!checked) {
             return;
         }
         var jobClassName = [];
         var jobGroup = [];
-        for(var i=0; i<checked.length; i++) {
+        for (var i = 0; i < checked.length; i++) {
             jobClassName.push(checked[i].jobClassName);
             jobGroup.push(checked[i].jobGroup);
         }

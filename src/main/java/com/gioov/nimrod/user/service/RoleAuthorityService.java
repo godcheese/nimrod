@@ -13,6 +13,7 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色权限 id，获取角色权限
+     *
      * @param id 角色权限 id
      * @return RoleAuthorityEntity
      */
@@ -20,7 +21,8 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色 id、API 权限（authority），批量授权
-     * @param roleId 角色 id
+     *
+     * @param roleId           角色 id
      * @param apiAuthorityList API 权限（authority） list
      * @return List<String>
      */
@@ -28,7 +30,8 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色 id、API 权限（authority），批量撤销授权
-     * @param roleId 角色 id
+     *
+     * @param roleId           角色 id
      * @param apiAuthorityList API 权限（authority） list
      * @return List<String>
      */
@@ -36,7 +39,8 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色 id、视图页面权限（authority） list，批量授权
-     * @param roleId 角色 id
+     *
+     * @param roleId            角色 id
      * @param viewPageAuthority 视图页面权限（authority） list
      * @return List<String>
      */
@@ -44,7 +48,8 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色 id、视图页面权限（authority） list，批量撤销授权
-     * @param roleId 角色 id
+     *
+     * @param roleId            角色 id
      * @param viewPageAuthority 视图页面权限（authority） list
      * @return List<String>
      */
@@ -52,7 +57,8 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色 id、视图页面组件权限（authority），批量授权
-     * @param roleId 角色 id
+     *
+     * @param roleId                         角色 id
      * @param viewPageComponentAuthorityList 视图页面组件权限（authority） list
      * @return List<String>
      */
@@ -60,7 +66,8 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色 id、视图页面组件权限（authority） list，批量撤销授权
-     * @param roleId 角色 id
+     *
+     * @param roleId                         角色 id
      * @param viewPageComponentAuthorityList 视图页面组件权限（authority） list
      * @return List<String>
      */
@@ -68,7 +75,8 @@ public interface RoleAuthorityService {
 
     /**
      * 指定角色 id、权限（authority） list，判断是否已授权
-     * @param roleId 角色 id
+     *
+     * @param roleId    角色 id
      * @param authority 权限（authority） list
      * @return Map<String, Object>
      */

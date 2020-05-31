@@ -19,6 +19,7 @@ public interface DictionaryMapper extends CrudMapper<DictionaryEntity, Long> {
 
     /**
      * 指定数据字典分类 id，获取数据字典
+     *
      * @param dictionaryCategoryId 数据字典分类 id
      * @return DictionaryEntity
      */
@@ -26,6 +27,7 @@ public interface DictionaryMapper extends CrudMapper<DictionaryEntity, Long> {
 
     /**
      * 指定数据字典分类 id，分页获取所有数据字典
+     *
      * @param dictionaryCategoryId 数据字典分类 id
      * @return Page<DictionaryEntity>
      */
@@ -33,7 +35,8 @@ public interface DictionaryMapper extends CrudMapper<DictionaryEntity, Long> {
 
     /**
      * 指定数据字典键和值别名，获取数据字典
-     * @param key 数据字典键
+     *
+     * @param key       数据字典键
      * @param valueSlug 数据字典值别名
      * @return DictionaryEntity
      */
@@ -41,6 +44,7 @@ public interface DictionaryMapper extends CrudMapper<DictionaryEntity, Long> {
 
     /**
      * 指定数据字典键，获取所有数据字典
+     *
      * @param key 数据字典键
      * @return List<DictionaryEntity>
      */
@@ -48,6 +52,7 @@ public interface DictionaryMapper extends CrudMapper<DictionaryEntity, Long> {
 
     /**
      * 指定数据字典分类 id，分页获取所有数据字典
+     *
      * @param dictionaryCategoryId 数据字典分类 id
      * @return List<DictionaryEntity>
      */

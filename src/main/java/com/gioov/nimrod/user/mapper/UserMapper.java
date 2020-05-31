@@ -19,6 +19,7 @@ import java.util.List;
 public interface UserMapper extends CrudMapper<UserEntity, Long> {
     /**
      * 指定 username 获取用户
+     *
      * @param username 用户名
      * @return UserEntity
      */
@@ -26,6 +27,7 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
 
     /**
      * 指定电子邮箱，获取用户
+     *
      * @param email 电子邮箱
      * @return UserEntity
      */
@@ -33,6 +35,7 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
 
     /**
      * 指定手机号码，获取用户
+     *
      * @param cellphone 手机号码
      * @return UserEntity
      */
@@ -40,6 +43,7 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
 
     /**
      * 伪删除用户，标记 gmtDeleted 字段
+     *
      * @param idList     id list
      * @param gmtDeleted 删除时间
      * @return int
@@ -48,6 +52,7 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
 
     /**
      * 撤销伪删除用户，不标记 gmtDeleted 字段
+     *
      * @param idList id list
      * @return int
      */
@@ -55,6 +60,7 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
 
     /**
      * 指定部门 id，分页获取所有用户
+     *
      * @param departmentId 部门 id
      * @return
      */
@@ -62,6 +68,7 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
 
     /**
      * 指定部门 id，获取用户
+     *
      * @param departmentId 部门 id
      * @return UserEntity
      */
@@ -69,11 +76,12 @@ public interface UserMapper extends CrudMapper<UserEntity, Long> {
 
     /**
      * 分页获取所有用户
-     * @param userEntity UserEntity
+     *
+     * @param userEntity      UserEntity
      * @param gmtCreatedStart gmtCreatedStart
-     * @param gmtCreatedEnd gmtCreatedEnd
+     * @param gmtCreatedEnd   gmtCreatedEnd
      * @param gmtDeletedStart gmtDeletedStart
-     * @param gmtDeletedEnd gmtDeletedEnd
+     * @param gmtDeletedEnd   gmtDeletedEnd
      * @return Page<UserEntity>
      */
     Page<UserEntity> pageAll(@Param("userEntity") UserEntity userEntity, @Param("gmtCreatedStart") String gmtCreatedStart, @Param("gmtCreatedEnd") String gmtCreatedEnd, @Param("gmtDeletedStart") String gmtDeletedStart, @Param("gmtDeletedEnd") String gmtDeletedEnd);

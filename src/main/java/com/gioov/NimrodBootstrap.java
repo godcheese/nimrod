@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Nimrod 启动类
+ *
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
@@ -25,7 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootApplication
 public class NimrodBootstrap extends SpringBootServletInitializer {
 
-    private static final String NIMROD_VERSION = "0.7.2";
+    private static final String NIMROD_VERSION = "0.7.3";
     private static final String NIMROD_URL = "https://github.com/godcheese/nimrod";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NimrodBootstrap.class);
@@ -56,9 +57,9 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
                         "  |__| \\__| |__| |__|  |__| | _| `._____| \\______/  |_______/ ";
 
         String nimrod =
-                "\n  -------------------------------------------------"  +
+                "\n  -------------------------------------------------" +
                         "\n  | Nimrod version: " + NIMROD_VERSION + "                         |" +
-                        "\n  | Homepage: " + NIMROD_URL +" |" +
+                        "\n  | Homepage: " + NIMROD_URL + " |" +
                         "\n  -------------------------------------------------";
 
         Common.getHost(webApplicationContext);
@@ -68,7 +69,7 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
         String ip = Common.Host.ip;
         String local = scheme + "://localhost" + ":" + port + contextPath + "/";
         String network = scheme + "://" + ip + ":" + port + contextPath + "/";
-        if(ip == null) {
+        if (ip == null) {
             network = "unavailable";
         }
         String appRunningAt =
@@ -82,7 +83,7 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return  application.sources(NimrodBootstrap.class);
+        return application.sources(NimrodBootstrap.class);
     }
 
     @Order
@@ -90,6 +91,7 @@ public class NimrodBootstrap extends SpringBootServletInitializer {
     public static class ApplicationStartupRunner implements CommandLineRunner {
         @Autowired
         private Common common;
+
         @Override
         public void run(String... strings) {
             common.initialize();

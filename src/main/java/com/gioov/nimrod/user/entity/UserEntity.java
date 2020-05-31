@@ -1,6 +1,6 @@
 package com.gioov.nimrod.user.entity;
 
-import com.gioov.nimrod.common.others.CommonEntityAdapter;
+import com.gioov.nimrod.common.others.BaseEntityAdapter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,18 +10,18 @@ import java.util.List;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class UserEntity extends CommonEntityAdapter<UserEntity> implements Serializable, Cloneable {
+public class UserEntity extends BaseEntityAdapter<UserEntity> implements Serializable, Cloneable {
     private static final long serialVersionUID = -4809374154449809L;
     /**
      * id
      */
     private Long id;
-    
+
     /**
      * 用户名
      */
     private String username;
-    
+
     /**
      * 密码
      */
@@ -97,10 +97,12 @@ public class UserEntity extends CommonEntityAdapter<UserEntity> implements Seria
         this.password = password;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }

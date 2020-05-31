@@ -18,6 +18,7 @@ public class MailController {
 
     /**
      * 邮件队列 页面
+     *
      * @return String
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/MAIL/LIST')")
@@ -28,16 +29,18 @@ public class MailController {
 
     /**
      * 发送邮件 页面
+     *
      * @return String
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/MAIL/SEND')")
     @RequestMapping("/send")
     public String send() {
-        return Common.trimSlash(Mail.Page.MAIL  + "/send");
+        return Common.trimSlash(Mail.Page.MAIL + "/send");
     }
 
     /**
      * 编辑重发 对话框
+     *
      * @return String
      */
     @PreAuthorize("isAuthenticated()")
@@ -45,8 +48,10 @@ public class MailController {
     public String sendDialog() {
         return Common.trimSlash(Mail.Page.MAIL + "/send_dialog");
     }
+
     /**
      * 编辑重发 对话框
+     *
      * @return String
      */
     @PreAuthorize("isAuthenticated()")

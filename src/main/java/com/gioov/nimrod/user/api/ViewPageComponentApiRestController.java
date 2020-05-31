@@ -44,8 +44,9 @@ public class ViewPageComponentApiRestController {
 
     /**
      * 指定视图页面组件 id、API id list，批量关联
+     *
      * @param viewPageComponentId 视图页面组件 id
-     * @param apiIdList API id list
+     * @param apiIdList           API id list
      * @return ResponseEntity<Integer>
      */
     @OperationLog(value = "指定视图页面组件 id、API id list，批量关联", type = OperationLogType.API)
@@ -57,8 +58,9 @@ public class ViewPageComponentApiRestController {
 
     /**
      * 指定视图页面组件 id、API id，批量撤销关联
+     *
      * @param viewPageComponentId 视图页面组件 id
-     * @param apiIdList API id list
+     * @param apiIdList           API id list
      * @return ResponseEntity<Integer>
      */
     @OperationLog(value = "指定视图页面组件 id、API id，批量撤销关联", type = OperationLogType.API)

@@ -37,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    private static final int PASSWORD_MIN_LENGTH = 6;
+    private static final int PASSWORD_MAX_LENGTH = 32;
+
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
         if (userEntity1 != null && !userEntity1.getId().equals(userEntity.getId())) {
             throw new BaseResponseException(failureEntity.i18n("user.username_exists"));
         }
-        if(userEntity.getPassword() != null && !"".equals(userEntity.getPassword().trim())) {
+        if (userEntity.getPassword() != null && !"".equals(userEntity.getPassword().trim())) {
             userEntity.setPassword(encodePassword(userEntity.getPassword().trim()));
         } else {
             UserEntity userEntity2 = userMapper.getOne(userEntity.getId());
@@ -108,7 +111,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getCurrentUser() {
         SimpleUser simpleUser;
-        if((simpleUser = SimpleUserDetailsServiceImpl.getCurrentSimpleUser()) != null) {
+        if ((simpleUser = SimpleUserDetailsServiceImpl.getCurrentSimpleUser()) != null) {
             return userMapper.getOne(simpleUser.getId());
         }
         return null;
@@ -117,7 +120,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getCurrentUserNoPassword() {
         UserEntity userEntity = getCurrentUser();
-        if(userEntity != null) {
+        if (userEntity != null) {
             userEntity.setPassword(null);
             return userEntity;
         }
@@ -127,7 +130,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getCurrentUser(HttpServletRequest request) {
         SimpleUser simpleUser;
-        if((simpleUser = SimpleUserDetailsServiceImpl.getCurrentSimpleUser(request)) != null) {
+        if ((simpleUser = SimpleUserDetailsServiceImpl.getCurrentSimpleUser(request)) != null) {
             return userMapper.getOne(simpleUser.getId());
         }
         return null;
@@ -159,7 +162,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Pagination<UserEntity> pageAll(Integer page, Integer rows, String sorterField, String sorterOrder, UserEntity userEntity, String gmtCreatedStart, String gmtCreatedEnd, String gmtDeletedStart, String gmtDeletedEnd) {
-        if(sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
+        if (sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
             sorterField = StringUtil.camelToUnderline(sorterField);
             String orderBy = sorterField + " " + sorterOrder;
             PageHelper.startPage(page, rows, orderBy);
@@ -185,13 +188,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Pagination<UserEntity> pageAllByDepartmentId(Long departmentId, Integer page, Integer rows) {
         Pagination<UserEntity> pagination = new Pagination<>();
-//        if(sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
-//            sorterField = StringUtil.camelToUnderline(sorterField);
-//            String orderBy = sorterField + " " + sorterOrder;
-//            PageHelper.startPage(page, rows, orderBy);
-//        } else {
         PageHelper.startPage(page, rows);
-//        }
         Page<UserEntity> tempUserEntityPage = userMapper.pageAllByDepartmentId(departmentId);
         List<UserEntity> userEntityList = new ArrayList<>();
         if (tempUserEntityPage != null) {
@@ -274,11 +271,11 @@ public class UserServiceImpl implements UserService {
     public UserEntity profile(UserEntity userEntity) {
         List<RoleEntity> roleEntityList = new ArrayList<>();
         List<DepartmentEntity> departmentEntityList;
-        if(userEntity != null) {
+        if (userEntity != null) {
             userEntity.setPassword(null);
             List<UserRoleEntity> userRoleEntityList = userRoleService.listAllByUserId(userEntity.getId());
-            if(!userRoleEntityList.isEmpty()) {
-                for(UserRoleEntity userRoleEntity : userRoleEntityList) {
+            if (!userRoleEntityList.isEmpty()) {
+                for (UserRoleEntity userRoleEntity : userRoleEntityList) {
                     RoleEntity roleEntity = roleService.getOne(userRoleEntity.getRoleId());
                     if (roleEntity != null) {
                         roleEntityList.add(roleEntity);
@@ -304,11 +301,11 @@ public class UserServiceImpl implements UserService {
     public boolean sendEmailVerifyCode(Long userId, String email) throws BaseResponseException {
         Integer isOrNotIs = Integer.valueOf(String.valueOf(dictionaryService.get("IS_OR_NOT", "IS")));
         MailEntity mailEntity = new MailEntity();
-        Map<String, Object> variables = new HashMap<>();
+        Map<String, Object> variables = new HashMap<>(3);
         String webName = (String) dictionaryService.get("WEB", "NAME");
         variables.put("webName", webName);
         variables.put("webUrl", dictionaryService.get("WEB", "URL"));
-        String verifyCode = RandomUtil.randomString( 6, RandomUtil.NUMBER);
+        String verifyCode = RandomUtil.randomString(6, RandomUtil.NUMBER);
         variables.put("verifyCode", verifyCode);
         mailEntity.setTo(email);
         mailEntity.setSubject(webName);
@@ -324,7 +321,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean sendEmailVerifyCode(UserEntity userEntity) throws BaseResponseException {
-        if(!sendEmailVerifyCode(userEntity.getId(), userEntity.getEmail())) {
+        if (!sendEmailVerifyCode(userEntity.getId(), userEntity.getEmail())) {
             throw new BaseResponseException(failureEntity.i18n("user_verify_code.send_fail"));
         }
         return true;
@@ -333,7 +330,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkEmailVerifyCode(UserEntity userEntity, String email, String emailVerifyCode) throws BaseResponseException {
         UserVerifyCodeEntity userVerifyCodeEntity = userVerifyCodeService.getOneByUserIdAndVerifyFrom(userEntity.getId(), email, true, emailVerifyCode);
-        if(userVerifyCodeEntity != null) {
+        if (userVerifyCodeEntity != null) {
             return true;
         }
         return false;
@@ -342,7 +339,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changeEmail(UserEntity userEntity, String emailVerifyCode, String newEmail, String newEmailVerifyCode) throws BaseResponseException {
         String oldEmail = userEntity.getEmail();
-        if(!checkEmailVerifyCode(userEntity, userEntity.getEmail(), emailVerifyCode) || !checkEmailVerifyCode(userEntity, newEmail, newEmailVerifyCode)) {
+        if (!checkEmailVerifyCode(userEntity, userEntity.getEmail(), emailVerifyCode) || !checkEmailVerifyCode(userEntity, newEmail, newEmailVerifyCode)) {
             throw new BaseResponseException(failureEntity.i18n("user_verify_code.verification_code_error"));
         }
         userEntity.setEmail(newEmail);
@@ -358,16 +355,16 @@ public class UserServiceImpl implements UserService {
         password = password.trim();
         newPassword = newPassword.trim();
         confirmNewPassword = confirmNewPassword.trim();
-        if(!newPassword.equalsIgnoreCase(confirmNewPassword)) {
+        if (!newPassword.equalsIgnoreCase(confirmNewPassword)) {
             throw new BaseResponseException(failureEntity.i18n("user.new_password_and_confirm_new_password_error"));
         }
-        if(!checkPassword(password, userEntity.getPassword())) {
+        if (!checkPassword(password, userEntity.getPassword())) {
             throw new BaseResponseException(failureEntity.i18n("user.original_password_error"));
         }
-        if(newPassword.length() < 6 || newPassword.length() > 32) {
+        if (newPassword.length() < PASSWORD_MIN_LENGTH || newPassword.length() > PASSWORD_MAX_LENGTH) {
             throw new BaseResponseException(failureEntity.i18n("user.new_password_must_length"));
         }
-        if(checkPassword(newPassword, userEntity.getPassword())) {
+        if (checkPassword(newPassword, userEntity.getPassword())) {
             throw new BaseResponseException(failureEntity.i18n("user.same_as_the_original_password"));
         }
         userEntity.setPassword(newPassword);

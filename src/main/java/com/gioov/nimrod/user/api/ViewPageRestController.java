@@ -33,12 +33,13 @@ public class ViewPageRestController {
 
     /**
      * 新增视图页面
-     * @param name 视图页面名称
-     * @param url 请求地址（url）
-     * @param authority 权限（authority）
+     *
+     * @param name               视图页面名称
+     * @param url                请求地址（url）
+     * @param authority          权限（authority）
      * @param viewPageCategoryId 视图页面分类 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort               排序
+     * @param remark             备注
      * @return ResponseEntity<ViewPageEntity>
      * @throws BaseResponseException BaseResponseException
      */
@@ -59,13 +60,14 @@ public class ViewPageRestController {
 
     /**
      * 保存视图页面
-     * @param id 视图页面 id
-     * @param name 视图页面名称
-     * @param url 请求地址（url）
-     * @param authority 权限（authority）
+     *
+     * @param id                 视图页面 id
+     * @param name               视图页面名称
+     * @param url                请求地址（url）
+     * @param authority          权限（authority）
      * @param viewPageCategoryId 视图页面分类 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort               排序
+     * @param remark             备注
      * @return ResponseEntity<ViewPageEntity>
      * @throws BaseResponseException BaseResponseException
      */
@@ -87,6 +89,7 @@ public class ViewPageRestController {
 
     /**
      * 指定视图页面 id，批量删除视图页面
+     *
      * @param idList 视图页面 id list
      * @return ResponseEntity<Integer>
      */
@@ -99,6 +102,7 @@ public class ViewPageRestController {
 
     /**
      * 指定视图页面 id，获取视图页面
+     *
      * @param id 视图页面 id
      * @return ResponseEntity<ViewPageEntity>
      */
@@ -111,15 +115,16 @@ public class ViewPageRestController {
 
     /**
      * 指定视图页面分类 id，分页获取所有视图页面
-     * @param page 页
-     * @param rows 每页显示数量
+     *
+     * @param page               页
+     * @param rows               每页显示数量
      * @param viewPageCategoryId 视图页面分类
-     * @return ResponseEntity<Pagination<ViewPageEntity>>
+     * @return ResponseEntity<Pagination < ViewPageEntity>>
      */
     @OperationLog(value = "指定视图页面分类 id，分页获取所有视图页面", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE + "/PAGE_ALL_BY_VIEW_PAGE_CATEGORY_ID')")
     @GetMapping(value = "/page_all_by_view_page_category_id")
     public ResponseEntity<Pagination<ViewPageEntity>> pageAllByViewPageCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @RequestParam Long viewPageCategoryId, @RequestParam(required = false) Long roleId) {
-        return new ResponseEntity<>(viewPageService.pageAllByViewPageCategoryId(page, rows,viewPageCategoryId, roleId), HttpStatus.OK);
+        return new ResponseEntity<>(viewPageService.pageAllByViewPageCategoryId(page, rows, viewPageCategoryId, roleId), HttpStatus.OK);
     }
 }

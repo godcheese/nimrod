@@ -33,6 +33,7 @@ public class JobRuntimeLogRestController {
 
     /**
      * 指定任务运行日志 id，获取任务运行日志
+     *
      * @param id 任务运行日志 id
      * @return ResponseEntity<JobRuntimeLogEntity>
      */
@@ -44,9 +45,10 @@ public class JobRuntimeLogRestController {
 
     /**
      * 分页获取所有任务运行日志
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<JobRuntimeLogEntity>>
+     * @return ResponseEntity<Pagination < JobRuntimeLogEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB_RUNTIME_LOG + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
@@ -56,6 +58,7 @@ public class JobRuntimeLogRestController {
 
     /**
      * 清空所有任务运行日志
+     *
      * @return ResponseEntity<HttpStatus>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB_RUNTIME_LOG + "/CLEAR_ALL')")
@@ -67,6 +70,7 @@ public class JobRuntimeLogRestController {
 
     /**
      * 指定任务运行日志 id，批量删除任务运行日志
+     *
      * @return ResponseEntity<Integer>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB_RUNTIME_LOG + "/DELETE_ALL')")

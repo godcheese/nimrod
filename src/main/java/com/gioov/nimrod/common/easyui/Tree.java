@@ -45,7 +45,7 @@ public class Tree implements Serializable {
      * an array nodes defines some children nodes.
      */
     private List<Tree> children = Collections.emptyList();
-    
+
     public long getId() {
         return id;
     }

@@ -1,5 +1,8 @@
-/target/
+HELP.md
+target/
 !.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated
@@ -16,6 +19,9 @@
 *.iml
 *.ipr
 
+### VS Code ###
+.vscode/
+
 ### NetBeans ###
 /nbproject/private/
 /build/
@@ -23,6 +29,12 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### macOS ###
+.DS_Store
+
+### JRebel ###
+rebel.xml
 
 ### Nimrod ###
 /upload

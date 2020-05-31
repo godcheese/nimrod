@@ -7,14 +7,14 @@ var util = util || {};
 
 (function (_util) {
 
-    _util ={
-        response:{},
-        request:{},
-        string:{},
-        object:{},
-        json:{},
-        document:{},
-        cookie:{}
+    _util = {
+        response: {},
+        request: {},
+        string: {},
+        object: {},
+        json: {},
+        document: {},
+        cookie: {}
     };
 
     {
@@ -45,7 +45,7 @@ var util = util || {};
 
                 var message = responseResult.hasOwnProperty(_util.response.MESSAGE) ? responseResult[_util.response.MESSAGE] : undefined;
 
-                var code = responseResult.hasOwnProperty(_util.response.CODE) ? responseResult[_util.response.CODE] : undefined ;
+                var code = responseResult.hasOwnProperty(_util.response.CODE) ? responseResult[_util.response.CODE] : undefined;
 
                 if (code === OK) {
                     if (typeof fnOkCallback === 'function') {
@@ -64,17 +64,17 @@ var util = util || {};
             }
         };
 
-        _util.request.getQueryParam = function (name){
+        _util.request.getQueryParam = function (name) {
             var href = window.location.href;
             var arr = href.split('?');
-            if(arr){
-                if(arr.length > 1){
+            if (arr) {
+                if (arr.length > 1) {
                     var arr1 = arr.splice(1);
-                    if(!arr1) {
+                    if (!arr1) {
 
                     }
                     var arr2 = arr1[0];
-                    if(!arr2) {
+                    if (!arr2) {
                         return;
                     }
                     var arr3 = arr2.split('&');
@@ -103,7 +103,7 @@ var util = util || {};
         };
 
         _util.ajax = function (options) {
-            if(!window.jQuery){
+            if (!window.jQuery) {
                 alert('util.ajax 需要jQuery支持');
                 return;
             }
@@ -121,13 +121,15 @@ var util = util || {};
         };
         _util.ajax = function (url, method, data, success, error) {
             var defaults = {
-                dataType:'JSON',
-                success: function(XMLHttpRequest, statusText) {},
-                error: function (XMLHttpRequest, statusText, errorThrown) {}
+                dataType: 'JSON',
+                success: function (XMLHttpRequest, statusText) {
+                },
+                error: function (XMLHttpRequest, statusText, errorThrown) {
+                }
             };
-            if(typeof url === 'object') {
+            if (typeof url === 'object') {
                 $.extend(defaults, url);
-            } else{
+            } else {
                 defaults.url = url;
             }
             defaults.method = typeof method === 'string' ? method : defaults.method;
@@ -137,15 +139,15 @@ var util = util || {};
             return $.ajax(defaults);
         };
 
-        _util.string.replaceAllPlaceholder = function (string,searchValue,replaceValue) {
-            return string.replace(new RegExp('{' + searchValue + '}', "gm"),replaceValue);
+        _util.string.replaceAllPlaceholder = function (string, searchValue, replaceValue) {
+            return string.replace(new RegExp('{' + searchValue + '}', "gm"), replaceValue);
         };
 
         // 获取字符的长度
-        _util.string.countSymbols = function(string) {
+        _util.string.countSymbols = function (string) {
             var regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
             return string
-            // 把代理对改为一个BMP的字符.
+                // 把代理对改为一个BMP的字符.
                 .replace(regexAstralSymbols, '_')
                 // …这时候取长度就妥妥的啦.
                 .length;
@@ -157,8 +159,8 @@ var util = util || {};
             var output = [];
             var index = 0;
             var oldStr = str;
-            str = str.replace(regexAstralSymbols, function(input, offset, match) {
-                if( offset > index ) {
+            str = str.replace(regexAstralSymbols, function (input, offset, match) {
+                if (offset > index) {
                     output = output.concat(match.slice(index, offset).split(""));
                 }
                 index = offset + input.length;
@@ -166,30 +168,30 @@ var util = util || {};
                 return "";
             });
 
-            if( index < oldStr.length  ) {
+            if (index < oldStr.length) {
                 output = output.concat(oldStr.slice(index, oldStr.length).split(""));
             }
             return output.slice(0, limit).join("");
         };
 
-        _util.document.create = function (options,tag) {
+        _util.document.create = function (options, tag) {
             var _body = document.body;
             var _tag;
-            if(tag) {
+            if (tag) {
                 _tag = document.createElement(tag);
-            }else{
+            } else {
                 _tag = document.createElement('div');
             }
-            if(typeof options === 'string'){
+            if (typeof options === 'string') {
                 var selector = options.charAt(0);
-                if(selector){
-                    switch (selector){
+                if (selector) {
+                    switch (selector) {
                         case '#':
-                            options = options.substring(1,options.length);
+                            options = options.substring(1, options.length);
                             _tag.id = options;
                             break;
                         case '.':
-                            options = options.substring(1,options.length);
+                            options = options.substring(1, options.length);
                             _tag.className = options;
                             break;
                         default:
@@ -202,9 +204,9 @@ var util = util || {};
 
         _util.formatter = function (key, defaultValue, keyValue, formatterCallback) {
             var result;
-            if(typeof keyValue === 'object'){
-                for(var k in keyValue) {
-                    switch (typeof key){
+            if (typeof keyValue === 'object') {
+                for (var k in keyValue) {
+                    switch (typeof key) {
                         case 'number':
                             k = parseInt(k);
                             break;
@@ -217,15 +219,15 @@ var util = util || {};
                         break;
                     }
                 }
-                if(typeof result === 'undefined'){
-                    if(typeof defaultValue !== 'undefined'){
+                if (typeof result === 'undefined') {
+                    if (typeof defaultValue !== 'undefined') {
                         result = defaultValue;
                     }
                 }
             }
 
 
-            if(typeof formatterCallback === 'function'){
+            if (typeof formatterCallback === 'function') {
                 result = formatterCallback(result, key, defaultValue, keyValue);
             }
 
@@ -241,9 +243,9 @@ var util = util || {};
          */
         _util.document.keyDown = function (keyCode, callback) {
 
-            document.onkeydown = function(e){
+            document.onkeydown = function (e) {
                 var ev = document.all ? window.event : e;
-                if(ev.keyCode === keyCode) {
+                if (ev.keyCode === keyCode) {
                     if (typeof callback === 'function') {
                         callback();
                     }
@@ -252,28 +254,27 @@ var util = util || {};
 
         }
 
-        _util.cookie.set = function (name,value,expires,path,domain,secure) {
-            var expDays = expires*24*60*60*1000;
+        _util.cookie.set = function (name, value, expires, path, domain, secure) {
+            var expDays = expires * 24 * 60 * 60 * 1000;
             var expDate = new Date();
-            expDate.setTime(expDate.getTime()+expDays);
-            var expString = ((expires==null) ? "": (";expires="+expDate.toGMTString()));
-            var pathString = ((path==null) ? "": (";path="+path));
-            var domainString = ((domain==null) ? "": (";domain="+domain));
-            var secureString = ((secure==true) ? ";secure": "");
-            document.cookie = name + "="+ escape(value) + expString + pathString + domainString + secureString;
+            expDate.setTime(expDate.getTime() + expDays);
+            var expString = ((expires == null) ? "" : (";expires=" + expDate.toGMTString()));
+            var pathString = ((path == null) ? "" : (";path=" + path));
+            var domainString = ((domain == null) ? "" : (";domain=" + domain));
+            var secureString = ((secure == true) ? ";secure" : "");
+            document.cookie = name + "=" + escape(value) + expString + pathString + domainString + secureString;
         };
 
-        _util.cookie.get = function(name) {
+        _util.cookie.get = function (name) {
             var result = null;
             var myCookie = document.cookie + ";";
             var searchName = name + "=";
             var startOfCookie = myCookie.indexOf(searchName);
             var endOfCookie;
-            if (startOfCookie != -1)
-            {
+            if (startOfCookie != -1) {
                 startOfCookie += searchName.length;
-                endOfCookie = myCookie.indexOf(";",startOfCookie);
-                result = unescape(myCookie.substring(startOfCookie,endOfCookie));
+                endOfCookie = myCookie.indexOf(";", startOfCookie);
+                result = unescape(myCookie.substring(startOfCookie, endOfCookie));
             }
             return result;
         }
@@ -281,8 +282,6 @@ var util = util || {};
 
     util = _util;
 })(util);
-
-
 
 
 //

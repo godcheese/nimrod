@@ -13,6 +13,7 @@ public interface JobRuntimeLogService {
 
     /**
      * 指定任务运行日志 id，获取任务运行日志
+     *
      * @param id 任务运行日志 id
      * @return JobRuntimeLogEntity
      */
@@ -20,6 +21,7 @@ public interface JobRuntimeLogService {
 
     /**
      * 分页获取所有任务运行日志
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<JobRuntimeLogEntity>

@@ -33,7 +33,8 @@ public class DictionaryCategoryRestController {
 
     /**
      * 分页获取所有父级数据字典分类
-     * @return ResponseEntity<Pagination<DictionaryCategoryEntity>>
+     *
+     * @return ResponseEntity<Pagination < DictionaryCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY_CATEGORY + "/LIST_ALL_PARENT')")
     @GetMapping(value = "/list_all_parent")
@@ -43,8 +44,9 @@ public class DictionaryCategoryRestController {
 
     /**
      * 指定父级数据字典分类 id，获取所有数据字典分类
+     *
      * @param parentId 父级数据字典分类 id
-     * @return ResponseEntity<List<DictionaryCategoryEntity>>
+     * @return ResponseEntity<List < DictionaryCategoryEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY_CATEGORY + "/LIST_ALL_BY_PARENT_ID')")
     @GetMapping(value = "/list_all_by_parent_id")
@@ -54,10 +56,11 @@ public class DictionaryCategoryRestController {
 
     /**
      * 新增数据字典分类
-     * @param name 数据字典分类名称
+     *
+     * @param name     数据字典分类名称
      * @param parentId 数据字典分类父级 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort     排序
+     * @param remark   备注
      * @return ResponseEntity<DictionaryCategoryEntity>
      */
     @OperationLog(value = "新增数据字典分类", type = OperationLogType.API)
@@ -75,9 +78,10 @@ public class DictionaryCategoryRestController {
 
     /**
      * 保存数据字典分类
-     * @param id 数据字典分类 id
-     * @param name 数据字典分类名称
-     * @param sort 排序
+     *
+     * @param id     数据字典分类 id
+     * @param name   数据字典分类名称
+     * @param sort   排序
      * @param remark 备注
      * @return ResponseEntity<DictionaryCategoryEntity>
      */
@@ -97,6 +101,7 @@ public class DictionaryCategoryRestController {
 
     /**
      * 指定数据字典分类 id list，批量删除数据字典分类
+     *
      * @param idList 数据字典分类 id list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
@@ -110,6 +115,7 @@ public class DictionaryCategoryRestController {
 
     /**
      * 指定数据字典分类 id，获取数据字典分类
+     *
      * @param id 数据字典分类 id
      * @return ResponseEntity<DictionaryCategoryEntity>
      */
@@ -122,7 +128,8 @@ public class DictionaryCategoryRestController {
 
     /**
      * 获取所有数据字典分类，以 ComboTree 形式展示
-     * @return ResponseEntity<List<ComboTree>>
+     *
+     * @return ResponseEntity<List < ComboTree>>
      */
     @OperationLog(value = "获取所有数据字典分类，以 ComboTree 形式展示", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + DICTIONARY_CATEGORY + "/LIST_ALL_AS_COMBO_TREE')")
@@ -130,12 +137,12 @@ public class DictionaryCategoryRestController {
     public ResponseEntity<List<ComboTree>> listAllAsComboTree() {
         List<ComboTree> comboTreeResultList = new ArrayList<>();
         List<ComboTree> dictionaryCategoryComboTreeList = dictionaryCategoryService.listAllDictionaryCategoryComboTree();
-        for(ComboTree comboTree : dictionaryCategoryComboTreeList) {
-            if(comboTree.getParentId() == null) {
+        for (ComboTree comboTree : dictionaryCategoryComboTreeList) {
+            if (comboTree.getParentId() == null) {
                 comboTreeResultList.add(comboTree);
             }
         }
-        for(ComboTree comboTree : comboTreeResultList) {
+        for (ComboTree comboTree : comboTreeResultList) {
             comboTree.setChildren(dictionaryCategoryService.getDictionaryCategoryChildrenComboTree(comboTree.getId(), dictionaryCategoryComboTreeList));
         }
         return new ResponseEntity<>(comboTreeResultList, HttpStatus.OK);

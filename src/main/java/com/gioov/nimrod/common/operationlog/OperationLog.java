@@ -16,6 +16,7 @@ public @interface OperationLog {
 
     /**
      * 操作内容
+     *
      * @return String
      */
     @AliasFor("operation")
@@ -23,6 +24,7 @@ public @interface OperationLog {
 
     /**
      * 操作内容
+     *
      * @return String
      */
     @AliasFor("value")
@@ -30,6 +32,7 @@ public @interface OperationLog {
 
     /**
      * 操作类型
+     *
      * @return OperationLogType
      */
     OperationLogType type() default OperationLogType.PAGE;

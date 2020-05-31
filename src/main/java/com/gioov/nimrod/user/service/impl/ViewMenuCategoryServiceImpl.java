@@ -1,7 +1,7 @@
 package com.gioov.nimrod.user.service.impl;
 
 import com.gioov.nimrod.common.easyui.ComboTree;
-import com.gioov.nimrod.common.easyui.EasyUI;
+import com.gioov.nimrod.common.easyui.EasyUi;
 import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.system.service.DictionaryService;
 import com.gioov.nimrod.user.entity.RoleEntity;
@@ -105,6 +105,7 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
 
     /**
      * 指定 用户id，获取所有视图菜单父级分类
+     *
      * @param userId
      * @return
      */
@@ -126,6 +127,7 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
 
     /**
      * 指定用户id、视图菜单父级分类，获取所有视图菜单子级分类
+     *
      * @param userId
      * @param parentId
      * @return
@@ -158,10 +160,10 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
         List<ViewMenuCategoryEntity> viewMenuCategoryEntityListResult = new ArrayList<>();
         Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS"));
         Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "NOT"));
-        if(!viewPageCategoryEntityList.isEmpty()) {
+        if (!viewPageCategoryEntityList.isEmpty()) {
             for (ViewMenuCategoryEntity viewMenuCategoryEntity : viewPageCategoryEntityList) {
                 if (viewMenuCategoryMapper.getOneByParentId(viewMenuCategoryEntity.getId()) != null) {
-                    viewMenuCategoryEntity.setState(EasyUI.State.CLOSED);
+                    viewMenuCategoryEntity.setState(EasyUi.State.CLOSED);
                 }
                 if (roleId != null) {
                     if (roleViewMenuCategoryMapper.getOneByRoleIdAndViewMenuCategoryId(roleId, viewMenuCategoryEntity.getId()) != null) {
@@ -224,14 +226,14 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
     public List<ViewMenuCategoryEntity> listAllParent(Long roleId) {
         List<ViewMenuCategoryEntity> viewMenuCategoryEntityList = viewMenuCategoryMapper.listAllByParentIdIsNull();
         List<ViewMenuCategoryEntity> viewMenuCategoryEntityListResult = new ArrayList<>();
-        Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT","IS"));
-        Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT","NOT"));
-        for(ViewMenuCategoryEntity viewMenuCategoryEntity : viewMenuCategoryEntityList) {
-            if(viewMenuCategoryMapper.getOneByParentId(viewMenuCategoryEntity.getId()) != null) {
-                viewMenuCategoryEntity.setState(EasyUI.State.CLOSED);
+        Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS"));
+        Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "NOT"));
+        for (ViewMenuCategoryEntity viewMenuCategoryEntity : viewMenuCategoryEntityList) {
+            if (viewMenuCategoryMapper.getOneByParentId(viewMenuCategoryEntity.getId()) != null) {
+                viewMenuCategoryEntity.setState(EasyUi.State.CLOSED);
             }
-            if(roleId != null) {
-                if(roleViewMenuCategoryMapper.getOneByRoleIdAndViewMenuCategoryId(roleId,viewMenuCategoryEntity.getId()) != null) {
+            if (roleId != null) {
+                if (roleViewMenuCategoryMapper.getOneByRoleIdAndViewMenuCategoryId(roleId, viewMenuCategoryEntity.getId()) != null) {
                     viewMenuCategoryEntity.setIsGranted(isOrNotIs);
                 } else {
                     viewMenuCategoryEntity.setIsGranted(isOrNotNot);
@@ -246,7 +248,7 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
     public List<ComboTree> listAllViewMenuCategoryComboTree() {
         List<ComboTree> comboTreeList = new ArrayList<>(0);
         List<ViewMenuCategoryEntity> viewMenuCategoryEntityList = viewMenuCategoryMapper.listAll();
-        for(ViewMenuCategoryEntity viewMenuCategoryEntity : viewMenuCategoryEntityList) {
+        for (ViewMenuCategoryEntity viewMenuCategoryEntity : viewMenuCategoryEntityList) {
             ComboTree comboTree = new ComboTree();
             comboTree.setId(viewMenuCategoryEntity.getId());
             comboTree.setText(viewMenuCategoryEntity.getName());
@@ -255,19 +257,20 @@ public class ViewMenuCategoryServiceImpl implements ViewMenuCategoryService {
         }
         return comboTreeList;
     }
+
     @Override
     public List<ComboTree> getViewMenuCategoryChildrenComboTree(long parentId, List<ComboTree> viewMenuCategoryComboTreeList) {
         List<ComboTree> children = new ArrayList<>(0);
-        for(ComboTree comboTree : viewMenuCategoryComboTreeList) {
-            if(comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
+        for (ComboTree comboTree : viewMenuCategoryComboTreeList) {
+            if (comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
                 children.add(comboTree);
             }
         }
-        for(ComboTree child : children) {
+        for (ComboTree child : children) {
             List<ComboTree> childChildren = getViewMenuCategoryChildrenComboTree(child.getId(), viewMenuCategoryComboTreeList);
             child.setChildren(childChildren);
         }
-        if(children.size() == 0) {
+        if (children.size() == 0) {
             return null;
         }
         return children;

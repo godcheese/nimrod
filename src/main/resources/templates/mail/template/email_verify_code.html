@@ -9,6 +9,7 @@
             /*color: #1e5494;*/
             text-decoration: none
         }
+
         .page {
             font-family: "Microsoft YaHei", "Helvetica Neue", "lucida Grande", Verdana;
             background: #fff;
@@ -19,41 +20,49 @@
             /*padding: 40px;*/
             border: 1px solid #c8cfda;
         }
+
         @media screen and (min-width: 1111px) {
             .page {
                 width: 778px
             }
         }
+
         @media screen and (max-width: 600px) {
             .page {
                 width: 590px
             }
         }
+
         @media screen and (max-width: 414px) {
             .page {
                 width: 350px
             }
         }
+
         @media screen and (max-width: 320px) {
             .page {
                 width: 295px
             }
+
             .page-container {
                 padding: 10px 11px 20px;
                 border: 1px solid #d4d4d4
             }
         }
+
         @media screen and (min-width: 321px) {
             .page-container {
                 padding: 10px 27px 20px;
                 border: 1px solid #d4d4d4
             }
         }
+
         .page-header {
             /*background: #518bcb;*/
             background: #0058af;
             padding: 4px 6px 0;
         }
+
         .page-header-body {
             zoom: 1;
             padding: 0 20px;
@@ -62,12 +71,15 @@
             /*border-bottom: 1px solid #467ec3;*/
             overflow: hidden
         }
+
         .page-container {
             padding: 0 20px;
         }
+
         .page-container-body {
             padding: 10px 0;
         }
+
         .page-header h1 {
             color: #fff;
             font-size: 12px;
@@ -76,39 +88,47 @@
             margin: 0 0 0 10px;
             float: left
         }
+
         .page-container h2 {
             font-weight: bold;
             font-size: 16px;
             margin: 5px 0 20px
         }
+
         .page-container p {
             color: #313131;
             line-height: 20px;
             font-size: 14px;
             margin: 15px 0
         }
+
         .page-container img {
             margin: 10px 0
         }
+
         .page-container h3 {
             font-weight: bold;
             font-size: 12px;
             margin: 5px 0
         }
+
         .left {
             float: left
         }
+
         .page-container-bottom-divider {
             border-bottom: 1px solid #ccc;
             width: 100%;
         }
+
         .page-container-footer {
             font-size: 12px;
             /*margin-top: 15px;*/
             padding: 10px 0;
             color: #494949;
         }
-        .page-container-footer p, .page-container-footer span{
+
+        .page-container-footer p, .page-container-footer span {
             margin: 0;
             padding: 0;
             color: #494949;;
@@ -130,7 +150,8 @@
         </div>
         <div class="page-container-bottom-divider"></div>
         <div class="page-container-footer">
-            <p th:if="${webName}"><span th:text="${webName}">Nimrod</span>：<a target="_blank" th:href="${webUrl}" th:text="${webUrl}"></a></p>
+            <p th:if="${webName}"><span th:text="${webName}">Nimrod</span>：<a target="_blank" th:href="${webUrl}"
+                                                                              th:text="${webUrl}"></a></p>
         </div>
     </div>
 </div>

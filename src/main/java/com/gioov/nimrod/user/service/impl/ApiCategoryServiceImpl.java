@@ -1,7 +1,7 @@
 package com.gioov.nimrod.user.service.impl;
 
 import com.gioov.nimrod.common.easyui.ComboTree;
-import com.gioov.nimrod.common.easyui.EasyUI;
+import com.gioov.nimrod.common.easyui.EasyUi;
 import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.user.entity.ApiCategoryEntity;
 import com.gioov.nimrod.user.entity.ApiEntity;
@@ -45,7 +45,7 @@ public class ApiCategoryServiceImpl implements ApiCategoryService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public ApiCategoryEntity saveOne(ApiCategoryEntity apiCategoryEntity) throws BaseResponseException {
-        if(apiCategoryEntity.getId().equals(apiCategoryEntity.getParentId())) {
+        if (apiCategoryEntity.getId().equals(apiCategoryEntity.getParentId())) {
             throw new BaseResponseException(failureEntity.i18n("api_category.save_fail_do_not_save_self_api_category"));
         }
         apiCategoryEntity.setGmtModified(new Date());
@@ -81,9 +81,9 @@ public class ApiCategoryServiceImpl implements ApiCategoryService {
     public List<ApiCategoryEntity> listAllParent() {
         List<ApiCategoryEntity> apiCategoryEntityList = apiCategoryMapper.listAllByParentIdIsNull();
         List<ApiCategoryEntity> apiCategoryEntityListResult = new ArrayList<>();
-        for(ApiCategoryEntity apiCategoryEntity : apiCategoryEntityList) {
-            if(apiCategoryMapper.getOneByParentId(apiCategoryEntity.getId()) != null) {
-                apiCategoryEntity.setState(EasyUI.State.CLOSED);
+        for (ApiCategoryEntity apiCategoryEntity : apiCategoryEntityList) {
+            if (apiCategoryMapper.getOneByParentId(apiCategoryEntity.getId()) != null) {
+                apiCategoryEntity.setState(EasyUi.State.CLOSED);
             }
             apiCategoryEntityListResult.add(apiCategoryEntity);
         }
@@ -94,9 +94,9 @@ public class ApiCategoryServiceImpl implements ApiCategoryService {
     public List<ApiCategoryEntity> listAllByParentId(Long parentId) {
         List<ApiCategoryEntity> apiCategoryEntityList = apiCategoryMapper.listAllByParentId(parentId);
         List<ApiCategoryEntity> apiCategoryEntityListResult = new ArrayList<>();
-        for(ApiCategoryEntity apiCategoryEntity : apiCategoryEntityList) {
-            if(apiCategoryMapper.getOneByParentId(apiCategoryEntity.getId()) != null) {
-                apiCategoryEntity.setState(EasyUI.State.CLOSED);
+        for (ApiCategoryEntity apiCategoryEntity : apiCategoryEntityList) {
+            if (apiCategoryMapper.getOneByParentId(apiCategoryEntity.getId()) != null) {
+                apiCategoryEntity.setState(EasyUi.State.CLOSED);
             }
             apiCategoryEntityListResult.add(apiCategoryEntity);
         }
@@ -107,7 +107,7 @@ public class ApiCategoryServiceImpl implements ApiCategoryService {
     public List<ComboTree> listAllApiCategoryComboTree() {
         List<ComboTree> comboTreeList = new ArrayList<>(0);
         List<ApiCategoryEntity> apiCategoryEntityList = apiCategoryMapper.listAll();
-        for(ApiCategoryEntity apiCategoryEntity : apiCategoryEntityList) {
+        for (ApiCategoryEntity apiCategoryEntity : apiCategoryEntityList) {
             ComboTree comboTree = new ComboTree();
             comboTree.setId(apiCategoryEntity.getId());
             comboTree.setText(apiCategoryEntity.getName());
@@ -116,19 +116,20 @@ public class ApiCategoryServiceImpl implements ApiCategoryService {
         }
         return comboTreeList;
     }
+
     @Override
     public List<ComboTree> getApiCategoryChildrenComboTree(long parentId, List<ComboTree> apiCategoryComboTreeList) {
         List<ComboTree> children = new ArrayList<>(0);
-        for(ComboTree comboTree : apiCategoryComboTreeList) {
-            if(comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
+        for (ComboTree comboTree : apiCategoryComboTreeList) {
+            if (comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
                 children.add(comboTree);
             }
         }
-        for(ComboTree child : children) {
+        for (ComboTree child : children) {
             List<ComboTree> childChildren = getApiCategoryChildrenComboTree(child.getId(), apiCategoryComboTreeList);
             child.setChildren(childChildren);
         }
-        if(children.size() == 0) {
+        if (children.size() == 0) {
             return null;
         }
         return children;

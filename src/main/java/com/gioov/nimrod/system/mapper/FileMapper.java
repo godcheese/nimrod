@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public interface FileMapper extends CrudMapper<FileEntity, Long> {
     /**
      * 指定 guid，获取文件
+     *
      * @param guid guid
      * @return FileEntity
      */
@@ -23,6 +24,7 @@ public interface FileMapper extends CrudMapper<FileEntity, Long> {
 
     /**
      * 分页获取所有文件
+     *
      * @return Page<FileEntity>
      */
     Page<FileEntity> pageAll();
@@ -31,6 +33,7 @@ public interface FileMapper extends CrudMapper<FileEntity, Long> {
 
     /**
      * 分页获取所有图片文件
+     *
      * @return Page<FileEntity>
      */
     Page<FileEntity> pageAllImage();

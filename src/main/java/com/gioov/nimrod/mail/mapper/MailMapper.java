@@ -18,6 +18,7 @@ import java.util.List;
 public interface MailMapper extends CrudMapper<MailEntity, Long> {
     /**
      * 指定状态 list，获取所有电子邮件
+     *
      * @param statusList 状态 list
      * @return List<MailEntity>
      */
@@ -25,6 +26,7 @@ public interface MailMapper extends CrudMapper<MailEntity, Long> {
 
     /**
      * 分页获取所有电子邮件
+     *
      * @return Page<MailEntity>
      */
     Page<MailEntity> pageAll();

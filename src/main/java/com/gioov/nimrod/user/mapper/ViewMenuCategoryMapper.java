@@ -18,6 +18,7 @@ public interface ViewMenuCategoryMapper extends CrudMapper<ViewMenuCategoryEntit
 
     /**
      * 指定角色 id，获取所有视图菜单分类
+     *
      * @param roleId 角色 id
      * @return List<ViewMenuCategoryEntity>
      */
@@ -25,12 +26,14 @@ public interface ViewMenuCategoryMapper extends CrudMapper<ViewMenuCategoryEntit
 
     /**
      * 获取所有视图菜单分类
+     *
      * @return List<ViewMenuCategoryEntity>
      */
     List<ViewMenuCategoryEntity> listAllByParentIdIsNull();
 
     /**
      * 指定角色 id、视图菜单分类父级 id，获取所有视图菜单分类
+     *
      * @param roleId   角色 id
      * @param parentId 视图菜单分类父级 id
      * @return List<ViewMenuCategoryEntity>
@@ -39,6 +42,7 @@ public interface ViewMenuCategoryMapper extends CrudMapper<ViewMenuCategoryEntit
 
     /**
      * 指定视图菜单分类父级 id，获取所有视图菜单分类
+     *
      * @param parentId 视图菜单分类父级 id
      * @return List<ViewMenuCategoryEntity>
      */
@@ -46,6 +50,7 @@ public interface ViewMenuCategoryMapper extends CrudMapper<ViewMenuCategoryEntit
 
     /**
      * 指定角色 id、视图菜单分类父级 id，获取视图菜单分类
+     *
      * @param roleId   角色 id
      * @param parentId 视图菜单分类父级 id
      * @return ViewMenuCategoryEntity
@@ -54,6 +59,7 @@ public interface ViewMenuCategoryMapper extends CrudMapper<ViewMenuCategoryEntit
 
     /**
      * 指定视图菜单分类名，搜索获取所有视图菜单分类
+     *
      * @param name 视图菜单分类名
      * @return List<ViewMenuCategoryEntity>
      */
@@ -61,6 +67,7 @@ public interface ViewMenuCategoryMapper extends CrudMapper<ViewMenuCategoryEntit
 
     /**
      * 指定角色 id，获取所有视图菜单分类
+     *
      * @param roleIdList 角色 id list
      * @return List<ViewMenuCategoryEntity>
      */
@@ -68,8 +75,9 @@ public interface ViewMenuCategoryMapper extends CrudMapper<ViewMenuCategoryEntit
 
     /**
      * 指定角色 id、视图菜单分类父级 id，获取所有视图菜单分类
-     * @param roleIdList   角色 id list
-     * @param parentId 视图菜单分类父级 id
+     *
+     * @param roleIdList 角色 id list
+     * @param parentId   视图菜单分类父级 id
      * @return List<ViewMenuCategoryEntity>
      */
     List<ViewMenuCategoryEntity> listAllByParentIdAndRoleIdList(@Param("parentId") Long parentId, @Param("roleIdList") List<Long> roleIdList);

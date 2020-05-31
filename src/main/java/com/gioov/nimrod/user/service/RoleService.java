@@ -15,6 +15,7 @@ public interface RoleService {
 
     /**
      * 新增角色
+     *
      * @param roleEntity RoleEntity
      * @return RoleEntity
      * @throws BaseResponseException BaseResponseException
@@ -23,6 +24,7 @@ public interface RoleService {
 
     /**
      * 保存角色
+     *
      * @param roleEntity RoleEntity
      * @return RoleEntity
      * @throws BaseResponseException BaseResponseException
@@ -31,6 +33,7 @@ public interface RoleService {
 
     /**
      * 指定角色 id list，批量删除角色
+     *
      * @param idList 角色 id list
      * @return int 已删除角色个数
      * @throws BaseResponseException BaseResponseException
@@ -39,6 +42,7 @@ public interface RoleService {
 
     /**
      * 指定角色 id，获取角色
+     *
      * @param id 角色 id
      * @return RoleEntity
      */
@@ -46,6 +50,7 @@ public interface RoleService {
 
     /**
      * 指定用户角色 list，获取所有角色
+     *
      * @param userRoleEntityList 用户角色 list
      * @return List<RoleEntity>
      */
@@ -53,6 +58,7 @@ public interface RoleService {
 
     /**
      * 分页获取所有角色
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<RoleEntity>
@@ -61,12 +67,14 @@ public interface RoleService {
 
     /**
      * 获取所有角色
+     *
      * @return List<RoleEntity>
      */
     List<RoleEntity> listAll();
 
     /**
      * 指定用户 id，获取角色
+     *
      * @param userId 用户 id
      * @return List<RoleEntity>
      */

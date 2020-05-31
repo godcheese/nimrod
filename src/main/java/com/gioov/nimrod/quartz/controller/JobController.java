@@ -18,6 +18,7 @@ public class JobController {
 
     /**
      * 定时任务 页面
+     *
      * @return String
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/QUARTZ/LIST')")
@@ -28,6 +29,7 @@ public class JobController {
 
     /**
      * 定时任务新增 对话框
+     *
      * @return String
      */
     @PreAuthorize("isAuthenticated()")
@@ -38,6 +40,7 @@ public class JobController {
 
     /**
      * 定时任务编辑 对话框
+     *
      * @return String
      */
     @PreAuthorize("isAuthenticated()")

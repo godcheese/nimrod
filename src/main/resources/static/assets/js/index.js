@@ -18,7 +18,6 @@ $(function () {
                 }
             });
         }
-
     });
 });
 
@@ -32,7 +31,7 @@ function pageTurning() {
         if ($(this).hasClass('disabled')) return;
         if ($(this).hasClass('nav-next')) {
             page++;
-            $('.nav-wrap-ul').stop().animate({'margin-top': - navItemHeight * page}, 200);
+            $('.nav-wrap-ul').stop().animate({'margin-top': -navItemHeight * page}, 200);
             if (page === pages) {
                 $(this).addClass('disabled');
                 $('.nav-prev').removeClass('disabled');
@@ -42,7 +41,7 @@ function pageTurning() {
 
         } else {
             page--;
-            $('.nav-wrap-ul').stop().animate({'margin-top': - navItemHeight * page}, 200);
+            $('.nav-wrap-ul').stop().animate({'margin-top': -navItemHeight * page}, 200);
             if (page === 0) {
                 $(this).addClass('disabled');
                 $('.nav-next').removeClass('disabled');

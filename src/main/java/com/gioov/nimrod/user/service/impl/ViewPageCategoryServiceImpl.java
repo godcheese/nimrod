@@ -1,7 +1,7 @@
 package com.gioov.nimrod.user.service.impl;
 
 import com.gioov.nimrod.common.easyui.ComboTree;
-import com.gioov.nimrod.common.easyui.EasyUI;
+import com.gioov.nimrod.common.easyui.EasyUi;
 import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.user.entity.ViewPageCategoryEntity;
 import com.gioov.nimrod.user.entity.ViewPageEntity;
@@ -81,9 +81,9 @@ public class ViewPageCategoryServiceImpl implements ViewPageCategoryService {
     public List<ViewPageCategoryEntity> listAllParent() {
         List<ViewPageCategoryEntity> viewPageCategoryEntityList = viewPageCategoryMapper.listAllByParentIdIsNull();
         List<ViewPageCategoryEntity> viewPageCategoryEntityListResult = new ArrayList<>();
-        for(ViewPageCategoryEntity viewPageCategoryEntity : viewPageCategoryEntityList) {
-            if(viewPageCategoryMapper.getOneByParentId(viewPageCategoryEntity.getId()) != null) {
-                viewPageCategoryEntity.setState(EasyUI.State.CLOSED);
+        for (ViewPageCategoryEntity viewPageCategoryEntity : viewPageCategoryEntityList) {
+            if (viewPageCategoryMapper.getOneByParentId(viewPageCategoryEntity.getId()) != null) {
+                viewPageCategoryEntity.setState(EasyUi.State.CLOSED);
             }
             viewPageCategoryEntityListResult.add(viewPageCategoryEntity);
         }
@@ -94,9 +94,9 @@ public class ViewPageCategoryServiceImpl implements ViewPageCategoryService {
     public List<ViewPageCategoryEntity> listAllByParentId(Long parentId) {
         List<ViewPageCategoryEntity> viewPageCategoryEntityList = viewPageCategoryMapper.listAllByParentId(parentId);
         List<ViewPageCategoryEntity> viewPageCategoryEntityListResult = new ArrayList<>();
-        for(ViewPageCategoryEntity viewPageCategoryEntity : viewPageCategoryEntityList) {
-            if(viewPageCategoryMapper.getOneByParentId(viewPageCategoryEntity.getId()) != null) {
-                viewPageCategoryEntity.setState(EasyUI.State.CLOSED);
+        for (ViewPageCategoryEntity viewPageCategoryEntity : viewPageCategoryEntityList) {
+            if (viewPageCategoryMapper.getOneByParentId(viewPageCategoryEntity.getId()) != null) {
+                viewPageCategoryEntity.setState(EasyUi.State.CLOSED);
             }
             viewPageCategoryEntityListResult.add(viewPageCategoryEntity);
         }
@@ -107,7 +107,7 @@ public class ViewPageCategoryServiceImpl implements ViewPageCategoryService {
     public List<ComboTree> listAllViewPageCategoryComboTree() {
         List<ComboTree> comboTreeList = new ArrayList<>(0);
         List<ViewPageCategoryEntity> viewPageCategoryEntityList = viewPageCategoryMapper.listAll();
-        for(ViewPageCategoryEntity viewPageCategoryEntity : viewPageCategoryEntityList) {
+        for (ViewPageCategoryEntity viewPageCategoryEntity : viewPageCategoryEntityList) {
             ComboTree comboTree = new ComboTree();
             comboTree.setId(viewPageCategoryEntity.getId());
             comboTree.setText(viewPageCategoryEntity.getName());
@@ -116,19 +116,20 @@ public class ViewPageCategoryServiceImpl implements ViewPageCategoryService {
         }
         return comboTreeList;
     }
+
     @Override
     public List<ComboTree> getViewPageCategoryChildrenComboTree(long parentId, List<ComboTree> viewPageCategoryComboTreeList) {
         List<ComboTree> children = new ArrayList<>(0);
-        for(ComboTree comboTree : viewPageCategoryComboTreeList) {
-            if(comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
+        for (ComboTree comboTree : viewPageCategoryComboTreeList) {
+            if (comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
                 children.add(comboTree);
             }
         }
-        for(ComboTree child : children) {
+        for (ComboTree child : children) {
             List<ComboTree> childChildren = getViewPageCategoryChildrenComboTree(child.getId(), viewPageCategoryComboTreeList);
             child.setChildren(childChildren);
         }
-        if(children.size() == 0) {
+        if (children.size() == 0) {
             return null;
         }
         return children;

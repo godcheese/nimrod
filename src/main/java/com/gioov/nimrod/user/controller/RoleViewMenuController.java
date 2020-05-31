@@ -18,6 +18,6 @@ public class RoleViewMenuController {
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/USER/ROLE_VIEW_MENU/LIST')")
     @RequestMapping("/list")
     public String list() {
-        return Common.trimSlash(User.Page.ROLE_VIEW_MENU+ "/list");
+        return Common.trimSlash(User.Page.ROLE_VIEW_MENU + "/list");
     }
 }

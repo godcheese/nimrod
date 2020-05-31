@@ -19,6 +19,7 @@ public interface ApiMapper extends CrudMapper<ApiEntity, Long> {
 
     /**
      * 指定 API 分类 id，获取所有 API
+     *
      * @param apiCategoryId API 分类 id
      * @return ApiEntity
      */
@@ -26,6 +27,7 @@ public interface ApiMapper extends CrudMapper<ApiEntity, Long> {
 
     /**
      * 指定 API 分类 id，分页获取所有 API
+     *
      * @param apiCategoryId API 分类 id
      * @return List<ApiEntity>
      */
@@ -33,6 +35,7 @@ public interface ApiMapper extends CrudMapper<ApiEntity, Long> {
 
     /**
      * 指定 authority，获取所有 API
+     *
      * @param authority authority
      * @return ApiEntity
      */
@@ -40,6 +43,7 @@ public interface ApiMapper extends CrudMapper<ApiEntity, Long> {
 
     /**
      * 指定 API 分类 id list，分页获取所有 API
+     *
      * @param apiCategoryIdList API 分类 id list
      * @return Page<ApiEntity>
      */

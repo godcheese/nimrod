@@ -22,7 +22,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if(SpringContextUtil.applicationContext == null) {
+        if (SpringContextUtil.applicationContext == null) {
             SpringContextUtil.applicationContext = applicationContext;
         }
     }
@@ -43,9 +43,9 @@ public class SpringContextUtil implements ApplicationContextAware {
         return getApplicationContext().getBean(clazz);
     }
 
-    public static void registerBean(String beanId,String className) {
+    public static void registerBean(String beanId, String className) {
 
-     ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) getApplicationContext();
+        ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) getApplicationContext();
 
         BeanDefinitionRegistry beanDefinitionRegistry = (DefaultListableBeanFactory) configurableContext.getBeanFactory();
 
@@ -55,6 +55,6 @@ public class SpringContextUtil implements ApplicationContextAware {
         BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
 
         // register the bean
-        beanDefinitionRegistry.registerBeanDefinition(beanId,beanDefinition);
+        beanDefinitionRegistry.registerBeanDefinition(beanId, beanDefinition);
     }
 }

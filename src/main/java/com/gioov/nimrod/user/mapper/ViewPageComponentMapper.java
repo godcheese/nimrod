@@ -19,6 +19,7 @@ public interface ViewPageComponentMapper extends CrudMapper<ViewPageComponentEnt
 
     /**
      * 指定视图页面 id，获取所有视图页面组件
+     *
      * @param viewPageId 视图页面 id
      * @return List<ViewPageComponentEntity>
      */
@@ -26,6 +27,7 @@ public interface ViewPageComponentMapper extends CrudMapper<ViewPageComponentEnt
 
     /**
      * 指定 authority，获取视图页面组件
+     *
      * @param authority authority
      * @return ViewPageComponentEntity
      */
@@ -33,6 +35,7 @@ public interface ViewPageComponentMapper extends CrudMapper<ViewPageComponentEnt
 
     /**
      * 指定视图页面 id list，分页获取视图页面
+     *
      * @param viewPageIdList 视图页面 id list
      * @return Page<ViewPageComponentEntity>
      */

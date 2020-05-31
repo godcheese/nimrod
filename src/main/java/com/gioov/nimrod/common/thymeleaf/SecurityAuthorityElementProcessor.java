@@ -3,8 +3,6 @@ package com.gioov.nimrod.common.thymeleaf;
 import com.gioov.nimrod.common.security.SimpleUser;
 import com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl;
 import com.gioov.tile.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.context.WebEngineContext;
 import org.thymeleaf.model.IAttribute;
@@ -26,7 +24,7 @@ public class SecurityAuthorityElementProcessor extends AbstractElementTagProcess
     private static final String ELEMENT_NAME = "security";
     private static final String AUTHORITY_ATTRIBUTE_NAME = "authority";
     private static final String ROLE_ATTRIBUTE_NAME = "role";
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityAuthorityElementProcessor.class);
+    private static final String COMMA_MARK = ",";
 
     public SecurityAuthorityElementProcessor(String dialectPrefix) {
         super(TemplateMode.HTML, dialectPrefix, ELEMENT_NAME, true, null, false, StandardDialect.PROCESSOR_PRECEDENCE);
@@ -38,13 +36,13 @@ public class SecurityAuthorityElementProcessor extends AbstractElementTagProcess
         HttpServletRequest request = context2.getRequest();
         SimpleUser simpleUser = SimpleUserDetailsServiceImpl.getCurrentSimpleUser(request);
         boolean hasAuthority = false;
-        if(simpleUser != null) {
+        if (simpleUser != null) {
             List<String> authorityList = new ArrayList<>(1);
             IAttribute authority = iProcessableElementTag.getAttribute(AUTHORITY_ATTRIBUTE_NAME);
             if (authority != null) {
                 String value = authority.getValue().toUpperCase();
-                if (value.contains(",")) {
-                    authorityList = StringUtil.splitAsList(value, ",");
+                if (value.contains(COMMA_MARK)) {
+                    authorityList = StringUtil.splitAsList(value, COMMA_MARK);
                 } else {
                     authorityList.add(value);
                 }
@@ -53,8 +51,8 @@ public class SecurityAuthorityElementProcessor extends AbstractElementTagProcess
             IAttribute role = iProcessableElementTag.getAttribute(ROLE_ATTRIBUTE_NAME);
             if (role != null) {
                 String value = role.getValue().toUpperCase();
-                if (value.contains(",")) {
-                    roleList = StringUtil.splitAsList(value, ",");
+                if (value.contains(COMMA_MARK)) {
+                    roleList = StringUtil.splitAsList(value, COMMA_MARK);
                 } else {
                     roleList.add(value);
                 }
@@ -71,10 +69,20 @@ public class SecurityAuthorityElementProcessor extends AbstractElementTagProcess
                 }
             }
         }
-        if(hasAuthority) {
+        if (hasAuthority) {
             iElementTagStructureHandler.removeTags();
         } else {
             iElementTagStructureHandler.removeElement();
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }

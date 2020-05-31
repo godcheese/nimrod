@@ -88,21 +88,15 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Pagination<ApiEntity> pageAllByApiCategoryId(Integer page, Integer rows, Long apiCategoryId, Long viewPageId, Long viewPageComponentId, Long roleId) {
         Pagination<ApiEntity> pagination = new Pagination<>();
-        //        if(sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
-//            sorterField = StringUtil.camelToUnderline(sorterField);
-//            String orderBy = sorterField + " " + sorterOrder;
-//            PageHelper.startPage(page, rows, orderBy);
-//        } else {
         PageHelper.startPage(page, rows);
-//        }
         Page<ApiEntity> apiEntityPage = apiMapper.pageAllByApiCategoryId(apiCategoryId);
         List<ApiEntity> apiEntityList = apiEntityPage.getResult();
         List<ApiEntity> apiEntityListResult = new ArrayList<>();
         Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS"));
         Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "NOT"));
-        if(viewPageId != null) {
-            for(ApiEntity apiEntity : apiEntityList) {
-                if(viewPageApiMapper.getOneByViewPageIdAndApiId(viewPageId, apiEntity.getId()) != null) {
+        if (viewPageId != null) {
+            for (ApiEntity apiEntity : apiEntityList) {
+                if (viewPageApiMapper.getOneByViewPageIdAndApiId(viewPageId, apiEntity.getId()) != null) {
                     // 是否已关联，IS=是，NOT=否
                     apiEntity.setIsAssociated(isOrNotIs);
                 } else {
@@ -111,9 +105,9 @@ public class ApiServiceImpl implements ApiService {
                 apiEntityListResult.add(apiEntity);
             }
             pagination.setRows(apiEntityListResult);
-        } else if(viewPageComponentId != null) {
-            for(ApiEntity apiEntity : apiEntityList) {
-                if(viewPageComponentApiMapper.getOneByViewPageComponentIdAndApiId(viewPageComponentId, apiEntity.getId()) != null) {
+        } else if (viewPageComponentId != null) {
+            for (ApiEntity apiEntity : apiEntityList) {
+                if (viewPageComponentApiMapper.getOneByViewPageComponentIdAndApiId(viewPageComponentId, apiEntity.getId()) != null) {
                     // 是否已关联，IS=是，NOT=否
                     apiEntity.setIsAssociated(isOrNotIs);
                 } else {
@@ -122,9 +116,9 @@ public class ApiServiceImpl implements ApiService {
                 apiEntityListResult.add(apiEntity);
             }
             pagination.setRows(apiEntityListResult);
-        } else if(roleId != null) {
-            for(ApiEntity apiEntity : apiEntityList) {
-                if(roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, apiEntity.getAuthority()) != null) {
+        } else if (roleId != null) {
+            for (ApiEntity apiEntity : apiEntityList) {
+                if (roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, apiEntity.getAuthority()) != null) {
                     // 是否已授权，IS=是，NOT=否
                     apiEntity.setIsGranted(isOrNotIs);
                 } else {

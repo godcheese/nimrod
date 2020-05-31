@@ -14,6 +14,7 @@ public interface ViewPageComponentService {
 
     /**
      * 新增视图页面组件
+     *
      * @param viewPageComponentEntity ViewPageComponentEntity
      * @return ViewPageComponentEntity
      * @throws BaseResponseException BaseResponseException
@@ -22,6 +23,7 @@ public interface ViewPageComponentService {
 
     /**
      * 保存视图页面组件
+     *
      * @param viewPageComponentEntity ViewPageComponentEntity
      * @return ViewPageComponentEntity
      * @throws BaseResponseException BaseResponseException
@@ -30,6 +32,7 @@ public interface ViewPageComponentService {
 
     /**
      * 指定视图页面组件 id，批量删除视图页面组件
+     *
      * @param idList 视图页面组件 id list
      * @return int
      */
@@ -37,6 +40,7 @@ public interface ViewPageComponentService {
 
     /**
      * 指定视图页面组件 id，获取视图页面组件
+     *
      * @param id 视图页面组件 id
      * @return ViewPageComponentEntity
      */
@@ -44,8 +48,9 @@ public interface ViewPageComponentService {
 
     /**
      * 指定视图页面 id，分页获取所有视图页面组件
-     * @param page   页
-     * @param rows   每页显示数量
+     *
+     * @param page       页
+     * @param rows       每页显示数量
      * @param viewPageId 视图页面 id
      * @return Pagination<ViewPageComponentEntity>
      */

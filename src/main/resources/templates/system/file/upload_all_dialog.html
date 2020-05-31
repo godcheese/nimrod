@@ -1,12 +1,14 @@
-
 <div class="submit-form">
     <p>
         <label for="fileUpload">上传文件：</label>
-        <input id="fileUpload" class="easyui-filebox" style="width:220px" data-options="buttonText:'选择文件',multiple:true">
+        <input id="fileUpload" class="easyui-filebox" style="width:220px"
+               data-options="buttonText:'选择文件',multiple:true">
         <!--<input type="file" id="file" style="width:220px" multiple="multiple" accept="*/*">-->
         <a id="uploadButton" href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-upload">上传</a>
     </p>
-    <p style="padding-top:10px"><div id="progress" class="easyui-progressbar" style="width:350px;"></div></p>
+    <p style="padding-top:10px">
+    <div id="progress" class="easyui-progressbar" style="width:350px;"></div>
+    </p>
 </div>
 
 <script type="text/javascript">
@@ -14,15 +16,15 @@
     var progress = $('#progress');
 
     $('#uploadButton').click(function () {
-        if(!window._ajaxing) {
+        if (!window._ajaxing) {
             window._ajaxing = upload();
         } else {
             progress.progressbar('setValue', 0);
             progress.progressbar({text: '上传取消：0%', value: 0});
             window._ajaxing.abort();
-            window._ajaxing= undefined;
+            window._ajaxing = undefined;
         }
-        if(window._ajaxing) {
+        if (window._ajaxing) {
             $(this).linkbutton({text: '取消', iconCls: 'iconfont icon-close'});
         } else {
             $(this).linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
@@ -32,7 +34,7 @@
     function upload() {
         var formData = new FormData();
         var files = $('#fileUpload').filebox('files');
-        for(var i=0; files.length > i; i++) {
+        for (var i = 0; files.length > i; i++) {
             formData.append('file[]', files[i]);
         }
         return $.ajax({
@@ -75,16 +77,16 @@
                     }
                 }
                 $('#uploadButton').linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
-                window._ajaxing= undefined;
+                window._ajaxing = undefined;
             },
             error: function (xhr) {
                 progress.progressbar('setValue', 0);
                 progress.progressbar({text: '上传失败：0%', value: 0});
-                if(xhr.responseJSON) {
+                if (xhr.responseJSON) {
                     $.messager.alert('信息', xhr.responseJSON.message, 'error');
                 }
                 $('#uploadButton').linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
-                window._ajaxing= undefined;
+                window._ajaxing = undefined;
             }
         });
     }

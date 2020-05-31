@@ -20,7 +20,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.ROLE_AUTHORITY, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = User.Api.ROLE_AUTHORITY, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoleAuthorityRestController {
 
     private static final String ROLE_AUTHORITY = "/API/USER/ROLE_AUTHORITY";
@@ -30,6 +30,7 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、API 权限（authority），批量授权
+     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
      * @return ResponseEntity<List < String>>
@@ -42,6 +43,7 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、API 权限（authority），批量撤销授权
+     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
      * @return ResponseEntity<Integer>
@@ -54,6 +56,7 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、视图页面权限（authority），批量授权
+     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
      * @return ResponseEntity<Integer>
@@ -66,6 +69,7 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、视图页面权限（authority），批量撤销授权
+     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
      * @return ResponseEntity<Integer>
@@ -78,6 +82,7 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、视图页面组件权限（authority），批量授权
+     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
      * @return ResponseEntity<Integer>
@@ -90,6 +95,7 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、视图页面组件权限（authority），批量撤销授权
+     *
      * @param roleId        角色 id
      * @param authorityList 权限（authority） list
      * @return ResponseEntity<Integer>
@@ -102,9 +108,10 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色 id、权限（authority）判断是否已授权
+     *
      * @param roleId    角色 id
      * @param authority 权限（authority） list
-     * @return ResponseEntity<Map<String, Object>>
+     * @return ResponseEntity<Map < String, Object>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE_AUTHORITY + "/IS_GRANTED_BY_ROLE_ID_AND_AUTHORITY')")
     @GetMapping(value = "/is_granted_by_role_id_and_authority")
@@ -114,6 +121,7 @@ public class RoleAuthorityRestController {
 
     /**
      * 指定角色权限 id，获取角色权限信息
+     *
      * @param id 角色权限 id
      * @return ResponseEntity<RoleAuthorityEntity>
      */

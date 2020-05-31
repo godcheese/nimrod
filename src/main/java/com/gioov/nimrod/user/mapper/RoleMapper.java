@@ -17,6 +17,7 @@ public interface RoleMapper extends CrudMapper<RoleEntity, Long> {
 
     /**
      * 指定角色值，获取角色
+     *
      * @param value 角色值
      * @return RoleEntity
      */
@@ -24,6 +25,7 @@ public interface RoleMapper extends CrudMapper<RoleEntity, Long> {
 
     /**
      * 分页获取所有角色
+     *
      * @return Page<RoleEntity>
      */
     Page<RoleEntity> pageAll();

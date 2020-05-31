@@ -35,10 +35,11 @@ public class JobRestController {
 
     /**
      * 新增任务
-     * @param jobClassName JobClassName
-     * @param jobGroup JobGroup
+     *
+     * @param jobClassName   JobClassName
+     * @param jobGroup       JobGroup
      * @param cronExpression Cron 表达式
-     * @param description 描述
+     * @param description    描述
      * @return ResponseEntity<Date>
      * @throws BaseResponseException BaseResponseException
      */
@@ -50,8 +51,9 @@ public class JobRestController {
 
     /**
      * 指定 JobClassName、JobGroup，获取任务
+     *
      * @param jobClassName JobClassName
-     * @param jobGroup JobGroup
+     * @param jobGroup     JobGroup
      * @return ResponseEntity<JobEntity>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB + "/ONE')")
@@ -62,9 +64,10 @@ public class JobRestController {
 
     /**
      * 分页获取所有任务
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<JobEntity>>
+     * @return ResponseEntity<Pagination < JobEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
@@ -74,21 +77,23 @@ public class JobRestController {
 
     /**
      * 指定 JobClassName list、JobGroup list，暂停所有任务
+     *
      * @param jobClassNameList JobClassName list
-     * @param jobGroupList JobGroup list
+     * @param jobGroupList     JobGroup list
      * @return ResponseEntity<HttpStatus>
      * @throws BaseResponseException BaseResponseException
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB + "/PAUSE_ALL')")
     @PostMapping(value = "/pause_all")
     public ResponseEntity<Integer> pauseAll(@RequestParam(value = "jobClassName[]") List<String> jobClassNameList, @RequestParam(value = "jobGroup[]") List<String> jobGroupList) throws BaseResponseException {
-        return new ResponseEntity<>(jobService.pauseAll(jobClassNameList, jobGroupList),HttpStatus.OK);
+        return new ResponseEntity<>(jobService.pauseAll(jobClassNameList, jobGroupList), HttpStatus.OK);
     }
 
     /**
      * 指定 JobClassName list、JobGroup list，恢复所有任务
+     *
      * @param jobClassNameList JobClassName list
-     * @param jobGroupList JobGroup list
+     * @param jobGroupList     JobGroup list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
      */
@@ -100,23 +105,25 @@ public class JobRestController {
 
     /**
      * 指定 JobClassName list、JobGroup list，删除所有任务
+     *
      * @param jobClassNameList JobClassName list
-     * @param jobGroupList JobGroup list
+     * @param jobGroupList     JobGroup list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + JOB + "/DELETE_ALL')")
     @PostMapping(value = "/delete_all")
     public ResponseEntity<Integer> deleteAll(@RequestParam(name = "jobClassName[]") List<String> jobClassNameList, @RequestParam(name = "jobGroup[]") List<String> jobGroupList) throws BaseResponseException {
-        return new ResponseEntity<>(jobService.deleteAll(jobClassNameList, jobGroupList),HttpStatus.OK);
+        return new ResponseEntity<>(jobService.deleteAll(jobClassNameList, jobGroupList), HttpStatus.OK);
     }
 
     /**
      * 保存任务
-     * @param jobClassName JobClassName
-     * @param jobGroup JobGroup
+     *
+     * @param jobClassName   JobClassName
+     * @param jobGroup       JobGroup
      * @param cronExpression Cron 表达式
-     * @param description 描述
+     * @param description    描述
      * @return ResponseEntity<Date>
      * @throws BaseResponseException BaseResponseException
      */
@@ -128,8 +135,9 @@ public class JobRestController {
 
     /**
      * 重置状态
+     *
      * @param jobClassNameList JobClassName list
-     * @param jobGroupList JobGroup list
+     * @param jobGroupList     JobGroup list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
      */

@@ -19,6 +19,7 @@ public interface UserRoleMapper extends CrudMapper<UserRoleEntity, Long> {
 
     /**
      * 指定用户 id，获取用户角色
+     *
      * @param userId 用户 id
      * @return List<UserRoleEntity>
      */
@@ -26,6 +27,7 @@ public interface UserRoleMapper extends CrudMapper<UserRoleEntity, Long> {
 
     /**
      * 指定角色 id，获取用户角色
+     *
      * @param roleId 角色 id
      * @return UserRoleEntity
      */
@@ -33,6 +35,7 @@ public interface UserRoleMapper extends CrudMapper<UserRoleEntity, Long> {
 
     /**
      * 指定用户 id、角色 id list，删除所有
+     *
      * @param userId     用户 id
      * @param roleIdList 角色 id list
      * @return int
@@ -41,6 +44,7 @@ public interface UserRoleMapper extends CrudMapper<UserRoleEntity, Long> {
 
     /**
      * 指定用户 id、角色 id，获取用户角色
+     *
      * @param userId 用户 id
      * @param roleId 角色 id
      * @return UserRoleEntity
@@ -49,6 +53,7 @@ public interface UserRoleMapper extends CrudMapper<UserRoleEntity, Long> {
 
     /**
      * 指定角色 id，删除所有
+     *
      * @param roleId 角色 id
      * @return int
      */
@@ -56,13 +61,15 @@ public interface UserRoleMapper extends CrudMapper<UserRoleEntity, Long> {
 
     /**
      * 分页获取所有用户角色
+     *
      * @return Page<UserRoleEntity>
      */
     Page<UserRoleEntity> pageAll();
 
     /**
      * 指定角色 id、视图菜单分类 id list，批量新增
-     * @param userId 角色 id
+     *
+     * @param userId     角色 id
      * @param roleIdList 视图菜单 id list
      * @return int
      */

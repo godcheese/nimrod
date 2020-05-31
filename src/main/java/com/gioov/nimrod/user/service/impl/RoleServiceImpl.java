@@ -70,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
         int result = 0;
         for (Long id : idList) {
             UserRoleEntity userRoleEntity = userRoleMapper.getOneByRoleId(id);
-            if(userRoleEntity != null) {
+            if (userRoleEntity != null) {
                 throw new BaseResponseException(failureEntity.i18n("role.delete_fail_has_user"));
             }
             roleMapper.deleteOne(id);
@@ -87,6 +87,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 根据用户关联角色来获取所有角色
+     *
      * @param userRoleEntityList 用户角色 list
      * @return List<RoleEntity>
      */

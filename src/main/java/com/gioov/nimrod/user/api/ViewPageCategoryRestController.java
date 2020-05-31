@@ -34,10 +34,11 @@ public class ViewPageCategoryRestController {
 
     /**
      * 新增视图页面分类
-     * @param name 视图页面分类名称
+     *
+     * @param name     视图页面分类名称
      * @param parentId 父级视图菜单 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort     排序
+     * @param remark   备注
      * @return ResponseEntity<ViewPageCategoryEntity>
      */
     @OperationLog(value = "新增视图页面分类", type = OperationLogType.API)
@@ -55,11 +56,12 @@ public class ViewPageCategoryRestController {
 
     /**
      * 保存视图页面分类
-     * @param id 视图页面分类 id
-     * @param name 视图页面分类名称
+     *
+     * @param id       视图页面分类 id
+     * @param name     视图页面分类名称
      * @param parentId 父级视图页面分类 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort     排序
+     * @param remark   备注
      * @return ResponseEntity<ViewPageCategoryEntity>
      */
     @OperationLog(value = "保存视图页面分类", type = OperationLogType.API)
@@ -78,6 +80,7 @@ public class ViewPageCategoryRestController {
 
     /**
      * 指定视图页面分类 id，批量删除视图页面分类
+     *
      * @param idList 视图页面分类 id list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
@@ -91,6 +94,7 @@ public class ViewPageCategoryRestController {
 
     /**
      * 指定视图页面分类 id，获取视图页面分类
+     *
      * @param id 视图页面分类 id
      * @return ResponseEntity<ViewPageCategoryEntity>
      */
@@ -103,7 +107,8 @@ public class ViewPageCategoryRestController {
 
     /**
      * 获取所有父级视图页面分类
-     * @return ResponseEntity<List<ViewPageCategoryEntity>>
+     *
+     * @return ResponseEntity<List < ViewPageCategoryEntity>>
      */
     @OperationLog(value = "获取所有父级视图页面分类", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE_CATEGORY + "/LIST_ALL_PARENT')")
@@ -114,8 +119,9 @@ public class ViewPageCategoryRestController {
 
     /**
      * 指定父级视图页面分类 id，获取所有视图页面分类
+     *
      * @param parentId 父级视图页面分类 id
-     * @return ResponseEntity<List<ViewPageCategoryEntity>>
+     * @return ResponseEntity<List < ViewPageCategoryEntity>>
      */
     @OperationLog(value = "指定父级视图页面分类 id，获取所有视图页面分类", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE_CATEGORY + "/LIST_ALL_BY_PARENT_ID')")
@@ -126,7 +132,8 @@ public class ViewPageCategoryRestController {
 
     /**
      * 获取所有视图页面分类，以 ComboTree 形式展示
-     * @return ResponseEntity<List<ComboTree>>
+     *
+     * @return ResponseEntity<List < ComboTree>>
      */
     @OperationLog(value = "获取所有视图页面分类，以 ComboTree 形式展示", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_PAGE_CATEGORY + "/LIST_ALL_AS_COMBO_TREE')")
@@ -134,12 +141,12 @@ public class ViewPageCategoryRestController {
     public ResponseEntity<List<ComboTree>> listAllAsComboTree() {
         List<ComboTree> comboTreeResultList = new ArrayList<>();
         List<ComboTree> viewPageCategoryComboTreeList = viewPageCategoryService.listAllViewPageCategoryComboTree();
-        for(ComboTree comboTree : viewPageCategoryComboTreeList) {
-            if(comboTree.getParentId() == null) {
+        for (ComboTree comboTree : viewPageCategoryComboTreeList) {
+            if (comboTree.getParentId() == null) {
                 comboTreeResultList.add(comboTree);
             }
         }
-        for(ComboTree comboTree : comboTreeResultList) {
+        for (ComboTree comboTree : comboTreeResultList) {
             comboTree.setChildren(viewPageCategoryService.getViewPageCategoryChildrenComboTree(comboTree.getId(), viewPageCategoryComboTreeList));
         }
         return new ResponseEntity<>(comboTreeResultList, HttpStatus.OK);

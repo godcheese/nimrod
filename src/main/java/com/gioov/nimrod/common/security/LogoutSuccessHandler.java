@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -32,6 +33,7 @@ public class LogoutSuccessHandler implements org.springframework.security.web.au
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setStatus(HttpStatus.OK.value());
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
         PrintWriter printWriter = httpServletResponse.getWriter();
         printWriter.write(common.objectToJson(new SuccessEntity("注销成功")));
         printWriter.flush();

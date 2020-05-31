@@ -48,7 +48,8 @@
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="id">
         insert into
         <include refid="TableName"/>
-        (`view_page_component_type`, `name`, `authority`, `view_page_id`, `sort`, `remark`,`gmt_modified`, `gmt_created`)
+        (`view_page_component_type`, `name`, `authority`, `view_page_id`, `sort`, `remark`,`gmt_modified`,
+        `gmt_created`)
         values (#{viewPageComponentType}, #{name}, #{authority}, #{viewPageId}, #{sort}, #{remark}, #{gmtModified},
         #{gmtCreated})
     </insert>
@@ -56,7 +57,8 @@
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.ViewPageComponentEntity">
         update
         <include refid="TableName"/>
-        set `view_page_component_type` = #{viewPageComponentType}, `name` = #{name}, `authority` = #{authority}, `sort` =
+        set `view_page_component_type` = #{viewPageComponentType}, `name` = #{name}, `authority` = #{authority}, `sort`
+        =
         #{sort}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
         where `id`= #{id}
     </update>

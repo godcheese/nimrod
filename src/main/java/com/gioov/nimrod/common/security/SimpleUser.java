@@ -51,19 +51,20 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
     /**
      * Construct the <code>SimpleUser</code> with the details required by
      * {@link org.springframework.security.authentication.dao.DaoAuthenticationProvider}.
-     * @param username the username presented to the
-     * <code>DaoAuthenticationProvider</code>
-     * @param password the password that should be presented to the
-     * <code>DaoAuthenticationProvider</code>
-     * @param enabled set to <code>true</code> if the user is enabled
-     * @param accountNonExpired set to <code>true</code> if the account has not expired
+     *
+     * @param username              the username presented to the
+     *                              <code>DaoAuthenticationProvider</code>
+     * @param password              the password that should be presented to the
+     *                              <code>DaoAuthenticationProvider</code>
+     * @param enabled               set to <code>true</code> if the user is enabled
+     * @param accountNonExpired     set to <code>true</code> if the account has not expired
      * @param credentialsNonExpired set to <code>true</code> if the credentials have not
-     * expired
-     * @param accountNonLocked set to <code>true</code> if the account is not locked
-     * @param authorities the authorities that should be granted to the caller if they
-     * presented the correct username and password and the user is enabled. Not null.
+     *                              expired
+     * @param accountNonLocked      set to <code>true</code> if the account is not locked
+     * @param authorities           the authorities that should be granted to the caller if they
+     *                              presented the correct username and password and the user is enabled. Not null.
      * @throws IllegalArgumentException if a <code>null</code> value was passed either as
-     * a parameter or as an element in the <code>GrantedAuthority</code> collection
+     *                                  a parameter or as an element in the <code>GrantedAuthority</code> collection
      */
     public SimpleUser(Long id, String username, String password, boolean enabled,
                       boolean accountNonExpired, boolean credentialsNonExpired,
@@ -219,8 +220,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
 
                 sb.append(auth);
             }
-        }
-        else {
+        } else {
             sb.append("Not granted any authorities");
         }
 
@@ -234,6 +234,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
 
     /**
      * Creates a SimpleUserBuilder with a specified user name
+     *
      * @param username the username to use
      * @return the SimpleUserBuilder
      */
@@ -243,6 +244,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
 
     /**
      * Creates a SimpleUserBuilder
+     *
      * @return the SimpleUserBuilder
      */
     public static SimpleUser.SimpleUserBuilder builder() {
@@ -269,7 +271,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
      * System.out.println(user.getPassword());
      * </code>
      * </pre>
-     *
+     * <p>
      * This is not safe for production (it is intended for getting started experience)
      * because the password "password" is compiled into the source code and then is
      * included in memory at the time of creation. This means there are still ways to
@@ -277,7 +279,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
      * improvement to using plain text passwords since the UserDetails password is
      * securely hashed. This means if the UserDetails password is accidentally exposed,
      * the password is securely stored.
-     *
+     * <p>
      * In a production setting, it is recommended to hash the password ahead of time.
      * For example:
      *
@@ -399,13 +401,13 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * "ROLE_". This means the following:
          *
          * <code>
-         *     builder.roles("USER","ADMIN");
+         * builder.roles("USER","ADMIN");
          * </code>
-         *
+         * <p>
          * is equivalent to
          *
          * <code>
-         *     builder.authorities("ROLE_USER","ROLE_ADMIN");
+         * builder.authorities("ROLE_USER","ROLE_ADMIN");
          * </code>
          *
          * <p>
@@ -414,7 +416,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * </p>
          *
          * @param roles the roles for this user (i.e. USER, ADMIN, etc). Cannot be null,
-         * contain null values or start with "ROLE_"
+         *              contain null values or start with "ROLE_"
          * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          */
@@ -433,7 +435,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the authorities. This attribute is required.
          *
          * @param authorities the authorities for this user. Cannot be null, or contain
-         * null values
+         *                    null values
          * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          * @see #roles(String...)
@@ -446,7 +448,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the authorities. This attribute is required.
          *
          * @param authorities the authorities for this user. Cannot be null, or contain
-         * null values
+         *                    null values
          * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          * @see #roles(String...)
@@ -460,7 +462,7 @@ public class SimpleUser implements SimpleUserDetails, CredentialsContainer {
          * Populates the authorities. This attribute is required.
          *
          * @param authorities the authorities for this user (i.e. ROLE_USER, ROLE_ADMIN,
-         * etc). Cannot be null, or contain null values
+         *                    etc). Cannot be null, or contain null values
          * @return the {@link SimpleUser.SimpleUserBuilder} for method chaining (i.e. to populate
          * additional attributes for this user)
          * @see #roles(String...)

@@ -33,7 +33,8 @@
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.ViewPageEntity">
         update
         <include refid="TableName"/>
-        set `name` = #{name}, `url` = #{url}, `authority` = #{authority}, `view_page_category_id` = #{viewPageCategoryId}, `sort` = #{sort}, `remark` = #{remark},
+        set `name` = #{name}, `url` = #{url}, `authority` = #{authority}, `view_page_category_id` =
+        #{viewPageCategoryId}, `sort` = #{sort}, `remark` = #{remark},
         `gmt_modified` = #{gmtModified}
         where `id`= #{id}
     </update>

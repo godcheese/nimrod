@@ -12,6 +12,7 @@ import java.util.List;
 public interface UserRoleService {
     /**
      * 新增用户角色
+     *
      * @param userRoleEntity UserRoleEntity
      * @return UserRoleEntity
      */
@@ -19,7 +20,8 @@ public interface UserRoleService {
 
     /**
      * 指定用户 id、角色 id list，批量删除用户角色
-     * @param userId 用户 id
+     *
+     * @param userId     用户 id
      * @param roleIdList 角色 id list
      * @return 已删除角色个数
      */
@@ -27,6 +29,7 @@ public interface UserRoleService {
 
     /**
      * 分页获取所有用户角色
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<UserRoleEntity>

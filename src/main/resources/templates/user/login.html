@@ -28,7 +28,7 @@
                 <div class="right-title">用户登录</div>
                 <form th:action="@{/user/login/form}">
                     <div class="account">
-<!--                        <img th:src="@{/assets/img/login/username.png}" alt="">-->
+                        <!--                        <img th:src="@{/assets/img/login/username.png}" alt="">-->
                         <i class="iconfont icon-user"></i>
                         <input id="account" name="account" type="text" placeholder="请输入用户名">
                     </div>
@@ -44,9 +44,13 @@
                         <input id="verifyCode" name="verifyCode" type="text" placeholder="请输入验证码">
                     </div>
                     <div class="remember-me">
-                       <input id="rememberMe" type="checkbox"><div>记住我</div>
+                        <input id="rememberMe" type="checkbox">
+                        <div>记住我</div>
                     </div>
-                    <div class="login-button"><a id="loginButton" href="javascript:;">登&nbsp;&nbsp;&nbsp;&nbsp;录</a></div>
+                    <div class="login-button">
+                        <!--                        <a id="loginButton" href="javascript:;">登&nbsp;&nbsp;&nbsp;&nbsp;录</a>-->
+                        <button id="loginButton">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                    </div>
                     <p style="margin-top:20px;font-size:12px;color:#FA6F03;text-align: center">登录遇到问题，请联系管理员</p>
                 </form>
             </div>

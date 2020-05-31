@@ -17,6 +17,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
 public class JobRuntimeLogController {
     /**
      * 任务运行日志
+     *
      * @return String
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('/QUARTZ/JOB_RUNTIME_LOG/LIST')")

@@ -1,4 +1,4 @@
-﻿if ($.fn.pagination){
+if ($.fn.pagination){
 	$.fn.pagination.defaults.beforePageText = 'Сторінка';
 	$.fn.pagination.defaults.afterPageText = 'з {pages}';
 	$.fn.pagination.defaults.displayMsg = 'Перегляд {from} до {to} з {total} записів';

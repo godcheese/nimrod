@@ -1,4 +1,3 @@
-
 <div class="submit-form">
     <table class="submit-table">
         <tr>
@@ -48,11 +47,13 @@
     .display {
         display: none;
     }
+
     .user-avatar {
         float: right;
         width: 48px;
         height: 48px;
     }
+
     .user-avatar img {
         margin: 4px;
         border-radius: 20px;
@@ -65,12 +66,12 @@
         $('#avatarSrc').attr('src', _defaultAvatar);
         $('#avatar').textbox({
             onChange: function (newValue, oldValue) {
-                    if(newValue === null || newValue === '') {
-                        newValue = _defaultAvatar;
-                    } else {
-                        newValue = Url.System.Api.FILE + '/download/' + newValue
-                    }
-                    $('#avatarSrc').attr('src', newValue);
+                if (newValue === null || newValue === '') {
+                    newValue = _defaultAvatar;
+                } else {
+                    newValue = Url.System.Api.FILE + '/download/' + newValue
+                }
+                $('#avatarSrc').attr('src', newValue);
             }
         });
         $('#emailIsVerified').combobox({
@@ -95,6 +96,7 @@
             required: true
         });
     });
+
     function changeAvatarDialog() {
         $('#changeAvatarDialog').dialog(expressui.dialog.create, {
             title: '更换头像',
@@ -105,7 +107,7 @@
             buttons: [{
                 text: '确定',
                 iconCls: 'iconfont icon-save',
-                handler: function() {
+                handler: function () {
                     var guid = $('#file').datagrid('getChecked')[0].guid;
                     $('#avatar').textbox('setValue', guid);
                     $('#changeAvatarDialog').dialog('close');
@@ -119,6 +121,7 @@
             }]
         });
     }
+
     function removeAvatar() {
         $('#avatar').textbox('setValue', '');
     }

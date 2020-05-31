@@ -28,15 +28,18 @@
             parameterType="com.gioov.nimrod.system.entity.DictionaryEntity">
         insert into
         <include refid="TableName"/>
-        (`id`, `key_name`, `key`, `value_name`, `value_slug`, `value`,`dictionary_category_id`, `enabled`, `sort`, `remark`, `gmt_modified`, `gmt_created`)
-        values (#{id}, #{keyName}, #{key}, #{valueName}, #{valueSlug}, #{value}, #{dictionaryCategoryId}, #{enabled}, #{sort}, #{remark}, #{gmtModified}, #{gmtCreated})
+        (`id`, `key_name`, `key`, `value_name`, `value_slug`, `value`,`dictionary_category_id`, `enabled`, `sort`,
+        `remark`, `gmt_modified`, `gmt_created`)
+        values (#{id}, #{keyName}, #{key}, #{valueName}, #{valueSlug}, #{value}, #{dictionaryCategoryId}, #{enabled},
+        #{sort}, #{remark}, #{gmtModified}, #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.system.entity.DictionaryEntity">
         update
         <include refid="TableName"/>
         set `key_name` = #{keyName}, `key` = #{key}, `value_name` = #{valueName}, `value_slug` = #{valueSlug}, `value` =
-        #{value}, `dictionary_category_id` = #{dictionaryCategoryId}, `enabled` = #{enabled}, `sort` = #{sort}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        #{value}, `dictionary_category_id` = #{dictionaryCategoryId}, `enabled` = #{enabled}, `sort` = #{sort}, `remark`
+        = #{remark}, `gmt_modified` = #{gmtModified}
         where `id`= #{id}
     </update>
 

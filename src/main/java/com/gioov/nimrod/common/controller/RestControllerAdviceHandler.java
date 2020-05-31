@@ -38,7 +38,7 @@ public class RestControllerAdviceHandler {
         throwable.printStackTrace();
         String message = throwable.getMessage();
         int code = 0;
-        if(throwable instanceof BaseResponseException) {
+        if (throwable instanceof BaseResponseException) {
             code = ((BaseResponseException) throwable).getCode();
         }
         return new ResponseEntity<>(new FailureEntity(message, code), httpStatus);
@@ -47,7 +47,7 @@ public class RestControllerAdviceHandler {
     @ExceptionHandler(MultipartException.class)
     public ResponseEntity<FailureEntity> sizeLimitExceededExceptionHandler(HttpServletRequest httpServletRequest, Throwable throwable) {
         HttpStatus httpStatus = getStatus(httpServletRequest);
-            FailureEntity fm = failureEntity.i18n("file.upload_fail");
+        FailureEntity fm = failureEntity.i18n("file.upload_fail");
         if (throwable instanceof MaxUploadSizeExceededException) {
             String maxFileSize = DataSizeUtil.pretty(DataSize.parse((String) dictionaryService.get("FILE", "MAX_FILE_SIZE")).toBytes());
             String maxRequestSize = DataSizeUtil.pretty(DataSize.parse((String) dictionaryService.get("FILE", "MAX_REQUEST_SIZE")).toBytes());
@@ -63,6 +63,7 @@ public class RestControllerAdviceHandler {
         throwable.printStackTrace();
         return new ResponseEntity<>(new FailureEntity(throwable.getMessage(), httpStatus.value()), httpStatus);
     }
+
     public static HttpStatus getStatus(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         if (statusCode == null) {

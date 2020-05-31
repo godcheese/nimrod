@@ -135,24 +135,24 @@ var expressui = expressui || {};
                     }
 
 
-                    if(!_node) {
+                    if (!_node) {
                         if (tag) {
                             _node = document.createElement(tag);
                         } else {
                             _node = document.createElement('div');
                         }
 
-                        if(_selectorId) {
+                        if (_selectorId) {
                             _node.id = _selectorId;
                         }
 
-                        if(_selectorClassName) {
+                        if (_selectorClassName) {
                             _node.className = _selectorClassName;
                         }
 
                         // 标记这些标签为自动生成的
-                        if(_node) {
-                            _node.setAttribute("data-create","auto");
+                        if (_node) {
+                            _node.setAttribute("data-create", "auto");
                         }
                     }
                 }
@@ -167,7 +167,7 @@ var expressui = expressui || {};
 
         var _node = _selectorNode(selector);
 
-        if(innerHTML) {
+        if (innerHTML) {
             _node.innerHTML = innerHTML;
         }
 
@@ -184,32 +184,32 @@ var expressui = expressui || {};
 
     _expressui.ajax = function (url, method, data, success, error) {
         var defaults = {
-            dataType:'JSON',
-            success: function(XMLHttpRequest, statusText) {
+            dataType: 'JSON',
+            success: function (XMLHttpRequest, statusText) {
             },
             error: function (XMLHttpRequest, statusText, errorThrown) {
             }
         };
 
-        if(typeof url === 'object') {
+        if (typeof url === 'object') {
             $.extend(defaults, url);
-        } else{
+        } else {
             defaults.url = url;
         }
 
-        if(typeof method === 'string') {
+        if (typeof method === 'string') {
             defaults.method = method;
         }
 
-        if(typeof data === 'object') {
+        if (typeof data === 'object') {
             defaults.data = data;
         }
 
-        if(typeof success === 'function') {
+        if (typeof success === 'function') {
             defaults.success = success;
         }
 
-        if(typeof error === 'function') {
+        if (typeof error === 'function') {
             defaults.error = error;
         }
         return $.ajax(defaults);
@@ -470,7 +470,7 @@ var expressui = expressui || {};
     _expressui.grid._reload = function (grid) {
         switch (grid.type) {
             case 'datagrid':
-                if(typeof grid.data === 'object') {
+                if (typeof grid.data === 'object') {
                     $(grid.selector).datagrid('loadData', grid.data);
                 } else {
                     if (grid.url) {
@@ -481,7 +481,7 @@ var expressui = expressui || {};
                 }
                 break;
             case 'tree':
-                if(typeof grid.data === 'object') {
+                if (typeof grid.data === 'object') {
                     $(grid.selector).tree('loadData', grid.data);
                 } else {
                     if (grid.url) {
@@ -491,7 +491,7 @@ var expressui = expressui || {};
                 }
                 break;
             case 'treegrid':
-                if(typeof grid.data === 'object') {
+                if (typeof grid.data === 'object') {
                     $(grid.selector).treegrid('loadData', grid.data);
                 } else {
                     if (grid.url) {
@@ -532,7 +532,7 @@ var expressui = expressui || {};
 
     _expressui.grid.getCheckedOne = function (grid) {
         var checked = _expressui.grid.getChecked(grid);
-        if(checked && checked.length > 0) {
+        if (checked && checked.length > 0) {
             return checked[0];
         }
     };
@@ -542,7 +542,7 @@ var expressui = expressui || {};
         if (grid.type) {
             checked = _expressui.grid.getChecked(grid);
             if (!checked) {
-                $.messager.alert('信息','请勾选要操作项', 'warning');
+                $.messager.alert('信息', '请勾选要操作项', 'warning');
                 return;
             }
         }
@@ -614,23 +614,23 @@ var expressui = expressui || {};
         var checked;
         checked = _expressui.grid.getCheckedOne(grid);
         if (grid.prefix) {
-            if(options.get) {
-                if(typeof options.get === 'string') {
+            if (options.get) {
+                if (typeof options.get === 'string') {
                     options.get.url = _expressui.replaceUrlPlaceholder(options.get, checked);
                     options.get.method = 'get';
                 }
-                if(typeof options.get === 'object') {
+                if (typeof options.get === 'object') {
                     if (options.get.url) {
                         options.get.url = _expressui.replaceUrlPlaceholder(options.get.url, checked);
                     }
                     options.get.method = options.get.method ? options.get.method : 'get';
                 }
             }
-            if(options.save) {
-                if(typeof options.save === 'string') {
+            if (options.save) {
+                if (typeof options.save === 'string') {
                     options.save = _expressui.replaceUrlPlaceholder(options.save, checked, grid.prefix);
                 }
-                if(typeof options.save === 'object') {
+                if (typeof options.save === 'object') {
                     if (options.save.url) {
                         options.save.url = _expressui.replaceUrlPlaceholder(options.save.url, checked, grid.prefix);
                     }
@@ -651,25 +651,25 @@ var expressui = expressui || {};
             }
         } else {
 
-            if(options.get) {
-                if(typeof options.get === 'string') {
+            if (options.get) {
+                if (typeof options.get === 'string') {
                     options.get.url = _expressui.replaceUrlPlaceholder(options.get, checked);
                     options.get.method = 'get';
                 }
 
-                if(typeof options.get === 'object') {
+                if (typeof options.get === 'object') {
                     options.get.url = options.get.url ? _expressui.replaceUrlPlaceholder(options.get.url, checked) : '';
                     options.get.method = options.get.method ? options.get.method : 'get';
                 }
             }
 
-            if(options.save) {
-                if(typeof options.save === 'string') {
+            if (options.save) {
+                if (typeof options.save === 'string') {
                     options.save.url = _expressui.replaceUrlPlaceholder(options.save, checked);
                     options.save.method = 'post';
                 }
 
-                if(typeof options.save === 'object') {
+                if (typeof options.save === 'object') {
 
                     options.save.url = options.save.url ? _expressui.replaceUrlPlaceholder(options.save.url, checked) : '';
                     options.save.method = options.save.method ? options.save.method : 'post';
@@ -705,72 +705,72 @@ var expressui = expressui || {};
 
     _expressui.form.submit = function (selector, url, method) {
         var defaultOptions = {type: 'post'};
-        if(typeof selector === 'object') {
+        if (typeof selector === 'object') {
             $.extend(defaultOptions, selector);
         } else {
             defaultOptions.selector = selector || undefined;
             defaultOptions.url = url || undefined;
             defaultOptions.method = method || 'post';
         }
-            var isValid = $(defaultOptions.selector).form('validate');
-            if (isValid) {
-                $.messager.progress({title: '请稍等', msg: '正在操作...'});
-                var serializeArray = $(defaultOptions.selector).find('form').serializeArray();
-                var paramArray = defaultOptions.data || [];
-                for (var i = 0; i < paramArray.length; i++) {
-                    serializeArray.push(paramArray[i]);
-                }
-                try {
-                    expressui.ajax({
-                        beforeSend: function () {
-                            if (typeof defaultOptions.beforeSend === 'function') {
-                                defaultOptions.beforeSend();
-                            }
-                        },
-                        complete: function() {
-                            if (typeof defaultOptions.complete === 'function') {
-                                defaultOptions.complete();
-                            }
-                        },
-                        url: defaultOptions.url || undefined,
-                        type: defaultOptions.method || 'post',
-                        data: serializeArray,
-                        success: function (res, statusText, XMLHttpRequest) {
-                            if(typeof defaultOptions.success === 'function'){
-                                defaultOptions.success(res, statusText, XMLHttpRequest);
-                            } else {
-                                if(typeof defaultOptions.reset === 'string') {
-                                    $(defaultOptions.reset).form('clear');
-                                }
-                            }
-                            if(typeof defaultOptions.success === 'string'){
-                                $.messager.show({title: '信息', msg: defaultOptions.success});
-                                if(typeof defaultOptions.reset === 'string') {
-                                    $(defaultOptions.reset).form('clear');
-                                }
-                            }
-                            $.messager.progress('close');
-                        },
-                        error: function (XMLHttpRequest, statusText, errorThrown) {
-                            if(defaultOptions.error) {
-                                if (typeof defaultOptions.error === 'function') {
-                                    defaultOptions.error(XMLHttpRequest, statusText, errorThrown);
-                                }
-                                if (typeof defaultOptions.error === 'string') {
-                                    $.messager.alert('信息', defaultOptions.error, 'error');
-                                }
-                            } else {
-                                $.messager.alert('信息', XMLHttpRequest.responseJSON.message, 'error');
-                            }
-                            $.messager.progress('close');
-                        }
-                    })
-                } catch (e) {
-                    $.messager.alert('信息', e.message, 'error');
-                } finally {
-                    $.messager.progress('close');
-                }
+        var isValid = $(defaultOptions.selector).form('validate');
+        if (isValid) {
+            $.messager.progress({title: '请稍等', msg: '正在操作...'});
+            var serializeArray = $(defaultOptions.selector).find('form').serializeArray();
+            var paramArray = defaultOptions.data || [];
+            for (var i = 0; i < paramArray.length; i++) {
+                serializeArray.push(paramArray[i]);
             }
+            try {
+                expressui.ajax({
+                    beforeSend: function () {
+                        if (typeof defaultOptions.beforeSend === 'function') {
+                            defaultOptions.beforeSend();
+                        }
+                    },
+                    complete: function () {
+                        if (typeof defaultOptions.complete === 'function') {
+                            defaultOptions.complete();
+                        }
+                    },
+                    url: defaultOptions.url || undefined,
+                    type: defaultOptions.method || 'post',
+                    data: serializeArray,
+                    success: function (res, statusText, XMLHttpRequest) {
+                        if (typeof defaultOptions.success === 'function') {
+                            defaultOptions.success(res, statusText, XMLHttpRequest);
+                        } else {
+                            if (typeof defaultOptions.reset === 'string') {
+                                $(defaultOptions.reset).form('clear');
+                            }
+                        }
+                        if (typeof defaultOptions.success === 'string') {
+                            $.messager.show({title: '信息', msg: defaultOptions.success});
+                            if (typeof defaultOptions.reset === 'string') {
+                                $(defaultOptions.reset).form('clear');
+                            }
+                        }
+                        $.messager.progress('close');
+                    },
+                    error: function (XMLHttpRequest, statusText, errorThrown) {
+                        if (defaultOptions.error) {
+                            if (typeof defaultOptions.error === 'function') {
+                                defaultOptions.error(XMLHttpRequest, statusText, errorThrown);
+                            }
+                            if (typeof defaultOptions.error === 'string') {
+                                $.messager.alert('信息', defaultOptions.error, 'error');
+                            }
+                        } else {
+                            $.messager.alert('信息', XMLHttpRequest.responseJSON.message, 'error');
+                        }
+                        $.messager.progress('close');
+                    }
+                })
+            } catch (e) {
+                $.messager.alert('信息', e.message, 'error');
+            } finally {
+                $.messager.progress('close');
+            }
+        }
     };
 
     _expressui.form.reset = function (selector) {
@@ -892,13 +892,13 @@ $.extend($.fn.dialog.defaults, {
         var options = $(this).dialog('options');
         $(this).wrapInner('<form method="' + (options.formMethod || 'post') + '"></form>');
 
-        if(options.data) {
+        if (options.data) {
 
-            if(typeof options.data === 'object') {
+            if (typeof options.data === 'object') {
                 $(_this).form('load', options.data);
             }
 
-            if(typeof options.data === 'function') {
+            if (typeof options.data === 'function') {
                 $(_this).form('load', options.data());
             }
 
@@ -935,7 +935,7 @@ $.extend($.fn.dialog.methods, {
      */
     create: function (jq, options) {
         options.selector = expressui.util.initSelector(jq);
-        if(!options.buttons) {
+        if (!options.buttons) {
             options.buttons = [{
                 text: '保存',
                 iconCls: 'iconfont icon-save',
@@ -947,14 +947,14 @@ $.extend($.fn.dialog.methods, {
             }];
         }
 
-        if(options.buttons){
+        if (options.buttons) {
             var _buttons = options.buttons;
-            for (var i=0; i< _buttons.length;i++){
+            for (var i = 0; i < _buttons.length; i++) {
                 var _button = _buttons[i];
-                if(typeof _button.handler === 'string'){
-                    switch (_button.handler){
+                if (typeof _button.handler === 'string') {
+                    switch (_button.handler) {
                         case 'add':
-                            var _buttonOptions =  {
+                            var _buttonOptions = {
                                 success: _button.success || undefined,
                                 error: _button.error || undefined,
                                 reload: _button.reload || undefined
@@ -964,7 +964,7 @@ $.extend($.fn.dialog.methods, {
                             };
                             break;
                         case 'save':
-                            _buttonOptions =  {
+                            _buttonOptions = {
                                 success: _button.success || undefined,
                                 error: _button.error || undefined,
                                 reload: _button.reload || undefined
@@ -978,7 +978,7 @@ $.extend($.fn.dialog.methods, {
                             options.buttons[i].handler = function () {
                                 $(options.selector).dialog(expressui.dialog.close, function () {
                                     // 按钮回调刷新表
-                                    if(_reload) {
+                                    if (_reload) {
                                         expressui.grid.reload(_reload);
                                     }
                                 });
@@ -994,7 +994,7 @@ $.extend($.fn.dialog.methods, {
             expressui.dialog._replacePlaceHolder(options, options.grid);
         }
 
-        return  $(options.selector).dialog(options);
+        return $(options.selector).dialog(options);
     },
 
     /**
@@ -1007,7 +1007,7 @@ $.extend($.fn.dialog.methods, {
         var dialogOptions = $(selector).dialog('options');
         var isValid = $(selector).form('validate');
         if (isValid) {
-            $.messager.progress({title:'请稍等', msg:'正在操作...'});
+            $.messager.progress({title: '请稍等', msg: '正在操作...'});
             var serializeArray = $(selector).find('form').serializeArray();
             var paramArray = typeof dialogOptions.save === 'object' ?
                 (dialogOptions.save.data || []) : [];
@@ -1015,7 +1015,7 @@ $.extend($.fn.dialog.methods, {
                 serializeArray.push(paramArray[i]);
             }
 
-            if(typeof dialogOptions.save === 'function') {
+            if (typeof dialogOptions.save === 'function') {
 
                 try {
                     var sA = {};
@@ -1115,7 +1115,7 @@ $.extend($.fn.dialog.methods, {
         var dialogOptions = $(selector).dialog('options');
         var isValid = $(selector).form('validate');
         if (isValid) {
-            $.messager.progress({title:'请稍等', msg:'正在操作...'});
+            $.messager.progress({title: '请稍等', msg: '正在操作...'});
             var serializeArray = $(selector).find('form').serializeArray();
             var paramArray = typeof dialogOptions.save === 'object' ?
                 dialogOptions.save.data || [] : [];
@@ -1123,7 +1123,7 @@ $.extend($.fn.dialog.methods, {
                 serializeArray.push(paramArray[i]);
             }
 
-            if(typeof dialogOptions.save === 'function') {
+            if (typeof dialogOptions.save === 'function') {
 
                 try {
                     var sA = {};
@@ -1220,11 +1220,11 @@ $.extend($.fn.datagrid.defaults, {
     pageSize: 10,
     loadMsg: '正在加载，请稍等...',
     emptyMsg: '暂无记录',
-    onLoadSuccess: function(data) {
+    onLoadSuccess: function (data) {
         $(this).datagrid('clearSelections');
         $(this).datagrid('clearChecked');
     },
-    onLoadError: function() {
+    onLoadError: function () {
         $(this).datagrid('clearSelections');
         $(this).datagrid('clearChecked');
     },
@@ -1256,18 +1256,18 @@ $.extend($.fn.datagrid.methods, {
         var checked = expressui.grid.getCheckedHasMessage({type: 'datagrid', selector: selector});
 
         var options = {alertMessage: '请勾选要操作项'};
-        if(typeof alertMessage === 'string') {
+        if (typeof alertMessage === 'string') {
             options.alertMessage = alertMessage;
         }
-        if(typeof alertMessage === 'object') {
+        if (typeof alertMessage === 'object') {
             options = alertMessage;
         }
 
-        if(checked) {
+        if (checked) {
             if (checked.length === 1) {
                 return checked[0];
-            } else{
-                if(checked.length <= 0){
+            } else {
+                if (checked.length <= 0) {
                     $.messager.alert('信息', options.alertMessage, 'warning');
                 } else {
                     $.messager.alert('信息', '最多只能勾选一项操作', 'warning');
@@ -1277,11 +1277,11 @@ $.extend($.fn.datagrid.methods, {
     },
 
     // 获取至少勾选一项，否则弹出警告信息
-    getCheckedLessOneOrShowAlert: function(jq) {
+    getCheckedLessOneOrShowAlert: function (jq) {
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getCheckedHasMessage({type: 'datagrid', selector: selector});
-        if(selections) {
-            if(selections.length <= 0){
+        if (selections) {
+            if (selections.length <= 0) {
                 $.messager.alert('信息', '请勾选要操作项', 'warning');
             } else {
                 return selections;
@@ -1293,18 +1293,18 @@ $.extend($.fn.datagrid.methods, {
     getCheckedOneNoCheckedOrShowAlert: function (jq) {
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'datagrid', selector: selector});
-        if(selections){
-            if(selections.length >1 ){
+        if (selections) {
+            if (selections.length > 1) {
                 $.messager.alert('信息', '最多只能勾选一项操作', 'warning');
                 return false;
-            } else{
-                if(selections.length === 1){
+            } else {
+                if (selections.length === 1) {
                     return selections[0];
                 } else {
                     return true;
                 }
             }
-        } else{
+        } else {
             return true;
         }
     },
@@ -1313,7 +1313,7 @@ $.extend($.fn.datagrid.methods, {
     getCheckedOne: function (jq) {
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'datagrid', selector: selector});
-        if(selections){
+        if (selections) {
             return selections[0];
         }
     },
@@ -1401,7 +1401,7 @@ $.extend($.fn.datagrid.methods, {
 
     // 删除多项
     deleteChecked: function (jq, url) {
-        $.messager.progress({title:'请稍等', msg:'正在操作...'});
+        $.messager.progress({title: '请稍等', msg: '正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'datagrid', selector: selector});
         if (!selections || selections.length <= 0) {
@@ -1410,7 +1410,13 @@ $.extend($.fn.datagrid.methods, {
             return;
         }
 
-        var options = {url: '', method:'post', paramName: $(selector).datagrid('options').idField, paramData: [], confirmMessage: '确定要删除勾选项吗'};
+        var options = {
+            url: '',
+            method: 'post',
+            paramName: $(selector).datagrid('options').idField,
+            paramData: [],
+            confirmMessage: '确定要删除勾选项吗'
+        };
         if (typeof url === 'string') {
             options.url = url;
         }
@@ -1427,7 +1433,7 @@ $.extend($.fn.datagrid.methods, {
 
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
-                if(ok) {
+                if (ok) {
                     expressui.ajax({
                         url: options.url,
                         type: options.method,
@@ -1439,12 +1445,12 @@ $.extend($.fn.datagrid.methods, {
                             }
 
                             if (typeof options.success === 'string') {
-                                $.messager.show({title:'信息', msg:options.success});
-                                if(typeof options.reload === 'object') {
+                                $.messager.show({title: '信息', msg: options.success});
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             } else {
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
@@ -1459,11 +1465,11 @@ $.extend($.fn.datagrid.methods, {
                             }
 
                             if (typeof options.error === 'string') {
-                                $.messager.show({title:'信息', msg:options.error});
+                                $.messager.show({title: '信息', msg: options.error});
                             }
 
-                            if(!options.error) {
-                                $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
+                            if (!options.error) {
+                                $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
                             }
 
                             $.messager.progress('close');
@@ -1481,7 +1487,7 @@ $.extend($.fn.datagrid.methods, {
 
     // post 不管多少项
     post: function (jq, url) {
-        $.messager.progress({title:'请稍等', msg:'正在操作...'});
+        $.messager.progress({title: '请稍等', msg: '正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'datagrid', selector: selector});
         // if (!selections || selections.length <= 0) {
@@ -1489,7 +1495,13 @@ $.extend($.fn.datagrid.methods, {
         //     $.messager.alert('信息', '请勾选要操作项', 'warning');
         //     return;
         // }
-        var options = {url: '', method:'post', paramName: $(selector).datagrid('options').idField, paramData: [], confirmMessage: '确定要操作吗'};
+        var options = {
+            url: '',
+            method: 'post',
+            paramName: $(selector).datagrid('options').idField,
+            paramData: [],
+            confirmMessage: '确定要操作吗'
+        };
         if (typeof url === 'string') {
             options.url = url;
         }
@@ -1504,7 +1516,7 @@ $.extend($.fn.datagrid.methods, {
         data[options.paramName] = options.paramData;
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
-                if(ok) {
+                if (ok) {
                     expressui.ajax({
                         url: options.url,
                         type: options.method,
@@ -1514,12 +1526,12 @@ $.extend($.fn.datagrid.methods, {
                                 options.success(data);
                             }
                             if (typeof options.success === 'string') {
-                                $.messager.show({title:'信息', msg:options.success});
-                                if(typeof options.reload === 'object') {
+                                $.messager.show({title: '信息', msg: options.success});
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             } else {
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
@@ -1531,10 +1543,10 @@ $.extend($.fn.datagrid.methods, {
                                 options.error(XMLHttpRequest, textStatus, errorThrown);
                             }
                             if (typeof options.error === 'string') {
-                                $.messager.show({title:'信息', msg:options.error});
+                                $.messager.show({title: '信息', msg: options.error});
                             }
-                            if(!options.error) {
-                                $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
+                            if (!options.error) {
+                                $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
                             }
                             $.messager.progress('close');
                         }
@@ -1550,7 +1562,7 @@ $.extend($.fn.datagrid.methods, {
 
     // post 必须勾选一项或一项以上，否则弹出警告
     postCheckedLessOneOrShowAlert: function (jq, url) {
-        $.messager.progress({title:'请稍等', msg:'正在操作...'});
+        $.messager.progress({title: '请稍等', msg: '正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'datagrid', selector: selector});
         if (!selections || selections.length <= 0) {
@@ -1558,7 +1570,13 @@ $.extend($.fn.datagrid.methods, {
             $.messager.alert('信息', '请勾选要操作项', 'warning');
             return;
         }
-        var options = {url: '', method:'post', paramName: $(selector).datagrid('options').idField, paramData: [], confirmMessage: '确定要操作勾选项吗'};
+        var options = {
+            url: '',
+            method: 'post',
+            paramName: $(selector).datagrid('options').idField,
+            paramData: [],
+            confirmMessage: '确定要操作勾选项吗'
+        };
         if (typeof url === 'string') {
             options.url = url;
         }
@@ -1573,7 +1591,7 @@ $.extend($.fn.datagrid.methods, {
         data[options.paramName] = options.paramData;
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
-                if(ok) {
+                if (ok) {
                     expressui.ajax({
                         url: options.url,
                         type: options.method,
@@ -1583,12 +1601,12 @@ $.extend($.fn.datagrid.methods, {
                                 options.success(data);
                             }
                             if (typeof options.success === 'string') {
-                                $.messager.show({title:'信息', msg:options.success});
-                                if(typeof options.reload === 'object') {
+                                $.messager.show({title: '信息', msg: options.success});
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             } else {
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
@@ -1600,10 +1618,10 @@ $.extend($.fn.datagrid.methods, {
                                 options.error(XMLHttpRequest, textStatus, errorThrown);
                             }
                             if (typeof options.error === 'string') {
-                                $.messager.show({title:'信息', msg:options.error});
+                                $.messager.show({title: '信息', msg: options.error});
                             }
-                            if(!options.error) {
-                                $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
+                            if (!options.error) {
+                                $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
                             }
                             $.messager.progress('close');
                         }
@@ -1619,34 +1637,34 @@ $.extend($.fn.datagrid.methods, {
 
     // post 必须只勾选一项，否则弹出警告
     postCheckedMustOneOrShowAlert: function (jq, url) {
-        $.messager.progress({title:'请稍等', msg:'正在操作...'});
+        $.messager.progress({title: '请稍等', msg: '正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'datagrid', selector: selector});
         if (!selections || selections.length <= 0) {
             $.messager.progress('close');
-            $.messager.alert('信息','请勾选要操作项', 'warning');
+            $.messager.alert('信息', '请勾选要操作项', 'warning');
             return;
         }
-        if (!selections || selections.length>1) {
+        if (!selections || selections.length > 1) {
             $.messager.progress('close');
             $.messager.alert('信息', '最多只允许勾选一项操作', 'warning');
             return;
         }
-        var options = {url: '', method:'post', paramName: $(selector).datagrid('options').idField, paramData: []};
+        var options = {url: '', method: 'post', paramName: $(selector).datagrid('options').idField, paramData: []};
         if (typeof url === 'string') {
             options.url = url;
         }
         if (typeof url === 'object') {
             $.extend(options, url);
         }
-        var data={};
+        var data = {};
         var idField = $(selector).datagrid('options').idField;
         var paramName = options.paramName;
         data[paramName] = selections[0][idField];
 
         try {
             $.messager.confirm('信息', '确定要操作勾选项吗？', function (ok) {
-                if(ok) {
+                if (ok) {
                     expressui.ajax({
                         url: options.url,
                         type: options.method,
@@ -1655,13 +1673,13 @@ $.extend($.fn.datagrid.methods, {
                             if (typeof options.success === 'function') {
                                 options.success(data);
                             } else {
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
                             if (typeof options.success === 'string') {
-                                $.messager.show({title:'信息', msg:options.success});
-                                if(typeof options.reload === 'object') {
+                                $.messager.show({title: '信息', msg: options.success});
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
@@ -1673,10 +1691,10 @@ $.extend($.fn.datagrid.methods, {
                                 options.error(XMLHttpRequest, textStatus, errorThrown);
                             }
                             if (typeof options.error === 'string') {
-                                $.messager.show({title:'信息', msg:options.error});
+                                $.messager.show({title: '信息', msg: options.error});
                             }
-                            if(!options.error) {
-                                $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
+                            if (!options.error) {
+                                $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
                             }
                             $.messager.progress('close');
                         }
@@ -1686,7 +1704,7 @@ $.extend($.fn.datagrid.methods, {
 
             });
         } catch (e) {
-            $.messager.show({title:'请稍等', msg:'发生错误，操作失败'});
+            $.messager.show({title: '请稍等', msg: '发生错误，操作失败'});
         } finally {
             $.messager.progress('close');
         }
@@ -1700,7 +1718,7 @@ $.extend($.fn.treegrid.defaults, {
     fitColumns: true,
     autoRowHeight: true,
     onlyLeafCheck: true,
-    selectOnCheck:false, // 单独 select
+    selectOnCheck: false, // 单独 select
     checkOnSelect: true, // 单独 select
     checkbox: false,
     pagination: false,
@@ -1712,24 +1730,24 @@ $.extend($.fn.treegrid.defaults, {
     loadMsg: '正在加载，请稍等...',
     emptyMsg: '暂无记录',
     queryParams: {},
-    onLoadSuccess: function(data) {
+    onLoadSuccess: function (data) {
         $(this).treegrid('options').url = $(this).treegrid('options')._url;
         $(this).treegrid('clearSelections');
         $(this).treegrid('clearChecked');
     },
-    onLoadError: function() {
+    onLoadError: function () {
         $(this).treegrid('clearSelections');
         $(this).treegrid('clearChecked');
     },
-    onBeforeExpand : function (row) {
+    onBeforeExpand: function (row) {
         var options = $(this).treegrid('options');
-        if(options.expandUrl) {
+        if (options.expandUrl) {
             options.url = expressui.replaceUrlPlaceholder(options.expandUrl, row);
         }
         return true;
     },
     // 单独 select
-    onBeforeSelect : function (row) {
+    onBeforeSelect: function (row) {
         $(this).treegrid('clearSelections');
     }
 });
@@ -1741,7 +1759,7 @@ $.extend($.fn.treegrid.methods, {
         options.selector = expressui.util.initSelector(jq);
         // 追加工具栏
         expressui.grid.appendToolbar(options);
-        if(options.url) {
+        if (options.url) {
             options._url = options.url;
         }
         return $(options.selector).treegrid(options);
@@ -1751,8 +1769,8 @@ $.extend($.fn.treegrid.methods, {
     getCheckedLessOneOrShowAlert: function (jq) {
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getCheckedHasMessage({type: 'treegrid', selector: selector});
-        if(selections) {
-            if(selections.length <= 0){
+        if (selections) {
+            if (selections.length <= 0) {
                 $.messager.alert('信息', '请勾选要操作项', 'warning');
             } else {
                 return selections;
@@ -1790,7 +1808,7 @@ $.extend($.fn.treegrid.methods, {
     // },
 
     ajax: function (jq, url) {
-        $.messager.progress({title:'请稍等', msg:'正在操作...'});
+        $.messager.progress({title: '请稍等', msg: '正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'treegrid', selector: selector});
         if (!selections || selections.length <= 0) {
@@ -1799,7 +1817,13 @@ $.extend($.fn.treegrid.methods, {
             return;
         }
 
-        var options = {url: '', method:'post', paramName: $(selector).treegrid('options').idField, paramData: [], confirmMessage: '确定要操作勾选项吗？'};
+        var options = {
+            url: '',
+            method: 'post',
+            paramName: $(selector).treegrid('options').idField,
+            paramData: [],
+            confirmMessage: '确定要操作勾选项吗？'
+        };
         if (typeof url === 'string') {
             options.url = url;
         }
@@ -1815,7 +1839,7 @@ $.extend($.fn.treegrid.methods, {
         data[options.paramName] = options.paramData;
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
-                if(ok) {
+                if (ok) {
                     expressui.ajax({
                         url: options.url,
                         type: options.method,
@@ -1825,14 +1849,14 @@ $.extend($.fn.treegrid.methods, {
                             if (typeof options.success === 'function') {
                                 options.success(data);
                             } else {
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
 
                             if (typeof options.success === 'string') {
                                 $.messager.show({title: '信息', msg: options.success});
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
@@ -1861,7 +1885,7 @@ $.extend($.fn.treegrid.methods, {
                 }
             });
         } catch (e) {
-            $.messager.show({title:'请稍等', msg:'发生错误，操作失败'});
+            $.messager.show({title: '请稍等', msg: '发生错误，操作失败'});
         } finally {
             $.messager.progress('close');
         }
@@ -1869,7 +1893,7 @@ $.extend($.fn.treegrid.methods, {
 
     // 删除多项
     deleteChecked: function (jq, url) {
-        $.messager.progress({title:'请稍等', msg:'正在操作...'});
+        $.messager.progress({title: '请稍等', msg: '正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'treegrid', selector: selector});
         if (!selections || selections.length <= 0) {
@@ -1878,7 +1902,13 @@ $.extend($.fn.treegrid.methods, {
             return;
         }
 
-        var options = {url: '', method:'post', paramName: $(selector).treegrid('options').idField, paramData: [], confirmMessage: '确定要删除勾选项吗？'};
+        var options = {
+            url: '',
+            method: 'post',
+            paramName: $(selector).treegrid('options').idField,
+            paramData: [],
+            confirmMessage: '确定要删除勾选项吗？'
+        };
         if (typeof url === 'string') {
             options.url = url;
         }
@@ -1895,7 +1925,7 @@ $.extend($.fn.treegrid.methods, {
 
         try {
             $.messager.confirm('信息', options.confirmMessage, function (ok) {
-                if(ok) {
+                if (ok) {
                     expressui.ajax({
                         url: options.url,
                         type: options.method,
@@ -1915,11 +1945,11 @@ $.extend($.fn.treegrid.methods, {
 
                             if (typeof options.success === 'string') {
                                 $.messager.show({title: '信息', msg: options.success});
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             } else {
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
@@ -1948,7 +1978,7 @@ $.extend($.fn.treegrid.methods, {
                 }
             });
         } catch (e) {
-            $.messager.show({title:'请稍等', msg:'发生错误，操作失败'});
+            $.messager.show({title: '请稍等', msg: '发生错误，操作失败'});
         } finally {
             $.messager.progress('close');
         }
@@ -1956,7 +1986,7 @@ $.extend($.fn.treegrid.methods, {
 
     // 删除一项
     deleteCheckedOne: function (jq, url) {
-        $.messager.progress({title:'请稍等', msg:'正在操作...'});
+        $.messager.progress({title: '请稍等', msg: '正在操作...'});
         var selector = expressui.util.initSelector(jq);
         var selections = expressui.grid.getChecked({type: 'treegrid', selector: selector});
         if (!selections || selections.length <= 0) {
@@ -1965,13 +1995,13 @@ $.extend($.fn.treegrid.methods, {
             return;
         }
 
-        if (!selections || selections.length>1) {
+        if (!selections || selections.length > 1) {
             $.messager.progress('close');
             $.messager.alert('信息', '最多只允许勾选一项操作', 'warning');
             return;
         }
 
-        var options = {url: '', method:'post', paramName: $(selector).treegrid('options').idField, paramData: []};
+        var options = {url: '', method: 'post', paramName: $(selector).treegrid('options').idField, paramData: []};
         if (typeof url === 'string') {
             options.url = url;
         }
@@ -1979,14 +2009,14 @@ $.extend($.fn.treegrid.methods, {
             $.extend(options, url);
         }
 
-        var data={};
+        var data = {};
         var idField = $(selector).treegrid('options').idField;
         var paramName = options.paramName;
         data[paramName] = selections[0][idField];
 
         try {
             $.messager.confirm('信息', '确定要删除勾选项吗？', function (ok) {
-                if(ok) {
+                if (ok) {
                     expressui.ajax({
                         url: options.url,
                         type: options.method,
@@ -1996,14 +2026,14 @@ $.extend($.fn.treegrid.methods, {
                             if (typeof options.success === 'function') {
                                 options.success(data);
                             } else {
-                                if(typeof options.reload === 'object') {
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
 
                             if (typeof options.success === 'string') {
-                                $.messager.show({title:'信息', msg:options.success});
-                                if(typeof options.reload === 'object') {
+                                $.messager.show({title: '信息', msg: options.success});
+                                if (typeof options.reload === 'object') {
                                     expressui.grid.reload(options.reload);
                                 }
                             }
@@ -2019,11 +2049,11 @@ $.extend($.fn.treegrid.methods, {
                             }
 
                             if (typeof options.error === 'string') {
-                                $.messager.show({title:'信息', msg:options.error});
+                                $.messager.show({title: '信息', msg: options.error});
                             }
 
-                            if(!options.error) {
-                                $.messager.show({title:'信息', msg:XMLHttpRequest.responseJSON.message});
+                            if (!options.error) {
+                                $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});
                             }
 
                             $.messager.progress('close');
@@ -2034,7 +2064,7 @@ $.extend($.fn.treegrid.methods, {
 
             });
         } catch (e) {
-            $.messager.show({title:'信息', msg:'发生错误，操作失败'});
+            $.messager.show({title: '信息', msg: '发生错误，操作失败'});
         } finally {
             $.messager.progress('close');
         }

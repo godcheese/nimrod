@@ -18,12 +18,14 @@ public interface DepartmentMapper extends CrudMapper<DepartmentEntity, Long> {
 
     /**
      * 获取所有父级 id 为 null 的部门
+     *
      * @return List<DepartmentEntity>
      */
     List<DepartmentEntity> listAllParentIdIsNull();
 
     /**
      * 指定父级部门 id，获取所有部门
+     *
      * @param parentId 父级部门 id
      * @return List<ApiCategoryEntity>
      */
@@ -31,6 +33,7 @@ public interface DepartmentMapper extends CrudMapper<DepartmentEntity, Long> {
 
     /**
      * 指定父级部门 id，获取部门
+     *
      * @param parentId 父级部门 id
      * @return DepartmentEntity
      */

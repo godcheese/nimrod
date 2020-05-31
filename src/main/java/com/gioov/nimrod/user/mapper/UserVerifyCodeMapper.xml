@@ -18,7 +18,8 @@
         `id`, `user_id`, `verify_from`, `verify_code`, `gmt_expires`, `gmt_created`
     </sql>
 
-    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.UserVerifyCodeEntity">
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.gioov.nimrod.user.entity.UserVerifyCodeEntity">
         insert into
         <include refid="TableName"/>
         (`id`, `user_id`, `verify_from`, `verify_code`, `gmt_expires`, `gmt_created`)
@@ -28,11 +29,13 @@
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.UserVerifyCodeEntity">
         update
         <include refid="TableName"/>
-        set `user_id` = #{userId}, `verify_from` = #{verifyFrom}, `verify_code` = #{verifyCode}, `gmt_expires` = #{gmtExpires}, `gmt_created` = #{gmtCreated}
+        set `user_id` = #{userId}, `verify_from` = #{verifyFrom}, `verify_code` = #{verifyCode}, `gmt_expires` =
+        #{gmtExpires}, `gmt_created` = #{gmtCreated}
         where `id`= #{id}
     </update>
 
-    <update id="updateOneByUserIdAndVerifyFrom" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.UserVerifyCodeEntity">
+    <update id="updateOneByUserIdAndVerifyFrom" keyProperty="id"
+            parameterType="com.gioov.nimrod.user.entity.UserVerifyCodeEntity">
         update
         <include refid="TableName"/>
         set `verify_code` = #{verifyCode}, `gmt_expires` =

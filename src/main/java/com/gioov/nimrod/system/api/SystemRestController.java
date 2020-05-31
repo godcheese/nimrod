@@ -64,13 +64,13 @@ public class SystemRestController {
 
     /**
      * 获取验证码
+     *
      * @param httpServletResponse HttpServletResponse
-     * @param httpServletRequest HttpServletRequest
+     * @param httpServletRequest  HttpServletRequest
      * @throws BaseResponseException BaseResponseException
      */
-    
+
     @OperationLog(value = "获取验证码", type = OperationLogType.API)
-//    @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + SYSTEM + "/VERIFY_CODE')")
     @GetMapping(value = "/verify_code")
     public void verifyCode(HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) throws BaseResponseException {
         long expiration = Long.parseLong((String) dictionaryService.get("VERIFY_CODE", "EXPIRATION"));
@@ -88,21 +88,21 @@ public class SystemRestController {
         ImageUtil.VerifyCodeImage verifyCodeImage;
         try {
 
-            if(fontPath.toLowerCase().contains(ResourceLoader.CLASSPATH_URL_PREFIX)) {
+            if (fontPath.toLowerCase().contains(ResourceLoader.CLASSPATH_URL_PREFIX)) {
                 Resource fontResource = resourceLoader.getResource(fontPath);
-                if(!fontResource.getFile().exists()) {
+                if (!fontResource.getFile().exists()) {
                     throw new BaseResponseException(failureEntity.i18n("system.verify_code_create_fail_font_not_exists"));
                 }
                 InputStream fontInputStream = fontResource.getInputStream();
-                verifyCodeImage = ImageUtil.createVerifyCodeImage(114, 40, ColorUtil.getRGBColorByHexString(hexBackgroundColor), RandomUtil.randomString(stringLength, RandomUtil.NUMBER_LETTER),  ColorUtil.getRGBColorByHexString(fontColor), fontInputStream, yawp, interLine, expiration);
+                verifyCodeImage = ImageUtil.createVerifyCodeImage(114, 40, ColorUtil.getRGBColorByHexString(hexBackgroundColor), RandomUtil.randomString(stringLength, RandomUtil.NUMBER_LETTER), ColorUtil.getRGBColorByHexString(fontColor), fontInputStream, yawp, interLine, expiration);
 
             } else {
-                URL url =  ResourceUtil.getResource(fontPath);
+                URL url = ResourceUtil.getResource(fontPath);
                 File fontFile = new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8.name()));
-                if(!fontFile.exists()) {
+                if (!fontFile.exists()) {
                     throw new BaseResponseException(failureEntity.i18n("system.verify_code_create_fail_font_not_exists"));
                 }
-                verifyCodeImage = ImageUtil.createVerifyCodeImage(114, 40, ColorUtil.getRGBColorByHexString(hexBackgroundColor), RandomUtil.randomString(stringLength, RandomUtil.NUMBER_LETTER),  ColorUtil.getRGBColorByHexString(fontColor), fontFile, yawp, interLine, expiration);
+                verifyCodeImage = ImageUtil.createVerifyCodeImage(114, 40, ColorUtil.getRGBColorByHexString(hexBackgroundColor), RandomUtil.randomString(stringLength, RandomUtil.NUMBER_LETTER), ColorUtil.getRGBColorByHexString(fontColor), fontFile, yawp, interLine, expiration);
             }
 
             httpServletResponse.addHeader("Pragma", "no-cache");
@@ -121,9 +121,10 @@ public class SystemRestController {
 
     /**
      * 获取系统信息
+     *
      * @param httpServletResponse HttpServletResponse
-     * @param httpServletRequest HttpServletRequest
-     * @return ResponseEntity<Map<String, String>>
+     * @param httpServletRequest  HttpServletRequest
+     * @return ResponseEntity<Map < String, String>>
      */
     @OperationLog(value = "获取系统信息", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + SYSTEM + "/SYSTEM_INFO')")

@@ -92,7 +92,7 @@ mvn spring-boot:run
 ## [开发文档 Documentation](https://github.com/godcheese/nimrod/blob/master/docs/getting_started.md)
 
 ## [更新日志 Changelog](https://github.com/godcheese/nimrod/releases)
-
+> 参照[Commit message 和 Change log 编写指南](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
 ## [在线演示 Online Demo](http://demo.godcheese.com:8083/nimrod)
 
 登录用户名密码加QQ群547252502获取。

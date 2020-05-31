@@ -33,7 +33,8 @@
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.ApiEntity">
         update
         <include refid="TableName"/>
-        set `name` = #{name}, `url` = #{url}, `authority` = #{authority}, `api_category_id` = #{apiCategoryId}, `sort` = #{sort}, `remark` =
+        set `name` = #{name}, `url` = #{url}, `authority` = #{authority}, `api_category_id` = #{apiCategoryId}, `sort` =
+        #{sort}, `remark` =
         #{remark}, `gmt_created` = #{gmtCreated}, `gmt_modified` = #{gmtModified}
         where `id`= #{id}
     </update>

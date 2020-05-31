@@ -33,9 +33,10 @@ public class RoleRestController {
 
     /**
      * 分页获取所有角色
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<RoleEntity>>
+     * @return ResponseEntity<Pagination < RoleEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
@@ -45,6 +46,7 @@ public class RoleRestController {
 
     /**
      * 获取所有角色
+     *
      * @return ResponseEntity<List < RoleEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + ROLE + "/LIST_ALL')")
@@ -55,6 +57,7 @@ public class RoleRestController {
 
     /**
      * 指定用户 id，获取用户角色
+     *
      * @param userId 用户 id
      * @return ResponseEntity<List < RoleEntity>>
      */
@@ -66,8 +69,9 @@ public class RoleRestController {
 
     /**
      * 新增角色
-     * @param name 角色名称
-     * @param value 角色值
+     *
+     * @param name   角色名称
+     * @param value  角色值
      * @param remark 备注
      * @return ResponseEntity<RoleEntity>
      * @throws BaseResponseException BaseResponseException
@@ -86,9 +90,10 @@ public class RoleRestController {
 
     /**
      * 保存角色
-     * @param id 角色 id
-     * @param name 角色名称
-     * @param value 角色值
+     *
+     * @param id     角色 id
+     * @param name   角色名称
+     * @param value  角色值
      * @param remark 备注
      * @return ResponseEntity<RoleEntity>
      * @throws BaseResponseException BaseResponseException
@@ -108,6 +113,7 @@ public class RoleRestController {
 
     /**
      * 指定角色 id list，批量删除角色
+     *
      * @param idList 角色 id list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
@@ -121,6 +127,7 @@ public class RoleRestController {
 
     /**
      * 指定角色 id，获取角色
+     *
      * @param id 角色 id
      * @return ResponseEntity<RoleEntity>
      */

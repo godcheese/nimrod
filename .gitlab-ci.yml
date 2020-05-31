@@ -1,6 +1,7 @@
 stages:
 - install
-install:
+job:
+  stage: install
   script:
   - chmod +x ./scripts/gitlabci.build.sh
   - ./scripts/gitlabci.build.sh

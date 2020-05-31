@@ -51,20 +51,21 @@ public class UserRestController {
 
     /**
      * 分页获取所有用户
-     * @param page 页
-     * @param rows 每页显示数量
-     * @param sortField 排序字段
-     * @param sortOrder 排序 order
-     * @param username 用户名
-     * @param email 电子邮箱
+     *
+     * @param page            页
+     * @param rows            每页显示数量
+     * @param sortField       排序字段
+     * @param sortOrder       排序 order
+     * @param username        用户名
+     * @param email           电子邮箱
      * @param emailIsVerified 电子邮箱是否验证
-     * @param departmentId 部门 id
-     * @param enabled 是否启用
+     * @param departmentId    部门 id
+     * @param enabled         是否启用
      * @param gmtCreatedStart
      * @param gmtCreatedEnd
      * @param gmtDeletedStart
      * @param gmtDeletedEnd
-     * @return ResponseEntity<Pagination<UserEntity>>
+     * @return ResponseEntity<Pagination < UserEntity>>
      */
     @OperationLog(value = "分页获取所有用户", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/PAGE_ALL')")
@@ -81,10 +82,11 @@ public class UserRestController {
 
     /**
      * 指定部门 id，分页获取所有用户
+     *
      * @param departmentId 部门 id
-     * @param page 页
-     * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<UserEntity>>
+     * @param page         页
+     * @param rows         每页显示数量
+     * @return ResponseEntity<Pagination < UserEntity>>
      */
     @OperationLog(value = "指定部门 id，分页获取所有用户", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER + "/PAGE_ALL_BY_DEPARTMENT_ID')")
@@ -95,14 +97,15 @@ public class UserRestController {
 
     /**
      * 新增用户
-     * @param username 用户名
-     * @param password 密码
-     * @param avatar 头像
-     * @param email 电子邮箱
+     *
+     * @param username        用户名
+     * @param password        密码
+     * @param avatar          头像
+     * @param email           电子邮箱
      * @param emailIsVerified 电子邮箱是否验证
-     * @param departmentId 部门 id
-     * @param enabled 是否启用
-     * @param remark 备注
+     * @param departmentId    部门 id
+     * @param enabled         是否启用
+     * @param remark          备注
      * @return ResponseEntity<UserEntity>
      * @throws BaseResponseException BaseResponseException
      */
@@ -125,15 +128,16 @@ public class UserRestController {
 
     /**
      * 保存用户
-     * @param id 用户 id
-     * @param username 用户名
-     * @param password 密码
-     * @param avatar 头像
-     * @param email 电子邮箱
+     *
+     * @param id              用户 id
+     * @param username        用户名
+     * @param password        密码
+     * @param avatar          头像
+     * @param email           电子邮箱
      * @param emailIsVerified 电子邮箱是否验证
-     * @param departmentId departmentId
-     * @param enabled 是否启用
-     * @param remark 备注
+     * @param departmentId    departmentId
+     * @param enabled         是否启用
+     * @param remark          备注
      * @return ResponseEntity<UserEntity>
      * @throws BaseResponseException BaseResponseException
      */
@@ -157,6 +161,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id list，删除用户
+     *
      * @param idList 用户 id list
      * @return ResponseEntity<HttpStatus>
      */
@@ -169,6 +174,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id list，撤销删除用户
+     *
      * @param idList 用户 id list
      * @return ResponseEntity<Integer>
      */
@@ -181,6 +187,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id list，批量永久删除用户
+     *
      * @param idList 用户 id list
      * @return ResponseEntity<Integer>
      */
@@ -193,6 +200,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id，获取用户（除密码和角色）
+     *
      * @param id 用户 id
      * @return ResponseEntity<UserEntity>
      */
@@ -205,6 +213,7 @@ public class UserRestController {
 
     /**
      * 获取当前用户（用户 id、用户名、头像、电子邮箱、权限、部门）
+     *
      * @param httpServletRequest HttpServletRequest
      * @return ResponseEntity<UserEntity>
      */
@@ -219,7 +228,7 @@ public class UserRestController {
         map.put("avatar", null);
         map.put("email", null);
         map.put("authority", new ArrayList<>(0));
-        if(simpleUserDetails != null) {
+        if (simpleUserDetails != null) {
             UserEntity userEntity = userMapper.getOne(simpleUserDetails.getId());
             map.put("id", userEntity.getId());
             map.put("username", userEntity.getUsername());
@@ -227,20 +236,20 @@ public class UserRestController {
             map.put("email", userEntity.getEmail());
             Collection<? extends GrantedAuthority> grantedAuthorityCollection = simpleUserDetails.getAuthorities();
             List<String> stringList = new ArrayList<>(0);
-            if(grantedAuthorityCollection != null) {
+            if (grantedAuthorityCollection != null) {
                 for (GrantedAuthority grantedAuthority : grantedAuthorityCollection) {
                     stringList.add(grantedAuthority.getAuthority());
                 }
             }
             map.put("authority", stringList);
             map.put("department", departmentService.listAllByDepartmentId(userEntity.getDepartmentId()));
-//            map.put("sideMenu", viewMenuService.listAllAsAntdVueMenuByUserId(userService.getCurrentUser().getId()));
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     /**
      * 指定用户 id，获取用户（除密码和角色）
+     *
      * @param id 用户 id
      * @return ResponseEntity<UserEntity>
      */
@@ -253,6 +262,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id，获取用户（除密码和角色）
+     *
      * @return ResponseEntity<UserEntity>
      */
     @OperationLog(value = "指定用户 id，获取用户（除密码和角色）", type = OperationLogType.API)
@@ -264,6 +274,7 @@ public class UserRestController {
 
     /**
      * 保存用户
+     *
      * @param avatar 头像
      * @return ResponseEntity<UserEntity>
      * @throws BaseResponseException BaseResponseException
@@ -279,6 +290,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id，获取用户（除密码和角色）
+     *
      * @return ResponseEntity<UserEntity>
      */
     @OperationLog(value = "指定用户 id，获取用户（除密码和角色）", type = OperationLogType.API)
@@ -286,8 +298,8 @@ public class UserRestController {
     @PostMapping(value = "/send_email_verify_code_by_current_user")
     public ResponseEntity<Boolean> sendEmailVerifyCodeByCurrentUser(@RequestParam(required = false) String newEmail) throws BaseResponseException {
         UserEntity userEntity = userService.getCurrentUser();
-        if(newEmail != null){
-           return new ResponseEntity<>(userService.sendEmailVerifyCode(userEntity.getId(), newEmail), HttpStatus.OK);
+        if (newEmail != null) {
+            return new ResponseEntity<>(userService.sendEmailVerifyCode(userEntity.getId(), newEmail), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(userService.sendEmailVerifyCode(userEntity), HttpStatus.OK);
         }
@@ -295,6 +307,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id，获取用户（除密码和角色）
+     *
      * @return ResponseEntity<UserEntity>
      */
     @OperationLog(value = "指定用户 id，获取用户（除密码和角色）", type = OperationLogType.API)
@@ -307,6 +320,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id，获取用户（除密码和角色）
+     *
      * @return ResponseEntity<UserEntity>
      */
     @OperationLog(value = "指定用户 id，获取用户（除密码和角色）", type = OperationLogType.API)
@@ -319,6 +333,7 @@ public class UserRestController {
 
     /**
      * 指定用户 id，获取用户（除密码和角色）
+     *
      * @return ResponseEntity<UserEntity>
      */
     @OperationLog(value = "指定用户 id，获取用户（除密码和角色）", type = OperationLogType.API)

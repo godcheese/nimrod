@@ -18,30 +18,34 @@ public interface ViewPageApiMapper extends CrudMapper<ViewPageApiEntity, Long> {
 
     /**
      * 指定视图页面 id、 API id，获取视图页面 API
+     *
      * @param viewPageId 视图页面 id
-     * @param apiId  视图页面 API id
+     * @param apiId      视图页面 API id
      * @return ViewPageApiEntity
      */
     ViewPageApiEntity getOneByViewPageIdAndApiId(@Param("viewPageId") Long viewPageId, @Param("apiId") Long apiId);
 
     /**
      * 指定视图页面 id、 API id list，插入所有
-     * @param viewPageId    视图页面 id
-     * @param apiIdList 视图页面 API id list
+     *
+     * @param viewPageId 视图页面 id
+     * @param apiIdList  视图页面 API id list
      * @return int
      */
     int insertAllByViewPageIdAndApiIdList(@Param("viewPageId") Long viewPageId, @Param("apiIdList") List<Long> apiIdList);
 
     /**
      * 指定视图页面 id、 API id list，删除所有
-     * @param viewPageId    视图页面 id
-     * @param apiIdList 视图页面 API id list
+     *
+     * @param viewPageId 视图页面 id
+     * @param apiIdList  视图页面 API id list
      * @return int
      */
     int deleteAllByViewPageIdAndApiIdList(@Param("viewPageId") Long viewPageId, @Param("apiIdList") List<Long> apiIdList);
 
     /**
      * 指定视图页面 id，获取所有视图页面 API
+     *
      * @param viewPageId 视图页面 id
      * @return List<ViewPageApiEntity>
      */

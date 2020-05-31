@@ -28,7 +28,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.DEPARTMENT, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = User.Api.DEPARTMENT, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DepartmentRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentRestController.class);
@@ -40,6 +40,7 @@ public class DepartmentRestController {
 
     /**
      * 获取所有父级部门
+     *
      * @return List<DepartmentEntity>
      */
     @OperationLog(value = "获取所有父级部门", type = OperationLogType.API)
@@ -51,6 +52,7 @@ public class DepartmentRestController {
 
     /**
      * 指定父级部门 id，获取所有子级部门
+     *
      * @param parentId API 分类父级 id
      * @return ResponseEntity<List < DepartmentEntity>>
      */
@@ -63,9 +65,10 @@ public class DepartmentRestController {
 
     /**
      * 新增部门
-     * @param name 部门名称
+     *
+     * @param name     部门名称
      * @param parentId 父级部门 id
-     * @param remark 备注
+     * @param remark   备注
      * @return ResponseEntity<DepartmentEntity>
      */
     @OperationLog(value = "新增部门", type = OperationLogType.API)
@@ -82,10 +85,11 @@ public class DepartmentRestController {
 
     /**
      * 保存部门
-     * @param id 部门 id
-     * @param name 部门名称
+     *
+     * @param id       部门 id
+     * @param name     部门名称
      * @param parentId 父级部门 id
-     * @param remark 备注
+     * @param remark   备注
      * @return ResponseEntity<DepartmentEntity>
      */
     @OperationLog(value = "保存部门", type = OperationLogType.API)
@@ -103,6 +107,7 @@ public class DepartmentRestController {
 
     /**
      * 指定部门 id list，批量删除部门
+     *
      * @param idList 部门 id list
      * @return ResponseEntity<Integer>
      */
@@ -115,6 +120,7 @@ public class DepartmentRestController {
 
     /**
      * 指定部门 id，获取部门
+     *
      * @param id 部门 id
      * @return ResponseEntity<DepartmentEntity>
      */
@@ -140,9 +146,9 @@ public class DepartmentRestController {
     }
 
     public void forEachParent(DepartmentEntity departmentEntity, List<DepartmentEntity> departmentEntityList, List<DepartmentEntity> departmentEntityResultList) {
-        for(DepartmentEntity entity : departmentEntityList) {
-            if(departmentEntity.getParentId() != null) {
-                if(departmentEntity.getParentId().equals(entity.getId())){
+        for (DepartmentEntity entity : departmentEntityList) {
+            if (departmentEntity.getParentId() != null) {
+                if (departmentEntity.getParentId().equals(entity.getId())) {
                     departmentEntityResultList.add(entity);
                     forEachParent(entity, departmentEntityList, departmentEntityResultList);
                 }
@@ -152,6 +158,7 @@ public class DepartmentRestController {
 
     /**
      * 获取所有部门，以 EasyUI Combo Tree 形式展示
+     *
      * @return Pagination<DepartmentEntity>
      */
     @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
@@ -162,13 +169,13 @@ public class DepartmentRestController {
         List<ComboTree> comboTreeResultList = new ArrayList<>();
         List<ComboTree> departmentComboTreeList = departmentService.listAllDepartmentComboTree();
 
-        for(ComboTree comboTree : departmentComboTreeList) {
-            if(comboTree.getParentId() == null) {
+        for (ComboTree comboTree : departmentComboTreeList) {
+            if (comboTree.getParentId() == null) {
                 comboTreeResultList.add(comboTree);
             }
         }
 
-        for(ComboTree comboTree : comboTreeResultList) {
+        for (ComboTree comboTree : comboTreeResultList) {
             comboTree.setChildren(departmentService.getDepartmentChildrenComboTree(comboTree.getId(), departmentComboTreeList));
         }
 
@@ -177,6 +184,7 @@ public class DepartmentRestController {
 
     /**
      * 获取所有部门，以 EasyUI TreeGrid 形式展示
+     *
      * @return Pagination<DepartmentEntity>
      */
     @OperationLog(value = "分页获取所有父级部门", type = OperationLogType.API)
@@ -187,13 +195,13 @@ public class DepartmentRestController {
         List<TreeGrid> treeGridResultList = new ArrayList<>();
         List<TreeGrid> departmentTreeGridList = departmentService.listAllDepartmentTreeGrid();
 
-        for(TreeGrid treeGrid : departmentTreeGridList) {
-            if(treeGrid.getParentId() == null) {
-               treeGridResultList.add(treeGrid);
+        for (TreeGrid treeGrid : departmentTreeGridList) {
+            if (treeGrid.getParentId() == null) {
+                treeGridResultList.add(treeGrid);
             }
         }
 
-        for(TreeGrid treeGrid : treeGridResultList) {
+        for (TreeGrid treeGrid : treeGridResultList) {
             treeGrid.setChildren(departmentService.getDepartmentChildrenTreeGrid(treeGrid.getId(), departmentTreeGridList));
         }
 

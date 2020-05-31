@@ -18,12 +18,14 @@ public interface ViewPageCategoryMapper extends CrudMapper<ViewPageCategoryEntit
 
     /**
      * 获取所有父级 id 为 null 的视图页面分类
+     *
      * @return List<ViewPageCategoryEntity>
      */
     List<ViewPageCategoryEntity> listAllByParentIdIsNull();
 
     /**
      * 指定父级视图页面分类 id，获取所有视图页面分类
+     *
      * @param parentId 父级视图页面分类 id
      * @return List<ViewPageCategoryEntity>
      */
@@ -31,6 +33,7 @@ public interface ViewPageCategoryMapper extends CrudMapper<ViewPageCategoryEntit
 
     /**
      * 指定父级视图页面分类 id，获取视图页面分类
+     *
      * @param parentId 父级视图页面分类 id
      * @return ViewPageCategoryEntity
      */
@@ -38,6 +41,7 @@ public interface ViewPageCategoryMapper extends CrudMapper<ViewPageCategoryEntit
 
     /**
      * 指定视图页面 id，获取视图页面分类
+     *
      * @param viewPageId 视图页面 id
      * @return ViewPageCategoryEntity
      */

@@ -34,6 +34,7 @@ public class ApiCategoryRestController {
 
     /**
      * 获取所有父级 API 分类
+     *
      * @return List<ApiCategoryEntity>
      */
     @OperationLog(value = "分页获取所有父级 API 分类", type = OperationLogType.API)
@@ -45,8 +46,9 @@ public class ApiCategoryRestController {
 
     /**
      * 指定父级 API 分类 id，获取所有 API 分类
+     *
      * @param parentId API 分类父级 id
-     * @return ResponseEntity<List<ApiCategoryEntity>>
+     * @return ResponseEntity<List < ApiCategoryEntity>>
      */
     @OperationLog(value = "获取所有 API 分类", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + API_CATEGORY + "/LIST_ALL_BY_PARENT_ID')")
@@ -57,10 +59,11 @@ public class ApiCategoryRestController {
 
     /**
      * 新增 API 分类
-     * @param name API 分类名称
+     *
+     * @param name     API 分类名称
      * @param parentId API 分类父级 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort     排序
+     * @param remark   备注
      * @return ResponseEntity<ApiCategoryEntity>
      */
     @OperationLog(value = "新增 API 分类", type = OperationLogType.API)
@@ -78,11 +81,12 @@ public class ApiCategoryRestController {
 
     /**
      * 保存 API 分类
-     * @param id API 分类 id
-     * @param name API 分类名称
+     *
+     * @param id       API 分类 id
+     * @param name     API 分类名称
      * @param parentId API 分类父级 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort     排序
+     * @param remark   备注
      * @return ResponseEntity<ApiCategoryEntity>
      */
     @OperationLog(value = "保存 API 分类", type = OperationLogType.API)
@@ -101,6 +105,7 @@ public class ApiCategoryRestController {
 
     /**
      * 指定 API 分类 id list，批量删除 API 分类
+     *
      * @param idList API 分类 id list
      * @return ResponseEntity<Integer>
      * @throws BaseResponseException BaseResponseException
@@ -114,6 +119,7 @@ public class ApiCategoryRestController {
 
     /**
      * 指定 API 分类 id，获取所有 API 分类
+     *
      * @param id API 分类 id
      * @return ResponseEntity<ApiCategoryEntity>
      */
@@ -123,9 +129,11 @@ public class ApiCategoryRestController {
     public ResponseEntity<ApiCategoryEntity> getOne(@PathVariable Long id) {
         return new ResponseEntity<>(apiCategoryService.getOne(id), HttpStatus.OK);
     }
+
     /**
      * 获取所有 API 分类，以 ComboTree 形式展示
-     * @return ResponseEntity<List<ComboTree>>
+     *
+     * @return ResponseEntity<List < ComboTree>>
      */
     @OperationLog(value = "获取所有 API 分类，以 ComboTree 形式展示", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + API_CATEGORY + "/LIST_ALL_AS_COMBO_TREE')")
@@ -133,12 +141,12 @@ public class ApiCategoryRestController {
     public ResponseEntity<List<ComboTree>> listAllAsComboTree() {
         List<ComboTree> comboTreeResultList = new ArrayList<>();
         List<ComboTree> apiCategoryComboTreeList = apiCategoryService.listAllApiCategoryComboTree();
-        for(ComboTree comboTree : apiCategoryComboTreeList) {
-            if(comboTree.getParentId() == null) {
+        for (ComboTree comboTree : apiCategoryComboTreeList) {
+            if (comboTree.getParentId() == null) {
                 comboTreeResultList.add(comboTree);
             }
         }
-        for(ComboTree comboTree : comboTreeResultList) {
+        for (ComboTree comboTree : comboTreeResultList) {
             comboTree.setChildren(apiCategoryService.getApiCategoryChildrenComboTree(comboTree.getId(), apiCategoryComboTreeList));
         }
         return new ResponseEntity<>(comboTreeResultList, HttpStatus.OK);

@@ -73,7 +73,7 @@ public class OperationLogAspect {
         operationLogEntity.setOperation(operation);
         operationLogEntity.setHandler(joinpoint.getSignature().toLongString());
         StringBuffer requestUrl = httpServletRequest.getRequestURL();
-        if(requestUrl != null) {
+        if (requestUrl != null) {
             operationLogEntity.setRequestUrl(requestUrl.toString());
         }
         operationLogEntity.setRequestMethod(httpServletRequest.getMethod());
@@ -114,7 +114,7 @@ public class OperationLogAspect {
     @AfterThrowing(pointcut = "operationLogAspect()", throwing = "throwing")
     public void afterThrowing(Throwable throwing) {
         StringWriter stringWriter = new StringWriter();
-        try(PrintWriter printWriter = new PrintWriter(stringWriter)) {
+        try (PrintWriter printWriter = new PrintWriter(stringWriter)) {
             throwing.printStackTrace(printWriter);
         }
         operationLogEntity.setStackTrace(stringWriter.toString());

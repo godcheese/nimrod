@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * 返回例如：{rows:[{},{}], total:2}
+ *
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
@@ -23,7 +24,7 @@ public class Pagination<E> implements Serializable {
     }
 
     public long getTotal() {
-        if(!inputTotal && getRows()!= null) {
+        if (!inputTotal && getRows() != null) {
             total = getRows().size();
         }
         return total;

@@ -39,9 +39,9 @@ public class UserVerifyCodeServiceImpl implements UserVerifyCodeService {
         UserVerifyCodeEntity userVerifyCodeEntity1 = userVerifyCodeMapper.getOneByUserIdAndVerifyFrom(userVerifyCodeEntity.getUserId(), userVerifyCodeEntity.getVerifyFrom());
         Date gmtCreated = new Date();
         Date gmtExpires = DateUtil.calendarPlus(gmtCreated, Calendar.MINUTE, 10);
-        if(userVerifyCodeEntity1 != null) {
+        if (userVerifyCodeEntity1 != null) {
             Date gmtCreatedPlus1Minute = DateUtil.calendarPlus(userVerifyCodeEntity1.getGmtCreated(), Calendar.MINUTE, 1);
-            if(new Date().getTime() < gmtCreatedPlus1Minute.getTime()) {
+            if (System.currentTimeMillis() < gmtCreatedPlus1Minute.getTime()) {
                 throw new BaseResponseException(failureEntity.i18n("user_verify_code.too_frequent_operation"));
             }
             userVerifyCodeEntity.setGmtExpires(gmtExpires);
@@ -88,12 +88,13 @@ public class UserVerifyCodeServiceImpl implements UserVerifyCodeService {
 
     /**
      * 判断验证码是否过期，过期返回=true，未过期返回=false
+     *
      * @param userVerifyCodeEntity
      * @return
      */
     @Override
     public boolean isExpires(UserVerifyCodeEntity userVerifyCodeEntity) {
-        if (new Date().getTime() >= userVerifyCodeEntity.getGmtExpires().getTime()) {
+        if (System.currentTimeMillis() >= userVerifyCodeEntity.getGmtExpires().getTime()) {
             return true;
         }
         return false;
@@ -102,13 +103,13 @@ public class UserVerifyCodeServiceImpl implements UserVerifyCodeService {
     @Override
     public UserVerifyCodeEntity getOneByUserIdAndVerifyFrom(Long userId, String verifyFrom, boolean isExpires, String comparisonVerifyCode) throws BaseResponseException {
         UserVerifyCodeEntity userVerifyCodeEntity = userVerifyCodeMapper.getOneByUserIdAndVerifyFrom(userId, verifyFrom);
-        if(userVerifyCodeEntity == null) {
+        if (userVerifyCodeEntity == null) {
             throw new BaseResponseException(failureEntity.i18n("user_verify_code.verification_code_error"));
         }
-        if(isExpires(userVerifyCodeEntity) && isExpires) {
+        if (isExpires(userVerifyCodeEntity) && isExpires) {
             throw new BaseResponseException(failureEntity.i18n("user_verify_code.verification_code_error_or_expires"));
         }
-        if(!userVerifyCodeEntity.getVerifyCode().equalsIgnoreCase(comparisonVerifyCode)) {
+        if (!userVerifyCodeEntity.getVerifyCode().equalsIgnoreCase(comparisonVerifyCode)) {
             throw new BaseResponseException(failureEntity.i18n("user_verify_code.verification_code_error_or_expires"));
         }
         return userVerifyCodeEntity;

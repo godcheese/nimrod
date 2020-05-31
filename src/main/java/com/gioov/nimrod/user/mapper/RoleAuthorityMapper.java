@@ -18,6 +18,7 @@ public interface RoleAuthorityMapper extends CrudMapper<RoleAuthorityEntity, Lon
 
     /**
      * 指定角色 id，获取所有角色权限
+     *
      * @param roleId 角色 id
      * @return List<RoleAuthorityEntity>
      */
@@ -25,7 +26,8 @@ public interface RoleAuthorityMapper extends CrudMapper<RoleAuthorityEntity, Lon
 
     /**
      * 指定角色 id、authority，获取角色权限
-     * @param roleId 角色 id
+     *
+     * @param roleId    角色 id
      * @param authority authority
      * @return RoleAuthorityEntity
      */
@@ -33,7 +35,8 @@ public interface RoleAuthorityMapper extends CrudMapper<RoleAuthorityEntity, Lon
 
     /**
      * 指定角色 id、authority list，批量删除
-     * @param roleId 角色 id
+     *
+     * @param roleId        角色 id
      * @param authorityList authority list
      * @return int
      */
@@ -41,7 +44,8 @@ public interface RoleAuthorityMapper extends CrudMapper<RoleAuthorityEntity, Lon
 
     /**
      * 指定角色 id、authority list，批量插入
-     * @param roleId 角色 id
+     *
+     * @param roleId        角色 id
      * @param authorityList authority list
      * @return int
      */
@@ -49,6 +53,7 @@ public interface RoleAuthorityMapper extends CrudMapper<RoleAuthorityEntity, Lon
 
     /**
      * 指定角色 id，批量删除角色权限
+     *
      * @param roleId 角色 id
      * @return int
      */

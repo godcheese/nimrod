@@ -35,22 +35,32 @@
     </sql>
 
     <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
-        select
-            `qjd`.*, `qt`.*, `qct`.*
-        from `QRTZ_JOB_DETAILS` `qjd` left join `QRTZ_TRIGGERS` `qt` on (`qjd`.`job_name` = `qt`.`job_name`) left join `QRTZ_CRON_TRIGGERS` `qct` on (`qt`.`trigger_name` = `qct`.`trigger_name`)
+        select `qjd`.*,
+               `qt`.*,
+               `qct`.*
+        from `QRTZ_JOB_DETAILS` `qjd`
+                 left join `QRTZ_TRIGGERS` `qt` on (`qjd`.`job_name` = `qt`.`job_name`)
+                 left join `QRTZ_CRON_TRIGGERS` `qct` on (`qt`.`trigger_name` = `qct`.`trigger_name`)
     </select>
 
     <select id="getOneByJobClassNameAndJobGroup" resultMap="BaseResultMap">
-        select
-            `qjd`.*, `qt`.*, `qct`.*
-        from `QRTZ_JOB_DETAILS` `qjd` left join `QRTZ_TRIGGERS` `qt` on (`qjd`.`job_name` = `qt`.`job_name`) left join `QRTZ_CRON_TRIGGERS` `qct` on (`qt`.`trigger_name` = `qct`.`trigger_name`) where `qjd`.`job_class_name` = #{jobClassName} and `qjd`.`job_group` = #{jobGroup} limit 1
+        select `qjd`.*,
+               `qt`.*,
+               `qct`.*
+        from `QRTZ_JOB_DETAILS` `qjd`
+                 left join `QRTZ_TRIGGERS` `qt` on (`qjd`.`job_name` = `qt`.`job_name`)
+                 left join `QRTZ_CRON_TRIGGERS` `qct` on (`qt`.`trigger_name` = `qct`.`trigger_name`)
+        where `qjd`.`job_class_name` = #{jobClassName}
+          and `qjd`.`job_group` = #{jobGroup}
+        limit 1
     </select>
 
     <update id="updateJobDetailsDescriptionByJobClassNameAndJobGroup">
         update
             `QRTZ_JOB_DETAILS`
         set `description` = #{description}
-        where `job_class_name` = #{jobClassName} and `job_group` = #{jobGroup}
+        where `job_class_name` = #{jobClassName}
+          and `job_group` = #{jobGroup}
     </update>
 
 </mapper>

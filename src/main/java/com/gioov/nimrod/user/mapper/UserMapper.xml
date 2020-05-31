@@ -28,18 +28,22 @@
             parameterType="com.gioov.nimrod.user.entity.UserEntity">
         insert into
         <include refid="TableName"/>
-        (`username`, `password`, `avatar`, `email`, `email_is_verified`, `department_id`, `enabled`, `remark`, `gmt_deleted`,
+        (`username`, `password`, `avatar`, `email`, `email_is_verified`, `department_id`, `enabled`, `remark`,
+        `gmt_deleted`,
         `gmt_modified`,
         `gmt_created`)
-        values (#{username}, #{password}, #{avatar}, #{email}, #{emailIsVerified}, #{departmentId}, #{enabled}, #{remark},
+        values (#{username}, #{password}, #{avatar}, #{email}, #{emailIsVerified}, #{departmentId}, #{enabled},
+        #{remark},
         #{gmtDeleted}, #{gmtModified}, #{gmtCreated})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.user.entity.UserEntity">
         update
         <include refid="TableName"/>
-        set `username` = #{username}, `password` = #{password}, `avatar` = #{avatar}, `email` = #{email}, `email_is_verified` =
-        #{emailIsVerified}, `department_id` = #{departmentId}, `enabled` = #{enabled}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        set `username` = #{username}, `password` = #{password}, `avatar` = #{avatar}, `email` = #{email},
+        `email_is_verified` =
+        #{emailIsVerified}, `department_id` = #{departmentId}, `enabled` = #{enabled}, `remark` = #{remark},
+        `gmt_modified` = #{gmtModified}
         where `id`= #{id}
     </update>
 

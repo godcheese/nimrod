@@ -8,20 +8,28 @@
     <div data-options="region:'west',split:true" style="width:45%">
         <div id="dictionaryCategoryToolbar">
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_ADD_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="dictionaryCategoryAddDialog();">新增</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="dictionaryCategoryAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_EDIT_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="dictionaryCategoryEditDialog();">编辑</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="dictionaryCategoryEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_DELETE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="dictionaryCategoryDeleteAll();">删除</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="dictionaryCategoryDeleteAll();">删除</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_EXPORT_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-download" onclick="dictionaryCategoryExportAll();">导出</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-download"
+                   onclick="dictionaryCategoryExportAll();">导出</a>
             </nimrod:security>
             <hr/>
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_CATEGORY_IMPORT_ALL">
-                <label>导入：</label><input id="file" class="easyui-filebox" style="width:200px" data-options="buttonText:'选择文件'"> <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-upload" id="uploadButton">立即导入</a>
+                <label>导入：</label><input id="file" class="easyui-filebox" style="width:200px"
+                                         data-options="buttonText:'选择文件'"> <a href="javascript:"
+                                                                              class="easyui-linkbutton"
+                                                                              iconCls="iconfont icon-upload"
+                                                                              id="uploadButton">立即导入</a>
             </nimrod:security>
         </div>
         <table id="dictionaryCategory"></table>
@@ -29,16 +37,20 @@
     <div data-options="region:'center',split:true">
         <div id="dictionaryToolbar">
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_ADD_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="dictionaryAddDialog();">新增</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="dictionaryAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_EDIT_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="dictionaryEditDialog();">编辑</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="dictionaryEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/DICTIONARY_DELETE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="dictionaryDeleteAll();">删除</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="dictionaryDeleteAll();">删除</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/SYSTEM/DICTIONARY/PAGE_ALL/SYNC_TO_MEMORY">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-refresh" onclick="syncToMemory();">同步所有字典到内存</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-refresh"
+                   onclick="syncToMemory();">同步所有字典到内存</a>
                 <span style="margin-top:20px;font-size:12px;color:#FA6F03;text-align: center">更改数据字典后，同步后才会生效！</span>
             </nimrod:security>
         </div>
@@ -147,7 +159,11 @@
                 text: '保存',
                 iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.save,
-                reload: [{type: 'treegrid', selector: '#dictionaryCategory'}, {type: 'datagrid', selector: '#dictionary', data: []}],
+                reload: [{type: 'treegrid', selector: '#dictionaryCategory'}, {
+                    type: 'datagrid',
+                    selector: '#dictionary',
+                    data: []
+                }],
                 success: '保存成功'
             }, {
                 text: '关闭',
@@ -162,7 +178,11 @@
             url: Url.System.Api.DICTIONARY_CATEGORY + '/delete_all',
             method: 'post',
             success: '删除成功',
-            reload: [{type: 'treegrid', selector: '#dictionaryCategory'}, {type: 'datagrid', selector: '#dictionary', data: []}]
+            reload: [{type: 'treegrid', selector: '#dictionaryCategory'}, {
+                type: 'datagrid',
+                selector: '#dictionary',
+                data: []
+            }]
         });
     }
 
@@ -172,7 +192,7 @@
             return;
         }
         var idList = [];
-        if(checkedAll && checkedAll.length>0) {
+        if (checkedAll && checkedAll.length > 0) {
             for (var i = 0; i < checkedAll.length; i++) {
                 idList.push(checkedAll[i].id);
             }
@@ -237,7 +257,7 @@
 
     function syncToMemory() {
         $.messager.confirm('信息', '确定继续操作吗？', function (ok) {
-            if(ok) {
+            if (ok) {
                 util.ajax({
                     url: Url.System.Api.DICTIONARY + '/sync_to_memory',
                     type: 'post',
@@ -245,7 +265,7 @@
                         $.messager.show({title: '信息', msg: '操作成功'});
                     },
                     error: function (XMLHttpRequest) {
-                        if(XMLHttpRequest.status === 200) {
+                        if (XMLHttpRequest.status === 200) {
                             $.messager.show({title: '信息', msg: '操作成功'});
                         } else {
                             $.messager.show({title: '信息', msg: XMLHttpRequest.responseJSON.message});

@@ -61,7 +61,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
                 // 添加到内存供 servletContext.getAttribute 获取，如：servletContext.getAttribute('WEB.NAME')、${#servletContext.getAttribute('WEB.NAME')}
                 for (DictionaryEntity dictionaryEntity : dictionaryEntityList) {
-                    if(isOrNotIs == dictionaryEntity.getEnabled()) {
+                    if (isOrNotIs == dictionaryEntity.getEnabled()) {
                         servletContext.setAttribute(dictionaryEntity.getKey().toUpperCase() + "." + dictionaryEntity.getValueSlug().toUpperCase(), dictionaryEntity.getValue());
                     }
                 }
@@ -111,6 +111,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     /**
      * 从内存中获取字典
+     *
      * @param key       数据字典键
      * @param valueSlug 数据字典值别名
      * @return Object
@@ -122,6 +123,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     /**
      * 从内存中获取
+     *
      * @param key          数据字典键
      * @param valueSlug    数据字典值别名
      * @param defaultValue 数据字典默认值
@@ -138,6 +140,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     /**
      * 从内存获取
+     *
      * @param key
      * @return
      */
@@ -172,13 +175,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public Pagination<DictionaryEntity> pageAllByDictionaryCategoryId(Long dictionaryCategoryId, Integer page, Integer rows) {
         Pagination<DictionaryEntity> pagination = new Pagination<>();
-//        if(sorterField != null && !"".equals(sorterField) && sorterOrder != null && !"".equals(sorterOrder)) {
-//            sorterField = StringUtil.camelToUnderline(sorterField);
-//            String orderBy = sorterField + " " + sorterOrder;
-//            PageHelper.startPage(page, rows, orderBy);
-//        } else {
         PageHelper.startPage(page, rows);
-//        }
         Page<DictionaryEntity> dictionaryEntityPage = dictionaryMapper.pageAllByDictionaryCategoryId(dictionaryCategoryId);
         pagination.setRows(dictionaryEntityPage.getResult());
         pagination.setTotal(dictionaryEntityPage.getTotal());
@@ -242,7 +239,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     public void importAllByDictionaryCategoryId(MultipartFile multipartFile, Long categoryId) throws BaseResponseException {
         try {
             List<Map<Integer, Cell>> list = uploadAndReadExcel(multipartFile);
-            if(list != null && !list.isEmpty()) {
+            if (list != null && !list.isEmpty()) {
                 list.remove(0);
                 for (Map<Integer, Cell> map : list) {
                     DictionaryEntity dictionaryEntity = new DictionaryEntity();

@@ -33,9 +33,10 @@ public class OperationLogRestController {
 
     /**
      * 分页获取所有操作日志
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<OperationLogEntity>>
+     * @return ResponseEntity<Pagination < OperationLogEntity>>
      */
     @OperationLog(value = "分页获取所有操作日志", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + OPERATION_LOG + "/PAGE_ALL')")
@@ -46,6 +47,7 @@ public class OperationLogRestController {
 
     /**
      * 指定操作日志 id，获取操作日志
+     *
      * @param id 操作日志 id
      * @return ResponseEntity<OperationLogEntity2>
      */
@@ -58,6 +60,7 @@ public class OperationLogRestController {
 
     /**
      * 清空所有操作日志
+     *
      * @return ResponseEntity<Integer>
      */
     @OperationLog(value = "清空所有操作日志", type = OperationLogType.API)
@@ -70,6 +73,7 @@ public class OperationLogRestController {
 
     /**
      * 指定操作日志 id，批量删除操作日志
+     *
      * @return ResponseEntity<Integer>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + OPERATION_LOG + "/DELETE_ALL')")

@@ -13,6 +13,7 @@ import java.util.List;
 public interface ViewPageService {
     /**
      * 新增视图页面
+     *
      * @param viewPageEntity ViewPageEntity
      * @return ViewPageEntity
      * @throws BaseResponseException BaseResponseException
@@ -21,6 +22,7 @@ public interface ViewPageService {
 
     /**
      * 保存视图页面
+     *
      * @param viewPageEntity ViewPageEntity
      * @return ViewPageEntity
      * @throws BaseResponseException BaseResponseException
@@ -29,6 +31,7 @@ public interface ViewPageService {
 
     /**
      * 指定视图页面 id，批量删除视图页面
+     *
      * @param idList 视图页面 id list
      * @return int
      */
@@ -36,17 +39,20 @@ public interface ViewPageService {
 
     /**
      * 指定视图页面 id，获取视图页面
+     *
      * @param id 视图页面 id
      * @return ViewPageEntity
      */
     ViewPageEntity getOne(Long id);
 
     /**
-     * 指定视图页面分类 id，分页获取所有视图页面
+     * 指定视图页面分类 id、角色 id，分页获取所有视图页面
+     *
+     * @param page               页
+     * @param rows               每页显示数量
      * @param viewPageCategoryId 视图页面分类 id
-     * @param page 页
-     * @param rows 每页显示数量
-     * @return Pagination<ViewPageEntity>
+     * @param roleId             角色 id
+     * @return
      */
     Pagination<ViewPageEntity> pageAllByViewPageCategoryId(Integer page, Integer rows, Long viewPageCategoryId, Long roleId);
 

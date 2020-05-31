@@ -19,6 +19,7 @@ public interface ViewPageMapper extends CrudMapper<ViewPageEntity, Long> {
 
     /**
      * 指定视图页面分类 id，获取所有视图页面
+     *
      * @param viewPageCategoryId 视图页面分类 id
      * @return List<ViewPageEntity>
      */
@@ -26,6 +27,7 @@ public interface ViewPageMapper extends CrudMapper<ViewPageEntity, Long> {
 
     /**
      * 指定视图页面分类 id，统计所有视图页面个数
+     *
      * @param viewPageCategoryId 视图页面分类 id
      * @return int
      */
@@ -33,6 +35,7 @@ public interface ViewPageMapper extends CrudMapper<ViewPageEntity, Long> {
 
     /**
      * 指定 authority，获取视图页面
+     *
      * @param authority authority
      * @return ViewPageEntity
      */
@@ -40,6 +43,7 @@ public interface ViewPageMapper extends CrudMapper<ViewPageEntity, Long> {
 
     /**
      * 指定视图页面分类 id，获取所有视图页面
+     *
      * @param viewPageCategoryId 视图页面分类 id
      * @return List<ViewPageEntity>
      */
@@ -47,6 +51,7 @@ public interface ViewPageMapper extends CrudMapper<ViewPageEntity, Long> {
 
     /**
      * 指定视图页面分类 id，获取视图页面
+     *
      * @param viewPageCategoryId 视图页面分类 id
      * @return ViewPageEntity
      */
@@ -54,6 +59,7 @@ public interface ViewPageMapper extends CrudMapper<ViewPageEntity, Long> {
 
     /**
      * 指定视图页面分类 id list，分页获取视图页面
+     *
      * @param viewPageCategoryIdList 视图页面分类 id list
      * @return Page<ViewPageEntity>
      */

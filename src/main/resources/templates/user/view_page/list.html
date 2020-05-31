@@ -8,13 +8,16 @@
     <div data-options="region:'west',split:true" style="width:25%">
         <div id="viewPageCategoryToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_CATEGORY_ADD_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="viewPageCategoryAddDialog();">新增</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="viewPageCategoryAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_CATEGORY_EDIT_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewPageCategoryEditDialog();">编辑</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="viewPageCategoryEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_CATEGORY_DELETE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="viewPageCategoryDeleteAll();">删除</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="viewPageCategoryDeleteAll();">删除</a>
             </nimrod:security>
         </div>
         <table id="viewPageCategory"></table>
@@ -22,16 +25,20 @@
     <div data-options="region:'center',split:true">
         <div id="viewPageToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_ADD_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="viewPageAddDialog();">新增</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="viewPageAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_EDIT_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewPageEditDialog();">编辑</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="viewPageEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_DELETE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="viewPageDeleteAll();">删除</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="viewPageDeleteAll();">删除</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_API_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewPageApiDialog();">关联 API</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="viewPageApiDialog();">关联 API</a>
             </nimrod:security>
         </div>
         <table id="viewPage"></table>
@@ -39,16 +46,20 @@
     <div data-options="region:'east',split:true" style="width:35%">
         <div id="viewPageComponentToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_COMPONENT_ADD_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="viewPageComponentAddDialog();">新增</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="viewPageComponentAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_COMPONENT_EDIT_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewPageComponentEditDialog();">编辑</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="viewPageComponentEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_COMPONENT_DELETE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="viewPageComponentDeleteAll();">删除</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="viewPageComponentDeleteAll();">删除</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE/PAGE_ALL/VIEW_PAGE_COMPONENT_API_DIALOG">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewPageComponentApiDialog();">关联 API</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="viewPageComponentApiDialog();">关联 API</a>
             </nimrod:security>
         </div>
         <table id="viewPageComponent"></table>
@@ -101,7 +112,7 @@
             onCheck: function (index, row) {
                 if (row) {
                     $('#viewPageComponent').datagrid('reload', Url.User.Api.VIEW_PAGE_COMPONENT + '/page_all_by_view_page_id?viewPageId=' + row.id);
-                    }
+                }
             },
             onUncheck: function (index, row) {
                 $('#viewPageComponent').datagrid('loadData', []);
@@ -113,7 +124,8 @@
         columns = [
             {field: 'checkbox', checkbox: true},
             {field: 'id', title: 'ID'},
-            {field: 'viewPageComponentType', title: '组件类型', formatter: function (value, row, index) {
+            {
+                field: 'viewPageComponentType', title: '组件类型', formatter: function (value, row, index) {
                     return expressui.grid.formatter(value, VIEW_PAGE_COMPONENT_TYPE);
                 }
             },
@@ -226,7 +238,11 @@
                 text: '保存',
                 iconCls: 'iconfont icon-save',
                 handler: expressui.dialog.add,
-                reload: [{type: 'datagrid', selector: '#viewPage'}, {type: 'datagrid', selector: '#viewPageComponent', data: []}],
+                reload: [{type: 'datagrid', selector: '#viewPage'}, {
+                    type: 'datagrid',
+                    selector: '#viewPageComponent',
+                    data: []
+                }],
                 success: '新增成功'
             }, {
                 text: '关闭',

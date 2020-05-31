@@ -11,10 +11,12 @@
     <div data-options="region:'center',split:true">
         <div id="viewPageApiToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE_API/VIEW_PAGE_API/ASSOCIATE_ALL_VIEW_PAGE_API">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="associateAllViewPageApi();">关联</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="associateAllViewPageApi();">关联</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_PAGE_API/VIEW_PAGE_API/REVOKE_ASSOCIATE_ALL_VIEW_PAGE_API">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="revokeAssociateAllViewPageApi();">撤销关联</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="revokeAssociateAllViewPageApi();">撤销关联</a>
             </nimrod:security>
         </div>
         <table id="viewPageApi"></table>
@@ -56,7 +58,8 @@
         columns = [
             {field: 'checkbox', checkbox: true},
             {field: 'id', title: 'ID'},
-            {field: 'isAssociated', title: '是否已关联', formatter: function (value, row) {
+            {
+                field: 'isAssociated', title: '是否已关联', formatter: function (value, row) {
                     return expressui.grid.formatter(value, IS_OR_NOT);
                 }
             },

@@ -115,7 +115,7 @@ public class MailServiceImpl implements MailService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(mailEntity != null) {
+        if (mailEntity != null) {
             send(mailEntity);
         }
     }
@@ -210,6 +210,7 @@ public class MailServiceImpl implements MailService {
 
     /**
      * 设置 from 为数据字典的值
+     *
      * @param mailEntity MailEntity
      */
     private void setFrom(MailEntity mailEntity) {
@@ -256,7 +257,7 @@ public class MailServiceImpl implements MailService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void retry(List<MailEntity> mailEntityList) {
-        for(MailEntity mailEntity : mailEntityList) {
+        for (MailEntity mailEntity : mailEntityList) {
             try {
                 mailService.produce(common.objectToJson(mailEntity));
             } catch (JsonProcessingException e) {
@@ -273,7 +274,7 @@ public class MailServiceImpl implements MailService {
 
         List<Integer> statusList = new ArrayList<>();
         statusList.add(smsStatusWait);
-        if(fail) {
+        if (fail) {
             statusList.add(smsStatusFail);
         }
         List<MailEntity> mailEntityList = mailMapper.listAllByStatus(statusList);

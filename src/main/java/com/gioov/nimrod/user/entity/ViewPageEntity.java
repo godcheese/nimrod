@@ -1,6 +1,6 @@
 package com.gioov.nimrod.user.entity;
 
-import com.gioov.nimrod.common.others.CommonEntityAdapter;
+import com.gioov.nimrod.common.others.BaseEntityAdapter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class ViewPageEntity extends CommonEntityAdapter<ViewPageEntity> implements Serializable {
+public class ViewPageEntity extends BaseEntityAdapter<ViewPageEntity> implements Serializable {
     private static final long serialVersionUID = -8255954879287469862L;
     /**
      * id
@@ -32,7 +32,7 @@ public class ViewPageEntity extends CommonEntityAdapter<ViewPageEntity> implemen
     private String authority;
 
     /**
-     *  视图页面分类 id
+     * 视图页面分类 id
      */
     private Long viewPageCategoryId;
 

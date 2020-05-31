@@ -1,6 +1,6 @@
 package com.gioov.nimrod.user.entity;
 
-import com.gioov.nimrod.common.others.CommonEntityAdapter;
+import com.gioov.nimrod.common.others.BaseEntityAdapter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class ViewMenuEntity extends CommonEntityAdapter<ViewMenuEntity> implements Serializable {
+public class ViewMenuEntity extends BaseEntityAdapter<ViewMenuEntity> implements Serializable {
     private static final long serialVersionUID = 5133319566323006861L;
     /**
      * id

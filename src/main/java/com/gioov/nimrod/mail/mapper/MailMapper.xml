@@ -76,7 +76,8 @@
         select
         <include refid="BaseColumnList"/>
         from
-        <include refid="TableName"/> where `status` in
+        <include refid="TableName"/>
+        where `status` in
         (
         <foreach collection="statusList" item="item" index="index" separator=",">
             #{item}

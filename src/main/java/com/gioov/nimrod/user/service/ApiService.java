@@ -14,6 +14,7 @@ public interface ApiService {
 
     /**
      * 新增 API
+     *
      * @param apiEntity ApiEntity
      * @return ApiEntity
      * @throws BaseResponseException BaseResponseException
@@ -22,6 +23,7 @@ public interface ApiService {
 
     /**
      * 保存 API
+     *
      * @param apiEntity ApiEntity
      * @return ApiEntity
      */
@@ -29,6 +31,7 @@ public interface ApiService {
 
     /**
      * 指定 API id list，批量删除 API
+     *
      * @param idList API id list
      * @return int 已删除 API 个数
      */
@@ -36,6 +39,7 @@ public interface ApiService {
 
     /**
      * 指定 API id，获取 API
+     *
      * @param id API id
      * @return ApiEntity
      */
@@ -43,10 +47,11 @@ public interface ApiService {
 
     /**
      * 指定 API 分类 id，分页获取所有 API
-     * @param page 页
-     * @param rows 每页显示数量
-     * @param apiCategoryId API 分类 id
-     * @param viewPageId viewPageId
+     *
+     * @param page                页
+     * @param rows                每页显示数量
+     * @param apiCategoryId       API 分类 id
+     * @param viewPageId          viewPageId
      * @param viewPageComponentId viewPageComponentId
      * @return Pagination<ApiEntity>
      */

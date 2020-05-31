@@ -108,7 +108,7 @@ public class JobServiceImpl implements JobService {
     public int pauseAll(List<String> jobClassNameList, List<String> jobGroupList) throws BaseResponseException {
         int index = 0;
         try {
-            if(jobClassNameList != null && jobGroupList != null) {
+            if (jobClassNameList != null && jobGroupList != null) {
                 for (String jobClassName : jobClassNameList) {
                     scheduler.pauseJob(JobKey.jobKey(jobClassName, jobGroupList.get(index)));
                     index++;
@@ -125,7 +125,7 @@ public class JobServiceImpl implements JobService {
     public int resumeAll(List<String> jobClassNameList, List<String> jobGroupList) throws BaseResponseException {
         int index = 0;
         try {
-            if(jobClassNameList != null && jobGroupList != null) {
+            if (jobClassNameList != null && jobGroupList != null) {
                 for (String jobClassName : jobClassNameList) {
                     scheduler.resumeJob(JobKey.jobKey(jobClassName, jobGroupList.get(index)));
                     index++;
@@ -142,7 +142,7 @@ public class JobServiceImpl implements JobService {
     public int resetTriggerFromErrorState(List<String> jobClassNameList, List<String> jobGroupList) throws BaseResponseException {
         int index = 0;
         try {
-            if(jobClassNameList != null && jobGroupList != null) {
+            if (jobClassNameList != null && jobGroupList != null) {
                 for (String jobClassName : jobClassNameList) {
                     LOGGER.info("jobClassName={}={}", jobClassName, jobGroupList.get(index));
                     scheduler.resetTriggerFromErrorState(TriggerKey.triggerKey(jobClassName, jobGroupList.get(index)));

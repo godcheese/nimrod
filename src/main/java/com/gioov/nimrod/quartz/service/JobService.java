@@ -15,10 +15,11 @@ public interface JobService {
 
     /**
      * 新增任务
-     * @param jobClassName JobClassName
-     * @param jobGroup JobGroup
+     *
+     * @param jobClassName   JobClassName
+     * @param jobGroup       JobGroup
      * @param cronExpression Cron 表达式
-     * @param description 描述
+     * @param description    描述
      * @return Date
      * @throws BaseResponseException BaseResponseException
      */
@@ -26,18 +27,20 @@ public interface JobService {
 
     /**
      * 指定 JobClassName、JobGroup，获取任务
+     *
      * @param jobClassName JobClassName
-     * @param jobGroup JobGroup
+     * @param jobGroup     JobGroup
      * @return JobEntity
      */
     JobEntity getOne(String jobClassName, String jobGroup);
 
     /**
      * 指定 JobClassName、JobGroup，更新任务 Cron 表达式、描述
-     * @param jobClassName JobClassName
-     * @param jobGroup JobGroup
+     *
+     * @param jobClassName   JobClassName
+     * @param jobGroup       JobGroup
      * @param cronExpression Cron 表达式
-     * @param description 描述
+     * @param description    描述
      * @return Date
      * @throws BaseResponseException BaseResponseException
      */
@@ -45,8 +48,9 @@ public interface JobService {
 
     /**
      * 指定 JobClassName list、JobGroup list，批量删除任务
+     *
      * @param jobClassNameList JobClassName list
-     * @param jobGroupList JobGroup list
+     * @param jobGroupList     JobGroup list
      * @return int
      * @throws BaseResponseException BaseResponseException
      */
@@ -54,6 +58,7 @@ public interface JobService {
 
     /**
      * 分页获取所有任务
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<JobEntity>
@@ -62,8 +67,9 @@ public interface JobService {
 
     /**
      * 指定 JobClassName list、JobGroup list，暂停所有任务
+     *
      * @param jobClassNameList JobClassName list
-     * @param jobGroupList JobGroup list
+     * @param jobGroupList     JobGroup list
      * @return int
      * @throws BaseResponseException BaseResponseException
      */
@@ -71,8 +77,9 @@ public interface JobService {
 
     /**
      * 指定 JobClassName list、JobGroup list，恢复所有任务
+     *
      * @param jobClassNameList JobClassName list
-     * @param jobGroupList JobGroup list
+     * @param jobGroupList     JobGroup list
      * @return int
      * @throws BaseResponseException BaseResponseException
      */
@@ -80,6 +87,7 @@ public interface JobService {
 
     /**
      * 重置 error state trigger
+     *
      * @param jobClassNameList
      * @param jobGroupList
      * @return

@@ -28,16 +28,20 @@
             {field: 'id', title: 'ID'},
             {field: 'username', title: '上传用户'},
             // {field: 'file_authority', title: '访问权限'},
-            {field: 'download', title: '操作', formatter: function (value, row, index) {
+            {
+                field: 'download', title: '操作', formatter: function (value, row, index) {
                     value = '<a target="_blank" href="' + Url.System.Api.FILE + '/download/' + row.guid + '">下载</a>';
                     return value;
-                }},
-            {field: 'preview', title: '预览', formatter: function (value, row, index) {
-                    if(row.mimeType.indexOf('image') > -1) {
+                }
+            },
+            {
+                field: 'preview', title: '预览', formatter: function (value, row, index) {
+                    if (row.mimeType.indexOf('image') > -1) {
                         value = '<img style="width:60px;height:60px" src="' + Url.System.Api.FILE + '/download/' + row.guid + '"/>';
                         return value;
                     }
-                }},
+                }
+            },
             {field: 'name', title: '文件名'},
             {field: 'prettySize', title: '文件大小'},
             {field: 'guid', title: '唯一标识符'},

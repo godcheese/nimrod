@@ -24,7 +24,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.VIEW_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = User.Api.VIEW_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ViewMenuRestController {
 
     private static final String VIEW_MENU = "/API/USER/VIEW_MENU";
@@ -35,12 +35,13 @@ public class ViewMenuRestController {
 
     /**
      * 新增视图菜单
-     * @param name 视图菜单名称
-     * @param icon 图标（icon）
-     * @param url 请求地址（url）
+     *
+     * @param name               视图菜单名称
+     * @param icon               图标（icon）
+     * @param url                请求地址（url）
      * @param viewMenuCategoryId 视图菜单分类 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort               排序
+     * @param remark             备注
      * @return ResponseEntity<ViewMenuEntity>
      */
     @OperationLog(value = "新增视图菜单", type = OperationLogType.API)
@@ -60,13 +61,14 @@ public class ViewMenuRestController {
 
     /**
      * 保存视图菜单
-     * @param id 视图菜单 id
-     * @param name 视图菜单名称
-     * @param icon 图标（icon）
-     * @param url 请求地址（url）
+     *
+     * @param id                 视图菜单 id
+     * @param name               视图菜单名称
+     * @param icon               图标（icon）
+     * @param url                请求地址（url）
      * @param viewMenuCategoryId 视图菜单分类 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort               排序
+     * @param remark             备注
      * @return ResponseEntity<ViewMenuEntity>
      */
     @OperationLog(value = "保存视图菜单", type = OperationLogType.API)
@@ -87,6 +89,7 @@ public class ViewMenuRestController {
 
     /**
      * 指定视图菜单 id list，批量删除视图菜单
+     *
      * @param idList 视图菜单 id list
      * @return ResponseEntity<Integer>
      */
@@ -99,6 +102,7 @@ public class ViewMenuRestController {
 
     /**
      * 指定视图菜单 id，获取视图菜单
+     *
      * @param id 视图菜单 id
      * @return ResponseEntity<ViewMenuEntity>
      */
@@ -126,16 +130,17 @@ public class ViewMenuRestController {
 
     /**
      * 指定视图菜单分类 id，分页获取所有视图菜单
+     *
      * @param viewMenuCategoryId 视图菜单分类 id
-     * @param page 页
-     * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<ViewMenuEntity>>
+     * @param page               页
+     * @param rows               每页显示数量
+     * @return ResponseEntity<Pagination < ViewMenuEntity>>
      */
     @OperationLog(value = "指定视图菜单分类 id，分页获取所有视图菜单", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + VIEW_MENU + "/PAGE_ALL_BY_VIEW_MENU_CATEGORY_ID')")
     @GetMapping(value = "/page_all_by_view_menu_category_id")
     public ResponseEntity<Pagination<ViewMenuEntity>> pageAllByViewMenuCategoryId(@RequestParam Integer page, @RequestParam Integer rows, @RequestParam Long viewMenuCategoryId, @RequestParam(required = false) Long roleId) {
-        return new ResponseEntity<>(viewMenuService.pageAllByViewMenuCategoryId(page, rows,viewMenuCategoryId, roleId), HttpStatus.OK);
+        return new ResponseEntity<>(viewMenuService.pageAllByViewMenuCategoryId(page, rows, viewMenuCategoryId, roleId), HttpStatus.OK);
     }
 
 //    /**

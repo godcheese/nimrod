@@ -22,7 +22,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping(value =  User.Api.USER_ROLE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = User.Api.USER_ROLE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRoleRestController {
 
     private static final String USER_ROLE = "/API/USER/USER_ROLE";
@@ -32,9 +32,10 @@ public class UserRoleRestController {
 
     /**
      * 分页获取所有用户角色
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<UserRoleEntity>>
+     * @return ResponseEntity<Pagination < UserRoleEntity>>
      */
     @OperationLog(value = "分页获取所有用户角色", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + USER_ROLE + "/PAGE_ALL')")
@@ -45,6 +46,7 @@ public class UserRoleRestController {
 
     /**
      * 新增用户角色
+     *
      * @param userId 用户 id
      * @param roleId 角色 id
      * @return ResponseEntity<UserRoleEntity>
@@ -62,7 +64,8 @@ public class UserRoleRestController {
 
     /**
      * 指定用户 id、角色 id list，批量删除用户角色
-     * @param userId 用户 id
+     *
+     * @param userId     用户 id
      * @param roleIdList 角色 id list
      * @return ResponseEntity<Integer>
      */

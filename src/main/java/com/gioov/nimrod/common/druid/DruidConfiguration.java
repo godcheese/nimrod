@@ -19,6 +19,7 @@ public class DruidConfiguration {
 
     /**
      * DataSource 配置注入
+     *
      * @return DataSource
      * @Primary 注释在同样的 DataSource 中，首先使用被标注的 DataSource
      * 声明其为 Bean 实例

@@ -1,11 +1,7 @@
 package com.gioov.nimrod.common.others;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 /**
  * @author godcheese [godcheese@outlook.com]
@@ -14,7 +10,7 @@ import java.time.Instant;
 @Component
 public class FailureEntity implements com.gioov.tile.web.http.FailureEntity {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FailureEntity.class);
+    private static final String NULL = "null";
 
     private String message;
     private int code;
@@ -22,18 +18,19 @@ public class FailureEntity implements com.gioov.tile.web.http.FailureEntity {
     @Autowired
     private Common common;
 
-    public FailureEntity i18n(String key, Object ...params) {
+    public FailureEntity i18n(String key, Object... params) {
         String message = String.valueOf(common.i18n(key + ".message", params));
         String code = String.valueOf(common.i18n(key + ".code"));
         int code2 = 0;
-        if(code != null && !"".equals(code) && !"null".equals(code)) {
+        if (code != null && !"".equals(code) && !NULL.equals(code)) {
             code2 = Integer.parseInt(code);
         }
         return new FailureEntity(message, code2);
     }
 
     public FailureEntity i18n(String key) {
-        return i18n(key, new Object(){});
+        return i18n(key, new Object() {
+        });
     }
 
     @Override
@@ -48,7 +45,7 @@ public class FailureEntity implements com.gioov.tile.web.http.FailureEntity {
 
     @Override
     public long getTimestamp() {
-        return Instant.now().toEpochMilli();
+        return System.currentTimeMillis();
     }
 
     public FailureEntity() {

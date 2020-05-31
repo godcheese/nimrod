@@ -133,6 +133,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     /**
      * 根据子级部门 id 获取所有父级部门
+     *
      * @param id
      * @return
      */
@@ -146,10 +147,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         Collections.reverse(departmentEntityResultList);
         return departmentEntityResultList;
     }
+
     public void forEachDepartmentParent(DepartmentEntity departmentEntity, List<DepartmentEntity> departmentEntityList, List<DepartmentEntity> departmentEntityResultList) {
-        for(DepartmentEntity entity : departmentEntityList) {
-            if(departmentEntity.getParentId() != null) {
-                if(departmentEntity.getParentId().equals(entity.getId())){
+        for (DepartmentEntity entity : departmentEntityList) {
+            if (departmentEntity.getParentId() != null) {
+                if (departmentEntity.getParentId().equals(entity.getId())) {
                     departmentEntityResultList.add(entity);
                     forEachDepartmentParent(entity, departmentEntityList, departmentEntityResultList);
                 }
@@ -161,7 +163,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<ComboTree> listAllDepartmentComboTree() {
         List<ComboTree> comboTreeList = new ArrayList<>(0);
         List<DepartmentEntity> departmentEntityList = listAll();
-        for(DepartmentEntity departmentEntity : departmentEntityList) {
+        for (DepartmentEntity departmentEntity : departmentEntityList) {
             ComboTree comboTree = new ComboTree();
             comboTree.setId(departmentEntity.getId());
             comboTree.setText(departmentEntity.getName());
@@ -170,21 +172,22 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return comboTreeList;
     }
+
     @Override
     public List<ComboTree> getDepartmentChildrenComboTree(long parentId, List<ComboTree> departmentComboTreeList) {
 
         List<ComboTree> children = new ArrayList<>(0);
 
-        for(ComboTree comboTree : departmentComboTreeList) {
-            if(comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
+        for (ComboTree comboTree : departmentComboTreeList) {
+            if (comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
                 children.add(comboTree);
             }
         }
 
-        for(ComboTree child : children) {
+        for (ComboTree child : children) {
 
             List<ComboTree> childChildren = getDepartmentChildrenComboTree(child.getId(), departmentComboTreeList);
-            if(childChildren == null) {
+            if (childChildren == null) {
                 childChildren = new ArrayList<>(0);
             }
             child.setChildren(childChildren);
@@ -197,7 +200,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<TreeGrid> listAllDepartmentTreeGrid() {
         List<TreeGrid> treeGridList = new ArrayList<>(0);
         List<DepartmentEntity> departmentEntityList = listAll();
-        for(DepartmentEntity departmentEntity : departmentEntityList) {
+        for (DepartmentEntity departmentEntity : departmentEntityList) {
             TreeGrid treeGrid = new TreeGrid();
             treeGrid.setId(departmentEntity.getId());
             treeGrid.setName(departmentEntity.getName());
@@ -206,20 +209,21 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return treeGridList;
     }
+
     @Override
     public List<TreeGrid> getDepartmentChildrenTreeGrid(long parentId, List<TreeGrid> departmentTreeGridList) {
 
         List<TreeGrid> children = new ArrayList<>(0);
-        for(TreeGrid treeGrid : departmentTreeGridList) {
-            if(treeGrid.getParentId() != null && treeGrid.getParentId().equals(parentId)) {
+        for (TreeGrid treeGrid : departmentTreeGridList) {
+            if (treeGrid.getParentId() != null && treeGrid.getParentId().equals(parentId)) {
                 children.add(treeGrid);
             }
         }
 
-        for(TreeGrid child : children) {
+        for (TreeGrid child : children) {
 
             List<TreeGrid> childChildren = getDepartmentChildrenTreeGrid(child.getId(), departmentTreeGridList);
-            if(childChildren == null) {
+            if (childChildren == null) {
                 childChildren = new ArrayList<>(0);
             }
             child.setChildren(childChildren);

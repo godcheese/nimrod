@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,6 +44,7 @@ public class CustomBasicErrorController extends AbstractErrorController {
 
     /**
      * html
+     *
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @return ModelAndView
@@ -51,18 +53,21 @@ public class CustomBasicErrorController extends AbstractErrorController {
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus httpStatus = getStatus(request);
         int code = httpStatus.value();
-        Map<String, Object> errorAttributes = getErrorAttributes(request, true);
+//        Map<String, Object> errorAttributes = getErrorAttributes(request, true);
+        Map<String, Object> errorAttributes = getErrorAttributes(request, ErrorAttributeOptions.defaults());
         LOGGER.info("status={},exception={}", code, errorAttributes);
         code = RestControllerAdviceHandler.codeSwitch(code);
         httpStatus = HttpStatus.valueOf(code);
-        Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(
-                request, true));
+//        Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(
+//                request, true));
+        Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(request, ErrorAttributeOptions.defaults()));
         ModelAndView modelAndView = resolveErrorView(request, response, httpStatus, model);
         return (modelAndView == null ? new ModelAndView(code + "", model, httpStatus) : modelAndView);
     }
 
     /**
      * json
+     *
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @return ResponseEntity<FailureEntity>
@@ -72,10 +77,10 @@ public class CustomBasicErrorController extends AbstractErrorController {
     public ResponseEntity<FailureEntity> error(HttpServletRequest request, HttpServletResponse response) {
         HttpStatus httpStatus = getStatus(request);
         int code = httpStatus.value();
-        Map<String, Object> errorAttributes = getErrorAttributes(request, true);
+        Map<String, Object> errorAttributes = getErrorAttributes(request, ErrorAttributeOptions.defaults());
         LOGGER.info("status={},exception={}", code, errorAttributes);
         code = RestControllerAdviceHandler.codeSwitch(code);
         httpStatus = HttpStatus.valueOf(code);
-        return new ResponseEntity<>(new FailureEntity((String) errorAttributes.get("message"), httpStatus.value()), httpStatus);
+        return new ResponseEntity<>(new FailureEntity((String) errorAttributes.get("error"), httpStatus.value()), httpStatus);
     }
 }

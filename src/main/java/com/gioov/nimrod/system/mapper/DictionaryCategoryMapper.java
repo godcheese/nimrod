@@ -18,12 +18,14 @@ public interface DictionaryCategoryMapper extends CrudMapper<DictionaryCategoryE
 
     /**
      * 分页获取所有父级 id 为 null 的数据字典分类
+     *
      * @return List<DictionaryCategoryEntity>
      */
     List<DictionaryCategoryEntity> listAllByParentIdIsNull();
 
     /**
      * 指定父级数据字典分类 id，获取所有数据字典分类
+     *
      * @param parentId 父级数据字典分类 id
      * @return List<DictionaryCategoryEntity>
      */
@@ -31,6 +33,7 @@ public interface DictionaryCategoryMapper extends CrudMapper<DictionaryCategoryE
 
     /**
      * 指定父级 id 为 null 的数据字典分类，获取数据字典分类
+     *
      * @param parentId 父级数据字典分类 id
      * @return DictionaryCategoryEntity
      */

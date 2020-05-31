@@ -4,7 +4,9 @@
         <input id="fileInput" class="easyui-filebox" name="file" style="width:220px" data-options="buttonText:'选择文件'">
         <a id="uploadButton" href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-upload">上传</a>
     </p>
-    <p style="padding-top:10px"><div id="progress" class="easyui-progressbar" style="width:350px;"></div></p>
+    <p style="padding-top:10px">
+    <div id="progress" class="easyui-progressbar" style="width:350px;"></div>
+    </p>
 </div>
 
 <script type="text/javascript">
@@ -14,9 +16,9 @@
     progress.progressbar({text: '未开始：0%', value: 0});
     window._fileUploading = undefined;
     uploadButton.click(function () {
-        if(window._fileUploading) {
+        if (window._fileUploading) {
             var jqxhr = $('#uploadOneDialog').find('form').data('jqxhr');
-            if(jqxhr) {
+            if (jqxhr) {
                 jqxhr.abort();
             }
             progress.progressbar({text: '上传取消：0%', value: 0});
@@ -26,7 +28,7 @@
             fileUploading();
             console.log(window._fileUploading);
         }
-        if(window._fileUploading) {
+        if (window._fileUploading) {
             uploadButton.linkbutton({text: '取消', iconCls: 'iconfont icon-close'});
         } else {
             uploadButton.linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
@@ -41,7 +43,7 @@
             contentType: false,
             processData: false,
             // contentType: "application/json;charset=utf-8",
-            beforeSubmit: function(formData, jqForm, options) {
+            beforeSubmit: function (formData, jqForm, options) {
                 console.log(formData);
                 console.log(jqForm);
                 console.log(options);
@@ -51,13 +53,13 @@
                 uploadButton.linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});
                 return true;
             },
-            uploadProgress: function(event, position, total, percentComplete) {
+            uploadProgress: function (event, position, total, percentComplete) {
                 progress.progressbar({text: '正在上传...' + percentComplete + '%', value: percentComplete});
                 if (percentComplete === 100) {
                     progress.progressbar({text: '正在保存，请稍等...100%', value: 100});
                 }
             },
-            success: function(res, statusText, xhr, $form) {
+            success: function (res, statusText, xhr, $form) {
                 console.log(res);
                 if (res && res.code) {
                     progress.progressbar({text: '上传失败：0%', value: 0});
@@ -75,7 +77,7 @@
             },
             error: function (xhr) {
                 progress.progressbar({text: '上传失败：0%', value: 0});
-                if(xhr.responseJSON) {
+                if (xhr.responseJSON) {
                     $.messager.alert('信息', xhr.responseJSON.message, 'error');
                 }
                 uploadButton.linkbutton({text: '上传', iconCls: 'iconfont icon-upload'});

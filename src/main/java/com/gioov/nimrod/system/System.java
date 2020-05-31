@@ -30,7 +30,7 @@ public class System extends Url {
 
     public static class Api {
 
-        public static final String SYSTEM =  Url.API + Page.SYSTEM;
+        public static final String SYSTEM = Url.API + Page.SYSTEM;
 
         public static final String DICTIONARY = SYSTEM + "/dictionary";
         public static final String DICTIONARY_CATEGORY = SYSTEM + "/dictionary_category";

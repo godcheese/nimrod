@@ -93,9 +93,9 @@ public class ViewPageServiceImpl implements ViewPageService {
         List<ViewPageEntity> viewPageEntityListResult = new ArrayList<>();
         Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS"));
         Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "NOT"));
-        if(!viewPageEntityList.isEmpty()) {
-            for(ViewPageEntity viewPageEntity : viewPageEntityList) {
-                if(roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, viewPageEntity.getAuthority()) != null) {
+        if (!viewPageEntityList.isEmpty()) {
+            for (ViewPageEntity viewPageEntity : viewPageEntityList) {
+                if (roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, viewPageEntity.getAuthority()) != null) {
                     viewPageEntity.setIsGranted(isOrNotIs);
                 } else {
                     viewPageEntity.setIsGranted(isOrNotNot);

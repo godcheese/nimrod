@@ -3,22 +3,26 @@
         <tr id="emailTr">
             <td class="label">电子邮箱：</td>
             <td><input name="email" id="email" class="easyui-textbox" data-options="disabled: true,required:true">
-                <a href="javascript:" class="easyui-linkbutton" id="sendEmailVerifyCode" onclick="sendEmailVerifyCode();">发送验证码</a>
+                <a href="javascript:" class="easyui-linkbutton" id="sendEmailVerifyCode"
+                   onclick="sendEmailVerifyCode();">发送验证码</a>
             </td>
         </tr>
         <tr id="emailVerifyCodeTr">
             <td class="label">验证码：</td>
-            <td><input name="emailVerifyCode" id="emailVerifyCode" class="easyui-textbox" data-options="required:true"></td>
+            <td><input name="emailVerifyCode" id="emailVerifyCode" class="easyui-textbox" data-options="required:true">
+            </td>
         </tr>
         <tr id="newEmailTr" style="display: none">
             <td class="label">新的电子邮箱：</td>
             <td><input name="newEmail" id="newEmail" class="easyui-textbox" data-options="required:false">
-                <a href="javascript:" class="easyui-linkbutton" id="sendNewEmailVerifyCode" onclick="sendNewEmailVerifyCode();">发送验证码</a>
+                <a href="javascript:" class="easyui-linkbutton" id="sendNewEmailVerifyCode"
+                   onclick="sendNewEmailVerifyCode();">发送验证码</a>
             </td>
         </tr>
         <tr id="newEmailVerifyCodeTr" style="display: none">
             <td class="label">验证码：</td>
-            <td><input name="newEmailVerifyCode" id="newEmailVerifyCode" class="easyui-textbox" data-options="required:false"></td>
+            <td><input name="newEmailVerifyCode" id="newEmailVerifyCode" class="easyui-textbox"
+                       data-options="required:false"></td>
         </tr>
     </table>
 </div>
@@ -32,22 +36,24 @@
         $('#email').textbox({disabled: true});
         util.ajax({
             method: 'post',
-            url:  Url.User.Api.USER + '/send_email_verify_code_by_current_user',
+            url: Url.User.Api.USER + '/send_email_verify_code_by_current_user',
             success: function (data) {
-              if(data) {
-                  $.messager.show({title: '信息', msg: '发送成功，请登录电子邮箱查收！'});
-              }
+                if (data) {
+                    $.messager.show({title: '信息', msg: '发送成功，请登录电子邮箱查收！'});
+                }
                 sendEmailVerifyCodeTimedCount();
             },
             error: function (xhr) {
-                if(xhr.responseJSON) {
+                if (xhr.responseJSON) {
                     $.messager.alert('信息', xhr.responseJSON.message, 'error');
                 }
             }
         });
     }
+
     var c = 60;
     var t;
+
     function sendEmailVerifyCodeTimedCount() {
         $('#sendEmailVerifyCode').linkbutton({text: c + '秒后可重发', disabled: true});
         if (c <= -1) {
@@ -56,7 +62,7 @@
             c = 60;
             $('#email').textbox({disabled: false});
         } else {
-            c --;
+            c--;
             t = setTimeout("sendEmailVerifyCodeTimedCount()", 1000)
         }
     }
@@ -65,22 +71,25 @@
         $('#newEmail').textbox({disabled: true});
         util.ajax({
             method: 'post',
-            url:  Url.User.Api.USER + '/send_email_verify_code_by_current_user',
+            url: Url.User.Api.USER + '/send_email_verify_code_by_current_user',
             data: {newEmail: $('#newEmail').textbox('getValue')},
             success: function (data) {
-                if(data) {
+                if (data) {
                     $.messager.show({title: '信息', msg: '发送成功，请登录电子邮箱账号查收'});
                 }
                 sendNewEmailVerifyCodeTimedCount();
             },
             error: function (xhr) {
-                if(xhr.responseJSON) {
+                if (xhr.responseJSON) {
                     $.messager.alert('信息', xhr.responseJSON.message, 'error');
                 }
             }
         });
     }
-    c = 60; t = undefined;
+
+    c = 60;
+    t = undefined;
+
     function sendNewEmailVerifyCodeTimedCount() {
         $('#sendNewEmailVerifyCode').linkbutton({text: c + '秒后可重发', disabled: true});
         if (c <= -1) {
@@ -89,7 +98,7 @@
             c = 60;
             $('#newEmail').textbox({disabled: false});
         } else {
-            c --;
+            c--;
             t = setTimeout("sendNewEmailVerifyCodeTimedCount()", 1000)
         }
     }

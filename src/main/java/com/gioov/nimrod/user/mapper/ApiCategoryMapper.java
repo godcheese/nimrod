@@ -18,12 +18,14 @@ public interface ApiCategoryMapper extends CrudMapper<ApiCategoryEntity, Long> {
 
     /**
      * 获取所有父级 id 为 null 的 API 分类
+     *
      * @return List<ApiCategoryEntity>
      */
     List<ApiCategoryEntity> listAllByParentIdIsNull();
 
     /**
      * 指定父级 API 分类 id，获取所有 API 分类
+     *
      * @param parentId 父级 API 分类 id
      * @return List<ApiCategoryEntity>
      */
@@ -31,6 +33,7 @@ public interface ApiCategoryMapper extends CrudMapper<ApiCategoryEntity, Long> {
 
     /**
      * 指定父级 API 分类 id，获取所有 API 分类
+     *
      * @param parentId 父级 API 分类 id
      * @return ApiCategoryEntity
      */

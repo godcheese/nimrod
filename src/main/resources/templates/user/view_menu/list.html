@@ -8,13 +8,16 @@
     <div data-options="region:'west',split:true" style="width:40%">
         <div id="viewMenuCategoryToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_CATEGORY_ADD_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="viewMenuCategoryAddDialog();">新增</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="viewMenuCategoryAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_CATEGORY_EDIT_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewMenuCategoryEditDialog();">编辑</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="viewMenuCategoryEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_CATEGORY_DELETE_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="viewMenuCategoryDeleteAll();">删除</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="viewMenuCategoryDeleteAll();">删除</a>
             </nimrod:security>
         </div>
         <table id="viewMenuCategory"></table>
@@ -22,13 +25,16 @@
     <div data-options="region:'center',split:true">
         <div id="viewMenuToolbar">
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_ADD_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="viewMenuAddDialog();">新增</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="viewMenuAddDialog();">新增</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_EDIT_DIALOG">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="viewMenuEditDialog();">编辑</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="viewMenuEditDialog();">编辑</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/VIEW_MENU/PAGE_ALL/VIEW_MENU_DELETE_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="viewMenuDeleteAll();">删除</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="viewMenuDeleteAll();">删除</a>
             </nimrod:security>
         </div>
         <table id="viewMenu"></table>
@@ -156,7 +162,7 @@
         }
         $('#viewMenuAddDialog').dialog(expressui.dialog.create, {
             title: '新增视图菜单',
-            width:460,
+            width: 460,
             grid: {type: 'treegrid', selector: '#viewMenuCategory'},
             href: Url.User.Page.VIEW_MENU + '/add_dialog',
             get: {url: Url.User.Api.VIEW_MENU + '/one/{id}', method: 'get'},

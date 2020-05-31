@@ -4,7 +4,7 @@ package com.gioov.nimrod.common.easyui;
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-09-26
  */
-public class EasyUI {
+public class EasyUi {
     /**
      * Tree TreeGrid state: The node state, 'open' or 'closed'.
      */

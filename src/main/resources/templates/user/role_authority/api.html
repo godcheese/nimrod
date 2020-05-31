@@ -11,10 +11,12 @@
     <div data-options="region:'center',split:true">
         <div id="roleAuthorityApiToolbar">
             <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/API/PAGE_ALL/ROLE_AUTHORITY_API_GRANT_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit" onclick="roleAuthorityApiGrantAll();">授权</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-edit"
+                   onclick="roleAuthorityApiGrantAll();">授权</a>
             </nimrod:security>
             <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/API/PAGE_ALL/ROLE_AUTHORITY_API_REVOKE_ALL">
-            <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleAuthorityApiRevokeAll();">撤销授权</a>
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="roleAuthorityApiRevokeAll();">撤销授权</a>
             </nimrod:security>
         </div>
         <table id="roleAuthorityApi"></table>
@@ -56,7 +58,8 @@
         var IS_OR_NOT = [];
         columns = [
             {field: 'checkbox', checkbox: true},
-            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+            {
+                field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
                     return expressui.grid.formatter(value, IS_OR_NOT);
                 }
             },

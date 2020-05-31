@@ -18,6 +18,7 @@ public interface RoleViewMenuMapper extends CrudMapper<RoleViewMenuEntity, Long>
 
     /**
      * 指定角色 id，获取所有角色权限
+     *
      * @param roleId 角色 id
      * @return List<RoleViewMenuEntity>
      */
@@ -25,6 +26,7 @@ public interface RoleViewMenuMapper extends CrudMapper<RoleViewMenuEntity, Long>
 
     /**
      * 指定角色 id，批量删除角色视图菜单
+     *
      * @param roleId 角色 id
      * @return int
      */
@@ -32,7 +34,8 @@ public interface RoleViewMenuMapper extends CrudMapper<RoleViewMenuEntity, Long>
 
     /**
      * 指定角色 id、视图菜单分类 id list，批量新增
-     * @param roleId 角色 id
+     *
+     * @param roleId         角色 id
      * @param viewMenuIdList 视图菜单 id list
      * @return int
      */
@@ -40,7 +43,8 @@ public interface RoleViewMenuMapper extends CrudMapper<RoleViewMenuEntity, Long>
 
     /**
      * 指定角色 id、authority，获取角色权限
-     * @param roleId 角色 id
+     *
+     * @param roleId     角色 id
      * @param viewMenuId 视图菜单 id
      * @return RoleAuthorityEntity
      */
@@ -48,7 +52,8 @@ public interface RoleViewMenuMapper extends CrudMapper<RoleViewMenuEntity, Long>
 
     /**
      * 指定角色 id，视图菜单 id list，批量删除
-     * @param roleId 角色 id
+     *
+     * @param roleId         角色 id
      * @param viewMenuIdList 视图菜单 id list
      * @return int
      */
@@ -56,6 +61,7 @@ public interface RoleViewMenuMapper extends CrudMapper<RoleViewMenuEntity, Long>
 
     /**
      * 指定视图菜单 id list，批量删除
+     *
      * @param viewMenuIdList 视图菜单 id list
      * @return int
      */

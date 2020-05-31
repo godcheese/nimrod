@@ -1,6 +1,6 @@
 package com.gioov.nimrod.system.entity;
 
-import com.gioov.nimrod.common.others.CommonEntityAdapter;
+import com.gioov.nimrod.common.others.BaseEntityAdapter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.Date;
  * @author godcheese [godcheese@outlook.com]
  * @date 2018-02-22
  */
-public class FileEntity extends CommonEntityAdapter<FileEntity> implements Serializable {
+public class FileEntity extends BaseEntityAdapter<FileEntity> implements Serializable {
     private static final long serialVersionUID = -361336044807379339L;
     /**
      * id

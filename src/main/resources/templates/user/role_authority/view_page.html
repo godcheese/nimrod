@@ -10,22 +10,30 @@
     </div>
     <div data-options="region:'center',split:true">
         <div id="roleAuthorityViewPageToolbar">
-            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_GRANT_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="roleAuthorityViewPageGrantAll();">授权</a>
+            <nimrod:security
+                    authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_GRANT_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="roleAuthorityViewPageGrantAll();">授权</a>
             </nimrod:security>
-            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_REVOKE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleAuthorityViewPageRevokeAll();">撤销授权</a>
+            <nimrod:security
+                    authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_REVOKE_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="roleAuthorityViewPageRevokeAll();">撤销授权</a>
             </nimrod:security>
         </div>
         <table id="roleAuthorityViewPage"></table>
     </div>
     <div data-options="region:'east',split:true" style="width:30%">
         <div id="roleAuthorityViewPageComponentToolbar">
-            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_COMPONENT_GRANT_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus" onclick="roleAuthorityViewPageComponentGrantAll();">授权</a>
+            <nimrod:security
+                    authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_COMPONENT_GRANT_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-plus"
+                   onclick="roleAuthorityViewPageComponentGrantAll();">授权</a>
             </nimrod:security>
-            <nimrod:security authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_COMPONENT_REVOKE_ALL">
-                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="roleAuthorityViewPageComponentRevokeAll();">撤销授权</a>
+            <nimrod:security
+                    authority="/COMPONENT/USER/ROLE_AUTHORITY/VIEW_PAGE/PAGE_ALL/ROLE_AUTHORITY_VIEW_PAGE_COMPONENT_REVOKE_ALL">
+                <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+                   onclick="roleAuthorityViewPageComponentRevokeAll();">撤销授权</a>
             </nimrod:security>
         </div>
         <table id="roleAuthorityViewPageComponent"></table>
@@ -80,7 +88,8 @@
 
         columns = [
             {field: 'checkbox', checkbox: true},
-            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+            {
+                field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
                     return expressui.grid.formatter(value, IS_OR_NOT);
                 }
             },
@@ -108,7 +117,8 @@
 
         columns = [
             {field: 'checkbox', checkbox: true},
-            {field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
+            {
+                field: 'isGranted', title: '是否已授权', formatter: function (value, row) {
                     return expressui.grid.formatter(value, IS_OR_NOT);
                 }
             },

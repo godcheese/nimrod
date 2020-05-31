@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-
 /**
  * @author godcheese [godcheese@outlook.com]
  * @date 2019-02-01
@@ -22,7 +21,7 @@ public class SimpleJob implements BaseJob {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        LOGGER.info( "{} SimpleJob 被执行", DateUtil.getNowDateTime());
+        LOGGER.info("{} SimpleJob 被执行", DateUtil.getNowDateTime());
     }
 
 }

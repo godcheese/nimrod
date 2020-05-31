@@ -27,17 +27,19 @@ public class SystemController {
 
     /**
      * 用户登录后首页
+     *
      * @return String
      */
     @OperationLog(value = "首页")
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAnyAuthority('/','/INDEX','/SYSTEM','/SYSTEM/INDEX')")
-    @RequestMapping(value = {"/", Url.Page.INDEX, System.Page.SYSTEM,System.Page.INDEX})
+    @RequestMapping(value = {"/", Url.Page.INDEX, System.Page.SYSTEM, System.Page.INDEX})
     public String index() {
         return Common.trimSlash(System.Page.SYSTEM + "/index");
     }
 
     /**
      * 工作台
+     *
      * @return String
      */
     @OperationLog(value = "工作台")

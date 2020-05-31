@@ -25,5 +25,4 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addPathPatterns(Url.ALL_PATH_PATTERN)
                 .excludePathPatterns(Url.STATIC);
     }
-
 }

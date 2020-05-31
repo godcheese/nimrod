@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public interface OperationLogMapper extends CrudMapper<OperationLogEntity, Long> {
     /**
      * 分页获取所有操作日志
+     *
      * @return Page<OperationLogEntity>
      */
     Page<OperationLogEntity> pageAll();

@@ -29,13 +29,16 @@
             <tr>
                 <td class="label">密码：</td>
                 <td>
-                    <input id="password" value="password" class="easyui-passwordbox" data-options="disabled: true,showEye: false"> <a href="javascript:" class="easyui-linkbutton" onclick="changePasswordDialog();">更换密码</a>
+                    <input id="password" value="password" class="easyui-passwordbox"
+                           data-options="disabled: true,showEye: false"> <a href="javascript:" class="easyui-linkbutton"
+                                                                            onclick="changePasswordDialog();">更换密码</a>
                 </td>
             </tr>
             <tr>
                 <td class="label">电子邮箱：</td>
                 <td>
-                    <input name="email" id="email" class="easyui-textbox" data-options="disabled: true"> <a href="javascript:" class="easyui-linkbutton" onclick="changeEmailDialog();">更换邮箱</a>
+                    <input name="email" id="email" class="easyui-textbox" data-options="disabled: true"> <a
+                        href="javascript:" class="easyui-linkbutton" onclick="changeEmailDialog();">更换邮箱</a>
                 </td>
             </tr>
             <tr>
@@ -61,11 +64,13 @@
     .display {
         display: none;
     }
+
     .user-avatar {
         float: right;
         width: 48px;
         height: 48px;
     }
+
     .user-avatar img {
         margin: 4px;
         border-radius: 20px;
@@ -78,7 +83,7 @@
         $('#avatarSrc').attr('src', _defaultAvatar);
         $('#avatar').textbox({
             onChange: function (newValue, oldValue) {
-                if(newValue === null || newValue === '') {
+                if (newValue === null || newValue === '') {
                     newValue = _defaultAvatar;
                 } else {
                     newValue = Url.System.Api.FILE + '/download/' + newValue
@@ -87,12 +92,12 @@
             }
         });
         util.ajax({
-            url:  Url.User.Api.USER + '/get_profile_by_current_user',
+            url: Url.User.Api.USER + '/get_profile_by_current_user',
             success: function (data) {
                 $('#profile').form('load', data);
                 var roles = [];
-                for(var i in data.roles) {
-                    if(data.roles.hasOwnProperty(i)) {
+                for (var i in data.roles) {
+                    if (data.roles.hasOwnProperty(i)) {
                         roles[i] = data.roles[i].name;
                     }
                 }
@@ -100,8 +105,8 @@
 
                 $('#role').datagrid({data: data.roles});
                 var departments = [];
-                for(i in data.departments) {
-                    if(data.departments.hasOwnProperty(i)) {
+                for (i in data.departments) {
+                    if (data.departments.hasOwnProperty(i)) {
                         departments[i] = data.departments[i].name;
                     }
                 }
@@ -111,6 +116,7 @@
             }
         });
     });
+
     function changeAvatarDialog() {
         $('#changeAvatarDialog').dialog(expressui.dialog.create, {
             title: '更换头像',
@@ -120,7 +126,7 @@
             buttons: [{
                 text: '确定',
                 iconCls: 'iconfont icon-save',
-                handler: function() {
+                handler: function () {
                     var guid = $('#file').datagrid('getChecked')[0].guid;
                     $('#avatar').textbox('setValue', guid);
                     $('#changeAvatarDialog').dialog('close');
@@ -133,9 +139,11 @@
             }]
         });
     }
+
     function removeAvatar() {
         $('#avatar').textbox('setValue', '');
     }
+
     function changePasswordDialog() {
         $('#changePasswordDialog').dialog(expressui.dialog.create, {
             title: '更换密码',
@@ -145,7 +153,7 @@
             buttons: [{
                 text: '确定',
                 iconCls: 'iconfont icon-save',
-                handler: function() {
+                handler: function () {
                     var password2Value = $('#password2').passwordbox('getValue');
                     var newPasswordValue = $('#newPassword').passwordbox('getValue');
                     var confirmNewPasswordValue = $('#confirmNewPassword').passwordbox('getValue');
@@ -176,7 +184,7 @@
                                 title: '信息',
                                 msg: '密码修改成功，请重新登录',
                                 icon: 'info',
-                                fn: function(){
+                                fn: function () {
                                     expressui.ajax({
                                         // dataType: 'json',
                                         url: Url.User.Api.LOGOUT,
@@ -204,19 +212,20 @@
             }]
         });
     }
+
     function changeEmailDialog() {
         $('#changeEmailDialog').dialog(expressui.dialog.create, {
             title: '更换邮箱',
             width: 580,
             height: 200,
             href: Url.User.Page.USER + '/change_email_dialog',
-            get: {url:  Url.User.Api.USER + '/get_profile_by_current_user'},
+            get: {url: Url.User.Api.USER + '/get_profile_by_current_user'},
             buttons: [{
                 text: '下一步',
                 iconCls: 'iconfont icon-chevron-right',
-                handler: function() {
+                handler: function () {
                     var _this = this;
-                    if($(_this).context.innerText.trim() === '下一步') {
+                    if ($(_this).context.innerText.trim() === '下一步') {
                         $('#changeEmailDialog').form('submit', {
                             url: Url.User.Api.USER + '/check_email_verify_code_by_current_user',
                             success: function (res) {
@@ -239,7 +248,7 @@
                             url: Url.User.Api.USER + '/change_email_by_current_user',
                             success: function (res) {
                                 $.messager.show({title: '信息', msg: '电子邮箱更换成功'});
-                                $('#email').textbox('setValue',$('#newEmail').textbox('getValue'));
+                                $('#email').textbox('setValue', $('#newEmail').textbox('getValue'));
                                 $('#email').textbox({disabled: true});
                                 $('#changeEmailDialog').dialog('close');
                             },

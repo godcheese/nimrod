@@ -13,6 +13,7 @@ public interface ViewMenuService {
 
     /**
      * 新增视图菜单
+     *
      * @param viewMenuEntity ViewMenuEntity
      * @return ViewMenuEntity
      */
@@ -20,6 +21,7 @@ public interface ViewMenuService {
 
     /**
      * 保存视图菜单
+     *
      * @param viewMenuEntity ViewMenuEntity
      * @return ViewMenuEntity
      */
@@ -27,6 +29,7 @@ public interface ViewMenuService {
 
     /**
      * 指定视图菜单 id list，批量删除视图菜单
+     *
      * @param idList 视图菜单 id list
      * @return int
      */
@@ -34,6 +37,7 @@ public interface ViewMenuService {
 
     /**
      * 指定视图菜单 id，获取视图菜单
+     *
      * @param id 视图菜单 id
      * @return ViewMenuEntity
      */
@@ -41,7 +45,8 @@ public interface ViewMenuService {
 
     /**
      * 指定用户 id、视图菜单分类 id，获取所有视图菜单
-     * @param userId 用户 id
+     *
+     * @param userId             用户 id
      * @param viewMenuCategoryId 视图菜单分类 id
      * @return List<ViewMenuEntity>
      */
@@ -49,12 +54,13 @@ public interface ViewMenuService {
 
     /**
      * 指定视图菜单分类 id、角色 id，分页获取所有视图菜单
-     * @param page 页
-     * @param rows 每页显示数量
+     *
+     * @param page               页
+     * @param rows               每页显示数量
      * @param viewMenuCategoryId 视图菜单分类 id
      * @return Pagination<ViewMenuEntity>
      */
-    Pagination<ViewMenuEntity> pageAllByViewMenuCategoryId(Integer page, Integer rows,Long viewMenuCategoryId, Long roleId);
+    Pagination<ViewMenuEntity> pageAllByViewMenuCategoryId(Integer page, Integer rows, Long viewMenuCategoryId, Long roleId);
 
 //    /**
 //     * 指定视图菜单名称，模糊搜索获取所有视图菜单

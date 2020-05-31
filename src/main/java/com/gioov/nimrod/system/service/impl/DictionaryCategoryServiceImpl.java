@@ -1,7 +1,7 @@
 package com.gioov.nimrod.system.service.impl;
 
 import com.gioov.nimrod.common.easyui.ComboTree;
-import com.gioov.nimrod.common.easyui.EasyUI;
+import com.gioov.nimrod.common.easyui.EasyUi;
 import com.gioov.nimrod.common.others.FailureEntity;
 import com.gioov.nimrod.system.entity.DictionaryCategoryEntity;
 import com.gioov.nimrod.system.entity.DictionaryEntity;
@@ -41,9 +41,9 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
     public List<DictionaryCategoryEntity> listAllParent() {
         List<DictionaryCategoryEntity> dictionaryCategoryEntityList = dictionaryCategoryMapper.listAllByParentIdIsNull();
         List<DictionaryCategoryEntity> dictionaryCategoryEntityListResult = new ArrayList<>();
-        for(DictionaryCategoryEntity dictionaryCategoryEntity : dictionaryCategoryEntityList) {
-            if(dictionaryCategoryMapper.getOneByParentId(dictionaryCategoryEntity.getId()) != null) {
-                dictionaryCategoryEntity.setState(EasyUI.State.CLOSED);
+        for (DictionaryCategoryEntity dictionaryCategoryEntity : dictionaryCategoryEntityList) {
+            if (dictionaryCategoryMapper.getOneByParentId(dictionaryCategoryEntity.getId()) != null) {
+                dictionaryCategoryEntity.setState(EasyUi.State.CLOSED);
             }
             dictionaryCategoryEntityListResult.add(dictionaryCategoryEntity);
         }
@@ -54,9 +54,9 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
     public List<DictionaryCategoryEntity> listAllByParentId(Long parentId) {
         List<DictionaryCategoryEntity> dictionaryCategoryEntityList = dictionaryCategoryMapper.listAllByParentId(parentId);
         List<DictionaryCategoryEntity> dictionaryCategoryEntityListResult = new ArrayList<>();
-        for(DictionaryCategoryEntity dictionaryCategoryEntity : dictionaryCategoryEntityList) {
-            if(dictionaryCategoryMapper.getOneByParentId(dictionaryCategoryEntity.getId()) != null) {
-                dictionaryCategoryEntity.setState(EasyUI.State.CLOSED);
+        for (DictionaryCategoryEntity dictionaryCategoryEntity : dictionaryCategoryEntityList) {
+            if (dictionaryCategoryMapper.getOneByParentId(dictionaryCategoryEntity.getId()) != null) {
+                dictionaryCategoryEntity.setState(EasyUi.State.CLOSED);
             }
             dictionaryCategoryEntityListResult.add(dictionaryCategoryEntity);
         }
@@ -75,7 +75,7 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public DictionaryCategoryEntity updateOne(DictionaryCategoryEntity dictionaryCategoryEntity) throws BaseResponseException {
-        if(dictionaryCategoryEntity.getId().equals(dictionaryCategoryEntity.getParentId())) {
+        if (dictionaryCategoryEntity.getId().equals(dictionaryCategoryEntity.getParentId())) {
             throw new BaseResponseException(failureEntity.i18n("dictionary_category.save_fail_do_not_save_self_dictionary_category"));
         }
         dictionaryCategoryEntity.setGmtModified(new Date());
@@ -111,7 +111,7 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
     public List<ComboTree> listAllDictionaryCategoryComboTree() {
         List<ComboTree> comboTreeList = new ArrayList<>(0);
         List<DictionaryCategoryEntity> dictionaryCategoryEntityList = dictionaryCategoryMapper.listAll();
-        for(DictionaryCategoryEntity dictionaryCategoryEntity : dictionaryCategoryEntityList) {
+        for (DictionaryCategoryEntity dictionaryCategoryEntity : dictionaryCategoryEntityList) {
             ComboTree comboTree = new ComboTree();
             comboTree.setId(dictionaryCategoryEntity.getId());
             comboTree.setText(dictionaryCategoryEntity.getName());
@@ -120,19 +120,20 @@ public class DictionaryCategoryServiceImpl implements DictionaryCategoryService 
         }
         return comboTreeList;
     }
+
     @Override
     public List<ComboTree> getDictionaryCategoryChildrenComboTree(long parentId, List<ComboTree> dictionaryCategoryComboTreeList) {
         List<ComboTree> children = new ArrayList<>(0);
-        for(ComboTree comboTree : dictionaryCategoryComboTreeList) {
-            if(comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
+        for (ComboTree comboTree : dictionaryCategoryComboTreeList) {
+            if (comboTree.getParentId() != null && comboTree.getParentId().equals(parentId)) {
                 children.add(comboTree);
             }
         }
-        for(ComboTree child : children) {
+        for (ComboTree child : children) {
             List<ComboTree> childChildren = getDictionaryCategoryChildrenComboTree(child.getId(), dictionaryCategoryComboTreeList);
             child.setChildren(childChildren);
         }
-        if(children.size() == 0) {
+        if (children.size() == 0) {
             return null;
         }
         return children;

@@ -33,10 +33,11 @@ public class ApiRestController {
 
     /**
      * 指定 API 分类 id，分页获取所有 API
+     *
      * @param page          页
      * @param rows          每页显示数量
      * @param apiCategoryId API 分类 id
-     * @return ResponseEntity<Pagination<ApiEntity>>
+     * @return ResponseEntity<Pagination < ApiEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + API + "/PAGE_ALL_BY_API_CATEGORY_ID')")
     @GetMapping(value = "/page_all_by_api_category_id")
@@ -46,12 +47,13 @@ public class ApiRestController {
 
     /**
      * 新增 API
-     * @param name API 名称
-     * @param url 请求地址（url）
-     * @param authority 权限（authority）
+     *
+     * @param name          API 名称
+     * @param url           请求地址（url）
+     * @param authority     权限（authority）
      * @param apiCategoryId API 分类 id
-     * @param sort 排序
-     * @param remark 备注
+     * @param sort          排序
+     * @param remark        备注
      * @return ResponseEntity<ApiEntity>
      * @throws BaseResponseException BaseResponseException
      */
@@ -72,10 +74,11 @@ public class ApiRestController {
 
     /**
      * 保存 API
-     * @param id API id
-     * @param name API 名称
-     * @param url 请求地址（url）
-     * @param sort 排序
+     *
+     * @param id     API id
+     * @param name   API 名称
+     * @param url    请求地址（url）
+     * @param sort   排序
      * @param remark 备注
      * @return ResponseEntity<ApiEntity>
      */
@@ -97,6 +100,7 @@ public class ApiRestController {
 
     /**
      * 指定 API id list，批量删除 API
+     *
      * @param idList API id list
      * @return ResponseEntity<Integer>
      */
@@ -109,6 +113,7 @@ public class ApiRestController {
 
     /**
      * 指定 API id，获取所有 API
+     *
      * @param id API id
      * @return ResponseEntity<ApiEntity>
      */

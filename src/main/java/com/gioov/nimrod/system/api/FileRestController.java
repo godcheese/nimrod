@@ -42,9 +42,10 @@ public class FileRestController {
 
     /**
      * 分页获取所有文件
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<FileEntity>>
+     * @return ResponseEntity<Pagination < FileEntity>>
      */
     @OperationLog(value = "分页获取所有文件", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + FILE + "/PAGE_ALL')")
@@ -55,6 +56,7 @@ public class FileRestController {
 
     /**
      * 单个文件上传
+     *
      * @param file 文件
      * @return ResponseEntity<FileEntity>
      */
@@ -62,12 +64,13 @@ public class FileRestController {
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + FILE + "/UPLOAD_ONE')")
     @PostMapping(value = "/upload_one")
     public ResponseEntity<FileEntity> uploadOne(HttpServletRequest httpServletRequest, @RequestParam MultipartFile file) throws BaseResponseException {
-        LOGGER.info("User-Agent={}",httpServletRequest.getHeader("User-Agent"));
+        LOGGER.info("User-Agent={}", httpServletRequest.getHeader("User-Agent"));
         return new ResponseEntity<>(fileService.uploadOne(file), HttpStatus.OK);
     }
 
     /**
      * 多个文件上传
+     *
      * @param files 文件 file array
      * @return ResponseEntity<FileEntity>
      */
@@ -80,8 +83,9 @@ public class FileRestController {
 
     /**
      * 保存文件
-     * @param id 文件 id
-     * @param name 文件名
+     *
+     * @param id     文件 id
+     * @param name   文件名
      * @param remark 备注
      * @return ResponseEntity<FileEntity>
      */
@@ -99,6 +103,7 @@ public class FileRestController {
 
     /**
      * 指定文件 id list，批量删除文件
+     *
      * @param idList 文件 id list
      * @return ResponseEntity<Integer> 被删除的数量
      */
@@ -111,6 +116,7 @@ public class FileRestController {
 
     /**
      * 指定文件 id，获取文件
+     *
      * @param id 文件 id
      * @return ResponseEntity<FileEntity>
      */
@@ -123,9 +129,10 @@ public class FileRestController {
 
     /**
      * 指定文件 guid，下载文件
-     * @param httpServletRequest HttpServletRequest
+     *
+     * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
-     * @param guid 文件 guid
+     * @param guid                文件 guid
      * @throws BaseResponseException BaseResponseException
      */
     @OperationLog(value = "指定文件 guid，下载文件", type = OperationLogType.API)
@@ -137,9 +144,10 @@ public class FileRestController {
 
     /**
      * 分页获取所有图片文件
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<FileEntity>>
+     * @return ResponseEntity<Pagination < FileEntity>>
      */
     @OperationLog(value = "分页获取所有图片文件", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + FILE + "/PAGE_ALL_IMAGE')")
@@ -150,9 +158,10 @@ public class FileRestController {
 
     /**
      * 分页获取所有图片文件
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<FileEntity>>
+     * @return ResponseEntity<Pagination < FileEntity>>
      */
     @OperationLog(value = "分页获取所有图片文件", type = OperationLogType.API)
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + FILE + "/PAGE_ALL_IMAGE')")

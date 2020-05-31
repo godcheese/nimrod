@@ -17,6 +17,7 @@ public interface FileService {
 
     /**
      * 指定文件 id，分页获取所有文件
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<FileEntity>
@@ -25,6 +26,7 @@ public interface FileService {
 
     /**
      * 单文件上传
+     *
      * @param file MultipartFile
      * @return FileEntity
      * @throws BaseResponseException BaseResponseException
@@ -33,6 +35,7 @@ public interface FileService {
 
     /**
      * 多文件上传
+     *
      * @param fileList MultipartFile list
      * @return List<FileEntity>
      * @throws BaseResponseException BaseResponseException
@@ -41,6 +44,7 @@ public interface FileService {
 
     /**
      * 保存文件
+     *
      * @param fileEntity FileEntity
      * @return FileEntity
      */
@@ -48,6 +52,7 @@ public interface FileService {
 
     /**
      * 指定文件 id list，批量删除文件
+     *
      * @param idList API id list
      * @return int 已删除 API 个数
      */
@@ -55,6 +60,7 @@ public interface FileService {
 
     /**
      * 指定文件 id，获取文件
+     *
      * @param id 文件 id
      * @return FileEntity
      */
@@ -62,15 +68,17 @@ public interface FileService {
 
     /**
      * 指定 guid，下载文件
-     * @param httpServletRequest HttpServletRequest
+     *
+     * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
-     * @param guid guid
+     * @param guid                guid
      * @throws BaseResponseException BaseResponseException
      */
     void download(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, String guid) throws BaseResponseException;
 
     /**
      * 分页获取所有图片文件
+     *
      * @param page 页
      * @param rows 每页显示数量
      * @return Pagination<FileEntity>

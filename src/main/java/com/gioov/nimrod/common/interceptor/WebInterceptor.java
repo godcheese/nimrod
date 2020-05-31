@@ -50,9 +50,9 @@ public class WebInterceptor implements HandlerInterceptor {
             userMap.put("id", null);
             userMap.put("username", null);
             if (simpleUser != null) {
-                    userMap.put("id", simpleUser.getId());
-                    userMap.put("username", simpleUser.getUsername());
-                    userMap.put("avatar", userService.getOne(simpleUser.getId()).getAvatar());
+                userMap.put("id", simpleUser.getId());
+                userMap.put("username", simpleUser.getUsername());
+                userMap.put("avatar", userService.getOne(simpleUser.getId()).getAvatar());
             }
             modelAndView.addObject(USER_KEY, userMap);
             String scheme = Common.Host.scheme;
@@ -61,7 +61,7 @@ public class WebInterceptor implements HandlerInterceptor {
             String local = scheme + "://localhost" + ":" + port + contextPath + "/";
             String network = scheme + "://" + ip + ":" + port + contextPath + "/";
             String host = network;
-            if(ip == null) {
+            if (ip == null) {
                 host = local;
             }
             modelAndView.addObject(HOST_KEY, host);

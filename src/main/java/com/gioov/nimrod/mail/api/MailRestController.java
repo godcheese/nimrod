@@ -30,9 +30,10 @@ public class MailRestController {
 
     /**
      * 分页获取所有电子邮件队列
+     *
      * @param page 页
      * @param rows 每页显示数量
-     * @return ResponseEntity<Pagination<MailEntity>>
+     * @return ResponseEntity<Pagination < MailEntity>>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + MAIL + "/PAGE_ALL')")
     @GetMapping(value = "/page_all")
@@ -42,12 +43,13 @@ public class MailRestController {
 
     /**
      * 新增电子邮件
-     * @param from 发件人电子邮箱
-     * @param to 收件人电子邮箱
+     *
+     * @param from    发件人电子邮箱
+     * @param to      收件人电子邮箱
      * @param subject 电子邮件主题
-     * @param text 电子邮件文本内容
-     * @param html 电子邮件是否为 html
-     * @param remark 备注
+     * @param text    电子邮件文本内容
+     * @param html    电子邮件是否为 html
+     * @param remark  备注
      * @return ResponseEntity<MailEntity>
      */
     @PreAuthorize("hasRole('" + SYSTEM_ADMIN + "') OR hasAuthority('" + MAIL + "/ADD_ONE')")
@@ -66,6 +68,7 @@ public class MailRestController {
 
     /**
      * 指定电子邮件 id，获取电子邮件
+     *
      * @param id 电子邮件 id
      * @return ResponseEntity<MailEntity>
      */
@@ -77,6 +80,7 @@ public class MailRestController {
 
     /**
      * 指定队列电子邮件 id，批量删除队列电子邮件
+     *
      * @param idList 电子邮件 id list
      * @return ResponseEntity<Integer>
      */

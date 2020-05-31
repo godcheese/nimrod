@@ -16,12 +16,13 @@ public class ExampleController {
 
     /**
      * 测试页面
+     *
      * @return String
      */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/test")
     public String pageAll() {
-        return  Common.trimSlash(Example.Page.EXAMPLE + "/test");
+        return Common.trimSlash(Example.Page.EXAMPLE + "/test");
     }
 
 }

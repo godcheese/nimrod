@@ -9,7 +9,8 @@ import java.util.List;
 public interface RoleViewMenuService {
     /**
      * 指定角色 id、视图菜单 id list，批量授权
-     * @param roleId 角色 id
+     *
+     * @param roleId         角色 id
      * @param viewMenuIdList 视图菜单 id list
      * @return List<String>
      */
@@ -17,7 +18,8 @@ public interface RoleViewMenuService {
 
     /**
      * 指定角色 id、视图菜单 id list，批量撤销授权
-     * @param roleId 角色 id
+     *
+     * @param roleId         角色 id
      * @param viewMenuIdList 视图菜单 id list
      * @return List<String>
      */

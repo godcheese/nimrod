@@ -6,10 +6,12 @@
 <body>
 <div id="jobRuntimeLogToolbar">
     <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_DELETE_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="jobRuntimeLogDeleteAll();">删除</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+           onclick="jobRuntimeLogDeleteAll();">删除</a>
     </nimrod:security>
     <nimrod:security authority="/COMPONENT/SYSTEM/OPERATION_LOG/PAGE_ALL/OPERATION_LOG_CLEAR_ALL">
-    <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close" onclick="jobRuntimeLogClearAll();">清空日志</a>
+        <a href="javascript:" class="easyui-linkbutton" iconCls="iconfont icon-close"
+           onclick="jobRuntimeLogClearAll();">清空日志</a>
     </nimrod:security>
 </div>
 <table id="jobRuntimeLog"></table>
@@ -24,7 +26,7 @@
             {field: 'consumingTime', title: '任务运行耗时（毫秒）'},
             {field: 'jobException', title: '任务异常信息'},
             {field: 'gmtCreated', title: '创建时间'}
-            ];
+        ];
         $('#jobRuntimeLog').datagrid(expressui.grid.create, {
             title: '任务运行日志',
             columns: [columns],
@@ -43,18 +45,24 @@
 
     function jobRuntimeLogClearAll() {
         $.messager.confirm('信息', '确定要操作吗', function (ok) {
-            if(ok) {
-                $.ajax({url: Url.Quartz.Api.JOB_RUNTIME_LOG + '/clear_all', type:'POST', dataType:'JSON',success:function (data) {
+            if (ok) {
+                $.ajax({
+                    url: Url.Quartz.Api.JOB_RUNTIME_LOG + '/clear_all',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function (data) {
                         $.messager.show({title: '信息', msg: '操作成功'});
                         $('#jobRuntimeLog').datagrid('reload');
-                    }, error:function (xhr) {
-                        if(xhr.status !== 200) {
+                    },
+                    error: function (xhr) {
+                        if (xhr.status !== 200) {
                             $.messager.alert('信息', '操作失败：' + xhr.responseJSON.message, 'error');
                         } else {
                             $.messager.show({title: '信息', msg: '操作成功'});
                             $('#jobRuntimeLog').datagrid('reload');
                         }
-                    }})
+                    }
+                })
             }
         });
     }

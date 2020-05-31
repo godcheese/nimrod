@@ -1,7 +1,6 @@
-
 var Url = Url || {};
 Url.PAGE = _contextPath;
-if(Url.PAGE.lastIndexOf('/') === 0 && Url.PAGE.length === 1) {
+if (Url.PAGE.lastIndexOf('/') === 0 && Url.PAGE.length === 1) {
     Url.PAGE = '';
 }
 Url.API = Url.PAGE + '/api';

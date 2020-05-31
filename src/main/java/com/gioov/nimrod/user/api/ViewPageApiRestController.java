@@ -22,7 +22,7 @@ import static com.gioov.nimrod.common.security.SimpleUserDetailsServiceImpl.SYST
  * @date 2018-02-22
  */
 @RestController
-@RequestMapping( User.Api.VIEW_PAGE_API)
+@RequestMapping(User.Api.VIEW_PAGE_API)
 public class ViewPageApiRestController {
 
     private static final String VIEW_PAGE_API = "/API/SYSTEM/VIEW_PAGE_API";
@@ -44,8 +44,9 @@ public class ViewPageApiRestController {
 
     /**
      * 指定视图页面 id，API id list，批量关联
+     *
      * @param viewPageId 视图页面 id
-     * @param apiIdList API id list
+     * @param apiIdList  API id list
      * @return ResponseEntity<Integer>
      */
     @OperationLog(value = "指定视图页面 id，API id list，批量关联", type = OperationLogType.API)
@@ -57,8 +58,9 @@ public class ViewPageApiRestController {
 
     /**
      * 指定视图页面 id，API id list，批量撤销关联
+     *
      * @param viewPageId 视图页面 id
-     * @param apiIdList API id list
+     * @param apiIdList  API id list
      * @return ResponseEntity<Integer>
      */
     @OperationLog(value = "指定视图页面 id，API id list，批量撤销关联", type = OperationLogType.API)

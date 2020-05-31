@@ -19,21 +19,24 @@ public interface ViewMenuMapper extends CrudMapper<ViewMenuEntity, Long> {
 
     /**
      * 指定视图菜单分类 id、角色 id，获取视图菜单
+     *
      * @param viewMenuCategoryId 视图菜单分类 id
-     * @param roleId         角色 id
+     * @param roleId             角色 id
      * @return List<ViewMenuEntity>
      */
     List<ViewMenuEntity> listAllByViewMenuCategoryIdAndRoleId(@Param("viewMenuCategoryId") Long viewMenuCategoryId, @Param("roleId") Long roleId);
 
     /**
      * 指定视图菜单分类 id、角色 id，获取视图菜单
+     *
      * @param viewMenuCategoryIdList 视图菜单分类 id list
      * @return List<ViewMenuEntity>
      */
     List<ViewMenuEntity> listAllByViewMenuCategoryIdList(@Param("viewMenuCategoryIdList") List<Long> viewMenuCategoryIdList);
 
     /**
-     *  指定视图菜单分类 id list，分页获取所有视图菜单
+     * 指定视图菜单分类 id list，分页获取所有视图菜单
+     *
      * @param viewMenuCategoryIdList 视图菜单分类 id list
      * @return Page<ViewMenuEntity>
      */
@@ -41,6 +44,7 @@ public interface ViewMenuMapper extends CrudMapper<ViewMenuEntity, Long> {
 
     /**
      * 指定视图菜单分类 id，获取视图菜单
+     *
      * @param viewMenuCategoryId 视图菜单分类 id
      * @return ViewMenuEntity
      */
@@ -48,14 +52,16 @@ public interface ViewMenuMapper extends CrudMapper<ViewMenuEntity, Long> {
 
     /**
      * 指定视图菜单分类 id、角色 id，分页获取所有视图菜单
+     *
      * @param viewMenuCategoryId 视图菜单分类 id
-     * @param roleId 角色 id
+     * @param roleId             角色 id
      * @return List<ViewMenuEntity>
      */
     Page<ViewMenuEntity> pageAllByViewMenuCategoryIdAndRoleId(@Param("viewMenuCategoryId") Long viewMenuCategoryId, @Param("roleId") Long roleId);
 
     /**
      * 指定视图菜单分类 id、角色 id，分页获取所有视图菜单
+     *
      * @param viewMenuCategoryId 视图菜单分类 id
      * @return List<ViewMenuEntity>
      */
@@ -63,6 +69,7 @@ public interface ViewMenuMapper extends CrudMapper<ViewMenuEntity, Long> {
 
     /**
      * 指定视图菜单名称，模糊搜索获取所有视图菜单
+     *
      * @param name 视图菜单名称
      * @return List<ViewMenuEntity>
      */
@@ -70,8 +77,9 @@ public interface ViewMenuMapper extends CrudMapper<ViewMenuEntity, Long> {
 
     /**
      * 指定视图菜单分类 id、角色 id list，获取视图菜单
+     *
      * @param viewMenuCategoryId 视图菜单分类 id
-     * @param roleIdList 角色 id list
+     * @param roleIdList         角色 id list
      * @return List<ViewMenuEntity>
      */
     List<ViewMenuEntity> listAllByViewMenuCategoryIdAndRoleIdList(@Param("viewMenuCategoryId") Long viewMenuCategoryId, @Param("roleIdList") List<Long> roleIdList);

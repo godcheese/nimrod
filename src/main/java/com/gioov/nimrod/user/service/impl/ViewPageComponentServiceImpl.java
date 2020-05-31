@@ -76,7 +76,7 @@ public class ViewPageComponentServiceImpl implements ViewPageComponentService {
     }
 
     @Override
-    public Pagination<ViewPageComponentEntity> pageAllByViewPageId( Integer page, Integer rows, Long viewPageId, Long roleId) {
+    public Pagination<ViewPageComponentEntity> pageAllByViewPageId(Integer page, Integer rows, Long viewPageId, Long roleId) {
         Pagination<ViewPageComponentEntity> pagination = new Pagination<>();
         PageHelper.startPage(page, rows);
         Page<ViewPageComponentEntity> viewPageComponentEntityPage = viewPageComponentMapper.pageAllByViewPageId(viewPageId);
@@ -84,8 +84,8 @@ public class ViewPageComponentServiceImpl implements ViewPageComponentService {
         List<ViewPageComponentEntity> viewPageComponentEntityListResult = new ArrayList<>();
         Integer isOrNotIs = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "IS"));
         Integer isOrNotNot = Integer.valueOf((String) dictionaryService.get("IS_OR_NOT", "NOT"));
-        if(!viewPageComponentEntityList.isEmpty()) {
-            for(ViewPageComponentEntity viewPageComponentEntity : viewPageComponentEntityList) {
+        if (!viewPageComponentEntityList.isEmpty()) {
+            for (ViewPageComponentEntity viewPageComponentEntity : viewPageComponentEntityList) {
 
                 if (roleAuthorityMapper.getOneByRoleIdAndAuthority(roleId, viewPageComponentEntity.getAuthority()) != null) {
                     viewPageComponentEntity.setIsGranted(isOrNotIs);

@@ -28,7 +28,8 @@
         insert into
         <include refid="TableName"/>
         ( `user_id`,`name`, `size`, `pretty_size`, `mime_type`, `path`, `guid`, `remark`, `gmt_modified`, `gmt_created`)
-        values (#{userId}, #{name}, #{size}, #{prettySize}, #{mimeType}, #{path}, #{guid}, #{remark}, #{gmtCreated}, #{gmtModified})
+        values (#{userId}, #{name}, #{size}, #{prettySize}, #{mimeType}, #{path}, #{guid}, #{remark}, #{gmtCreated},
+        #{gmtModified})
     </insert>
 
     <update id="updateOne" keyProperty="id" parameterType="com.gioov.nimrod.system.entity.FileEntity">

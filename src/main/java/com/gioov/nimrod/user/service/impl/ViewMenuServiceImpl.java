@@ -79,7 +79,8 @@ public class ViewMenuServiceImpl implements ViewMenuService {
 
     /**
      * 指定用户 id、视图菜单分类 id 获取视图菜单
-     * @param userId         用户 id
+     *
+     * @param userId             用户 id
      * @param viewMenuCategoryId 视图菜单分类 id
      * @return
      */

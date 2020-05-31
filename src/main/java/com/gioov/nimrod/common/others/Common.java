@@ -42,7 +42,7 @@ public class Common {
     @Autowired
     private AppProperties appProperties;
 
-    @Autowired
+    @Autowired(required = false)
     private UpdatableMultipartConfigElement updatableMultipartConfigElement;
 
     public void initialize() {
@@ -81,7 +81,7 @@ public class Common {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Host.serverInfo =  webApplicationContext.getServletContext().getServerInfo();
+        Host.serverInfo = webApplicationContext.getServletContext().getServerInfo();
         try {
             Host.scheme = MBeanServerUtil.getScheme();
             Host.port = MBeanServerUtil.getPort();
@@ -93,6 +93,7 @@ public class Common {
 
     /**
      * 对象转 JSON
+     *
      * @param object Object
      * @return String
      * @throws JsonProcessingException JsonProcessingException
@@ -103,6 +104,7 @@ public class Common {
 
     /**
      * JSON 转对象
+     *
      * @param json  JSON
      * @param clazz Class
      * @param <T>   T
@@ -114,14 +116,14 @@ public class Common {
     }
 
     public static String trimSlash(String string) {
-        if(string != null) {
+        if (string != null) {
             int slashIndex = string.indexOf("/");
-            if(slashIndex == 0 && string.length()>1) {
+            if (slashIndex == 0 && string.length() > 1) {
                 while (true) {
                     string = string.substring(1);
                     if (string.length() >= 1) {
                         slashIndex = string.indexOf("/");
-                        if(slashIndex != 0) {
+                        if (slashIndex != 0) {
                             return string;
                         }
                     }
@@ -133,7 +135,7 @@ public class Common {
         return null;
     }
 
-    public Object i18n(String key, Object ...params) {
+    public Object i18n(String key, Object... params) {
         ClassPathResource classPathResource = new ClassPathResource("i18n/" + appProperties.getI18n() + ".properties");
         Properties properties = new Properties();
         try {
