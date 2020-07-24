@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godcheese.nimrod.user.mapper.ViewPageComponentApiMapper">
+    <resultMap id="BaseResultMap" type="com.godcheese.nimrod.user.entity.ViewPageComponentApiEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="page_component_id" property="viewPageComponentId" jdbcType="BIGINT"/> <!-- 视图页面组件 id -->
+        <result column="api_id" property="apiId" jdbcType="BIGINT"/> <!-- API id -->
+    </resultMap>
+
+    <sql id="TableName">
+        `view_page_component_api`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `view_page_component_id`, `api_id`
+    </sql>
+
+    <insert id="insertAllByViewPageComponentIdAndApiIdList" useGeneratedKeys="true">
+        insert into
+        <include refid="TableName"/>
+        (`view_page_component_id`, `api_id`)
+        values
+        <foreach collection="apiIdList" item="item" index="index" separator=",">
+            <if test="item != ''">
+                (#{viewPageComponentId}, #{item})
+            </if>
+        </foreach>
+    </insert>
+
+    <delete id="deleteAllByViewPageComponentIdAndApiIdList">
+        delete from
+        <include refid="TableName"/>
+        where `view_page_component_id` = #{viewPageComponentId} AND `api_id` in (
+        <foreach collection="apiIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id} limit 1
+    </select>
+
+
+    <select id="listAllByViewPageComponentId" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_component_id` = #{viewPageComponentId}
+    </select>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+    </select>
+
+    <select id="getOneByViewPageComponentIdAndApiId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_component_id` = #{viewPageComponentId} AND `api_id` = #{apiId} limit 1
+    </select>
+
+
+</mapper>

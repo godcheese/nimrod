@@ -37,34 +37,46 @@ $(function () {
             return;
         }
 
-        $(this).attr('disabled', 'disabled');
+        _this = this;
+
+        $(_this).attr('disabled', 'disabled');
         account.attr('disabled', 'disabled');
         password.attr('disabled', 'disabled');
         verifyCode.attr('disabled', 'disabled');
         rememberMe.attr('disabled', 'disabled');
-        $.ajax({
-            url: Url.User.Api.LOGIN,
-            data: {
-                account: account.val(),
-                password: password.val(),
-                rememberMe: rememberMe.is(':checked'),
-                verifyCode: verifyCode.val()
-            },
-            type: 'post',
-            success: function (XMLHttpRequest, statusText) {
-                // 刷新页面跳转到首页
-                window.location.href = _contextPath;
-            },
-            error: function (XMLHttpRequest, statusText, errorThrown) {
-                alert(XMLHttpRequest.responseJSON.message);
-                $('#verifyCodeImage').click();
-                account.removeAttr('disabled');
-                password.removeAttr('disabled');
-                verifyCode.removeAttr('disabled');
-                rememberMe.removeAttr('disabled');
-                $(this).removeAttr('disabled');
-            }
-        });
+        try {
+            $.ajax({
+                url: Url.User.Api.LOGIN,
+                data: {
+                    account: account.val(),
+                    password: password.val(),
+                    rememberMe: rememberMe.is(':checked'),
+                    verifyCode: verifyCode.val()
+                },
+                type: 'post',
+                success: function (XMLHttpRequest, statusText) {
+                    // 刷新页面跳转到首页
+                    window.location.href = _contextPath;
+                },
+                error: function (XMLHttpRequest, statusText, errorThrown) {
+                    alert(XMLHttpRequest.responseJSON.message);
+                    $('#verifyCodeImage').click();
+                    account.removeAttr('disabled');
+                    password.removeAttr('disabled');
+                    verifyCode.removeAttr('disabled');
+                    rememberMe.removeAttr('disabled');
+                    $(_this).removeAttr('disabled');
+                }
+            });
+
+        } catch (e) {
+            console.log(e);
+            account.removeAttr('disabled');
+            password.removeAttr('disabled');
+            verifyCode.removeAttr('disabled');
+            rememberMe.removeAttr('disabled');
+            $(_this).removeAttr('disabled');
+        }
     });
 
 });

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godcheese.nimrod.user.mapper.ViewPageMapper">
+    <resultMap id="BaseResultMap" type="com.godcheese.nimrod.user.entity.ViewPageEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="name" property="name" jdbcType="VARCHAR"/> <!-- 页面名称 -->
+        <result column="url" property="url" jdbcType="LONGVARCHAR"/> <!--请求地址（url）-->
+        <result column="authority" property="authority" jdbcType="VARCHAR"/> <!-- 权限（authority） -->
+        <result column="view_page_category_id" property="viewPageCategoryId" jdbcType="BIGINT"/> <!-- 页面分类 id -->
+        <result column="sort" property="sort" jdbcType="BIGINT"/> <!-- 排序 -->
+        <result column="remark" property="remark" jdbcType="VARCHAR"/> <!-- 备注 -->
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/> <!-- 更新时间 -->
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/> <!-- 创建时间 -->
+    </resultMap>
+
+    <sql id="TableName">
+        `view_page`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `name`, `url`, `view_page_category_id`, `sort`, `remark`, `authority`, `gmt_modified`, `gmt_created`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.godcheese.nimrod.user.entity.ViewPageEntity">
+        insert into
+        <include refid="TableName"/>
+        (`id`, `name`, `url`, `authority`, `view_page_category_id`, `sort`, `remark`, `gmt_modified`, `gmt_created`)
+        values (#{id}, #{name}, #{url}, #{authority}, #{viewPageCategoryId}, #{sort}, #{remark},
+        #{gmtModified}, #{gmtCreated})
+    </insert>
+
+    <update id="updateOne" keyProperty="id" parameterType="com.godcheese.nimrod.user.entity.ViewPageEntity">
+        update
+        <include refid="TableName"/>
+        set `name` = #{name}, `url` = #{url}, `authority` = #{authority}, `view_page_category_id` =
+        #{viewPageCategoryId}, `sort` = #{sort}, `remark` = #{remark},
+        `gmt_modified` = #{gmtModified}
+        where `id`= #{id}
+    </update>
+
+    <delete id="deleteAll">
+        delete from
+        <include refid="TableName"/>
+        where `id` in
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteOne" parameterType="long">
+        delete from
+        <include refid="TableName"/>
+        where `id` = #{id}
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id} limit 1
+    </select>
+
+    <select id="pageAllByViewPageCategoryId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_category_id` = #{viewPageCategoryId}
+    </select>
+
+    <select id="countAllByViewPageCategoryId" parameterType="long" resultType="int">
+        select COUNT(1) from
+        <include refid="TableName"/>
+        where `view_page_category_id` = #{viewPageCategoryId}
+    </select>
+
+    <select id="getOneByAuthority" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `authority` = #{authority} limit 1
+    </select>
+
+    <select id="listAllByViewPageCategoryId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_category_id` = #{viewPageCategoryId}
+    </select>
+
+    <select id="getOneByViewPageCategoryId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_category_id` = #{viewPageCategoryId} limit 1
+    </select>
+
+    <select id="pageAllByViewPageCategoryIdList" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `view_page_category_id` in (
+        <foreach collection="viewPageCategoryIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+</mapper>

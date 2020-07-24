@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godcheese.nimrod.system.mapper.OperationLogMapper">
+    <resultMap id="BaseResultMap" type="com.godcheese.nimrod.system.entity.OperationLogEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="user_id" property="userId" jdbcType="BIGINT"/> <!-- 访问用户 id -->
+        <result column="ip_address" property="ipAddress" jdbcType="VARCHAR"/> <!-- 用户 IP -->
+        <result column="operation_type" property="operationType" jdbcType="INTEGER"/> <!-- 操作类型 -->
+        <result column="operation" property="operation" jdbcType="LONGVARCHAR"/> <!-- 操作说明 -->
+        <result column="consuming_time" property="consumingTime" jdbcType="BIGINT"/> <!-- 操作耗时（毫秒） -->
+        <result column="request_url" property="requestUrl" jdbcType="VARCHAR"/> <!-- 请求地址 -->
+        <result column="request_method" property="requestMethod" jdbcType="VARCHAR"/> <!-- 请求方法 -->
+        <result column="request_parameter" property="requestParameter" jdbcType="LONGVARCHAR"/> <!-- 请求参数 -->
+        <result column="accept_language" property="acceptLanguage" jdbcType="VARCHAR"/> <!-- 请求语言 -->
+        <result column="referer" property="referer" jdbcType="VARCHAR"/> <!-- 请求来源 -->
+        <result column="user_agent" property="userAgent" jdbcType="VARCHAR"/> <!-- 用户代理 -->
+        <result column="handler" property="handler" jdbcType="LONGVARCHAR"/> <!-- Handler -->
+        <result column="stack_trace" property="stackTrace" jdbcType="LONGVARCHAR"/> <!-- 异常堆栈 -->
+        <result column="session_id" property="sessionId" jdbcType="VARCHAR"/> <!-- Session ID -->
+        <result column="cookie" property="cookie" jdbcType="LONGVARCHAR"/> <!-- Cookie -->
+        <result column="status" property="status" jdbcType="VARCHAR"/> <!-- 响应状态码 -->
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/> <!-- 创建时间 -->
+    </resultMap>
+
+    <sql id="TableName">
+        `operation_log`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `user_id`, `ip_address`, `operation_type`, `operation`, `consuming_time`, `request_url`, `request_method`, `request_parameter`, `accept_language`, `referer`, `user_agent`, `handler`, `stack_trace`, `session_id`, `cookie`, `status`, `gmt_created`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.godcheese.nimrod.system.entity.OperationLogEntity">
+        insert into
+        <include refid="TableName"/>
+        (`user_id`, `ip_address`, `operation_type`, `operation`, `consuming_time`, `request_url`, `request_method`,
+        `request_parameter`, `accept_language`, `referer`, `user_agent`, `handler`, `stack_trace`, `session_id`,
+        `cookie`, `status`, `gmt_created`)
+        values (#{userId}, #{ipAddress}, #{operationType}, #{operation}, #{consumingTime}, #{requestUrl},
+        #{requestMethod}, #{requestParameter}, #{acceptLanguage}, #{referer}, #{userAgent}, #{handler}, #{stackTrace},
+        #{sessionId},
+        #{cookie}, #{status}, #{gmtCreated})
+    </insert>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id} limit 1
+    </select>
+
+    <delete id="deleteOne" parameterType="long">
+        delete from
+        <include refid="TableName"/>
+        where `id` = #{id}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from
+        <include refid="TableName"/>
+        where `id` in
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <update id="truncate">
+        truncate table
+        <include refid="TableName"/>
+    </update>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+    </select>
+</mapper>

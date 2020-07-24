@@ -29,34 +29,34 @@
 ## 简介 Introduction
 > nimrod 英[ˈnimrɔd] 美[ˈnɪmˌrɑd] n.	好猎手，猎人;
 
-Nimrod 是一款基于 Spring Boot 封装的 Java Web 平台快速开发脚手架，所采用的技术栈包括 Spring Boot、Spring、Spring MVC、MyBatis、Thymeleaf 等，遵守[阿里巴巴 Java 开发规约](https://github.com/alibaba/p3c)，帮助养成良好的编码习惯。整体采用 RBAC （ Role-Based Access Control ，基于角色的访问控制），具有严格的权限控制模块，支持系统与模块分离开发。最后希望这个项目能够对你有所帮助。
+Nimrod - 基于 Spring Boot 构建 的 Java Web 平台企业级单体应用快速开发框架，适合中小型项目的应用和开发。所采用的技术栈包括 Spring Boot、Spring、Spring Web MVC、MyBatis、Thymeleaf 等，遵守[阿里巴巴 Java 开发规约](https://github.com/alibaba/p3c)，帮助养成良好的编码习惯。整体采用 RBAC （ Role-Based Access Control ，基于角色的访问控制），具有严格的权限控制模块，支持系统与模块分离开发。最后希望这个项目能够对你有所帮助。
 
 - Nimrod 开发交流群（微信群）：<img width="170" height="250" src="https://github.com/godcheese/nimrod/blob/master/WechatGroup.png?raw=true">
 - Nimrod 开发交流群（QQ 群）：[547252502](https://jq.qq.com/?_wv=1027&k=5yxyg73)
 - [码云 Gitee](https://gitee.com/godcheese/nimrod)
 
-|环境  |版本|
-|:-----|---|
-|[Java](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)  |1.8|
-|[MySQL](https://dev.mysql.com/downloads/mysql/5.7.html#downloads) |5.7|
-|[Maven](http://maven.apache.org/download.cgi) |3.5|
-|[Tomcat](https://tomcat.apache.org/download-90.cgi)|9.0|
+| 环境 | 版本 |
+| :--- | :--- |
+| [Java](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) | 1.8 |
+| [MySQL](https://dev.mysql.com/downloads/mysql/5.7.html#downloads) | 5.7 |
+| [Maven](http://maven.apache.org/download.cgi) | 3.5 |
+| [Tomcat](https://tomcat.apache.org/download-90.cgi) | 9.0 |
 
-|依赖            |版本         |
-|:------------- |:------------|
-|[Spring Boot](http://mvnrepository.com/artifact/org.springframework.boot/spring-boot)    |2.1.9.RELEASE|
-|[Spring Web MVC](http://mvnrepository.com/artifact/org.springframework/spring-webmvc)     |5.1.6.RELEASE|
-|[Spring Security Web](http://mvnrepository.com/artifact/org.springframework.security/spring-security-web)|5.1.5.RELEASE|
-|[MyBatis](http://mvnrepository.com/artifact/org.mybatis/mybatis)        |3.5.1      |
-|[Thymeleaf](http://mvnrepository.com/artifact/org.thymeleaf/thymeleaf)      |3.0.11.RELEASE|
-|[Druid](http://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter)          |1.1.16       |
+| 依赖 | 版本 |
+| :--- | :--- |
+| [Spring Boot](http://mvnrepository.com/artifact/org.springframework.boot/spring-boot) | 2.1.9.RELEASE |
+| [Spring Web MVC](http://mvnrepository.com/artifact/org.springframework/spring-webmvc) | 5.1.6.RELEASE |
+| [Spring Security Web](http://mvnrepository.com/artifact/org.springframework.security/spring-security-web) | 5.1.5.RELEASE |
+| [MyBatis](http://mvnrepository.com/artifact/org.mybatis/mybatis) | 3.5.1 |
+| [Thymeleaf](http://mvnrepository.com/artifact/org.thymeleaf/thymeleaf) | 3.0.11.RELEASE |
+| [Druid](http://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter) | 1.1.16 |
 
-|测试账号     |        |                                       |
-|:-----------|:-------|:--------------------------------------|
-|Username    |Password|Role & Authority                       |
-|system_admin|123456  |ROLE_USER,ROLE_ADMIN,ROLE_SYSTEM_ADMIN |
-|admin       |123456  |ROLE_USER,ROLE_ADMIN,/API/SYSTEM/INDEX |
-|user        |123456  |ROLE_USER                              |
+| 测试账号 | 测试账号 |         |
+| :------ | :------ | :------ |
+| Username | Password | Role & Authority |
+| system_admin | 123456 | ROLE_USER,ROLE_ADMIN,ROLE_SYSTEM_ADMIN |
+| admin |123456 | ROLE_USER,ROLE_ADMIN,/API/SYSTEM/INDEX |
+| user |123456 | ROLE_USER |
 
 ## 特性 Features
 
@@ -89,19 +89,20 @@ mvn clean package
 # develop
 mvn spring-boot:run
 ```
+
 ## [开发文档 Documentation](https://github.com/godcheese/nimrod/blob/master/docs/getting_started.md)
 
 ## [更新日志 Changelog](https://github.com/godcheese/nimrod/releases)
-> 参照[Commit message 和 Change log 编写指南](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
+> 参照 [Commit message 和 Change log 编写指南](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
 ## [在线演示 Online Demo](http://demo.godcheese.com:8083/nimrod)
 
 登录用户名密码加QQ群547252502获取。
 
-#### Screenshots
+#### 截图 Screenshots
 
-![1.png](./screenshots/1.png)
-![2.png](./screenshots/2.png)
-![3.png](./screenshots/3.png)
+![1.png](https://github.com/godcheese/nimrod/blob/master/screenshots/1.png)
+![2.png](https://github.com/godcheese/nimrod/blob/master/screenshots/2.png)
+![3.png](https://github.com/godcheese/nimrod/blob/master/screenshots/3.png)
 
 ## 反馈 Feedback
 

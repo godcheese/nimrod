@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 07/03/2020 18:30:16
+ Date: 17/07/2020 12:37:59
 */
 
 SET NAMES utf8mb4;
@@ -516,9 +516,9 @@ INSERT INTO `dictionary` VALUES (40, 'QUARTZ_TRIGGER_STATE', 'Quartz 任务状�
 INSERT INTO `dictionary` VALUES (41, 'QUARTZ_TRIGGER_STATE', 'Quartz 任务状态', '已阻塞', 'BLOCKED', 'BLOCKED', 15, 1, 0, '', NULL, NULL);
 INSERT INTO `dictionary` VALUES (42, 'QUARTZ_TRIGGER_STATE', 'Quartz 任务状态', '错误', 'ERROR', 'ERROR', 15, 1, 0, '', NULL, NULL);
 INSERT INTO `dictionary` VALUES (43, 'VERIFY_CODE', '验证码', '背景色', 'HEX_BACKGROUND_COLOR', '#0064c8', 14, 1, 0, '', NULL, NULL);
-INSERT INTO `dictionary` VALUES (44, 'VERIFY_CODE', '验证码', '字体色', 'FONT_COLOR', '#FFFFFF', 14, 1, 0, '', NULL, NULL);
+INSERT INTO `dictionary` VALUES (44, 'VERIFY_CODE', '验证码', '字体色', 'FONT_COLOR', '#ffffff', 14, 1, 0, '', NULL, NULL);
 INSERT INTO `dictionary` VALUES (45, 'WEB', '网站配置', '网站地址', 'URL', 'http://localhost:8080', 3, 1, 0, '', NULL, NULL);
-INSERT INTO `dictionary` VALUES (46, 'VERIFY_CODE', '验证码', '字体路径', 'FONT_PATH', '/fonts/Arial.ttf', 14, 1, 0, '', '2019-11-09 02:54:48', '2019-11-09 02:54:48');
+INSERT INTO `dictionary` VALUES (46, 'VERIFY_CODE', '验证码', '字体路径', 'FONT_PATH', 'classpath:/fonts/Arial.ttf', 14, 1, 0, '', '2019-11-09 02:54:48', '2019-11-09 02:54:48');
 
 -- ----------------------------
 -- Table structure for dictionary_category
@@ -569,7 +569,7 @@ CREATE TABLE `file`  (
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `gmt_created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for job_runtime_log
@@ -632,7 +632,7 @@ CREATE TABLE `operation_log`  (
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '响应状态码',
   `gmt_created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 481 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for role
@@ -732,6 +732,8 @@ CREATE TABLE `user`  (
   `department_id` bigint(20) UNSIGNED NOT NULL COMMENT '部门 id',
   `enabled` tinyint(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否启用（0=否，1=是，默认=0）',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
+  `gmt_password_last_modified` datetime(0) NULL DEFAULT NULL COMMENT '最后更改密码时间',
+  `gmt_last_login` datetime(0) NULL DEFAULT NULL COMMENT '最后登录时间',
   `gmt_deleted` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
   `gmt_modified` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `gmt_created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
@@ -742,9 +744,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'normal_user', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'normal_user@outlook.com', 1, 1, 0, '测试备注', NULL, '2019-10-31 13:54:41', '2018-06-27 21:22:40');
-INSERT INTO `user` VALUES (2, 'admin', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'admin@outlook.com', 1, 1, 1, '测试备注', NULL, '2019-11-05 02:29:23', '2018-06-27 21:22:40');
-INSERT INTO `user` VALUES (999, 'system_admin', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'system_admin@outlook.com', 1, 1, 1, '测试备注', NULL, '2020-03-06 10:52:51', '2018-06-27 21:22:40');
+INSERT INTO `user` VALUES (1, 'normal_user', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'normal_user@outlook.com', 1, 1, 0, '测试备注', NULL, NULL, NULL, '2019-10-31 13:54:41', '2018-06-27 21:22:40');
+INSERT INTO `user` VALUES (2, 'admin', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'admin@outlook.com', 1, 1, 1, '测试备注', NULL, NULL, NULL, '2019-11-05 02:29:23', '2018-06-27 21:22:40');
+INSERT INTO `user` VALUES (999, 'system_admin', '$2a$10$IEK236NdbYiZzYVAHTl4qeIgPInJQwMqRh/c986PKwEN4/T1DbsSm', '', 'system_admin@outlook.com', 1, 1, 1, '测试备注', NULL, NULL, NULL, '2020-03-06 10:52:51', '2018-06-27 21:22:40');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -755,7 +757,7 @@ CREATE TABLE `user_role`  (
   `user_id` bigint(20) UNSIGNED NOT NULL COMMENT '用户 id',
   `role_id` bigint(20) UNSIGNED NOT NULL COMMENT '角色 id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户关联角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户关联角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_role
@@ -763,6 +765,7 @@ CREATE TABLE `user_role`  (
 INSERT INTO `user_role` VALUES (1, 999, 999);
 INSERT INTO `user_role` VALUES (2, 1, 1);
 INSERT INTO `user_role` VALUES (3, 2, 2);
+INSERT INTO `user_role` VALUES (4, 2, 999);
 
 -- ----------------------------
 -- Table structure for user_verify_code
@@ -836,9 +839,9 @@ CREATE TABLE `view_menu_category`  (
 -- Records of view_menu_category
 -- ----------------------------
 INSERT INTO `view_menu_category` VALUES (1, '系统管理', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:27', '2018-07-01 21:28:04');
-INSERT INTO `view_menu_category` VALUES (2, '系统配置', 'iconfont icon-cog', 1, 0, '', '2019-06-13 04:16:55', '2018-07-01 21:28:04');
-INSERT INTO `view_menu_category` VALUES (3, '用户配置', 'iconfont icon-user', 1, 0, '', '2019-06-13 07:22:32', '2018-07-01 21:28:04');
-INSERT INTO `view_menu_category` VALUES (4, 'Quartz 任务', 'iconfont icon-cog', 2, 0, '', NULL, NULL);
+INSERT INTO `view_menu_category` VALUES (2, '系统配置', 'fa fa-cog', 1, 0, '', '2019-06-13 04:16:55', '2018-07-01 21:28:04');
+INSERT INTO `view_menu_category` VALUES (3, '用户配置', 'fa fa-user', 1, 0, '', '2019-06-13 07:22:32', '2018-07-01 21:28:04');
+INSERT INTO `view_menu_category` VALUES (4, 'Quartz 任务', 'fa fa-bars', 2, 0, '', NULL, NULL);
 INSERT INTO `view_menu_category` VALUES (5, '测试菜单', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:41', '2019-12-17 10:38:53');
 INSERT INTO `view_menu_category` VALUES (6, '系统管理系统管', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:46', '2019-12-17 10:51:36');
 INSERT INTO `view_menu_category` VALUES (7, '系统管理系统管2', 'iconfont icon-cog', NULL, 0, '', '2019-12-30 06:11:52', '2019-12-17 10:55:09');

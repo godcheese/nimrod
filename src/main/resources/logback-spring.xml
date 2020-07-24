@@ -4,11 +4,9 @@
     scope：作用域
     name：在 logback-spring.xml 使用的键
     source：application.properties 文件中的键
-    defaultValue：默认值
-    -->
+    defaultValue：默认值 -->
     <contextName>logback</contextName>
-    <springProperty scope="logback" name="app.name" source="app.name" defaultValue="nimrod"/>
-    <springProperty scope="logback" name="log.dir" source="log.dir" defaultValue="../logs"/>
+    <springProperty scope="logback" name="log.dir" source="log.dir" defaultValue="../logs/app"/>
     <springProperty scope="logback" name="log.max_history" source="log.max_history" defaultValue="30"/>
     <springProperty scope="logback" name="log.max_file_size" source="log.max_file_size" defaultValue="10MB"/>
     <springProperty scope="logback" name="log.total_size_cap" source="log.total_size_cap" defaultValue="2GB"/>
@@ -83,16 +81,27 @@
             <totalSizeCap>${log.total_size_cap}</totalSizeCap>
         </rollingPolicy>
     </appender>
-    <appender name="ASYNC_INFO_LOG" class="ch.qos.logback.classic.AsyncAppender">
+    <appender name="ASYNC_CONSOLE_LOG" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>0</discardingThreshold>
         <queueSize>256</queueSize>
-        <appender-ref ref="INFO_LOG"/>
+        <appender-ref ref="CONSOLE_LOG"/>
     </appender>
     <appender name="ASYNC_ERROR_LOG" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>0</discardingThreshold>
         <queueSize>256</queueSize>
         <appender-ref ref="ERROR_LOG"/>
     </appender>
+    <appender name="ASYNC_WARN_LOG" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="WARN_LOG"/>
+    </appender>
+    <appender name="ASYNC_INFO_LOG" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="INFO_LOG"/>
+    </appender>
+
     <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
     <root level="INFO">
         <!-- 生产环境建议将 CONSOLE_LOG 去掉 -->

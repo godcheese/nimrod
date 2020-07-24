@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "author godcheese [godcheese@outlook.com]"
 wget -O install.sh https://raw.githubusercontent.com/godcheese/shell_bag/master/centos/centos7_install_jdk8.sh && bash install.sh
 wget -O install.sh https://raw.githubusercontent.com/godcheese/shell_bag/master/centos/centos7_install_maven3.sh && bash install.sh
 wget -O install.sh https://raw.githubusercontent.com/godcheese/shell_bag/master/centos/centos7_install_mysql57.sh && bash install.sh

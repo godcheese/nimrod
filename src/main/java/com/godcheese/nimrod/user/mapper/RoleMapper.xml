@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godcheese.nimrod.user.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.godcheese.nimrod.user.entity.RoleEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="name" property="name" jdbcType="VARCHAR"/> <!-- 角色名称 -->
+        <result column="value" property="value" jdbcType="VARCHAR"/> <!-- 角色值 -->
+        <result column="remark" property="remark" jdbcType="VARCHAR"/> <!-- 备注 -->
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/> <!-- 更新时间 -->
+        <result column="gmt_created" property="gmtCreated" jdbcType="TIMESTAMP"/> <!-- 创建时间 -->
+    </resultMap>
+
+    <sql id="TableName">
+        `role`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `name`, `value`, `remark`, `gmt_modified`, `gmt_created`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.godcheese.nimrod.user.entity.RoleEntity">
+        insert into
+        <include refid="TableName"/>
+        (<include refid="BaseColumnList"/>)
+        values (#{id}, #{name}, #{value}, #{remark}, #{gmtModified}, #{gmtCreated})
+    </insert>
+
+    <update id="updateOne" keyProperty="id" parameterType="com.godcheese.nimrod.user.entity.RoleEntity">
+        update
+        <include refid="TableName"/>
+        set `name` = #{name}, `remark` = #{remark}, `gmt_modified` = #{gmtModified}
+        where `id`= #{id}
+    </update>
+
+    <delete id="deleteOne" parameterType="long">
+        delete from
+        <include refid="TableName"/>
+        where `id` = #{id}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from
+        <include refid="TableName"/>
+        where `id` in
+        (
+        <foreach collection="list" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id} limit 1
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+    </select>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+    </select>
+    <!--    <select id="countAll" resultType="int">-->
+    <!--        select count(1) from-->
+    <!--        <include refid="TableName"/>-->
+    <!--    </select>-->
+
+    <select id="getOneByValue" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `value` = #{value} limit 1
+    </select>
+
+</mapper>

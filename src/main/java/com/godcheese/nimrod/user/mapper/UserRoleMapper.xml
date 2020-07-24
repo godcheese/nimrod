@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godcheese.nimrod.user.mapper.UserRoleMapper">
+    <resultMap id="BaseResultMap" type="com.godcheese.nimrod.user.entity.UserRoleEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/> <!-- id -->
+        <result column="user_id" property="userId" jdbcType="BIGINT"/> <!-- 用户 id -->
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/> <!-- 角色 id -->
+    </resultMap>
+
+    <sql id="TableName">
+        `user_role`
+    </sql>
+
+    <sql id="BaseColumnList">
+        `id`, `user_id`, `role_id`
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.godcheese.nimrod.user.entity.UserRoleEntity">
+        insert into
+        <include refid="TableName"/>
+        (`id`, `user_id`, `role_id`)
+        values (#{id}, #{userId}, #{roleId})
+    </insert>
+
+    <update id="updateOne" keyProperty="id" parameterType="com.godcheese.nimrod.user.entity.UserRoleEntity">
+        update
+        <include refid="TableName"/>
+        set `user_id` = #{userId}, `role_id` = #{roleId}
+        where `id`= #{id}
+    </update>
+
+    <delete id="deleteOne" parameterType="long">
+        delete from
+        <include refid="TableName"/>
+        where `id` = #{id}
+    </delete>
+
+    <select id="getOne" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `id` = #{id} limit 1
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+    </select>
+
+    <select id="listAllByUserId" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `user_id` = #{userId}
+    </select>
+
+    <select id="pageAll" resultMap="BaseResultMap" parameterType="com.github.pagehelper.Page">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+    </select>
+
+    <select id="getOneByRoleId" resultMap="BaseResultMap" parameterType="long">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `role_id` = #{roleId} limit 1
+    </select>
+    <select id="getOneByUserIdAndRoleId" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList"/>
+        from
+        <include refid="TableName"/>
+        where `user_id` = #{userId} and `role_id` = #{roleId} limit 1
+    </select>
+
+    <delete id="deleteAllByUserIdAndRoleIdList">
+        delete from
+        <include refid="TableName"/>
+        where `user_id` = #{userId} and `role_id` in (
+        <foreach collection="roleIdList" item="item" index="index" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteAllByRoleId">
+        delete from
+        <include refid="TableName"/>
+        where `role_id` = #{roleId}
+    </delete>
+
+    <insert id="insertAllByUserIdAndRoleIdList" useGeneratedKeys="true">
+        insert into
+        <include refid="TableName"/>
+        (`user_id`, `role_id`)
+        values
+        <foreach collection="roleIdList" item="item" index="index" separator=",">
+            <if test="item != ''">
+                (#{userId}, #{item})
+            </if>
+        </foreach>
+    </insert>
+
+</mapper>

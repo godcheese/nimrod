@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-echo "author godcheese"
+
+echo "author godcheese [godcheese@outlook.com]"
 CURRENT_DIR=$(pwd)
 SCRIPTS_DIR=$(cd "$(dirname $0)" || exit; pwd)
 cd "${SCRIPTS_DIR}" || exit

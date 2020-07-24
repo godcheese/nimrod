@@ -31,7 +31,7 @@
                 <td>
                     <input id="password" value="password" class="easyui-passwordbox"
                            data-options="disabled: true,showEye: false"> <a href="javascript:" class="easyui-linkbutton"
-                                                                            onclick="changePasswordDialog();">更换密码</a>
+                                                                            onclick="changePasswordDialog();">更改密码</a>
                 </td>
             </tr>
             <tr>
@@ -146,7 +146,7 @@
 
     function changePasswordDialog() {
         $('#changePasswordDialog').dialog(expressui.dialog.create, {
-            title: '更换密码',
+            title: '更改密码',
             width: 510,
             height: 230,
             href: Url.User.Page.USER + '/change_password_dialog',

@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" th:href="/vendor/expressui-1.0.0/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" th:href="/vendor/expressui-1.0.0/css/expressui.css">
 
-<script type="text/javascript" th:src="/vendor/jquery/jquery-1.11.3.js" charset="UTF-8"></script>
+<script type="text/javascript" th:src="/vendor/jquery/jquery-1.12.4.min.js" charset="UTF-8"></script>
 <script type="text/javascript" th:src="/vendor/jquery-easyui-1.6.3/jquery.easyui.min.js" charset="UTF-8"></script>
 <script type="text/javascript" th:src="/vendor/jquery-easyui-1.6.3/locale/easyui-lang-zh_CN.js" charset="UTF-8"></script>
 <script type="text/javascript" th:src="@{/vendor/expressui-1.0.0/js/jquery.expressui.js}" charset="UTF-8"></script>

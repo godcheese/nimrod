@@ -76,11 +76,12 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
     display: block;
     z-index: -1;
-    background: url("../img/login/login_page_background.jpg") no-repeat;
-    background-size: cover;
+
     position: absolute;
     top: 0;
     right: 0;
+    background: url("../img/login/login_page_background.jpg") no-repeat;
+    background-size: cover;
 }
 
 /*login 开始*/
