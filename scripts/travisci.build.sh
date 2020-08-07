@@ -6,6 +6,15 @@
 # description: gitlabci.build.sh
 
 echo "author godcheese [godcheese@outlook.com]"
+echo "*********************"
+cat /etc/*-release
+cat /etc/issue
+lsb_release -a
+uname -a
+uname -mrs
+man uname
+cat /proc/version
+echo "*********************"
 sudo curl -o install.sh https://raw.githubusercontent.com/godcheese/shell_bag/master/centos7/install_jdk.sh && sudo bash install.sh install /webwork/software/jdk https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz jdk1.8.0_202
 sudo curl -o install.sh https://raw.githubusercontent.com/godcheese/shell_bag/master/centos7/install_maven.sh && sudo bash install.sh install /webwork/software/maven https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz apache-maven-3.6.3
 sudo curl -o install.sh https://raw.githubusercontent.com/godcheese/shell_bag/master/centos7/install_mysql.sh && sudo bash install.sh install /webwork/software/mysql https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/mysql-5.7.31-el7-x86_64.tar.gz mysql-5.7.31-el7-x86_64
