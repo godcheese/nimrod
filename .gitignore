@@ -36,7 +36,7 @@ target/
 ### JRebel ###
 rebel.xml
 
-### Nimrod ###
+### Project ###
 /upload
 /logs
 *.jar
