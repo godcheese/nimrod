@@ -3,16 +3,22 @@
 
 # http://github.com/godcheese/shell_bag
 # author: godcheese [godcheese@outlook.com]
-# description: gitlabci.build.sh
+# description: travisci.build.sh
 
 echo "author godcheese [godcheese@outlook.com]"
 echo "*********************"
 cat /etc/*-release
+echo "*"
 cat /etc/issue
+echo "*"
 lsb_release -a
+echo "*"
 uname -a
+echo "*"
 uname -mrs
+echo "*"
 man uname
+echo "*"
 cat /proc/version
 echo "*********************"
 sudo curl -o install.sh https://raw.githubusercontent.com/godcheese/shell_bag/master/centos7/install_jdk.sh && sudo bash install.sh install /webwork/software/jdk https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz jdk1.8.0_202
