@@ -203,7 +203,7 @@
             <resource>
                 <directory>${libPath}</directory>
                 <!-- jar 打包引用此属性值 -->
-                <targetPath>BOOT-INF/lib</targetPath>
+                <targetPath>${project.build.directory}/${finalName}/BOOT-INF/lib</targetPath>
                 <!-- war 打包引用此属性值 -->
                 <!-- <targetPath>${project.build.directory}/${finalName}/WEB-INF/lib</targetPath> -->
                 <includes>
