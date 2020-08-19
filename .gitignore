@@ -39,5 +39,3 @@ rebel.xml
 ### Project ###
 /upload
 /logs
-*.jar
-*.war
